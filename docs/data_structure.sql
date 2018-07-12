@@ -77,3 +77,8 @@ CREATE TABLE ca_roomlog (
     room_id INT(11) NOT NULL,
 	PRIMARY KEY (ID)
 );
+
+INSERT INTO ca_staff (FirstName, LastName, Email, Permission,
+Password, Active) VALUES ('Admin', 'User', 'admin@admin.com', 1,
+'9871b263033d86b566266e8c1c09f2d80596fc3eefd2a8be633e46213cd7dd2e', 1);
+# echo hash("SHA256", "afs")

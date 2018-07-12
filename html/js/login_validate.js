@@ -1,25 +1,44 @@
 //Requires jQuery library to work, change utag and ptag to referral if required.
 $(function() {
-	$("loginsubmit").prop("disabled", true); //Disables the submit button untill proper validation is done
+	loginsubmit = $("#loginsubmit"); //Login submit element (input type=submit)
+	loginsubmit.prop("disabled", true); //Disables the submit button untill proper validation is done
 	//On username, password input field keypress -> run function
-	$("#username, #password").on("keyup", function() {
-	utag = $("#username"); //Creates user id input to variable
-	ptag = $("#password"); //Creates password id input to variable
-	passlen = ptag.val().length; //Gets password length
-	regexp = /[a-zA-Z0-9]+/; //Regex pattern allow any characters from (a-z A-Z and 0-9).
-	matches = utag.val().match(regexp); //Validates username with regexp
-	userlen = matches[0].length; //Gets updated username length
-	$("#username").val(matches); //Removes any excess characters
-		if (userlen >= 5 && userlen <= 320) { //Username between 5 and 320 characters -> depending if email is login tool
-		utag.css({"color":"green"}); //Makes textarea text green indicating everything is fine
-		} else {
-		utag.css({"color":"red"}); //Makes textarea text red indicating something is wrong
+		$("#username, #password").on("keyup", function() {
+		utag = $("#username"); //Creates user id input to variable
+		ptag = $("#password"); //Creates password id input to variable
+		passlen = ptag.val().length; //Gets password length
+		regexp = /[a-zA-Z0-9]+/; //Regex pattern allow any characters from (a-z A-Z and 0-9).
+		matches = utag.val().match(regexp); //Validates username with regexp
+		lp1 = false; //Login pass -> (username)
+		
+		if (matches != null) {
+		userlen = matches[0].length; //Gets updated username length
+		$("#username").val(matches); //Removes any excess characters
+			if (userlen >= 5 && userlen <= 320) { //Username between 5 and 320 characters -> depending if email is login tool
+			utag.css({"color":"green"}); //Makes textarea text green indicating everything is fine
+			lp1 = true; //Login validate = pass
+			} else {
+			utag.css({"color":"red"}); //Makes textarea text red indicating something is wrong
+			lp1 = false; //Login validate = fail
+			}
 		}
+			
+		lp2 = false; //Login pass -> (password)
 		//Same as above, but for password
-		if (passlen >= 5 && userlen <= 150) {
+		if (passlen >= 5 && passlen <= 150) {
 		ptag.css({"color":"green"});
+		lp2 = true; //Password validate = pass
 		} else {
 		ptag.css({"color":"red"});
+		lp2 = false; //Password validate = fail
+		}
+		
+		//Both login and password validations pass -> enable submit
+		if (lp1 == true && lp2 == true) {
+		loginsubmit.prop("disabled", false);	
+		} else {
+		//Disable submit
+		loginsubmit.prop("disabled", true);	
 		}
 	});
 });

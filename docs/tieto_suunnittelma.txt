@@ -8,6 +8,11 @@ staff  ( admin + opettaja )
 - puhelinnumero
 - onko admin/opettaja (0=opettaja, 1=admin)
 
+staff tietosuoja tarkistus logiiniin virheellisistä logineista
+---------------------------------------------------------------
+- käyttäjän IP
+- loggausajankohta
+
 oppilas
 -------
 ( juokseva id )
@@ -26,6 +31,7 @@ kurssi
 ( juokseva id )
 - kurssin tunnus
 - kurssin nimi
+- kurssin kuvaus
 
 
 kurssin opettajat
@@ -53,4 +59,5 @@ luokkaankirjaus
 ---------------
 ( juokseva id )
 - luokan tunniste ( NFC readeriltä )
+- 
 - sisäänkirjausaika

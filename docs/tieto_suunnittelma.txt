@@ -1,0 +1,56 @@
+
+staff  ( admin + opettaja )
+---------------------------
+( juokseva id )
+- etunimi
+- sukunimi
+- sähköposti
+- puhelinnumero
+- onko admin/opettaja (0=opettaja, 1=admin)
+
+oppilas
+-------
+( juokseva id )
+- oppilasID ( L99..)
+- NFCID ( NFC tagin id )
+- etunimi
+- sukunimi
+
+Ehkä:
+- sähköposti
+- puhelinnumero
+
+
+kurssi
+-------
+( juokseva id )
+- kurssin tunnus
+- kurssin nimi
+
+
+kurssin opettajat
+------------------
+( juokseva id )
+- kurssin id ( juokseva numero )
+- staff id ( juokseva numero )
+
+
+kurssin opiskelijat
+--------------------
+( juokseva id )
+- kurssin id  ( juokseva numero )
+- oppilaan id ( juokseva numero )
+
+
+luokka (opetustila)
+-------------------
+( juokseva id )
+- luokan tunniste
+- luokan nimi
+
+
+luokkaankirjaus
+---------------
+( juokseva id )
+- luokan tunniste ( NFC readeriltä )
+- sisäänkirjausaika

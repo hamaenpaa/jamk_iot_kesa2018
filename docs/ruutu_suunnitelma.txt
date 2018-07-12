@@ -1,0 +1,34 @@
+Yleislayout
+-----------
+
+
+
+Login ruutu ( opettajat / ylläpitäjä )
+---------------------------------------
+
+
+
+rekisteröinti ( uusi opettaja syöttää tai 
+joku uuden opettajan puolesta)
+---------------------------------------
+
+  
+
+Luokkaantulot ( listaus )
+--------------------------
+   * NFC tageilta NFC readerin kautta serverille ( pohjatiedot )
+   *
+ 
+ 
+Kurssien ylläpito
+--------------------------
+   
+   
+   
+   
+Huomioita
+----------
+Jokaisella NFC tagilla on yksilöllinen tunnus
+
+
+   

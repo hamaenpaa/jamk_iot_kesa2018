@@ -13,7 +13,7 @@
 		while($res = $result->fetch_assoc()) {
 ?>
 			<div class="row">
-				<div class="col-sm-3"><?php echo $res['room_name']; ?></div>
+				<div class="col-sm-11"><?php echo $res['room_name']; ?></div>
 				<div class="col-sm-1">
 					<form method="post" action="list_rooms.php">
 					<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>

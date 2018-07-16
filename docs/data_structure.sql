@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS ca;
-CREATE DATABASE ca DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE DATABASE ca DEFAULT CHARSET=utf8 COLLATE="utf8_general_ci";
+USE ca;
 
 DROP TABLE IF EXISTS ca_staff;
 CREATE TABLE ca_staff (
@@ -7,13 +8,13 @@ CREATE TABLE ca_staff (
 	FirstName varchar(25) NOT NULL,
     LastName varchar(25) NOT NULL,
     Email varchar(255) NOT NULL UNIQUE,
-	Permission TINYINT(1) DEFAULT 0, # admin=1 / teacher=0
-	Password varchar(64), #sha 256
+	`Permission` TINYINT(1) DEFAULT 0, # admin=1 / teacher=0
+	Password varchar(65), #sha 256
 	Token varchar(32), # md5
 	Active TINYINT(1),    
 	PhoneNumber varchar(13),
     PRIMARY KEY (ID)
-) DEFAULT CHARSET=utf8; 
+) ; 
 
 DROP TABLE IF EXISTS ca_staff_failed_login_log;
 CREATE TABLE ca_staff_failed_login_log (
@@ -68,11 +69,38 @@ CREATE TABLE ca_course_student (
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;	
 	
+DROP TABLE IF EXISTS ca_room;
+CREATE TABLE ca_room (
+    ID INT NOT NULL AUTO_INCREMENT,
+    room_name VARCHAR(40) NOT NULL,
+    PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;	
+
+DROP TABLE IF EXISTS ca_lesson;
+CREATE TABLE ca_lesson (
+    ID INT NOT NULL AUTO_INCREMENT,
+    room_id INT,
+    course_id INT,
+	begin_time DATETIME NOT NULL,
+	end_time DATETIME NOT NULL,
+    PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;	
+
+DROP TABLE IF EXISTS ca_nfc_tag;
+CREATE TABLE ca_nfc_tag (
+    ID INT NOT NULL AUTO_INCREMENT,
+    NFC_ID varchar(50) NOT NULL UNIQUE, 
+    active TINYINT(1),
+    PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;	
+	
 DROP TABLE IF EXISTS ca_roomlog;
 CREATE TABLE ca_roomlog (
     ID INT NOT NULL AUTO_INCREMENT,
 	NFC_ID varchar(50),
 	guest_id INT,
+	student_id INT,
+	course_id INT,
 	dt DATETIME NOT NULL,
     room_id INT NOT NULL,
 	PRIMARY KEY (ID)
@@ -80,7 +108,7 @@ CREATE TABLE ca_roomlog (
 
 INSERT INTO ca_staff (FirstName, LastName, Email, 
 Password,
-Active, Permission) 
+Active, `Permission`) 
 VALUES 
 ('Admin', 'User', 'admin@admin.com', 
 '9871b263033d86b566266e8c1c09f2d80596fc3eefd2a8be633e46213cd7dd2e',

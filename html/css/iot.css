@@ -52,12 +52,44 @@ table {
 /* Styles for the body */
 body {
 	font-family: calibri;
+	font-size: 16px;
+}
+
+
+/* Styles for headings */
+h1 {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+h2{
+	font-size: 22px;
+}
+
+h3 {
+	font-size: 22px;
+	font-style: italic;
+}
+
+h4{
+	font-size: 18px;
+}
+
+h5 {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+h6 {
+	font-size: 18px;
+	font-style: italic;
 }
 
 /* Style for the page-wrapper */
 .page-wrap {
 	margin: auto;
 	width: 60%;
+	max-width: 900px;
 	background-color: #d6e4f9;
 }
 
@@ -68,7 +100,24 @@ body {
 	padding: 10px;
 	text-align: center;
 	color: white;
-	background-color: #738db5;
+	background-color: #00497d;
+	box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.5);
+}
+
+/* Style for navigation bar */
+.nav {
+	float: right;
+}
+
+/* Style for language buttons */
+.languages {
+	text-align: right;
+	padding: 10px;
+}
+
+.languages img {
+	max-width: 40px;
+	display: inline-block;
 }
 
 /* Style for the content-wrap */
@@ -117,8 +166,8 @@ input[type=text] {
 #sign-in {
 	text-align: center;
 	margin: auto;
-	width: 100px;
-	padding: 5px;
+	width: content;
+	padding: 5px 10px 5px 10px;
 	border-radius: 5px;
 }
 
@@ -128,15 +177,39 @@ input[type=text] {
 
 /* Styles for the footer-wrap class */
 .footer-wrap {
-	display: block;
 	height: auto;
-	padding: 10px;
 	float: center;
-	background-color: #191919;
+	box-shadow: 0 -2px 10px -2px rgba(0, 0, 0, 0.5);
 }
 
 /* Styling for text inside the footer-wrap */
 .footer-wrap p {
 	text-align: center;
 	color: white;
+}
+
+/* Style for footer links */
+.footer-links {
+	display: block;
+	padding: 10px;
+	background-color: #4c4c4c;
+	height: auto;
+}
+
+/* Text coloring for footer links */
+.footer-links p {
+	color: #bfbfc0;
+}
+
+/* Style for footer contacts */
+.footer-contacts {
+	display: block;
+	padding: 10px;
+	background-color: #171717;
+	height: auto;
+}
+
+/* Text coloring for footer contacts */
+.footer-contacts p {
+	color: #bfbfc0;
 }

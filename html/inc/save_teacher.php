@@ -22,7 +22,6 @@
 	
 	if ($id != "") {
 		if ($set_password == "1") {
-			echo "set password";
 			$q = $conn->prepare("UPDATE ca_staff SET FirstName = ?, LastName = ?, Email=?, PhoneNumber=?, Password=SHA2(?, 256) WHERE ID = ?");
 			if ($q) {
 				$q->bind_param("sssssi", $teacher_firstname, $teacher_lastname, $teacher_email, $teacher_phone, $teacher_password, $id);
@@ -30,7 +29,6 @@
 			}			
 		}
 		else {
-			echo "not set password";
 			$q = $conn->prepare("UPDATE ca_staff SET FirstName = ?, LastName = ?, Email=?, PhoneNumber=? WHERE ID = ?");
 			if ($q) {
 				$q->bind_param("ssssi", $teacher_firstname, $teacher_lastname, $teacher_email, $teacher_phone, $id);

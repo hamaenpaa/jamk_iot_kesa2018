@@ -90,6 +90,18 @@ VALUES (2,4);
 INSERT INTO ca_course_student (course_id, student_id)
 VALUES (2,5);
 
+-- room
+INSERT INTO ca_room (room_name) VALUES ('A105'),('A102');
+
+-- lesson
+INSERT INTO ca_lesson (course_id,room_id,begin_time,end_time) VALUES 
+(1,1,'2018-09-01 12:00:00', '2018-09-01 13:45:00'),
+(1,2,'2018-09-02 12:00:00', '2018-09-02 13:45:00'),
+(2,1,'2018-09-01 14:00:00', '2018-09-01 15:45:00'),
+(2,2,'2018-09-02 14:00:00', '2018-09-01 15:45:00');
+
+INSERT INTO ca_nfc_tag (NFC_ID,active) VALUES ('HDDDJKJK',1), ('GSHJDHH',2);
+
 -- roomlog
 DELETE FROM ca_roomlog WHERE ID > 0;
 

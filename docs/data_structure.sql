@@ -9,7 +9,7 @@ CREATE TABLE ca_staff (
     LastName varchar(25) NOT NULL,
     Email varchar(255) NOT NULL UNIQUE,
 	`Permission` TINYINT(1) DEFAULT 0, # admin=1 / teacher=0
-	Password varchar(64), #sha 256
+	Password varchar(65), #sha 256
 	Token varchar(32), # md5
 	Active TINYINT(1),    
 	PhoneNumber varchar(13),

@@ -79,6 +79,7 @@ CREATE TABLE ca_room (
 DROP TABLE IF EXISTS ca_lesson;
 CREATE TABLE ca_lesson (
     ID INT NOT NULL AUTO_INCREMENT,
+    room_id INT,
     course_id INT,
 	begin_time DATETIME NOT NULL,
 	end_time DATETIME NOT NULL,

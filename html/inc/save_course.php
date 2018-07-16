@@ -8,11 +8,6 @@
 	$course_name = $_POST['course_name'];
 	$course_description= $_POST['course_description'];
 	
-	echo "id 2 " . $id . "\n";
-	echo "course_id " . $course_id . "\n";
-	echo "course_name " . $course_name . "\n";
-	echo "course_description " . $course_description . "\n";
-	
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_course SET course_id = ?, course_name = ?, course_description = ? WHERE ID = ?");
 		if ($q) {

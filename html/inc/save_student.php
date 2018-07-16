@@ -1,6 +1,4 @@
 <?php
-    echo "Heredsdasdas";
-
     include("db_connect_inc.php");
 	$id = "";
 	if (isset($_POST['id'])) {

@@ -1,8 +1,7 @@
-﻿-- staff ( teachers )
 INSERT INTO ca_staff 
 (FirstName,LastName,PhoneNumber,Email,
 Password,
-Active, Permission) 
+Active,`Permission`) 
 VALUES
 ('Niko', 'Kiviaho','0503888777', 'nikox@jamk.fi',
 '959f7afe3efbee4ebf60ac731204Q98b317126178a86181af0abda5612390b68b',
@@ -10,7 +9,7 @@ VALUES
 INSERT INTO ca_staff 
 (FirstName,LastName,PhoneNumber,Email,
 Password,
-Active, Permission) 
+Active,`Permission`) 
 VALUES
 ('Mikko', 'Tenhonen','0403333423', 'mikkox@jamk.fi',
 '2ed518af60c5c3b04fdbed95a7e6cd50aee2df23a8726e48303a2b8744dae2f8',
@@ -92,6 +91,6 @@ INSERT INTO ca_course_student (course_id, student_id)
 VALUES (2,5);
 
 -- roomlog
-DELETE FROM ca_roomlog;
+DELETE FROM ca_roomlog WHERE ID > 0;
 
 

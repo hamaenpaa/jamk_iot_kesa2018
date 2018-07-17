@@ -85,6 +85,17 @@ h6 {
 	font-style: italic;
 }
 
+/* Style for button element */
+.button {
+    background-color: #00497d;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+	border-radius: 5px;
+	border-style: solid;
+    cursor: pointer;
+}
+
 /* Style for the page-wrapper */
 .page-wrap {
 	margin: auto;
@@ -125,6 +136,7 @@ h6 {
 	display: block;
 	height: content;
 	padding: 10px 0px 10px 0px;
+	max-width: 900px;
 }
 
 /* Style for input fields */
@@ -149,7 +161,7 @@ input[type=text] {
 }
 
 #username {
-	text-align: center;
+	text-align: left;
 	margin: 5px;
 }
 
@@ -158,17 +170,14 @@ input[type=text] {
 }
 
 #password {
-	text-align: center;
+	text-align: left;
 	margin: 5px;
 }
 
 /* Style for the sign-in button */
 #sign-in {
-	text-align: center;
 	margin: auto;
 	width: content;
-	padding: 5px 10px 5px 10px;
-	border-radius: 5px;
 }
 
 #button-wrap {
@@ -212,4 +221,43 @@ input[type=text] {
 /* Text coloring for footer contacts */
 .footer-contacts p {
 	color: #bfbfc0;
+}
+
+/* Moving to home.html */
+/* Style for selects */
+
+.select-wrap {
+	display: inline-block;
+	margin: auto;
+	text-align: center;
+	max-width: 900px;
+}
+
+.select-wrap h2 {
+	text-align: center;
+}
+
+/* Style for the panels */
+.panel-wrap {
+	display: inline-block;
+	text-align: left;
+}
+
+/* Style for panel buttons */
+.panel-wrap {
+	margin-left: 5px;
+}
+
+/* Style for the hidden panels that activate on click */
+/* Style for hidden panels */
+.hidden-panel{
+display:none;
+/* Testing purposes */
+height:200px;
+width: 200px;
+background-color:green;
+}
+
+.button:active + .hidden-panel{
+display:block;
 }

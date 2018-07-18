@@ -7,7 +7,7 @@ $(function() {
 	utag = $("#username"); //Gets element data from input where id = username
 	ptag = $("#password"); //Gets element data from input where id = password
 	passlen = ptag.val().length; //Gets password length
-	regexp = /[a-zA-Z0-9]+/; //Regex pattern allow any characters from (a-z A-Z and 0-9).
+	regexp = /[a-zA-Z0-9@.]+/; //Regex pattern allow any characters from (a-z A-Z and 0-9).
 	matches = utag.val().match(regexp); //Validates username with regexp
 	lp1 = false; //Login pass -> (username)
 	lp2 = false; //Login pass -> (password)

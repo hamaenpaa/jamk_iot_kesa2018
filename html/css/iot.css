@@ -99,8 +99,8 @@ h6 {
 /* Style for the page-wrapper */
 .page-wrap {
 	margin: auto;
-	width: 60%;
-	max-width: 900px;
+	width: 90%;
+	max-width: 1200px;
 	background-color: #d6e4f9;
 }
 
@@ -108,11 +108,35 @@ h6 {
 .banner-wrap {
 	display: block;
 	height: auto;
-	padding: 10px;
+	padding: 15px;
 	text-align: center;
 	color: white;
 	background-color: #00497d;
-	box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* Style for links */
+ a {
+	padding: 10px;
+	color: white !important;
+}
+ a:hover {
+	text-decoration: none !important;
+	background-color: #002844 !important;
+}
+
+ a:active {
+	text-decoration: none !important;
+	background-color: #002844 !important;
+}
+
+a:focus {
+	text-decoration: none !important;
+	background-color: #002844 !important;
+}
+
+a:target {
+	background-color: #002844;
 }
 
 /* Style for navigation bar */
@@ -135,11 +159,29 @@ h6 {
 .content-wrap {
 	display: block;
 	height: content;
-	padding: 10px 0px 10px 0px;
-	max-width: 900px;
+	min-height: 100px;
+	padding: 10px;
+	margin: 10px;
 }
 
-/* Style for input fields */
+/* Inputs will be filled out from the left if they are inside content-wrap */
+.content-wrap input {
+	text-align: left !important;
+}
+
+/* Style for the row class on desktop */
+@media only screen and (min-width: 768px) {
+	.row {
+		text-align: center !important;
+		max-width: 90% !important;
+	}
+}
+
+/* Style for the row class */
+.row {
+	text-align: left;
+}
+/* Style for input fields and form */
 form {
 	margin: auto;
 	height: auto;
@@ -187,8 +229,8 @@ input[type=text] {
 /* Styles for the footer-wrap class */
 .footer-wrap {
 	height: auto;
-	float: center;
-	box-shadow: 0 -2px 10px -2px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	box-shadow: 0 -4px 10px -4px rgba(0, 0, 0, 0.5);
 }
 
 /* Styling for text inside the footer-wrap */
@@ -230,10 +272,10 @@ input[type=text] {
 	display: inline-block;
 	margin: auto;
 	text-align: center;
-	max-width: 900px;
+	max-width: 1200px;
 }
 
-.select-wrap h2 {
+.row h2 {
 	text-align: center;
 }
 
@@ -245,7 +287,7 @@ input[type=text] {
 
 /* Style for panel buttons */
 .panel-wrap {
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 /* Style for the hidden panels that activate on click */

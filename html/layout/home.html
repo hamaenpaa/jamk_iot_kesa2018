@@ -12,7 +12,7 @@
 				}
 			//-->
 		</script>
-		<link rel="stylesheet" type="text/css" href="C:/Git/SourceTree/html/css/iot.css">
+		<link rel="stylesheet" type="text/css" href="C:/xampp/htdocs/jamk_iot_kesa2018/html/css/iot.css">
 		<title>IoT Project</title>
 	</head>
 	<body>
@@ -29,10 +29,10 @@
 				</div>
 			</header>
 				<div class="content-wrap">
-					<div class="select-wrap">
+					<div class="row">
 						<div class="panel-wrap">
 							<div class="courses">
-								<button class="button" onclick="toggle_visibility('foo');">Kurssit</button>
+								<a class="button" onclick="toggle_visibility('foo');">Kurssit</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_courses.php"); ?>
 								</div>
@@ -40,7 +40,7 @@
 						</div>
 						<div class="panel-wrap">
 							<div class="students">
-								<button class="button" onclick="toggle_visibility('foo');">Opiskelijat</button>
+								<a class="button" onclick="toggle_visibility('foo');">Opiskelijat</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_students.php"); ?>
 								</div>
@@ -48,7 +48,7 @@
 						</div>	
 						<div class="panel-wrap">
 							<div class="rooms">
-								<button class="button" onclick="toggle_visibility('foo');">Huoneet</button>
+								<a class="button" onclick="toggle_visibility('foo');">Huoneet</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_rooms.php"); ?>
 								</div>
@@ -56,7 +56,7 @@
 						</div>
 						<div class="panel-wrap">
 							<div class="teachers">
-								<button class="button" onclick="toggle_visibility('foo');">Opettajat</button>
+								<a class="button" onclick="toggle_visibility('foo');">Opettajat</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_teachers.php"); ?>
 								</div>
@@ -64,7 +64,7 @@
 						</div>
 						<div class="panel-wrap">
 							<div class="guests">
-								<button class="button" onclick="toggle_visibility('foo');">Vieraat</button>
+								<a class="button" onclick="toggle_visibility('foo');">Vieraat</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_guests.php"); ?>
 								</div>
@@ -72,7 +72,7 @@
 						</div>
 						<div class="panel-wrap">
 							<div class="nfc_tags">
-								<button class="button" onclick="toggle_visibility('foo');">NFC-tagit</button>
+								<a class="button" onclick="toggle_visibility('foo');">NFC-tagit</a>
 								<div class="hidden-panel">
 									<?php include("inc/list_nfc_tags.php"); ?>
 								</div>

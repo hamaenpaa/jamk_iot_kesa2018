@@ -1,5 +1,12 @@
 <?php
-    include("db_connect_inc.php");
+    include("../../db_connect_inc.php");
+	include("../../utils/request_param_utils.php");
+    $seek_course_id = get_post_or_get("seek_course_ID");
+	$seek_course_name = get_post_or_get("seek_course_name");
+	
+	$seek_params_get = possible_get_param("seek_course_id",$seek_course_id);
+	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, $seek_params_get == "");	
+	
 	$id = "";
 	if (isset($_POST['id'])) {
 		$id = $_POST['id'];
@@ -22,7 +29,7 @@
 		}		
 	}
 
-	include("db_disconnect_inc.php");
+	include("../../db_disconnect_inc.php");
 	
-	header("Location: ../list_courses.php");
+	header("Location: ../../../list_courses.php" . $seek_params_get);
 ?>

@@ -28,9 +28,10 @@
 							<div class="col-sm-6"><?php echo $firstName ?></div>
 							<div class="col-sm-5"><?php echo $lastName ?></div>
 							<div class="col-sm-1">
-								<form action="inc/add_course_student.php" method="POST">
+								<form action="inc/sub/course/add_course_student.php" method="POST">
 									<input type="hidden" name="course_id" value="<?php echo $id; ?>" />
-									<input type="hidden" name="student_id" value="<?php echo $student_id; ?>" />				
+									<input type="hidden" name="student_id" value="<?php echo $student_id; ?>" />
+<?php echo $seek_params_hidden_inputs; ?>														
 									<input type="submit" value="Lisää"/>
 								</form>
 							</div>
@@ -48,7 +49,9 @@
 			}			
 		}
 ?>
-	<form action="list_courses.php?id=<?php echo $id; ?>" method="post">
+	<form action="list_courses.php" method="post">
+		<input type="hidden" name="id" value="<?php echo $id; ?>"/>
+		<?php echo $seek_params_hidden_inputs; ?>		
 		<input type="submit" value="Lopeta lisääminen"/>
 	</form>
 <?php

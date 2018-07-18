@@ -1,7 +1,41 @@
+<div id="seek_courses">
+<?php 
+    $seek_course_id = "";
+	if (isset($_POST['seek_course_id'])) {
+		$seek_course_id = $_POST['seek_course_id'];
+	}
+	$seek_course_name = "";
+	if (isset($_POST['seek_course_name'])) {
+		$seek_course_name = $_POST['seek_course_name'];
+	}	
+?>
+	<form action="list_courses.php" method="post">
+		<label>Kurssin tunnus:</label>
+		<input type="text" name="seek_course_id" value="<?php echo $seek_course_id; ?>" />
+		<label>Kurssin nimi:<label>
+		<input type="text" name="seek_course_name" value="<?php echo $seek_course_name; ?>" />
+		<input type="submit" value="Hae" />
+	</form>
+</div>
 <?php
-   include("db_connect_inc.php");
 
-   if ($result = $conn->query("SELECT * FROM ca_course")) {
+   include("db_connect_inc.php");
+   $seek_condition = "";
+   $course_name_like = "";
+   if ($seek_course_id != "") {
+   		$seek_condition = " WHERE course_ID LIKE '%" . $seek_course_id . "%'";
+   }
+   if ($seek_course_name != "") {
+   	   if ($seek_condition != "") {
+   	   	  $seek_condition .= " AND ";
+	   }
+	   else {
+	   	  $seek_condition = " WHERE ";
+	   }
+   	   $seek_condition .= " course_name LIKE '%" . $seek_course_name . "%'";
+   }
+   $sql_seek = "SELECT * FROM ca_course " . $seek_condition;
+   if ($result = $conn->query($sql_seek)) {
 ?>
 	<div id="course_table">
 		<div class="row">

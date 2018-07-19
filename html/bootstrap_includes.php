@@ -6,7 +6,7 @@
    echo '<script src="libs/bootstrap/3.3.7/js/bootstrap.min.js" /></script>';
 ?>
 
-<!--
+
 <script>
 $(function() {
 	navitext = "<a href='index.php'>Login</a> | "; //Login
@@ -21,4 +21,5 @@ $(function() {
 	$(".banner-wrap").append(navitext);
 });
 </script>
--->
+
+

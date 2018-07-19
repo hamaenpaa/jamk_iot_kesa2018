@@ -2,6 +2,9 @@
 	$room_name = "";
 	$id = "";
 	if (isset($_POST['id'])) {
+?>
+		<h2>Muokkaa luokkaa</h2>
+<?php
 		$id = $_POST['id'];
 		$q = $conn->prepare("SELECT room_name FROM ca_room WHERE ID=?");
 		if ($q) {
@@ -12,7 +15,11 @@
 			$q->close();
 		}
 	}
-		 
+	else {
+?>
+		<h2>Lisää luokka</h2>
+<?php		
+	}
 ?>	
 	
 <form method="post" action="inc/sub/room/save_room.php">

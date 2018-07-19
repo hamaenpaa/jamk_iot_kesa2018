@@ -3,6 +3,7 @@
    $sql_seek = add_first_seek_param($conn, $sql_seek, "room_name", $seek_room_name);
    if ($result = $conn->query($sql_seek)) {
 ?>
+	<h2>Etsityt luokat</h2>
 	<div id="room_table">
 		<div class="row">
 			<div class="col-sm-11"><b>Huoneen tunnus</b></div>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Poor man's logout
 if (isset($_SESSION)) {
 session_destroy(); //DESTROY THEM ALL

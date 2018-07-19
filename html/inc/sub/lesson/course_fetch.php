@@ -7,7 +7,7 @@ if (isset($SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { /
 	if (!isset($conn)) {	
 	include "inc/db_connect_inc.php";
 	}
-//SELECT ca_course.Course_ID, ca_course.Course_name FROM ca_course INNER JOIN ca_course_teacher WHERE ca_course_teacher.course_id = ca_course.id AND ca_course_teacher.staff_id = '2'
+	//SELECT ca_course.Course_ID, ca_course.Course_name FROM ca_course INNER JOIN ca_course_teacher WHERE ca_course_teacher.course_id = ca_course.id AND ca_course_teacher.staff_id = '2'
 	if ($res_get_course_list = $conn->prepare("SELECT ca_course.id, ca_course.Course_name FROM ca_course INNER JOIN ca_course_teacher WHERE ca_course_teacher.course_id = ca_course.id AND ca_course_teacher.staff_id = ?")) {
 	$res_get_course_list->bind_param("i",$_SESSION['staff_id']);	
 		if ($res_get_course_list->execute()) {

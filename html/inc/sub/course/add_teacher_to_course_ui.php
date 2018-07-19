@@ -50,7 +50,7 @@
 			}			
 		}
 ?>
-	<form action="list_courses.php method="post">
+	<form action="list_courses.php" method="post">
 		<input type="hidden" name="id" value="<?php echo $id; ?>"/>
 		<?php echo $seek_params_hidden_inputs; ?>	
 		<input type="submit" value="Lopeta lisääminen"/>

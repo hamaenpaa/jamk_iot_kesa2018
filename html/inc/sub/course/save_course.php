@@ -4,7 +4,7 @@
     $seek_course_id = get_post_or_get("seek_course_ID");
 	$seek_course_name = get_post_or_get("seek_course_name");
 	
-	$seek_params_get = possible_get_param("seek_course_id",$seek_course_id);
+	$seek_params_get = possible_get_param("seek_course_id",$seek_course_id, true);
 	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, $seek_params_get == "");	
 	
 	$id = "";

@@ -7,9 +7,9 @@
     	<h2>Etsityt oppilaat</h2>
 <?php
    		$sql_seek = "SELECT * FROM ca_student";
-   		$sql_seek = add_first_seek_param($sql_seek, "firstName", $seek_first_name);
-   		$sql_seek = add_further_seek_param($sql_seek, "lastName", $seek_last_name);
-   		$sql_seek = add_further_seek_param($sql_seek, "Student_ID", $seek_student_id);
+   		$sql_seek = add_first_seek_param($conn, $sql_seek, "firstName", $seek_first_name);
+   		$sql_seek = add_further_seek_param($conn, $sql_seek, "lastName", $seek_last_name);
+   		$sql_seek = add_further_seek_param($conn, $sql_seek, "Student_ID", $seek_student_id);
    		if ($result = $conn->query($sql_seek)) {
 ?>
 			<div id="student_table">

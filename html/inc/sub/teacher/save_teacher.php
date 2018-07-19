@@ -6,8 +6,8 @@
 		$id = $_POST['id'];
 	}
 	
-    $seek_first_name = get_post_or_get("seek_first_name");
-	$seek_last_name = get_post_or_get("seek_last_name");
+    $seek_first_name = get_post_or_get($conn, "seek_first_name");
+	$seek_last_name = get_post_or_get($conn, "seek_last_name");
 	$seek_params_get .= possible_get_param("seek_first_name",$seek_first_name, $seek_params_get == "");
 	$seek_params_get .= possible_get_param("seek_last_name",$seek_last_name, $seek_params_get == "");	
 	

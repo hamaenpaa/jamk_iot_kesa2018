@@ -1,6 +1,6 @@
 <?php
    echo '<link rel="stylesheet" href="libs/bootstrap/3.3.7/css/bootstrap.min.css" />';
-   echo '<link rel="stylesheet" href="libs/bootstrap/3.3.7/dist/css/bootstrap-theme.min.css" />';
+   echo '<link rel="stylesheet" href="libs/bootstrap/3.3.7/css/bootstrap-theme.min.css" />';
    
    echo '<script src="libs/jquery/jquery-3.3.1.min.js" /></script>';
    echo '<script src="libs/bootstrap/3.3.7/js/bootstrap.min.js" /></script>';

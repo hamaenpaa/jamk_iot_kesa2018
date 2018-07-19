@@ -5,8 +5,8 @@
     <h2>Etsityt opettajat</h2>
 <?php
    	$sql_seek = "SELECT * FROM ca_staff WHERE Permission = 0 AND Active = 1 ";
-   	$sql_seek = add_further_seek_param($sql_seek, "firstName", $seek_first_name);
-   	$sql_seek = add_further_seek_param($sql_seek, "lastName", $seek_last_name);
+   	$sql_seek = add_further_seek_param($conn, $sql_seek, "firstName", $seek_first_name);
+   	$sql_seek = add_further_seek_param($conn, $sql_seek, "lastName", $seek_last_name);
 		
    	if ($result = $conn->query($sql_seek)) {		
 		

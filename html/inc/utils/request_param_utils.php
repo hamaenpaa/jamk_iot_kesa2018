@@ -1,5 +1,5 @@
 <?php
-	function get_post_or_get($param_name) {
+	function get_post_or_get($conn, $param_name) {
 		$param_value = "";
 		if (isset($_POST[$param_name])) {
 			$param_value = $_POST[$param_name];
@@ -7,6 +7,7 @@
 		if ($param_value == "" && isset($_GET[$param_name])) {
 			$param_value = $_GET[$param_name];
 		}
+		$param_value = $conn->real_escape_string($param_value);
 		return $param_value;
 	}
 	

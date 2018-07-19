@@ -1,10 +1,10 @@
 <?php
     $sql_seek = "SELECT * FROM ca_course";
-    $sql_seek = add_first_seek_param($sql_seek, "course_ID", $seek_course_ID);
+    $sql_seek = add_first_seek_param($conn, $sql_seek, "course_ID", $seek_course_ID);
 	if ($seek_course_ID != "")
-   		$sql_seek = add_further_seek_param($sql_seek, "course_name", $seek_course_name);
+   		$sql_seek = add_further_seek_param($conn, $sql_seek, "course_name", $seek_course_name);
 	else 
-		$sql_seek = add_first_seek_param($sql_seek, "course_name", $seek_course_name);
+		$sql_seek = add_first_seek_param($conn, $sql_seek, "course_name", $seek_course_name);
    	if ($result = $conn->query($sql_seek)) {
 ?>
 <div id="course_table">

@@ -1,57 +1,15 @@
 <?php
-   include("db_connect_inc.php");
-
-   if ($result = $conn->query("SELECT * FROM ca_room")) {
-?>
-	<div id="room_table">
-		<div class="row">
-			<div class="col-sm-11"><b>Huoneen tunnus</b></div>
-			<div class="col-sm-1"></div>
-		</div>
-
-<?php   	
-		while($res = $result->fetch_assoc()) {
-?>
-			<div class="row">
-				<div class="col-sm-11"><?php echo $res['room_name']; ?></div>
-				<div class="col-sm-1">
-					<form method="post" action="list_rooms.php">
-					<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-					<input type="submit" value="Muokkaa" />
-					</form>
-				</div>
-			</div>
-<?php		
-		}
-?>
-	</div>
+   	include("db_connect_inc.php");
 	
-<?php
-	$room_name = "";
-	$id = "";
-	if (isset($_POST['id'])) {
-		$id = $_POST['id'];
-		$q = $conn->prepare("SELECT room_name FROM ca_room WHERE ID=?");
-		if ($q) {
-			$q->bind_param("s", $_POST['id']);
-			$q->execute();
-			$q->bind_result($room_name);
-			$q->fetch();
-			$q->close();
-		}
-	}
-		 
-?>	
-	
-	<form method="post" action="inc/save_room.php">
-		<input type="hidden" name="id" value="<?php echo $id; ?>" />
-		<label>Huoneen tunnus:</label>
-		<input type="text" name="room_name" value="<?php echo $room_name; ?>" />
-		<input type="submit" value="Talleta"/>
-	</form>
+    include("utils/request_param_utils.php");
+	include("utils/sql_utils.php");
 
-	
-<?php		
-   }
-   include("db_disconnect_inc.php");
+    $seek_room_name = get_post_or_get($conn, "seek_room_name");
+	$seek_params_hidden_inputs = hidden_input("room_name", $seek_room_name);
+
+	include("sub/room/seek_rooms_form.php");
+	include("sub/room/room_listing_table.php");
+	include("sub/room/modify_or_add_room_form.php");
+
+   	include("db_disconnect_inc.php");
 ?>

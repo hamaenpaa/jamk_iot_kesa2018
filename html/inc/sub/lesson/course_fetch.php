@@ -2,7 +2,7 @@
 if (!isset($_SESSION)) {
 session_start();	
 }
-if (isset($SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { //Validate permission levels
+if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { //Validate permission levels
 	echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'><select name='course_fetch'>";
 	if (!isset($conn)) {	
 	include "inc/db_connect_inc.php";

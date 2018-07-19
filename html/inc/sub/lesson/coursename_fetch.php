@@ -1,8 +1,8 @@
 <?php
-1if (!isset($_SESSION)) {
+if (!isset($_SESSION)) {
 session_start();	
 }
-if (isset($SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { //Validate permission levels
+if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { //Validate permission levels
 	if (isset($course_id)) { unset($course_id); } //Removes CourseID variable if it exists, not really necessary
 	$course_id = intval($_POST['course_fetch']);
 	echo "<form method='POST' action='" . $_SERVER['PHP_SELF'] . "'><input type='hidden' value='" . $course_id . "'>";

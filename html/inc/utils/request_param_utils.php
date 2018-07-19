@@ -11,7 +11,7 @@
 		return $param_value;
 	}
 	
-	function possible_get_param($param_name,$value,$first=false) {
+	function possible_get_param($param_name,$value,$first=true) {
 		$ret_val = "";
 		if ($value != "") {
 			if (!$first) {

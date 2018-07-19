@@ -1,5 +1,14 @@
 <?php
-    include("db_connect_inc.php");
+	include("../../utils/request_param_utils.php");
+    $seek_first_name = get_post_or_get("seek_first_name");
+	$seek_last_name = get_post_or_get("seek_last_name");
+	$seek_student_id = get_post_or_get("seek_student_id");
+	
+	$seek_params_get = possible_get_param("seek_student_id",$seek_student_id);
+	$seek_params_get .= possible_get_param("seek_first_name",$seek_first_name, $seek_params_get == "");
+	$seek_params_get .= possible_get_param("seek_last_name",$seek_last_name, $seek_params_get == "");
+
+    include("../../db_connect_inc.php");
 	$id = "";
 	if (isset($_POST['id'])) {
 		$id = $_POST['id'];
@@ -26,7 +35,6 @@
 		}		
 	}
 
-	include("db_disconnect_inc.php");
-	
-	header("Location: ../list_students.php");
+	include("../../db_disconnect_inc.php");
+	header("Location: ../../../list_students.php".$seek_params_get);
 ?>

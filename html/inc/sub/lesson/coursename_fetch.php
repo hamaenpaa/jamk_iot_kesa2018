@@ -38,8 +38,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 	<div class="col-sm-3"><input class="datetime_picker"></div>
 	<div class="col-sm-3"><input class="datetime_picker"></div>
 	<div class="col-sm-1"><input type="submit" value="Etsi"></div>
-	</div>
+	</div></form>
 <?php
-	echo "</form>";
 }
 ?>

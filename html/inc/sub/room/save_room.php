@@ -6,7 +6,7 @@
 		$id = $_POST['id'];
 	}
 	$room_name = $_POST['room_name'];
-	$seek_room_name = get_post_or_get($conn, "seek_first_name");
+	$seek_room_name = get_post_or_get($conn, "seek_room_name");
 	$seek_params_get = possible_get_param("seek_room_name",$seek_room_name);
 	
 	if ($id != "") {

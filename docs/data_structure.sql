@@ -97,6 +97,7 @@ CREATE TABLE ca_nfc_tag (
     ID INT NOT NULL AUTO_INCREMENT,
     NFC_ID varchar(50) NOT NULL UNIQUE, 
     active TINYINT(1),
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;	
 	

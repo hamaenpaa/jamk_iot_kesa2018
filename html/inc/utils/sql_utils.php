@@ -14,5 +14,12 @@
    		}        
 		return $orig_sql;
 	}
+	
+	function add_in_condition($orig_sql, $seek_field_name, $value_list) {
+		if ($value_list != "") {
+			$orig_sql .= " AND " . $seek_field_name . " IN (" . $value_list . ")";
+		}
+		return $orig_sql;	
+	}
 ?>
     	

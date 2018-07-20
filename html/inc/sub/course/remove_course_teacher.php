@@ -6,8 +6,8 @@
     $course_id = get_post_or_get($conn, "course_id");
 	$staff_id = get_post_or_get($conn, "staff_id");	
 	
-	$seek_params_get = possible_get_param("seek_course_id",$seek_course_id);
-	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, $seek_params_get == "");	
+	$seek_params_get = possible_get_param("seek_course_ID",$seek_course_id, false);
+	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, false);	
 
 	$q = $conn->prepare("DELETE FROM ca_course_teacher WHERE staff_id = ? AND course_id = ?");
 	if ($q) {

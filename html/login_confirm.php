@@ -40,6 +40,7 @@ if (!isset($_SESSION['staff_id']) && !isset($_SESSION['staff_permlevel'])) {
 								$_SESSION['staff_id'] = $id;
 								$_SESSION['staff_permlevel'] = $perms;
 								$_SESSION['staff_fullname'] = $firstname . " " . $lastname;
+								header("Location: main.php");
 								//Login success, redirect -> ?
 								} else {
 								//Login failed, wrong information	
@@ -63,6 +64,7 @@ if (!isset($_SESSION['staff_id']) && !isset($_SESSION['staff_permlevel'])) {
 				} else {
 				//ERROR IN PREPARE (SELECT) -> SQL MISTAKE (failed logins)	
 				}
+			include "inc/db_disconnect_inc.php";
 			} else {
 			echo "Invalid email address.";	
 			}

@@ -1,10 +1,11 @@
+use ca;
 INSERT INTO ca_staff 
 (FirstName,LastName,PhoneNumber,Email,
 Password,
 Active,`Permission`) 
 VALUES
 ('Niko', 'Kiviaho','0503888777', 'nikox@jamk.fi',
-'959f7afe3efbee4ebf60ac731204Q98b317126178a86181af0abda5612390b68b',
+'1de976a3936188685831883312ad8c81586db5c0eb1c317737dea14724d22989',
 1,0);
 INSERT INTO ca_staff 
 (FirstName,LastName,PhoneNumber,Email,
@@ -12,7 +13,7 @@ Password,
 Active,`Permission`) 
 VALUES
 ('Mikko', 'Tenhonen','0403333423', 'mikkox@jamk.fi',
-'2ed518af60c5c3b04fdbed95a7e6cd50aee2df23a8726e48303a2b8744dae2f8',
+'32a7ff5643d85573005412dee3a2c43da5cd70143488c66b3dd924bc8fa74b3f',
 1,0);
 
 -- student
@@ -100,7 +101,7 @@ INSERT INTO ca_lesson (course_id,room_id,begin_time,end_time) VALUES
 (2,1,'2018-09-01 14:00:00', '2018-09-01 15:45:00'),
 (2,2,'2018-09-02 14:00:00', '2018-09-01 15:45:00');
 
-INSERT INTO ca_nfc_tag (NFC_ID,active) VALUES ('HDDDJKJK',1), ('GSHJDHH',2);
+INSERT INTO ca_nfc_tag (NFC_ID,active) VALUES ('HDDDJKJK',1), ('GSHJDHH',1);
 
 -- roomlog
 DELETE FROM ca_roomlog WHERE ID > 0;

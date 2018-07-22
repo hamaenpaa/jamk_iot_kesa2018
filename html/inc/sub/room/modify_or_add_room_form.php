@@ -26,5 +26,6 @@
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<label>Huoneen tunnus:</label>
 	<input type="text" name="room_name" value="<?php echo $room_name; ?>" />
+<?php echo $seek_params_hidden_inputs; ?>	
 	<input type="submit" value="Talleta"/>
 </form>

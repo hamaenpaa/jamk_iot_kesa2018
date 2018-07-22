@@ -13,6 +13,7 @@ CREATE TABLE ca_staff (
 	Token varchar(32), # md5
 	Active TINYINT(1),    
 	PhoneNumber varchar(13),
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) ; 
 
@@ -33,6 +34,7 @@ CREATE TABLE ca_student (
     Email varchar(255) NOT NULL UNIQUE,
     PhoneNumber varchar(13) NOT NULL,
 	NFC_ID varchar(50) NOT NULL UNIQUE, 
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8; 
 
@@ -41,6 +43,7 @@ CREATE TABLE ca_guest (
     ID INT NOT NULL AUTO_INCREMENT,
 	FirstName varchar(25) NOT NULL,
     LastName varchar(25) NOT NULL,	
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8; 
 
@@ -50,6 +53,7 @@ CREATE TABLE ca_course (
 	Course_ID VARCHAR(20), 
 	Course_name varchar(50) NOT NULL,
     Course_description varchar(500), 
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8; 
 
@@ -73,6 +77,7 @@ DROP TABLE IF EXISTS ca_room;
 CREATE TABLE ca_room (
     ID INT NOT NULL AUTO_INCREMENT,
     room_name VARCHAR(40) NOT NULL,
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;	
 
@@ -83,6 +88,7 @@ CREATE TABLE ca_lesson (
     course_id INT,
 	begin_time DATETIME NOT NULL,
 	end_time DATETIME NOT NULL,
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;	
 
@@ -91,6 +97,7 @@ CREATE TABLE ca_nfc_tag (
     ID INT NOT NULL AUTO_INCREMENT,
     NFC_ID varchar(50) NOT NULL UNIQUE, 
     active TINYINT(1),
+	removed TINYINT(1) DEFAULT 0,
     PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;	
 	
@@ -111,5 +118,5 @@ Password,
 Active, `Permission`) 
 VALUES 
 ('Admin', 'User', 'admin@admin.com', 
-'9871b263033d86b566266e8c1c09f2d80596fc3eefd2a8be633e46213cd7dd2e',
+'ba672edb750d8f4a7787e75fc1adeacd587afea9671f189234cb65015d446ad9',
 1,1);

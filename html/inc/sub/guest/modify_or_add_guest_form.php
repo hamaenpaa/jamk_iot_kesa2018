@@ -26,9 +26,9 @@
 <form method="post" action="inc/sub/guest/save_guest.php">
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<label>Etunimi:</label>
-	<input type="text" name="guest_firstname" value="<?php echo $guest_firstname; ?>" />
+	<input type="text" name="guest_firstname" value="<?php echo $guest_firstname; ?>" maxlength="25" autofocus />
 	<label>Sukunimi:</label>
-	<input type="text" name="guest_lastname" value="<?php echo $guest_lastname; ?>" />
+	<input type="text" name="guest_lastname" value="<?php echo $guest_lastname; ?>" maxlength="25"/>
 <?php echo $seek_params_hidden_inputs; ?>
 	<input type="submit" value="Talleta"/>
 </form>

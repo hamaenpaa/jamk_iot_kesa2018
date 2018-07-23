@@ -61,7 +61,7 @@
 				<div class="row">
 					<div id="guest_query_count_exceeded" class="col-sm-12">
 						<b>
-						Haussa tuli yli <?php echo MAX_GUESTS_AT_SEARCH; ?> kurssia. 
+						Haussa tuli yli <?php echo MAX_GUESTS_AT_SEARCH; ?> vierasta. 
 						Vain ensimmäiset <?php echo MAX_GUESTS_AT_SEARCH; ?> näytetään. Tarkenna hakua.</b>
 					</div>
 				</div>

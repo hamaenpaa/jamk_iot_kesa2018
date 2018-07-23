@@ -11,17 +11,30 @@
 	if (isset($_POST['active']))
 		$active = "1";	
 	
-	if ($strlen($NFC_ID) > 50) {
-		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
-		exit;
-	}
-	
 	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");
 	$seek_include_active = get_post_or_get($conn, "seek_include_active");	
 	$seek_include_passive = get_post_or_get($conn, "seek_include_passive");
+	
 	$seek_params_get = possible_get_param("seek_nfc_id",$seek_nfc_id);
 	$seek_params_get .= possible_get_param("seek_include_active",$seek_include_active, $seek_params_get == "");
 	$seek_params_get .= possible_get_param("seek_include_passive",$seek_include_passive, $seek_params_get == "");
+
+	if ($strlen($NFC_ID) > 50) {
+		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
+		exit;
+	}	
+	if ($strlen($seek_nfc_id) > 50) {
+		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
+		exit;
+	}	
+	if ($strlen($seek_include_active) > 1) {
+		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
+		exit;
+	}
+	if ($strlen($seek_include_passive) > 1) {
+		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
+		exit;
+	}
 	
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_nfc_tag SET NFC_ID = ?,active=? WHERE ID = ?");

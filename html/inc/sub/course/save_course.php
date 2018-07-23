@@ -14,6 +14,13 @@
 	$course_id = strip_tags($_POST['course_id']);
 	$course_name = strip_tags($_POST['course_name']);
 	$course_description= strip_tags($_POST['course_description']);
+
+	if (strlen($course_id) > 20 || strlen($course_name) > 50 ||
+		strlen($course_description) > 500 || 
+		strlen($seek_course_id) > 20 || strlen($seek_course_name) > 25) {
+		header("Location: ../../../list_courses.php" . $seek_params_get);
+		exit;
+	}
 	
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_course SET course_id = ?, course_name = ?, course_description = ? WHERE ID = ?");

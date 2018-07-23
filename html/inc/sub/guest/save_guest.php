@@ -9,6 +9,13 @@
 	$guest_lastname = strip_tags($_POST['guest_lastname']);
     $seek_first_name = get_post_or_get($conn, "seek_first_name");
 	$seek_last_name = get_post_or_get($conn, "seek_last_name");	
+	
+	if (strlen($guest_first_name) > 25 || strlen($guest_first_name) > 25 ||
+		strlen($seek_first_name) > 25 || strlen($seek_last_name) > 25) {
+		header("Location: ../../../list_guests.php".$seek_params_get);
+		exit;
+	}
+	
 	$seek_params_get = possible_get_param("seek_first_name",$seek_first_name);
 	$seek_params_get .= possible_get_param("seek_last_name",$seek_last_name, $seek_params_get == "");	
 	

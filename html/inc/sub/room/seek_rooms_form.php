@@ -2,7 +2,8 @@
     <h2>Etsi luokkia</h2>
 	<form action="list_rooms.php" method="post">
 		<label>Tunnus:<label>
-		<input type="text" name="seek_room_name" value="<?php echo $seek_room_name; ?>" />
-		<input type="submit" value="Hae" />
+		<input type="text" name="seek_room_name" value="<?php echo $seek_room_name; ?>" 
+			   maxlength="40" />
+		<input type="submit" value="Hae" /> 
 	</form>
 </div>

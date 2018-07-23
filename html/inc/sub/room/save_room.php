@@ -6,8 +6,18 @@
 		$id = get_post_or_get($_POST['id']);
 	}
 	$room_name = strip_tags($_POST['room_name']);
+	
 	$seek_room_name = get_post_or_get($conn, "seek_room_name");
 	$seek_params_get = possible_get_param("seek_room_name",$seek_room_name);
+	
+	if ($strlen($room_name) > 40) {
+		header("Location: ../../../list_rooms.php".$seek_params_get);
+		exit;
+	}	
+	if ($strlen($seek_room_name) > 40) {
+		header("Location: ../../../list_rooms.php".$seek_params_get);
+		exit;
+	}		
 	
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_room SET room_name = ? WHERE ID = ?");

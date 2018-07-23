@@ -25,7 +25,8 @@
 <form method="post" action="inc/sub/room/save_room.php">
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<label>Huoneen tunnus:</label>
-	<input type="text" name="room_name" value="<?php echo $room_name; ?>" />
+	<input type="text" name="room_name" value="<?php echo $room_name; ?>" 
+		maxlength="40" required autofocus />
 <?php echo $seek_params_hidden_inputs; ?>	
 	<input type="submit" value="Talleta"/>
 </form>

@@ -11,14 +11,14 @@
 
 	$id = "";
 	if (isset($_POST['id'])) {
-		$id = $_POST['id'];
+		$id = strip_tags($_POST['id']);
 	}
-	$student_id = $_POST['student_id'];
-	$student_firstname = $_POST['student_firstname'];
-	$student_lastname = $_POST['student_lastname'];
-	$student_email = $_POST['student_email'];
-	$student_phone = $_POST['student_phone'];
-	$student_nfcid = $_POST['student_nfcid'];
+	$student_id = strip_tags($_POST['student_id']);
+	$student_firstname = strip_tags($_POST['student_firstname']);
+	$student_lastname = strip_tags($_POST['student_lastname']);
+	$student_email = strip_tags($_POST['student_email']);
+	$student_phone = strip_tags($_POST['student_phone']);
+	$student_nfcid = strip_tags($_POST['student_nfcid']);
 	
 	
 	if ($id != "") {

@@ -6,7 +6,7 @@
 	if (isset($_POST['id'])) {
 		$id = $_POST['id'];
 	}
-	$NFC_ID = $_POST['NFC_ID'];
+	$NFC_ID = strip_tags($_POST['NFC_ID']);
 	$active = "";
 	if (isset($_POST['active']))
 		$active = "1";	

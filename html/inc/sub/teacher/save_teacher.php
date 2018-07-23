@@ -8,13 +8,13 @@
 	
     $seek_first_name = get_post_or_get($conn, "seek_first_name");
 	$seek_last_name = get_post_or_get($conn, "seek_last_name");
-	$seek_params_get .= possible_get_param("seek_first_name",$seek_first_name);
+	$seek_params_get = possible_get_param("seek_first_name",$seek_first_name);
 	$seek_params_get .= possible_get_param("seek_last_name",$seek_last_name, $seek_params_get == "");	
 	
-	$teacher_firstname = $_POST['teacher_firstname'];
-	$teacher_lastname = $_POST['teacher_lastname'];
-	$teacher_email = $_POST['teacher_email'];
-	$teacher_phone = $_POST['teacher_phone'];
+	$teacher_firstname = strip_tags($_POST['teacher_firstname']);
+	$teacher_lastname = strip_tags($_POST['teacher_lastname']);
+	$teacher_email = strip_tags($_POST['teacher_email']);
+	$teacher_phone = strip_tags($_POST['teacher_phone']);
 	$teacher_password = $_POST['teacher_password'];
 	$teacher_confirm_password = $_POST['teacher_password_confirm'];	
 	$set_password = "";

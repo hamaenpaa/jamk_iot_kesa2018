@@ -11,9 +11,9 @@
 	if (isset($_POST['id'])) {
 		$id = $_POST['id'];
 	}
-	$course_id = $_POST['course_id'];
-	$course_name = $_POST['course_name'];
-	$course_description= $_POST['course_description'];
+	$course_id = strip_tags($_POST['course_id']);
+	$course_name = strip_tags($_POST['course_name']);
+	$course_description= strip_tags($_POST['course_description']);
 	
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_course SET course_id = ?, course_name = ?, course_description = ? WHERE ID = ?");

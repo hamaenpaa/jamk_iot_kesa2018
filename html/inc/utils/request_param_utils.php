@@ -7,7 +7,7 @@
 		if ($param_value == "" && isset($_GET[$param_name])) {
 			$param_value = $_GET[$param_name];
 		}
-		$param_value = $conn->real_escape_string($param_value);
+		$param_value = strip_tags($conn->real_escape_string($param_value));
 		return $param_value;
 	}
 	

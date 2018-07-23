@@ -20,13 +20,17 @@
 <form method="post" action="inc/sub/teacher/save_teacher.php">
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<label>Etunimi:</label>
-	<input type="text" name="teacher_firstname" value="<?php echo $teacher_firstname; ?>" />
+	<input type="text" name="teacher_firstname" value="<?php echo $teacher_firstname; ?>" 
+		maxlength="25" required autofocus />
 	<label>Sukunimi:</label>
-	<input type="text" name="teacher_lastname" value="<?php echo $teacher_lastname; ?>" />
+	<input type="text" name="teacher_lastname" value="<?php echo $teacher_lastname; ?>" 
+		maxlength="25" required />
 	<label>Sähköposti:</label>
-	<input type="text" name="teacher_email" value="<?php echo $teacher_email; ?>" />
+	<input type="email" name="teacher_email" value="<?php echo $teacher_email; ?>" 
+		maxlength="255" />
 	<label>Puhelin:</label>
-	<input type="text" name="teacher_phone" value="<?php echo $teacher_phone; ?>" />
+	<input type="tel" name="teacher_phone" value="<?php echo $teacher_phone; ?>" 
+		maxlength="13" />
 	<?php if ($id != "") { ?>
 		<label>Aseta salasana:</label>
 		<input type="checkbox" name="set_password" value=""/><br>
@@ -38,9 +42,9 @@
 		}	
 	?>
 	<label>Salasana:</label>
-	<input type="password" name="teacher_password" value="" />
+	<input type="password" name="teacher_password" value="" maxlength="65" />
 	<label>Salasanan vahvistus:</label>
-	<input type="password" name="teacher_password_confirm" value="" />
+	<input type="password" name="teacher_password_confirm" value="" maxlength="65" />
 <?php echo $seek_params_hidden_inputs; ?>		
 	<input type="submit" value="Talleta"/>
 </form>	

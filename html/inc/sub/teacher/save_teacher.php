@@ -17,13 +17,22 @@
 	$teacher_phone = strip_tags($_POST['teacher_phone']);
 	$teacher_password = $_POST['teacher_password'];
 	$teacher_confirm_password = $_POST['teacher_password_confirm'];	
+	
+	if (strlen($teacher_firstname) > 25 || strlen($teacher_lastname) > 25 || 
+		strlen($teacher_email) > 255 || strlen($teacher_phone) > 13 || 
+		strlen($seek_first_name) > 25 || strlen($seek_last_name) > 25 ||
+		strlen($teacher_password) > 65) {
+		header("Location: ../../../list_teachers.php".$seek_params_get);
+		exit;
+	}	
+	
 	$set_password = "";
 	if (isset($_POST['set_password']))
 		$set_password = "1";
 		
 	if ($set_password == "1" && $teacher_password != $teacher_confirm_password) {
 		include("db_disconnect_inc.php");
-		header("Location: ../list_teachers.php");	
+		header("Location: ../list_teachers.php".$seek_params_get);	
 	   	exit;	
 	}
 	

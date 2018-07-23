@@ -23,7 +23,7 @@
 	}
 ?>	
 <form method="post" action="inc/sub/nfc_tags/save_nfc_tag.php">
-	<input type="hidden" name="id" value="<?php echo $id; ?>" />
+	<input type="hidden" name="id" value="<?php echo $id; ?>" maxlength="50" required autofocus />
 	<label>NFC ID:</label>
 	<input type="text" name="NFC_ID" value="<?php echo $NFC_ID; ?>" />
 	<label>Aktiivinen:</label>

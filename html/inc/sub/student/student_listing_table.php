@@ -62,5 +62,10 @@
 			</div>
 <?php
 		}
+	} else {
+?>
+		<h2>Etsityt oppilaat</h2>
+		<b>Oppilaiden haussa täytyy olla joku hakuehto; kaikkia opiskelijoita ei ole mielekästä hakea</b>
+<?php		
 	}
 ?>

@@ -4,7 +4,7 @@
 		<title>IoT Project</title>
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="css/iot.css">
-		<?php include("bootstrap_includes.php"); ?>
+		<?php include("inc/header.php"); ?>
 	</head>
 	<body>
 		<div class="page-wrap">

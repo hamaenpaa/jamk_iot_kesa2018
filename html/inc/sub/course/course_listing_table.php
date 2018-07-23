@@ -63,7 +63,7 @@
 					<div id="course_query_count_exceeded" class="col-sm-12">
 						<b>
 						Haussa tuli yli <?php echo MAX_COURSES_AT_SEARCH; ?> kurssia. 
-						Vain ensimmäiset 50 näytetään. Tarkenna hakua.</b>
+						Vain ensimmäiset <?php echo MAX_COURSES_AT_SEARCH; ?> näytetään. Tarkenna hakua.</b>
 					</div>
 				</div>
 <?php				

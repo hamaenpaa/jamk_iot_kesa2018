@@ -1,5 +1,7 @@
 <h2>Haetut NFC tagit</h2>
 <?php
+	define("MAX_NFC_TAGS_AT_SEARCH", 50);
+
     $active_values = "";
 	if ($seek_include_active == "on") {
 		$active_values = "1";	
@@ -10,12 +12,29 @@
 		}
 		$active_values .= "0";
 	}
+	
+    $sql_count_seek = "SELECT COUNT(*) AS c FROM ca_nfc_tag WHERE removed=0 ";
+   	$sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "NFC_ID", $seek_nfc_id);
+	$sql_count_seek = add_in_condition($sql_count_seek, "active", $active_values);
+	
    	$sql_seek = "SELECT * FROM ca_nfc_tag WHERE removed=0 ";
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "NFC_ID", $seek_nfc_id);
 	$sql_seek = add_in_condition($sql_seek, "active", $active_values);
+	$sql_seek .= " LIMIT " . MAX_NFC_TAGS_AT_SEARCH;
+	
+	$result_count = $conn->query($sql_count_seek);
+	$res_count = $result_count->fetch_assoc();
+	$count = $res_count['c'];
+	$nfc_tags_text = "NFC tagi";
+	if ($count > 1) { $nfc_tags_text .= "a"; }	
+	
    	if ($result = $conn->query($sql_seek)) {
-   	  	if (mysqli_num_rows($result) > 0) {  	
+		$count_rows = mysqli_num_rows($result);
+		if ($count_rows > 0) {  			
 ?>
+		<div id="count_of_results">Haussa löytyi 
+			<?php echo $count." ".$nfc_tags_text ?>.
+		</div>
 			<div id="nfc_tag_table">
 				<div class="row">
 					<div class="col-sm-8"><b>NFC ID</b></div>
@@ -49,6 +68,18 @@
 ?>
 			</div>
 <?php
+
+			if ($count_rows < $count) {
+?>
+				<div class="row">
+					<div id="nfc_tag_query_count_exceeded" class="col-sm-12">
+						<b>
+						Haussa tuli yli <?php echo MAX_NFC_TAGS_AT_SEARCH; ?> NFC tagia. 
+						Vain ensimmäiset <?php echo MAX_NFC_TAGS_AT_SEARCH; ?> näytetään. Tarkenna hakua.</b>
+					</div>
+				</div>
+<?php				
+			}	
 		}
 		else {
 ?>

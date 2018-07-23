@@ -11,6 +11,11 @@
 	if (isset($_POST['active']))
 		$active = "1";	
 	
+	if ($strlen($NFC_ID) > 50) {
+		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
+		exit;
+	}
+	
 	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");
 	$seek_include_active = get_post_or_get($conn, "seek_include_active");	
 	$seek_include_passive = get_post_or_get($conn, "seek_include_passive");

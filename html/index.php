@@ -2,16 +2,16 @@
 <html>
     <?php include("inc/db_connect_inc.php"); ?>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/iot.css">
-		<title>IoT Project</title>
-	<?php include "bootstrap_includes.php"; ?>
+	<title>IoT Project</title>
+	<?php include "inc/header.php"; ?>
+	
 	<script src="js/login_validate.js"></script>
 	</head>
 	<body>
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Hienon hieno sisäänkirjautuminen</p>
+					<p>Hienon hieno sisäänkirjautuminen</p><?php include "inc/navigation.php"; ?>
 				</div>
 				<div class="nav">
 				</div>

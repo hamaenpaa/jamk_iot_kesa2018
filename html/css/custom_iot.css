@@ -15,10 +15,13 @@ body {
 h1 {
 	font-size: 22px;
 	font-weight: bold;
+	margin-top: 5px !important;
+	margin-bottom: 5px !important;
 }
 
-h2{
+h2 {
 	font-size: 22px;
+	margin: 0 0 5px 10px !important;
 }
 
 h3 {
@@ -26,7 +29,7 @@ h3 {
 	font-style: italic;
 }
 
-h4{
+h4 {
 	font-size: 18px;
 }
 
@@ -56,7 +59,7 @@ h6 {
 	margin: auto;
 	width: 90%;
 	max-width: 1200px;
-	min-width: 320px;
+	min-width: 390px;
 	background-color: #d6e4f9;
 }
 
@@ -155,7 +158,7 @@ h6 {
 	text-align: left;
 	font-weight: bold;
 	float: left;
-	min-width: 240px;
+	min-width: 264px;
 	margin-bottom: 5px;
 }
 
@@ -163,7 +166,7 @@ h6 {
 	display: block;
 	text-align: start;
 	float: rigth;
-	min-width: 336px;
+	min-width: 330px;
 	margin-bottom: 5px;
 }
 
@@ -172,11 +175,12 @@ h6 {
 	float: rigth;
 	padding-left: 20p;
 	margin-right: 20px;
-	max-width: 334px;
+	max-width: 328px;
 }
 
-.form-wrap span {
-	margin-bottom: 20px;
+.form-wrap button {
+	max-width: 76px;
+	margin: 5px 0 0 0;
 }
 
 /* Styles for the footer */
@@ -184,7 +188,7 @@ footer {
 	margin: auto;
 	width: 90%;
 	max-width: 1200px;
-	min-width: 320px;
+	min-width: 390px;
 }
 
 /* Styles for the footer-wrap class */
@@ -249,18 +253,4 @@ footer {
 /* Style for panel buttons */
 .panel-wrap {
 	margin-right: 5px;
-}
-
-/* Style for the hidden panels that activate on click */
-/* Style for hidden panels */
-.hidden-panel{
-display:none;
-/* Testing purposes */
-height:200px;
-width: 200px;
-background-color:green;
-}
-
-.button:active + .hidden-panel{
-display:block;
 }

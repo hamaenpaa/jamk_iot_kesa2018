@@ -10,7 +10,7 @@ header("Location: index.php");
 		<title>IoT Project</title>
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="css/iot.css">
-		<?php include("bootstrap_includes.php"); ?>
+		<?php include("inc/header.php"); ?>
 		<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
 		<script src="libs/dtp/jquery.datetimepicker.full.min.js"></script>
 	</head>
@@ -27,25 +27,24 @@ header("Location: index.php");
 				</div>
 			</header>
 			<div class="content-wrap">
-				
+			<style>
+			form { width:auto; }
+			
+			</style>
+			
 			<?php
-			//Kurssia ei ole haettu -> Listaa kurssit
-			if (!isset($_POST['course_fetch'])) {
-			include "inc/sub/lesson/course_fetch.php";
-			} else {
-			//Listaa takaisinpaluun jos kursseja on haettu
-			echo "<a href='list_lessons.php'>Palaa</a><br>";	
-			}
+			//Kurssia ei ole haettu -> Listaa kurssit 
 
 			//Kurssi postattu -> Hakuväliformi
-			if (isset($_POST['course_fetch'])) {
+	
 			
 			include "inc/sub/lesson/coursename_fetch.php";
 			
 			
+			include "inc/sub/lesson/lesson_add_form.html";
 			
 			
-			}
+			include "inc/db_disconnect_inc.php";
 				
 			?>	
 			</div>

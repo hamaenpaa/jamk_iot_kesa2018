@@ -27,11 +27,11 @@
 		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
 		exit;
 	}	
-	if (strlen($seek_include_active) > 1) {
+	if (strlen($seek_include_active) > 3) {
 		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
 		exit;
 	}
-	if (strlen($seek_include_passive) > 1) {
+	if (strlen($seek_include_passive) > 3) {
 		header("Location: ../../../list_nfc_tags.php".$seek_params_get);
 		exit;
 	}

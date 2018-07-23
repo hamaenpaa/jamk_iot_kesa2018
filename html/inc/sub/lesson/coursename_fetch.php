@@ -122,14 +122,14 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 			
 			if (isset($_POST['lesson_room']) && $_POST['lesson_room'] != 0) {
 			$room = $_POST['lesson_room'];
-			$query_select .= " room_id = ? AND ";
+			$query_select .= " ca_lesson.room_id = ? AND ";
 			} else {
 			$room = false;
 			}
 			
 			if (isset($_POST['lesson_course']) && $_POST['lesson_course'] != 0) {
 			$course = $_POST['lesson_course'];
-			$query_select .= " course_id = ? AND ";
+			$query_select .= " ca_lesson.course_id = ? AND ";
 			} else {
 			$course = false;
 			}
@@ -140,19 +140,19 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 			
 		
 			
-			$query_select .= " begin_time >= ? AND end_time <= ?";
+			$query_select .= " ca_lesson.begin_time >= ? AND ca_lesson.end_time <= ?";
 			
 			
 			if ($res_get_lesson = $conn->prepare($query_select)) {
-				/* BRAINSTORMING */
+				/* BRAINSTORMING */ 	
 				if ($room != false && $course != false) { //All 4 exists
-				$res_get_lesson->bind_param("siiss",$_SESSION['staff_id'],$room,$course,$start_date_converted,$end_date_converted);
+				$res_get_lesson->bind_param("iiiss",$_SESSION['staff_id'],$room,$course,$start_date_converted,$end_date_converted);
 				} else if ($room != false && $course == false) { //Lesson exists, course doesnt
-				$res_get_lesson->bind_param("siss",$_SESSION['staff_id'],$room,$start_date_converted,$end_date_converted);
+				$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$room,$start_date_converted,$end_date_converted);
 				} else if ($room == false && $course != false) { //Course exists, lesson doesnt
-				$res_get_lesson->bind_param("siss",$_SESSION['staff_id'],$course,$start_date_converted,$end_date_converted);
+				$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$course,$start_date_converted,$end_date_converted);
 				} else { //Neither lesson or course exists
-				$res_get_lesson->bind_param("sss",$_SESSION['staff_id'],$start_date_converted,$end_date_converted);
+				$res_get_lesson->bind_param("iss",$_SESSION['staff_id'],$start_date_converted,$end_date_converted);
 				}
 				
 				
@@ -169,12 +169,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 					
 						$res_get_lesson->bind_result($lesson_id, $lesson_room_id, $lessons_course_id, $lesson_begin_time, $lesson_end_time);
 						
-						if (!isset($lesson_course_id)) {
-						$lesson_course_id = "(Tyhjä)";	
-						}
-						if (!isset($lesson_room_id)) {
-						$lesson_room_id = "(Tyhjä)";	
-						}
+
 						
 						echo "<h2>Hakutulokset</h2>";
 						while ($res_get_lesson->fetch()) {
@@ -187,21 +182,29 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 							$convert_date_eng_fin_2 = $lesson_end_time;
 							$dateObj_start= DateTime::createFromFormat('Y-m-d H:i:s', $convert_date_eng_fin_2);
 							$date_start_eng_to_fin_2 = $dateObj_start->format('d.m.Y H:i:s');
+							
+							
+								if (!isset($lesson_course_id)) {
+								$lesson_course_id = "(Tyhjä)";	
+								}
+								if (!isset($lesson_room_id)) {
+								$lesson_room_id = "(Tyhjä)";	
+								}
 						
 						
 						echo "Luennon ID: " . $lesson_id . " | Huone: " . $lesson_room_id . " | Kurssi: " . $lesson_course_id . " | " . $date_start_eng_to_fin_1 . " ~ " . $date_start_eng_to_fin_2 . " <input type='button' value='Poista'>";
 						}
 					} else {
 					
-					echo "<hr>";
-					echo $query_select;
-					echo "<br>";
-					echo "$start_date_converted ~ $end_date_converted";
-					echo "<hr>";
+					//echo "<hr>";
+					//echo $query_select;
+					//echo "<br>";
+					//echo "$start_date_converted ~ $end_date_converted";
+					//echo "<hr>";
 					
 					
-					if (!isset($room)) { $room = "(Tyhjä)"; }
-					if (!isset($course)) { $course = "(Tyhjä)"; }	
+					if (!isset($room) || $room == false) { $room = "(Tyhjä)"; }
+					if (!isset($course) || $course == false ) { $course = "(Tyhjä)"; }	
 						
 					echo "<h2>Haun Tulokset</h2>";
 					echo "<p>Tuloksia haulle ei löytynyt.</p><hr>";
@@ -223,7 +226,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 				
 				
 			} else {
-				echo $query_select;
+				//echo $query_select;
 				echo "asd";
 			//ERROR->$res_get_lesson->PREPARE
 			//echo $query_select  -> troubleshoot
@@ -242,9 +245,11 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 					echo "<p>Lesson added</p>";	
 					} else {
 					//ERROR->$res_insert_lesson->EXECUTE	
+					echo "x";
 					}
 				} else {
 				//ERROR->$res_insert_lesson->PREPARE	
+				echo "y";
 				}
 			
 			

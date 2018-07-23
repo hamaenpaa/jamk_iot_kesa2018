@@ -1,0 +1,266 @@
+/* Nullifier for paragraphs and headings*/
+body p, h1, h2, h3, h4, h5, h6 {
+	margin: 0px !important;
+}
+
+/* Styles for the body */
+body {
+	font-family: calibri;
+	font-size: 16px;
+	height: content;
+	margin: 0px;
+}
+
+/* Styles for headings */
+h1 {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+h2{
+	font-size: 22px;
+}
+
+h3 {
+	font-size: 22px;
+	font-style: italic;
+}
+
+h4{
+	font-size: 18px;
+}
+
+h5 {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+h6 {
+	font-size: 18px;
+	font-style: italic;
+}
+
+/* Style for button element */
+.button {
+    background-color: #00497d;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+	border-radius: 5px;
+	border-style: solid;
+    cursor: pointer;
+}
+
+/* Style for the page-wrapper */
+.page-wrap {
+	margin: auto;
+	width: 90%;
+	max-width: 1200px;
+	min-width: 320px;
+	background-color: #d6e4f9;
+}
+
+/* Style for the banner-wrap */
+.banner-wrap {
+	display: block;
+	height: auto;
+	padding: 15px;
+	text-align: center;
+	color: white;
+	background-color: #00497d;
+	box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+	word-break: ;
+}
+
+/* Style for links inside the banner */
+.banner-wrap a {
+	padding: 5px;
+	margin: 5px;
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+.banner-wrap a:hover {
+	background-color: #002844;
+}
+
+.banner-wrap a:active {
+	background-color: #002844;
+}
+
+.banner-wrap a:focus {
+	text-decoration: none;
+	background-color: #002844;
+}
+
+.banner-wrap a:target {
+	background-color: #002844;
+}
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 777px) {
+	.banner-wrap a {
+		font-size: 14px !important;
+	}
+}
+
+/* Style for navigation bar */
+.nav {
+	padding: 10px;
+	float: right;
+}
+
+/* Style for language buttons */
+.languages {
+	text-align: right;
+	position: abosolute;
+}
+
+.languages img {
+	height: 25px;
+	display: inline-block;
+}
+
+/* Style for the content-wrap */
+.content-wrap {
+	display: block;
+	height: content;
+	padding: 10px;
+}
+
+/* Inputs will be filled out from the left if they are inside content-wrap */
+.content-wrap input {
+	text-align: left !important;
+}
+
+/* Style for the row class on desktop */
+@media only screen and (min-width: 768px) {
+	.row {
+		text-align: center !important;
+		max-width: 90% !important;
+	}
+}
+
+/* Style for form-wrap */
+
+.form-wrap {
+	padding: 0 10px;
+	max-width: 600px;
+	text-align: center;
+}
+
+.form-wrap label {
+	display: block;
+	text-align: left;
+	font-weight: bold;
+	float: left;
+	min-width: 240px;
+	margin-bottom: 5px;
+}
+
+.form-wrap input {
+	display: block;
+	text-align: start;
+	float: rigth;
+	min-width: 336px;
+	margin-bottom: 5px;
+}
+
+.form-wrap textarea {
+	display: block;
+	float: rigth;
+	padding-left: 20p;
+	margin-right: 20px;
+	max-width: 334px;
+}
+
+.form-wrap span {
+	margin-bottom: 20px;
+}
+
+/* Styles for the footer */
+footer {
+	margin: auto;
+	width: 90%;
+	max-width: 1200px;
+	min-width: 320px;
+}
+
+/* Styles for the footer-wrap class */
+.footer-wrap {
+	height: auto;
+	text-align: center;
+	box-shadow: 0 -4px 10px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* Styling for text inside the footer-wrap */
+.footer-wrap p {
+	text-align: center;
+	color: white;
+}
+
+/* Style for footer links */
+.footer-links {
+	display: block;
+	padding: 5px;
+	background-color: #4c4c4c;
+	height: auto;
+}
+
+/* Text coloring for footer links */
+.footer-links p {
+	color: #bfbfc0;
+}
+
+/* Style for footer contacts */
+.footer-contacts {
+	display: block;
+	padding: 10px;
+	background-color: #171717;
+	height: auto;
+}
+
+/* Text coloring for footer contacts */
+.footer-contacts p {
+	color: #bfbfc0;
+}
+
+/* Moving to home.html */
+/* Style for selects */
+
+.select-wrap {
+	display: inline-block;
+	margin: auto;
+	text-align: center;
+	max-width: 1200px;
+}
+
+.row h2 {
+	text-align: center;
+}
+
+/* Style for the panels */
+.panel-wrap {
+	display: inline-block;
+	text-align: left;
+}
+
+/* Style for panel buttons */
+.panel-wrap {
+	margin-right: 5px;
+}
+
+/* Style for the hidden panels that activate on click */
+/* Style for hidden panels */
+.hidden-panel{
+display:none;
+/* Testing purposes */
+height:200px;
+width: 200px;
+background-color:green;
+}
+
+.button:active + .hidden-panel{
+display:block;
+}

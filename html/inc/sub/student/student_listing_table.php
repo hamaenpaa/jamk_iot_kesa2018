@@ -1,19 +1,41 @@
 <?php 
+	define("PAGE_SIZE", 20);
 	$seek_params_hidden_inputs = hidden_input("seek_student_id", $seek_student_id).
 	                             hidden_input("seek_first_name", $seek_first_name).
-	                             hidden_input("seek_last_name", $seek_last_name);
+	                             hidden_input("seek_last_name", $seek_last_name).
+								 hidden_input("page", $page);
    	if ($seek_first_name != "" || $seek_last_name != "" || $seek_student_id != "") {
 ?>
     	<h2>Etsityt oppilaat</h2>
 <?php
+		$sql_count_seek = "SELECT COUNT(*) AS c FROM ca_student WHERE removed=0 ";
+		$sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "firstName", $seek_first_name);
+   		$sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "lastName", $seek_last_name);
+   		$sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "Student_ID", $seek_student_id);
+
    		$sql_seek = "SELECT * FROM ca_student WHERE removed = 0 ";
    		$sql_seek = add_further_seek_param($conn, $sql_seek, "firstName", $seek_first_name);
    		$sql_seek = add_further_seek_param($conn, $sql_seek, "lastName", $seek_last_name);
    		$sql_seek = add_further_seek_param($conn, $sql_seek, "Student_ID", $seek_student_id);
-		
+		$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
+	
+		$result_count = $conn->query($sql_count_seek);
+		$res_count = $result_count->fetch_assoc();
+		$count = $res_count['c'];
+		$page_count = intdiv($count, PAGE_SIZE);
+		if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
+		$page_links = generate_page_list("list_students.php".$seek_params_get, $page_count, $page,
+						"","","curr_page","other_page");	
+	
+		$student_text = "oppilas";
+		if ($count > 1) { $student_text .= "ta"; }		
+	
    		if ($result = $conn->query($sql_seek)) {
-   			if (mysqli_num_rows($result) > 0) {   
+   			if ($count > 0) {   
 ?>
+				<div id="count_of_results">Haussa löytyi 
+					<?php echo $count." ".$student_text ?>.
+				</div>
 				<div id="student_table">
 					<div class="row">
 						<div class="col-sm-2"><b>Etunimi</b></div>
@@ -52,6 +74,7 @@
 						</div>
 <?php		
 				}
+				echo $page_links;
 			}
 			else {
 ?>

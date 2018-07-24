@@ -1,16 +1,24 @@
 <?php
 	define("MAX_ROOMS_AT_SEARCH", 50);
+	define("PAGE_SIZE", 20);
 
     $sql_count_seek = "SELECT COUNT(*) AS c FROM ca_room WHERE removed=0 ";
    	$sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "room_name", $seek_room_name);
 
    	$sql_seek = "SELECT * FROM ca_room WHERE removed=0 ";
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "room_name", $seek_room_name);
-	$sql_seek .= " LIMIT " . MAX_ROOMS_AT_SEARCH;
+	$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 	
 	$result_count = $conn->query($sql_count_seek);
 	$res_count = $result_count->fetch_assoc();
 	$count = $res_count['c'];
+	$page_count = intdiv($count, PAGE_SIZE);
+	
+	if ($page_count * PAGE_SIZE < $count) { $page_count++; }
+	
+	$page_links = generate_page_list("list_rooms.php".$seek_params_get, $page_count, $page,
+					"","","curr_page","other_page"); 
+					
 	$rooms_text = "luokka";	
 	if ($count > 1) { $rooms_text .= "a"; }
 	
@@ -52,18 +60,7 @@
 					</div>
 <?php		
 				}
-
-				if ($count_rows < $count) {
-?>
-					<div class="row">
-						<div id="room_query_count_exceeded" class="col-sm-12">
-						<b>
-						Haussa tuli yli <?php echo MAX_ROOMS_AT_SEARCH; ?> kurssia. 
-						Vain ensimmäiset <?php echo MAX_ROOMS_AT_SEARCH; ?> näytetään. Tarkenna hakua.</b>
-						</div>
-					</div>
-<?php				
-				}
+				echo $page_links;
 		}
 		else {
 ?>

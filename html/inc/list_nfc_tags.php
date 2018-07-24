@@ -2,6 +2,7 @@
    	include("db_connect_inc.php");
     include("utils/request_param_utils.php");
 	include("utils/sql_utils.php");
+	include("utils/html_utils.php");
 
     $seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");
 	$seek_include_active = get_post_or_get($conn, "seek_include_active");

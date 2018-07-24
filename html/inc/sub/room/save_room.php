@@ -2,19 +2,26 @@
     include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	$id = "";
-	if (isset($_POST['id'])) {
-		$id = get_post_or_get($_POST['id']);
+	if (isset($_POST['id']) || isset($_GET['id'])) {
+		$id = get_post_or_get($conn, 'id');
 	}
+	
 	$room_name = strip_tags($_POST['room_name']);
+	if (isset($_POST['page'])) {
+		$page = strip_tags($_POST['page']);
+	} else {
+		$page = 1;
+	}
 	
 	$seek_room_name = get_post_or_get($conn, "seek_room_name");
 	$seek_params_get = possible_get_param("seek_room_name",$seek_room_name);
+	$seek_params_get .= possible_get_param("page", $page, $seek_params_get == "");	
 	
-	if ($strlen($room_name) > 40) {
+	if (strlen($room_name) > 40) {
 		header("Location: ../../../list_rooms.php".$seek_params_get);
 		exit;
 	}	
-	if ($strlen($seek_room_name) > 40) {
+	if (strlen($seek_room_name) > 40) {
 		header("Location: ../../../list_rooms.php".$seek_params_get);
 		exit;
 	}		

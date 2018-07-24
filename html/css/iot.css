@@ -120,7 +120,7 @@ h6 {
  a {
 	padding: 5px;
 	margin: 5px;
-	color: white !important;
+	color: white;
 }
  a:hover {
 	text-decoration: none !important;

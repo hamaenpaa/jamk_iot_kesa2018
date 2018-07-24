@@ -254,3 +254,11 @@ footer {
 .panel-wrap {
 	margin-right: 5px;
 }
+
+.curr_page {
+	color: blue !important;
+}
+
+.other_page {
+	color: black !important;
+}

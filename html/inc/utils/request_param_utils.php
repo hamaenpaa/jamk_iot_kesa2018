@@ -23,18 +23,4 @@
 		}
 		return $ret_val;	
 	}
-	
-	function hidden_input($field_name, $value) {
-		if ($value == "")
-		   return "";
-		return '<input type="hidden" name="'.$field_name.'" value="'.$value.'"/>';	
-	}
-	
-	function checkbox_input($field_name, $value) {
-		$checked_part = "";
-		if ($value != "0" && $value != "") {
-			$checked_part = " checked=\"checked\" ";	
-		}
-		return "<input type=\"checkbox\" name=\"" . $field_name . "\" " . $checked_part . " />"; 
-	}
 ?>

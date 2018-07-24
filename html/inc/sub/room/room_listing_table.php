@@ -7,6 +7,7 @@
 
    	$sql_seek = "SELECT * FROM ca_room WHERE removed=0 ";
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "room_name", $seek_room_name);
+	$sql_seek .= " ORDER BY room_name";
 	$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 	
 	$result_count = $conn->query($sql_count_seek);

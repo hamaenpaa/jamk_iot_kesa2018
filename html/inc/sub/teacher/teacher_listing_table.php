@@ -13,6 +13,7 @@
    	$sql_seek = "SELECT * FROM ca_staff WHERE Permission = 0 AND Active = 1 AND removed = 0 ";
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "firstName", $seek_first_name);
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "lastName", $seek_last_name);
+	$sql_seek .= " ORDER BY lastName, firstName";
 	$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 		
 	$result_count = $conn->query($sql_count_seek);

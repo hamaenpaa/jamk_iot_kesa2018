@@ -21,6 +21,7 @@
    	$sql_seek = "SELECT * FROM ca_nfc_tag WHERE removed=0 ";
    	$sql_seek = add_further_seek_param($conn, $sql_seek, "NFC_ID", $seek_nfc_id);
 	$sql_seek = add_in_condition($sql_seek, "active", $active_values);
+	$sql_seek .= " ORDER BY NFC_ID";
 	$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 	
 	$result_count = $conn->query($sql_count_seek);

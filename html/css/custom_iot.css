@@ -15,13 +15,14 @@ body {
 h1 {
 	font-size: 22px;
 	font-weight: bold;
-	margin-top: 5px !important;
-	margin-bottom: 5px !important;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
 }
 
 h2 {
 	font-size: 22px;
-	margin: 0 0 5px 10px !important;
+	font-weight: bold;
+	margin: 10px 0 5px 10px !important;
 }
 
 h3 {
@@ -43,15 +44,32 @@ h6 {
 	font-style: italic;
 }
 
-/* Style for button element */
+
+/* Some elements are hidden */
+.hidden {
+	display: none !important;
+	visibility: hidden !important;
+	height: 0px !important;
+	padding: 0px !important;
+}
+
+/* General style for the button class */
 .button {
     background-color: #00497d;
     color: white;
-    text-align: center;
-    padding: 5px 10px;
+	margin-left: 43.6%;
+    padding: 3px 10px;
 	border-radius: 5px;
 	border-style: solid;
     cursor: pointer;
+}
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 708px) {
+	.button {
+		text-align: left !important;
+		margin-left: 0px !important;
+	}
 }
 
 /* Style for the page-wrapper */
@@ -77,8 +95,8 @@ h6 {
 
 /* Style for links inside the banner */
 .banner-wrap a {
-	padding: 5px;
-	margin: 5px;
+	padding: 5px 10px 5px 10px;
+	width: content;
 	color: white;
 	text-decoration: none;
 	font-size: 18px;
@@ -108,21 +126,18 @@ h6 {
 	}
 }
 
+@media only screen and (max-width: 624px) {
+	.banner-wrap a {
+		font-size: 12px !important;
+	}
+}
+
+/* Mobile navigation at 567 pixels */
+
 /* Style for navigation bar */
 .nav {
 	padding: 10px;
 	float: right;
-}
-
-/* Style for language buttons */
-.languages {
-	text-align: right;
-	position: abosolute;
-}
-
-.languages img {
-	height: 25px;
-	display: inline-block;
 }
 
 /* Style for the content-wrap */
@@ -146,13 +161,13 @@ h6 {
 }
 
 /* Style for form-wrap */
-
 .form-wrap {
 	padding: 0 10px;
 	max-width: 600px;
 	text-align: center;
 }
 
+/* Style for labels inside form-wrap */
 .form-wrap label {
 	display: block;
 	text-align: left;
@@ -162,6 +177,7 @@ h6 {
 	margin-bottom: 5px;
 }
 
+/* Style for inputs inside form-wrap */
 .form-wrap input {
 	display: block;
 	text-align: start;
@@ -170,23 +186,18 @@ h6 {
 	margin-bottom: 5px;
 }
 
+/* Style for text-areas inside form-wrap */
 .form-wrap textarea {
 	display: block;
 	float: rigth;
 	padding-left: 20p;
-	margin-right: 20px;
+	margin: 0 0 5px 0;
 	max-width: 328px;
-}
-
-.form-wrap button {
-	max-width: 76px;
-	margin: 5px 0 0 0;
 }
 
 /* Styles for the footer */
 footer {
 	margin: auto;
-	width: 90%;
 	max-width: 1200px;
 	min-width: 390px;
 }
@@ -215,6 +226,7 @@ footer {
 /* Text coloring for footer links */
 .footer-links p {
 	color: #bfbfc0;
+	margin: 5px 0 5px 0 !important;
 }
 
 /* Style for footer contacts */
@@ -230,9 +242,7 @@ footer {
 	color: #bfbfc0;
 }
 
-/* Moving to home.html */
 /* Style for selects */
-
 .select-wrap {
 	display: inline-block;
 	margin: auto;
@@ -240,15 +250,16 @@ footer {
 	max-width: 1200px;
 }
 
-.row h2 {
-	text-align: center;
+/* Style for seek rooms headings */
+#seek_rooms h2 {
+	margin: 10px 0 5px 0 !important;
 }
 
 /* Style for the panels */
-.panel-wrap {
+/*.panel-wrap {
 	display: inline-block;
 	text-align: left;
-}
+}*/
 
 /* Style for panel buttons */
 .panel-wrap {

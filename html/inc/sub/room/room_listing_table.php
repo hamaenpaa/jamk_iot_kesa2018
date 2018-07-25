@@ -48,14 +48,14 @@
 							<form method="post" action="list_rooms.php">
 <?php echo $seek_params_hidden_inputs; ?>
 								<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-								<input type="submit" value="Muokkaa" />
+								<input class="button" type="submit" value="Muokkaa" />
 							</form>
 						</div>
 						<div class="col-sm-1">
 							<form method="post" action="inc/sub/room/remove_room.php">
 <?php echo $seek_params_hidden_inputs; ?>
 								<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-								<input type="submit" value="Poista" />
+								<input class="button" type="submit" value="Poista" />
 							</form>
 						</div>
 					</div>

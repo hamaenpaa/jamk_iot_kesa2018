@@ -29,7 +29,7 @@
 								<input type="password" name="password" id="password">
 							</div>
 							<div id="button-wrap">
-								<input type="submit" id="sign-in" value="Sign In">
+								<input class="button" type="submit" id="sign-in" value="Sign In">
 							</div>
 						</form>
 					</div>

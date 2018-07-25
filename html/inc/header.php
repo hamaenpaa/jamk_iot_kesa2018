@@ -1,16 +1,33 @@
 <?php
-   echo '<link rel="stylesheet" href="libs/bootstrap/3.3.7/css/bootstrap.min.css" />';
-   echo '<link rel="stylesheet" href="libs/bootstrap/3.3.7/css/bootstrap-theme.min.css" />';
-   
-   echo '<script src="libs/jquery/jquery-3.3.1.min.js" /></script>';
-   echo '<script src="libs/bootstrap/3.3.7/js/bootstrap.min.js" /></script>';
+if (substr(getcwd(),-6) == 'layout') {
+$cfg_rootdir = "../";	
+}
+
+//echo getcwd();
+
+if (!isset($cfg_rootdir)) {
+$cfg_rootdir = "";
+}
 ?>
+
+
+
+<?php
+	echo '<link rel="stylesheet" href="' . $cfg_rootdir . 'css/iot_reset.css" />';
+
+   echo '<link rel="stylesheet" href="' . $cfg_rootdir . 'libs/bootstrap/3.3.7/css/bootstrap.min.css" />';
+   echo '<link rel="stylesheet" href="' . $cfg_rootdir . 'libs/bootstrap/3.3.7/css/bootstrap-theme.min.css" />';
+   
+   echo '<script src="' . $cfg_rootdir . 'libs/jquery/jquery-3.3.1.min.js" /></script>';
+   echo '<script src="' . $cfg_rootdir . 'libs/bootstrap/3.3.7/js/bootstrap.min.js" /></script>';
+   
+   echo '<link rel="stylesheet" href="' . $cfg_rootdir . 'css/custom_iot.css" />';
+?>
+
+
 <!-- 
 <link rel="stylesheet" type="text/css" href="css/iot.css">
 -->
-<link rel="stylesheet" type="text/css" href="css/custom_iot.css">
-
-
 <!--
 <script>
 $(function() {

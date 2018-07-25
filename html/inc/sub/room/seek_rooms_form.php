@@ -4,6 +4,6 @@
 		<label>Tunnus:<label>
 		<input type="text" name="seek_room_name" value="<?php echo $seek_room_name; ?>" 
 			   maxlength="40" />
-		<input type="submit" value="Hae" /> 
+		<input class="button" type="submit" value="Hae" /> 
 	</form>
 </div>

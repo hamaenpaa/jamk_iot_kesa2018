@@ -55,12 +55,10 @@ h6 {
 
 /* General style for the button class */
 .button {
-	display: block;
-	max-width: 74px;
     background-color: #00497d;
     color: white;
 	margin-left: 43.6%;
-    padding: 5px 10px;
+    padding: 3px 10px;
 	border-radius: 5px;
 	border-style: solid;
     cursor: pointer;
@@ -127,6 +125,14 @@ h6 {
 		font-size: 14px !important;
 	}
 }
+
+@media only screen and (max-width: 624px) {
+	.banner-wrap a {
+		font-size: 12px !important;
+	}
+}
+
+/* Mobile navigation at 567 pixels */
 
 /* Style for navigation bar */
 .nav {
@@ -234,13 +240,9 @@ footer {
 /* Text coloring for footer contacts */
 .footer-contacts p {
 	color: #bfbfc0;
-<<<<<<< HEAD
-=======
 }
 
-/* Moving to home.html */
 /* Style for selects */
-
 .select-wrap {
 	display: inline-block;
 	margin: auto;
@@ -248,15 +250,16 @@ footer {
 	max-width: 1200px;
 }
 
-.row h2 {
-	text-align: center;
+/* Style for seek rooms headings */
+#seek_rooms h2 {
+	margin: 10px 0 5px 0 !important;
 }
 
 /* Style for the panels */
-.panel-wrap {
+/*.panel-wrap {
 	display: inline-block;
 	text-align: left;
-}
+}*/
 
 /* Style for panel buttons */
 .panel-wrap {
@@ -269,5 +272,4 @@ footer {
 
 .other_page {
 	color: black !important;
->>>>>>> 36aaf0d69c22e0facd92ba5ddccad42b5658fb7e
 }

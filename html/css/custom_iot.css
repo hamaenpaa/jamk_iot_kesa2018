@@ -22,7 +22,7 @@ h1 {
 h2 {
 	font-size: 22px;
 	font-weight: bold;
-	margin: 10px 0 5px 10px !important;
+	margin: 10px 0 5px 0 !important;
 }
 
 h3 {
@@ -250,16 +250,11 @@ footer {
 	max-width: 1200px;
 }
 
-/* Style for seek rooms headings */
-#seek_rooms h2 {
-	margin: 10px 0 5px 0 !important;
-}
-
 /* Style for the panels */
-/*.panel-wrap {
+.panel-wrap {
 	display: inline-block;
 	text-align: left;
-}*/
+}
 
 /* Style for panel buttons */
 .panel-wrap {

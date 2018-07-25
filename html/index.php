@@ -11,7 +11,8 @@
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Hienon hieno sisäänkirjautuminen</p><?php include "inc/navigation.php"; ?>
+					<h1>Hienon hieno sisäänkirjautuminen</h1>
+					<?php include "inc/navigation.php"; ?>
 				</div>
 				<div class="nav">
 				</div>
@@ -33,11 +34,4 @@
 						</form>
 					</div>
 				</div>
-			<footer>
-				<div class="footer-wrap">
-					<p>&#169; IoT projekti kesä 2018</p>
-				</div>
-			</footer>
-		</div>
-	</body>
-</html>
+	<?php include "inc/footer.php"; ?>

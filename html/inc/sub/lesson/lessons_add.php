@@ -76,8 +76,8 @@ $("#lesson_add_mass").prop("disabled", true);
 
 
 <form method="GET" action="lessons_add.php">
-<input placeholder="Aloitusaika" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" id="date_start" class="datetime_picker" name="lesson_start_date">
-<input placeholder="Lopetusaika" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker" name="lesson_end_date">
+<input placeholder="Aloitusaika + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" id="date_start" class="datetime_picker" name="lesson_start_date">
+<input placeholder="Lopetusaika + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker" name="lesson_end_date">
 
 <br><br>
 <label for="lesson_room">Luokka</label>
@@ -100,7 +100,7 @@ $("#lesson_add_mass").prop("disabled", true);
 <label for="lesson_tuesday">Ti</label><input id="lesson_tuesday" type="checkbox" name="lesson_tuesday">
 <label for="lesson_wednesday">Ke</label><input id="lesson_wednesday" type="checkbox" name="lesson_wednesday">
 <label for="lesson_thursday">To</label><input id="lesson_thursday" type="checkbox" name="lesson_thursday">
-<label for="lesson_friday">To</label><input id="lesson_friday" type="checkbox" name="lesson_friday">
+<label for="lesson_friday">Pe</label><input id="lesson_friday" type="checkbox" name="lesson_friday">
 <p><label for="user_error_check" >Olen varmistanut aikavälin, kellonajan, luokan ja luennon.</label><input id="user_error_check" name="user_error_check" type="checkbox"><br><input id="lesson_add_mass" type="submit"></p>
 </form>
 
@@ -128,10 +128,14 @@ $list_mondays = getDateForSpecificDayBetweenDates($start,$end,1);
 
 if (isset($_GET['lesson_start_date']) && isset($_GET['lesson_end_date']) && isset($_GET['lesson_course']) && isset($_GET['lesson_room']) && $_GET['lesson_course'] != 0 && $_GET['lesson_room'] != 0) {
 
+
 include "../../db_connect_inc.php";
 
 $course = $conn->real_escape_string(intval($_GET['lesson_course'])); //Get course from post
 $room = $conn->real_escape_string(($_GET['lesson_room'])); //Get room from post
+
+
+//die($_GET['lesson_start_date'] . "<hr>" . $_GET['lesson_end_date']);
 
 $lesson_sdE = $conn->real_escape_string($_GET['lesson_start_date']);
 $lesson_edE = $conn->real_escape_string($_GET['lesson_end_date']);

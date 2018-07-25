@@ -37,7 +37,7 @@
 		
 		if ($count_course_students > 0) {  	
 			$page_count_course_students = intdiv($count_course_students, COURSE_STUDENT_PAGE);
-			if ($page_count * COURSE_STUDENT_PAGE < $count_course_students) { 
+			if ($page_count_course_students * COURSE_STUDENT_PAGE < $count_course_students) { 
 				$page_count_course_students++; 
 			}
 			$course_student_page_links = generate_page_list(

@@ -1,10 +1,12 @@
 <?php
 	define("MAX_COURSES_AT_SEARCH", 50);
-
+	define("PAGE_SIZE", 2);
+	
     $sql_seek = "SELECT * FROM ca_course WHERE removed=0 ";
     $sql_seek = add_further_seek_param($conn, $sql_seek, "course_ID", $seek_course_ID);
 	$sql_seek = add_further_seek_param($conn, $sql_seek, "course_name", $seek_course_name);
-	$sql_seek .= " LIMIT " . MAX_COURSES_AT_SEARCH;
+	$sql_seek .= " ORDER BY course_name, course_ID";
+	$sql_seek .= " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 	
     $sql_count_seek = "SELECT COUNT(*) AS c FROM ca_course WHERE removed=0 ";
     $sql_count_seek = add_further_seek_param($conn, $sql_count_seek, "course_ID", $seek_course_ID);
@@ -15,6 +17,11 @@
 	$count = $res_count['c'];
 	$courses_text = "kurssi";
 	if ($count > 1) { $courses_text .= "a"; }
+	
+	$page_count = intdiv($count, PAGE_SIZE);
+	if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
+	$page_links = generate_page_list("list_courses.php".$seek_params_get, $page_count, $page,
+						"","","curr_page","other_page");	
 	
    	if ($result = $conn->query($sql_seek)) {
 		$count_rows = mysqli_num_rows($result);
@@ -56,18 +63,7 @@
 				</div>
 <?php		
 			} 
-			
-			if ($count_rows < $count) {
-?>
-				<div class="row">
-					<div id="course_query_count_exceeded" class="col-sm-12">
-						<b>
-						Haussa tuli yli <?php echo MAX_COURSES_AT_SEARCH; ?> kurssia. 
-						Vain ensimmäiset <?php echo MAX_COURSES_AT_SEARCH; ?> näytetään. Tarkenna hakua.</b>
-					</div>
-				</div>
-<?php				
-			}
+			echo $page_links;
 		}
 		else {
 ?>

@@ -4,8 +4,15 @@
     $seek_course_id = get_post_or_get($conn, "seek_course_ID");
 	$seek_course_name = get_post_or_get($conn, "seek_course_name");
 	
+	if (isset($_POST['page'])) {
+		$page = strip_tags($_POST['page']);
+	} else {
+		$page = 1;
+	}		
+	
 	$seek_params_get = possible_get_param("seek_course_ID",$seek_course_id, true);
 	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, $seek_params_get == "");	
+	$seek_params_get .= possible_get_param("page", $page, $seek_params_get == "");
 	
 	$id = "";
 	if (isset($_POST['id'])) {

@@ -1,6 +1,6 @@
 <?php
 	define("MAX_COURSES_AT_SEARCH", 50);
-	define("PAGE_SIZE", 2);
+	define("PAGE_SIZE", 20);
 	
     $sql_seek = "SELECT * FROM ca_course WHERE removed=0 ";
     $sql_seek = add_further_seek_param($conn, $sql_seek, "course_ID", $seek_course_ID);

@@ -1,7 +1,7 @@
 <div id="list_of_course_students">
 <h2>Kurssin oppilaat</h2>
 <?php
-	define("COURSE_STUDENT_PAGE","2");
+	define("COURSE_STUDENT_PAGE","20");
 	
 	$course_student_page = get_post_or_get($conn, "course_student_page");
 	if (!isset($course_student_page) || $course_student_page == "") { $course_student_page = 1; }	

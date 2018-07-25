@@ -10,7 +10,7 @@
 		
 		$q = $conn->prepare("SELECT course_id,course_name,course_description FROM ca_course WHERE ID=?");
 		if ($q) {
-			$q->bind_param("s", $_POST['id']);
+			$q->bind_param("s", $id);
 			$q->execute();
 			$q->bind_result($course_id,$course_name,$course_description);
 			$q->fetch();

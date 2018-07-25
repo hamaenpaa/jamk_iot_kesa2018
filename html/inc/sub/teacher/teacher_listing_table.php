@@ -1,5 +1,5 @@
 <?php
-    define("PAGE_SIZE", 2);
+    define("PAGE_SIZE", 20);
 	$seek_params_hidden_inputs = hidden_input("seek_first_name", $seek_first_name).
 	                             hidden_input("seek_last_name", $seek_last_name).
 								 hidden_input("page", $page);

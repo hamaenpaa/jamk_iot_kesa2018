@@ -22,7 +22,10 @@
 	
 	$page_count = intdiv($count, PAGE_SIZE);
 	if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
-	$page_links = generate_page_list("list_teachers.php".$seek_params_get, $page_count, $page,
+	$page_links = generate_page_list(
+					"list_teachers.php".$seek_params_get, 
+					$page_count, $page,
+					"page", 
 					"","","curr_page","other_page");	
 	
 	$teacher_text = "opettaja";

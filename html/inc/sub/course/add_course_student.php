@@ -10,6 +10,19 @@
 	$seek_params_get = possible_get_param("seek_course_ID",$seek_course_id, false);
 	$seek_params_get .= possible_get_param("seek_course_name",$seek_course_name, false);	
 	
+	if (isset($_POST['page'])) {
+		$page = strip_tags($_POST['page']);
+	} else {
+		$page = 1;
+	}	
+	if (isset($_POST['course_student_page'])) {
+		$course_student_page = strip_tags($_POST['course_student_page']);
+	} else {
+		$course_student_page = 1;
+	}	
+	$seek_params_get .= possible_get_param("page",$page, false);
+	$seek_params_get .= possible_get_param("course_student_page",$course_student_page, false);
+	
 	$q = $conn->prepare("INSERT INTO ca_course_student (student_id,course_id) VALUES (?,?)");
 	if ($q) {
 		$q->bind_param("ii", $student_id, $course_id);

@@ -20,12 +20,14 @@
 	
 	$page_count = intdiv($count, PAGE_SIZE);
 	if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
-	$page_links = generate_page_list("list_courses.php".$seek_params_get, $page_count, $page,
+	$page_links = generate_page_list(
+						"list_courses.php".$seek_params_get, 
+						$page_count, $page,
+						"page", 
 						"","","curr_page","other_page");	
 	
    	if ($result = $conn->query($sql_seek)) {
-		$count_rows = mysqli_num_rows($result);
-   		if ($count_rows > 0) { 
+   		if ($count > 0) { 
 ?>
 <div id="count_of_results">Haussa löytyi 
 	<?php echo $count." ".$courses_text ?>.

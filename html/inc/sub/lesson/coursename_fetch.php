@@ -95,14 +95,14 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0) { 
 	 
 	//Our YYYY-MM-DD date.
 	$start_date_fin = $_POST['lesson_date_start'];
-	$dateObj_start= DateTime::createFromFormat('d.m.Y H:i:s', $start_date_fin);
-	$newDateString_start = $dateObj_start->format('Y-m-d H:i:s');
-	$start_date_converted = $newDateString_start;
+	$dateObj_start= DateTime::createFromFormat('d.m.Y H:i', $start_date_fin);
+	$newDateString_start = $dateObj_start->format('Y-m-d H:i');
+	$start_date_converted = $newDateString_start . ":00";
 	
 	$end_date_fin = $_POST['lesson_date_end'];
-	$dateObj_end = DateTime::createFromFormat('d.m.Y H:i:s', $end_date_fin);
-	$newDateString_end = $dateObj_end->format('Y-m-d H:i:s');
-	$end_date_converted = $newDateString_end;
+	$dateObj_end = DateTime::createFromFormat('d.m.Y H:i', $end_date_fin);
+	$newDateString_end = $dateObj_end->format('Y-m-d H:i');
+	$end_date_converted = $newDateString_end . ":00";;
 	
 	
 	//$start_date_converted;

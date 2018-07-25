@@ -234,4 +234,40 @@ footer {
 /* Text coloring for footer contacts */
 .footer-contacts p {
 	color: #bfbfc0;
+<<<<<<< HEAD
+=======
+}
+
+/* Moving to home.html */
+/* Style for selects */
+
+.select-wrap {
+	display: inline-block;
+	margin: auto;
+	text-align: center;
+	max-width: 1200px;
+}
+
+.row h2 {
+	text-align: center;
+}
+
+/* Style for the panels */
+.panel-wrap {
+	display: inline-block;
+	text-align: left;
+}
+
+/* Style for panel buttons */
+.panel-wrap {
+	margin-right: 5px;
+}
+
+.curr_page {
+	color: blue !important;
+}
+
+.other_page {
+	color: black !important;
+>>>>>>> 36aaf0d69c22e0facd92ba5ddccad42b5658fb7e
 }

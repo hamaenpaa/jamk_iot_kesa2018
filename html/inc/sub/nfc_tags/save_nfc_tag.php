@@ -15,9 +15,16 @@
 	$seek_include_active = get_post_or_get($conn, "seek_include_active");	
 	$seek_include_passive = get_post_or_get($conn, "seek_include_passive");
 	
+	if (isset($_POST['page'])) {
+		$page = strip_tags($_POST['page']);
+	} else {
+		$page = 1;
+	}		
+	
 	$seek_params_get = possible_get_param("seek_nfc_id",$seek_nfc_id);
 	$seek_params_get .= possible_get_param("seek_include_active",$seek_include_active, $seek_params_get == "");
 	$seek_params_get .= possible_get_param("seek_include_passive",$seek_include_passive, $seek_params_get == "");
+	$seek_params_get .= possible_get_param("page", $page, $seek_params_get == "");
 
 	if (strlen($NFC_ID) > 50) {
 		header("Location: ../../../list_nfc_tags.php".$seek_params_get);

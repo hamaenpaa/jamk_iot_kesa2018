@@ -75,6 +75,7 @@ if (!isset($_SESSION['staff_id']) && !isset($_SESSION['staff_permlevel'])) {
 	echo "Invalid form data, either username or password input were empty.";	
 	}
 } else {
+header("Location: index.php");
 echo "You have already logged in.";
 }
 ?>

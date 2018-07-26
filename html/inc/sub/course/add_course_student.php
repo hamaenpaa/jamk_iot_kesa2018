@@ -20,8 +20,15 @@
 	} else {
 		$course_student_page = 1;
 	}	
+	if (isset($_POST['course_teacher_page'])) {
+		$course_teacher_page = strip_tags($_POST['course_teacher_page']);
+	} else {
+		$course_teacher_page = 1;
+	}		
+	
 	$seek_params_get .= possible_get_param("page",$page, false);
 	$seek_params_get .= possible_get_param("course_student_page",$course_student_page, false);
+	$seek_params_get .= possible_get_param("course_teacher_page",$course_teacher_page, false);
 	
 	$q = $conn->prepare("INSERT INTO ca_course_student (student_id,course_id) VALUES (?,?)");
 	if ($q) {

@@ -2,10 +2,9 @@
 <html>
     <?php include("inc/db_connect_inc.php"); ?>
 	<head>
-	<title>IoT Project</title>
-	<?php include "inc/header.php"; ?>
-	
-	<script src="js/login_validate.js"></script>
+		<title>IoT Project</title>
+		<?php include "inc/header.php"; ?>
+		<script src="js/login_validate.js"></script>
 	</head>
 	<body>
 		<div class="page-wrap">

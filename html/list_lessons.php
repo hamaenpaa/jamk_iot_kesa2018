@@ -8,7 +8,6 @@ header("Location: index.php");
 <html>
 	<head>
 		<title>IoT Project</title>
-		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="css/iot.css">
 		<?php include("inc/header.php"); ?>
 		<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
@@ -50,10 +49,17 @@ header("Location: index.php");
 			</div>
 			<footer>
 				<div class="footer-wrap">
-					<p>&#169; IoT projekti kesä 2018</p>
+					<div class="footer-links">
+						<p>Linkkejä</p>
+					</div>
+					<div class="footer-contacts">
+						<p>&#169; IoT projekti kesä 2018</p>
+						<p>JAMKin logo</p>
+						<p>Yhteystietoja yms.</p>
+					</div>
 				</div>
 			</footer>
-		</div>		
+		</div>
 	</body>
 </html>
 <?php

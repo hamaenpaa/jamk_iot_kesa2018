@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>IoT Project</title>
-		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="css/iot.css">
 		<?php include("inc/header.php"); ?>
 	</head>
@@ -18,11 +17,4 @@
 			<div class="content-wrap">
 				<?php include("inc/list_nfc_tags.php"); ?>
 			</div>
-			<footer>
-				<div class="footer-wrap">
-					<p>&#169; IoT projekti kesä 2018</p>
-				</div>
-			</footer>
-		</div>		
-	</body>
-</html>
+	<?php include "inc/footer.php"; ?>

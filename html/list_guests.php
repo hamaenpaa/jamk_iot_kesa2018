@@ -8,7 +8,8 @@
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Vieraat</p>
+					<h1>Vieraat</h1>
+					<?php include("inc/navigation.php"); ?>
 				</div>
 				<div class="nav">
 				</div>

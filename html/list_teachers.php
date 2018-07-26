@@ -9,7 +9,8 @@
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Opettajat</p>
+					<h1>Opettajat</h1>
+					<?php include("inc/navigation.php"); ?>
 				</div>
 				<div class="nav">
 				</div>

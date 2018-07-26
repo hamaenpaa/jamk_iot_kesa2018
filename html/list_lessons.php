@@ -17,7 +17,7 @@ header("Location: index.php");
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Oppitunnit</p>
+					<h1>Oppitunnit</h1>
 					<?php include "inc/navigation.php"; ?>
 					<!-- datetimepicker configuration -->
 					<script src="js/datepicker.js"></script>

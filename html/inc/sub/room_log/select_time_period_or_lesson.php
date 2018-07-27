@@ -68,12 +68,22 @@
 					$ui_course_ID, $course_name, $room_name);				
 				
 				if ($q_lessons->num_rows > 0) {
+					$lesson_id_param = get_post_or_get($conn, "lesson_id");
+					if (!isset($lesson_id_param)) 
+						$lesson_id_param = "";
+					$lesson_value = "";
+					if ($lesson_id_param != "") 
+						$lesson_value = " value=\"".$lesson_id_param."\" ";
 ?>
-					<select id="lesson_select" name="lesson">
+					<select id="lesson_select" name="lesson" <?php echo $lesson_value; ?> >
 <?php					
 						while($lessons = $q_lessons->fetch_assoc())	{
 ?>
-							<option value="<?php echo $lesson_id; ?>" >
+							<option value="<?php echo $lesson_id; ?>" 
+								<?php if ($lesson_id_param == $lesson_id) {
+									echo " selected=\"selected\" ";
+								} ?>
+							>
 <?php
 								if (isset($room) && $room != "") {
 									echo $ui_course_ID . " ". $course_name;

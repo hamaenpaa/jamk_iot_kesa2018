@@ -4,16 +4,15 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<?php include("inc/header.php"); ?>
-		<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
-		<script src="libs/dtp/jquery.datetimepicker.full.min.js"></script>
-		<?php echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>' ?>;
+		<?php include("inc/datepicker.php"); ?>
+		<?php echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>' ?>
 	</head>
 	<title>IoT Project</title>
 	<body>
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<h1>Huoneet</h1>
+					<h1>Huone logit</h1>
 					<?php include("inc/navigation.php"); ?>
 				</div>
 				<div class="nav">

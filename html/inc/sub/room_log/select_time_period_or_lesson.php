@@ -7,18 +7,34 @@
 			$room = get_post_or_get($conn, "room");
 		}
 		if ((isset($room) && $room != "") || (isset($course) && $course != "")) {
+			$begin_time = get_post_or_get($conn, "begin_time");
+			$end_time = get_post_or_get($conn, "end_time");
+			if (!isset($begin_time)) {
+				$begin_time_value_param = "";
+			} else {
+				$begin_time_value_param = " value=\"".$begin_time."\" ";
+			}
+			if (!isset($end_time)) {
+				$end_time_value_param = "";
+			} else {
+				$end_time_value_param = " value=\"".$end_time."\" ";
+			}
 ?>
 			<form>
+				<?php 
+					echo hidden_input("begin_time", $begin_time);
+					echo hidden_input("end_time", $end_time);
+				?>
 				<input  
 					placeholder="Aloitusaika" size="16" 
 					alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
 					id="date_start" class="datetime_picker"
-					name="begin_time" />
+					name="begin_time" <?php echo $begin_time_value_param; ?> />
 				<input 
 					placeholder="Lopetusaika" size="16" 
 					alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
 					id="date_end" class="datetime_picker"
-					name="end_time" />
+					name="end_time" <?php echo $end_time_value_param; ?> />
 <?php
 				if ($seek_with == "course") {
 					echo hidden_input("course", $course);
@@ -53,7 +69,7 @@
 				
 				if ($q_lessons->num_rows > 0) {
 ?>
-					<select name="lesson">
+					<select id="lesson_select" name="lesson">
 <?php					
 						while($lessons = $q_lessons->fetch_assoc())	{
 ?>

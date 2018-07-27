@@ -26,9 +26,9 @@
 		}		
 		
 		/* 					     
-			ca_guest.firstName, ca_guest.lastName, 
+			
 			ca_course.course_ID, ca_course.course_name,
-			ca_student.student_id, ca_student.firstName, ca_student.lastName,
+			,
 			ca_room.room_name FROM ca_roomlog 
 		*/
 		
@@ -37,14 +37,18 @@
 			$sql_room_log .= ", ca_course.course_ID, ca_course.course_name ";		
 		if (WITH_ROOMS)
 			$sql_room_log .= ", ca_room.room_name ";
+		
+		$sql_room_log .= ", ca_student.student_id, ca_student.firstName, ca_student.lastName ";
+		$sql_room_log .= ", ca_guest.firstName, ca_guest.lastName ";
+		
 		$sql_room_log .= "FROM ca_roomlog ";
 		if (WITH_ROOMS)
 			$sql_room_log .= "INNER JOIN ca_room ON ca_roomlog.room_id = ca_room.ID ";
 		if (WITH_COURSES)
 			$sql_room_log .= "INNER JOIN ca_course ON ca_roomlog.course_id = ca_course.ID ";
 		
-/*		$sql_room_log .= ",LEFT JOIN ca_student ON ca_student.ID = ca_roomlog.student_id
-						  LEFT JOIN ca_guest ON ca_guest.ID = ca_roomlog.guest_id "; */
+		$sql_room_log .= " LEFT JOIN ca_student ON ca_student.ID = ca_roomlog.student_id
+						  LEFT JOIN ca_guest ON ca_guest.ID = ca_roomlog.guest_id "; 
 		// $sql_room_log .= "WHERE ca_roomlog.removed = 0 ";
 		$sql_room_log .= "WHERE ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? ";
 		if ($seek_with == "course") {
@@ -74,45 +78,50 @@
 		}
 		$q_room_logs->execute();		
 		$q_room_logs->store_result();
-		$nfc_cols = "0"; $course_cols = "0"; $room_cols = "0";
+		$dt_cols = "0"; $name_cols = "0"; $nfc_cols = "0"; $course_cols = "0"; $room_cols = "0";
 		if (!WITH_COURSES && !WITH_ROOMS) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt);
-			$dt_cols = "8";
+			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt,
+				$student_id, $student_first_name, $student_last_name,
+				$guest_first_name, $guest_last_name);
+			$dt_cols = "4";
+			$name_cols = "4";
 			$nfc_cols = "2";
 		}
 		else if (WITH_COURSES && !WITH_ROOMS) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name);
-			$dt_cols = "5";
+			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name,
+				$student_id, $student_first_name, $student_last_name,
+				$guest_first_name, $guest_last_name);
+			$dt_cols = "2";
+			$name_cols = "3";
 			$course_cols = "3";
 			$nfc_cols = "2";
 		}
 		else if (WITH_ROOMS && !WITH_COURSES) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name);
-			$dt_cols = "5";
+			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name,
+				$student_id, $student_first_name, $student_last_name,
+				$guest_first_name, $guest_last_name);
+			$dt_cols = "2";
+			$name_cols = "3";
 			$room_cols = "3";
 			$nfc_cols = "2";			
 		}
 		else {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name);
-			$dt_cols = "3";
+			$q_room_logs->bind_result(
+				$room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name,
+				$student_id, $student_first_name, $student_last_name,
+				$guest_first_name, $guest_last_name);
+			$dt_cols = "2";
+			$name_cols = "2";
 			$nfc_cols = "2";
 			$room_cols = "2";
-			$course_cols = "3";
+			$course_cols = "2";
 		}
-//		$q_room_logs->bind_result(
-//			$room_log_id, $nfc_id, $dt, $room_name
-/*			,
-			$guest_first_name, $guest_last_name,
-			$ui_course_ID, $course_name,          
-			$student_id, $student_first_name, $student_last_name,
-			*/ 
-// );			
 		if ($q_room_logs->num_rows > 0) {	
-		
 ?>
 
 <div class="room_log_listing_table">
 	<div class="row">
+				<div class="col-sm-<?php echo $name_cols; ?>"><b>Nimi</b></div>
 				<div class="col-sm-<?php echo $dt_cols; ?>"><b>Sisääntuloaika</b></div>
 <?php 		if ($room_cols != "0") { ?>			
 				<div class="col-sm-<?php echo $room_cols; ?>"><b>Luokka</b></div>
@@ -133,37 +142,29 @@
 			while($room_logs = $q_room_logs->fetch()) {
 ?>
 				<div class="row">
-<?php /*					
 <?php
 					if ($student_first_name != "" || $student_last_name != "") {
 ?>
-						<div class="col-sm-2">
+						<div class="col-sm-<?php echo $name_cols; ?>">
 <?php
-							echo $student_last_name;
+							echo $student_last_name . " " . $student_first_name;
 ?>	
 						</div>
-						<div class="col-sm-2">
-<?php
-						echo $student_first_name;
-?>	
-						</div>
+
 <?php
 					} else {
+						if (!isset($guest_last_name)) { $guest_last_name = ""; }
+						if (!isset($guest_first_name)) { $guest_first_name = ""; }
 ?>						
-						<div class="col-sm-2">
+						<div class="col-sm-<?php echo $name_cols; ?>">
 <?php
-							echo $guest_last_name;
-?>	
-						</div>
-						<div class="col-sm-2">
-<?php
-							echo $guest_first_name;
+							echo $guest_last_name . " " . $guest_first_name;
 ?>	
 						</div>
 <?php
 					}
 ?>
-<?php */ ?>						
+						
 					<div class="col-sm-<?php echo $dt_cols; ?>"><?php echo $dt; ?></div>
 <?php if ($room_cols != "0") { ?>			
 					<div class="col-sm-<?php echo $room_cols; ?>"><?php echo $room_name;  ?></div>

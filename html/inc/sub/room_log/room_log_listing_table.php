@@ -10,13 +10,13 @@
 		(isset($lesson) && $lesson != "")) {
 		if (!isset($begin_time) || !isset($end_time) ||
 			$begin_time == "" || $end_time == "") {
-			$sql_times = "SELECT ca_lesson.begin_time, ca_lesson.end_time WHERE ID = ?";
-			$q_times = $conn->prepare($sql_lessons);
+			$sql_times = "SELECT ca_lesson.begin_time, ca_lesson.end_time FROM ca_lesson WHERE ID = ?";
+			$q_times = $conn->prepare($sql_times);
 			$q_times->bind_param("i", $lesson);	
 			$q_times->execute();		
 			$q_times->store_result();				
 			$q_times->bind_result($begin_time, $end_time);
-			$q_times->fetch_assoc();			
+			$q_times->fetch();			
 		}
 		if ($seek_with == "course") {
 			$course = get_post_or_get($conn, "course");

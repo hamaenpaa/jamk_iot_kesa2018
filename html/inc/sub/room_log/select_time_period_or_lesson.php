@@ -77,7 +77,7 @@
 ?>
 					<select id="lesson_select" name="lesson" <?php echo $lesson_value; ?> >
 <?php					
-						while($lessons = $q_lessons->fetch_assoc())	{
+						while($lessons = $q_lessons->fetch())	{
 ?>
 							<option value="<?php echo $lesson_id; ?>" 
 								<?php if ($lesson_id_param == $lesson_id) {
@@ -86,12 +86,12 @@
 							>
 <?php
 								if (isset($room) && $room != "") {
-									echo $ui_course_ID . " ". $course_name;
-								}
-								else {
 									echo $room_name;
 								}
-								echo " ".$begin_time - $end_time;
+								else {
+									echo $ui_course_ID . " ". $course_name;
+								}
+								echo " ".$begin_time ."-". $end_time;
 ?>
 							</option>
 <?php							

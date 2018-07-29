@@ -35,8 +35,10 @@ h4 {
 }
 
 h5 {
-	font-size: 18px;
+	font-size: 16px;
+	text-align: center;
 	font-weight: bold;
+	border-bottom: 1px;
 }
 
 h6 {
@@ -57,20 +59,19 @@ h6 {
 .button {
     background-color: #00497d;
     color: white;
-	margin-left: 43.6%;
     padding: 3px 10px;
 	border-radius: 5px;
 	border-style: solid;
     cursor: pointer;
 }
 
-/* Media screen style for the banner links */
+/* Media screen style for the banner links
 @media only screen and (max-width: 708px) {
 	.button {
 		text-align: left !important;
 		margin-left: 0px !important;
 	}
-}
+} */
 
 /* Style for the page-wrapper */
 .page-wrap {
@@ -95,11 +96,12 @@ h6 {
 
 /* Style for links inside the banner */
 .banner-wrap a {
-	padding: 5px 10px 5px 10px;
 	width: content;
+	padding: 5px 10px 5px 10px;
 	color: white;
 	text-decoration: none;
 	font-size: 18px;
+	font-weight: bold;
 }
 
 .banner-wrap a:hover {
@@ -132,7 +134,7 @@ h6 {
 	}
 }
 
-/* Mobile navigation at 567 pixels */
+/* Mobile navigation at 573 pixels */
 
 /* Style for navigation bar */
 .nav {
@@ -176,7 +178,6 @@ h6 {
 	min-width: 264px;
 	margin-bottom: 5px;
 }
-
 
 /* Style for log in page's form */
 #input-form {
@@ -286,4 +287,89 @@ footer {
 
 .other_page {
 	color: black !important;
+}
+
+/* --------- Course listing page --------- */
+
+/* Specific row class for course search form */
+#seek_students_form, #course_table {
+	margin: 0 0 0 15px;
+}
+
+#count_of_results {
+	margin: 0 0 5px 0;
+}
+
+.row-type-2 {
+	display: flex;
+	justify-content: space-between;
+	max-width: 400px;
+	min-width: 300px;
+}
+
+#seek_students_form .row-type-2 {
+	margin: 0 15px 0 0;
+}
+
+.row-type-2 input {
+	margin: 0 0 3px 0;
+}
+
+.row-type-3 {
+	text-align: left !important;
+}
+
+.row-type-3 .button {	
+	border-width: 1px;
+	margin: 0 0 3px 0;
+}
+
+/* Style for counting found courses */
+
+#count_of_results {
+	font-style: italic;
+}
+
+/* Style for course listing */
+.col-sm-2 {
+	border-left: 1px;
+}
+
+.col-sm-6 {
+	border-left: 1px;
+	border-right: 1px;
+}
+
+.col-sm-2, .col-sm-6 {
+	text-align: left !important;
+	border-style: solid;
+	border-color: black;
+	background-color: white;
+	padding: 5px 2px 5px 2px;
+	max-height: 70px;
+}
+
+.col-sm-2 b {
+	text-align: center !important;
+}
+
+/* Style for adding or modifying courses */
+
+#seek_courses .text-box {
+	width: 400px;
+}
+
+@media only screen and (max-width: 505px) {
+	#seek_courses .text-box  {
+		max-width: 350px !important;
+	}
+}
+
+.row-type-4 {
+	text-align: left;
+}
+
+.row-type-5 .button {
+	border-width: 1px;
+	margin: 0 0 3px 0;
 }

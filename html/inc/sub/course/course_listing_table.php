@@ -35,9 +35,9 @@
 
 <div id="course_table">
 	<div class="row">
-		<div class="col-sm-2"><b>Kurssin tunnus</b></div>
-		<div class="col-sm-3"><b>Kurssin nimi</b></div>
-		<div class="col-sm-6"><b>Kurssin kuvaus</b></div>
+		<div class="col-sm-2"><h5>Kurssin tunnus</h5></div>
+		<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
+		<div class="col-sm-6"><h5>Kurssin kuvaus</h5></div>
 		<div class="col-sm-1"></div>
 	</div>
 
@@ -52,14 +52,14 @@
 						<form method="post" action="list_courses.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>
-							<input type="submit" value="Muokkaa" />
+							<input class="button" type="submit" value="Muokkaa" />
 						</form>
 					</div>
 					<div class="col-sm-1">
 						<form method="post" action="inc/sub/course/remove_course.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>
-							<input type="submit" value="Poista" />
+							<input class="button" type="submit" value="Poista" />
 						</form>
 					</div>
 				</div>

@@ -26,13 +26,23 @@
 	
 <form method="post" action="inc/sub/course/save_course.php">
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
-	<label>Kurssin tunnus:</label>
-	<input type="text" name="course_id" value="<?php echo $course_id; ?>" maxlength="20" required autofocus/>
-	<label>Kurssin nimi:</label> 
-	<input type="text" name="course_name" value="<?php echo $course_name; ?>" maxlength="50" required />
-	<label>Kurssin kuvaus:</label>
-	<textarea name="course_description" rows="7" cols="50" maxlength="500"><?php echo $course_description; ?></textarea>
-<?php echo $seek_params_hidden_inputs; ?>		
-	<input type="submit" value="Talleta"/>	
+	<div class="row-type-2">
+		<label>Kurssin tunnus:</label>
+		<input type="text" name="course_id" value="<?php echo $course_id; ?>" maxlength="20" required autofocus/>
+	</div>
+	<div class="row-type-2">
+		<label>Kurssin nimi:</label> 
+		<input type="text" name="course_name" value="<?php echo $course_name; ?>" maxlength="50" required />
+	</div>
+	<div class="row-type-2">
+		<label>Kurssin kuvaus:</label>
+	</div>
+	<div class="row-type-4">
+		<textarea class="text-box" name="course_description" rows="7" cols="50" maxlength="500"><?php echo $course_description; ?></textarea>
+		<?php echo $seek_params_hidden_inputs; ?>
+	</div>
+	<div class="row-type-5">
+		<input class="button" type="submit" value="Talleta"/>
+	</div>
 </form>
 	

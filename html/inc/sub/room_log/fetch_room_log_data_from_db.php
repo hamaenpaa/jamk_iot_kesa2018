@@ -39,15 +39,16 @@
 		return $student_ids;
 	}
 	
-	function get_room_log_sql_query_end_part($seek_with, $with_courses, $with_rooms) {
+	function get_room_log_sql_query_end_part($seek_with, $with_courses, $with_rooms, $students) {
 		$sql_room_log_end_part = "FROM ca_roomlog ";
 		if ($with_rooms)
 			$sql_room_log_end_part .= "INNER JOIN ca_room ON ca_roomlog.room_id = ca_room.ID ";
 		if ($with_courses)
 			$sql_room_log_end_part .= "INNER JOIN ca_course ON ca_roomlog.course_id = ca_course.ID ";
-		
-		$sql_room_log_end_part .= " LEFT JOIN ca_student ON ca_student.ID = ca_roomlog.student_id
-						  LEFT JOIN ca_guest ON ca_guest.ID = ca_roomlog.guest_id "; 
+		if ($students) 
+			$sql_room_log_end_part .= " LEFT JOIN ca_student ON ca_student.ID = ca_roomlog.student_id ";
+		else 
+			$sql_room_log_end_part .= " LEFT JOIN ca_guest ON ca_guest.ID = ca_roomlog.guest_id "; 
 		// $sql_room_log .= "WHERE ca_roomlog.removed = 0 ";
 		$sql_room_log_end_part .= "WHERE ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? ";
 		if ($seek_with == "course") {
@@ -101,7 +102,7 @@
 	}
 	
 	function get_room_log($conn, $with_courses, $with_rooms, $sql_room_log_sql_query_end_part,
-		$begin_time, $end_time, $room, $course) {
+		$begin_time, $end_time, $room, $course, $students) {
 			
 		/*
 			ca_course.course_ID, ca_course.course_name,
@@ -113,9 +114,11 @@
 		if ($with_courses)
 			$room_log_queried_fields_total .= ", ca_course.course_ID, ca_course.course_name ";		
 		if ($with_rooms)
-			$room_log_queried_fields_total .= ", ca_room.room_name ";	
-		$room_log_queried_fields_total .= ", ca_student.student_id, ca_student.firstName, ca_student.lastName ";
-		$room_log_queried_fields_total .= ", ca_guest.firstName, ca_guest.lastName ";	
+			$room_log_queried_fields_total .= ", ca_room.room_name ";
+		if ($students)
+			$room_log_queried_fields_total .= ", ca_student.student_id, ca_student.firstName, ca_student.lastName ";
+		else 
+			$room_log_queried_fields_total .= ", ca_guest.firstName, ca_guest.lastName ";	
 		$sql_room_logs_total = "SELECT " . $room_log_queried_fields_total . 
 									$sql_room_log_sql_query_end_part;
 		$q_room_logs = $conn->prepare($sql_room_logs_total);
@@ -133,29 +136,44 @@
 		$q_room_logs->execute();		
 		$q_room_logs->store_result();		
 		
+		$student_id = ""; $student_first_name = ""; $student_last_name = "";
+		$guest_first_name = ""; $guest_last_name = "";
 		if (!$with_courses && !$with_rooms) {
 			$room_name = ""; $ui_course_ID = ""; $course_name = "";
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
+			if ($students) 
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt,
+					$student_id, $student_first_name, $student_last_name);
+			else 
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt,
+					$guest_first_name, $guest_last_name);				
 		}
 		else if ($with_courses && !$with_rooms) {
 			$room_name = "";
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
+			if ($students)
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name,
+					$student_id, $student_first_name, $student_last_name);
+			else 
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name,
+					$guest_first_name, $guest_last_name);				
 		}
 		else if ($with_rooms && !$with_courses) {
 			$ui_course_ID = ""; $course_name = ""; 
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
+			if ($students) 
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name,
+					$student_id, $student_first_name, $student_last_name);
+			else 
+				$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name,
+					$guest_first_name, $guest_last_name);
 		}
 		else {
-			$q_room_logs->bind_result(
-				$room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
+			if ($students) 
+				$q_room_logs->bind_result(
+					$room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name,
+					$student_id, $student_first_name, $student_last_name);
+			else
+				$q_room_logs->bind_result(
+					$room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name,
+					$guest_first_name, $guest_last_name);				
 		}		
 		$room_log_arr = array();
 		if ($q_room_logs->num_rows > 0) {

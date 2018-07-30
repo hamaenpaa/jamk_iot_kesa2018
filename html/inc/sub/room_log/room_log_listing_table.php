@@ -29,9 +29,9 @@
 		}		
 		
 		$sql_room_log_end_part = get_room_log_sql_query_end_part(
-			$seek_with, WITH_COURSES, WITH_ROOMS);
-		$room_logs = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
-			$sql_room_log_end_part, $begin_time, $end_time, $room, $course);
+			$seek_with, WITH_COURSES, WITH_ROOMS, true);
+		$room_logs_students = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
+			$sql_room_log_end_part, $begin_time, $end_time, $room, $course, true);
 		
 		$room_log_distinct_students = get_room_log_distinct_students($conn, 
 			WITH_COURSES, WITH_ROOMS,
@@ -69,7 +69,7 @@
 
 <?php
 		}
-		if (count($room_logs) > 0) {
+		if (count($room_logs_students) > 0) {
 			include("ui_table_column_widths_for_signed_in_students.php");
 
 
@@ -82,12 +82,11 @@
 
 <?php
 
+			$guest_first_name = ""; $guest_last_name = "";
 			include("room_log_column_header_row.php");
-			foreach($room_logs as $room_log) {
+			foreach($room_logs_students as $room_log) {
 				$student_first_name = $room_log['student_first_name'];
 				$student_last_name = $room_log['student_last_name'];
-				$guest_first_name = $room_log['guest_first_name'];
-				$guest_last_name = $room_log['guest_last_name'];				
 				$dt = $room_log['dt'];
 				$room_name = $room_log['room_name'];
 				$ui_course_ID = $room_log['ui_course_ID'];
@@ -101,6 +100,31 @@
 </div>
 
 <?php
+		}
+
+		$sql_room_log_end_part_guests = get_room_log_sql_query_end_part(
+			$seek_with, WITH_COURSES, WITH_ROOMS, false);
+		$room_logs_guests = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
+			$sql_room_log_end_part_guests, $begin_time, $end_time, $room, $course, false);	
+
+		if (count($room_logs_guests) > 0) {
+?>
+			<h2>Vierailijat koulun ulkopuolelta</h2>
+<?php			
+			
+			$student_first_name = ""; $student_last_name = "";
+			
+			include("room_log_column_header_row.php");
+			foreach($room_logs_guests as $room_log) {
+				$guest_first_name = $room_log['guest_first_name'];
+				$guest_last_name = $room_log['guest_last_name'];				
+				$dt = $room_log['dt'];
+				$room_name = $room_log['room_name'];
+				$ui_course_ID = $room_log['ui_course_ID'];
+				$course_name = $room_log['course_name'];
+				$nfc_id = $room_log['nfc_id'];
+				include("room_log_data_row.php"); 
+			}		
 		}
 	}
 ?>

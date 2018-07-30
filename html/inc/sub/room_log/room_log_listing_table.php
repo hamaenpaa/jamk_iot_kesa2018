@@ -2,6 +2,8 @@
 	define("WITH_ROOMS", "1");
 	define("WITH_COURSES", "0");
 
+	include("fetch_room_log_data_from_db.php");
+
 	$begin_time = get_post_or_get($conn, "begin_time");
 	$end_time = get_post_or_get($conn, "end_time");
 	$lesson = get_post_or_get($conn, "lesson");
@@ -10,191 +12,91 @@
 		(isset($lesson) && $lesson != "")) {
 		if (!isset($begin_time) || !isset($end_time) ||
 			$begin_time == "" || $end_time == "") {
-			$sql_times = "SELECT ca_lesson.begin_time, ca_lesson.end_time FROM ca_lesson WHERE ID = ?";
-			$q_times = $conn->prepare($sql_times);
-			$q_times->bind_param("i", $lesson);	
-			$q_times->execute();		
-			$q_times->store_result();				
-			$q_times->bind_result($begin_time, $end_time);
-			$q_times->fetch();			
+			$lesson_times = get_lesson_times($conn, $lesson);
+			$begin_time = $lesson_times['begin_time']; 
+			$end_time = $lesson_times['end_time'];
+		} else {
+			$begin_time = from_ui_to_db($begin_time);
+			$end_time = from_ui_to_db($end_time);			
 		}
 		if ($seek_with == "course") {
 			$course = get_post_or_get($conn, "course");
+			$room = "";
 		}
 		else if ($seek_with == "room") {
+			$course = "";
 			$room = get_post_or_get($conn, "room");
 		}		
 		
-		/* 					     
-			
-			ca_course.course_ID, ca_course.course_name,
-			,
-			ca_room.room_name FROM ca_roomlog 
-		*/
+		$sql_room_log_end_part = get_room_log_sql_query_end_part(
+			$seek_with, WITH_COURSES, WITH_ROOMS);
+		$room_logs = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
+			$sql_room_log_end_part, $begin_time, $end_time, $room, $course);
 		
-		$sql_room_log = "SELECT ca_roomlog.ID, ca_roomlog.NFC_ID, ca_roomlog.dt ";
-		if (WITH_COURSES)
-			$sql_room_log .= ", ca_course.course_ID, ca_course.course_name ";		
-		if (WITH_ROOMS)
-			$sql_room_log .= ", ca_room.room_name ";
+		$room_log_distinct_students = get_room_log_distinct_students($conn, 
+			WITH_COURSES, WITH_ROOMS,
+			$sql_room_log_end_part,
+			$begin_time, $end_time, $course, $room);
 		
-		$sql_room_log .= ", ca_student.student_id, ca_student.firstName, ca_student.lastName ";
-		$sql_room_log .= ", ca_guest.firstName, ca_guest.lastName ";
-		
-		$sql_room_log .= "FROM ca_roomlog ";
-		if (WITH_ROOMS)
-			$sql_room_log .= "INNER JOIN ca_room ON ca_roomlog.room_id = ca_room.ID ";
-		if (WITH_COURSES)
-			$sql_room_log .= "INNER JOIN ca_course ON ca_roomlog.course_id = ca_course.ID ";
-		
-		$sql_room_log .= " LEFT JOIN ca_student ON ca_student.ID = ca_roomlog.student_id
-						  LEFT JOIN ca_guest ON ca_guest.ID = ca_roomlog.guest_id "; 
-		// $sql_room_log .= "WHERE ca_roomlog.removed = 0 ";
-		$sql_room_log .= "WHERE ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? ";
-		if ($seek_with == "course") {
-			if (WITH_COURSES)
-				$sql_room_log .= " AND ca_roomlog.course_id = ?";
-		} else {
-			if (WITH_ROOMS)
-				$sql_room_log .= " AND ca_roomlog.room_id = ?";
-		}
-		
-		// echo "sql_room_log " . $sql_room_log . "\n";
-		$begin_time = from_ui_to_db($begin_time);
-		$end_time = from_ui_to_db($end_time);
-		$q_room_logs = $conn->prepare($sql_room_log);
-		if (isset($room) && $room != "") {
-			// echo "begin_time " . $begin_time . ", end_time " . $end_time . " room " . $room;
-			if (WITH_ROOMS)
-				$q_room_logs->bind_param("ssi", $begin_time, $end_time, $room);
-			else
-				$q_room_logs->bind_param("ss", $begin_time, $end_time);
-		} else {
-			// echo "begin_time " . $begin_time . ", end_time " . $end_time . " course " . $course;
-			if (WITH_COURSES)
-				$q_room_logs->bind_param("ssi", $begin_time, $end_time, $course);
-			else 
-				$q_room_logs->bind_param("ss", $begin_time, $end_time);
-		}
-		$q_room_logs->execute();		
-		$q_room_logs->store_result();
-		$dt_cols = "0"; $name_cols = "0"; $nfc_cols = "0"; $course_cols = "0"; $room_cols = "0";
-		if (!WITH_COURSES && !WITH_ROOMS) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
-			$dt_cols = "4";
-			$name_cols = "4";
-			$nfc_cols = "2";
-		}
-		else if (WITH_COURSES && !WITH_ROOMS) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
-			$dt_cols = "2";
-			$name_cols = "3";
-			$course_cols = "3";
-			$nfc_cols = "2";
-		}
-		else if (WITH_ROOMS && !WITH_COURSES) {
-			$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
-			$dt_cols = "2";
-			$name_cols = "3";
-			$room_cols = "3";
-			$nfc_cols = "2";			
-		}
-		else {
-			$q_room_logs->bind_result(
-				$room_log_id, $nfc_id, $dt, $ui_course_ID, $course_name, $room_name,
-				$student_id, $student_first_name, $student_last_name,
-				$guest_first_name, $guest_last_name);
-			$dt_cols = "2";
-			$name_cols = "2";
-			$nfc_cols = "2";
-			$room_cols = "2";
-			$course_cols = "2";
-		}
-		if ($q_room_logs->num_rows > 0) {	
+		$course_students_not_at_room_log = 
+			get_course_students_not_at_room_log($conn, $sql_room_log_end_part,
+			$room_log_distinct_students, $course);		
+
+		if (count($course_students_not_at_room_log) > 0) {
 ?>
+
+<h2>Kurssin oppilaat ilman tuntikirjausta</h2>
 
 <div class="room_log_listing_table">
-	<div class="row">
-				<div class="col-sm-<?php echo $name_cols; ?>"><b>Nimi</b></div>
-				<div class="col-sm-<?php echo $dt_cols; ?>"><b>Sisääntuloaika</b></div>
-<?php 		if ($room_cols != "0") { ?>			
-				<div class="col-sm-<?php echo $room_cols; ?>"><b>Luokka</b></div>
-<?php 		} 
-			if ($course_cols != "0") {	
-?>	
-				<div class="col-sm-<?php echo $course_cols; ?>"><b>Kurssi</b></div>
+	
 <?php
+	include("ui_table_column_widths_for_unsigned_students.php");
+	include("room_log_column_header_row.php");
+		
+	foreach($course_students_not_at_room_log as $course_student) {
+		$student_first_name = $course_student['firstName'];
+		$student_last_name = $course_student['lastName'];	
+		$nfc_id = $course_student['nfc_id'];
+		$ui_course_ID = $course_student['ui_course_ID'];
+		$course_name = $course_student['course_name'];
+		$guest_first_name = ""; $guest_last_name = "";
+		
+		include("room_log_data_row.php");
+	}
+
+?>	
+</div>
+
+<?php
+		}
+		if (count($room_logs) > 0) {
+			include("ui_table_column_widths_for_signed_in_students.php");
+
+
+		
+?>
+
+<h2>Oppilaat, joille on tuntikirjaus</h2>
+
+<div class="room_log_listing_table">
+
+<?php
+
+			include("room_log_column_header_row.php");
+			foreach($room_logs as $room_log) {
+				$student_first_name = $room_log['student_first_name'];
+				$student_last_name = $room_log['student_last_name'];
+				$guest_first_name = $room_log['guest_first_name'];
+				$guest_last_name = $room_log['guest_last_name'];				
+				$dt = $room_log['dt'];
+				$room_name = $room_log['room_name'];
+				$ui_course_ID = $room_log['ui_course_ID'];
+				$course_name = $room_log['course_name'];
+				$nfc_id = $room_log['nfc_id'];
+				
+				include("room_log_data_row.php"); 
 			}
 ?>
-				<div class="col-sm-<?php echo $nfc_cols; ?>"><b>NFC ID</b></div>
-				<div class="col-sm-1"><b>Muokkaa</b></div>
-				<div class="col-sm-1"><b>Poista</b></div>
-	</div>
-	
-	
-<?php
-			while($room_logs = $q_room_logs->fetch()) {
-?>
-				<div class="row">
-<?php
-					if ($student_first_name != "" || $student_last_name != "") {
-?>
-						<div class="col-sm-<?php echo $name_cols; ?>">
-<?php
-							echo $student_last_name . " " . $student_first_name;
-?>	
-						</div>
-
-<?php
-					} else {
-						if (!isset($guest_last_name)) { $guest_last_name = ""; }
-						if (!isset($guest_first_name)) { $guest_first_name = ""; }
-?>						
-						<div class="col-sm-<?php echo $name_cols; ?>">
-<?php
-							echo $guest_last_name . " " . $guest_first_name;
-?>	
-						</div>
-<?php
-					}
-?>
-						
-					<div class="col-sm-<?php echo $dt_cols; ?>"><?php echo $dt; ?></div>
-<?php if ($room_cols != "0") { ?>			
-					<div class="col-sm-<?php echo $room_cols; ?>"><?php echo $room_name;  ?></div>
-<?php 
-	} 
-	if ($course_cols != "0") {	
-?>	
-					<div class="col-sm-<?php echo $course_cols; ?>">
-						<?php echo $ui_course_ID . " ". $course_name;  ?>
-					</div>
-<?php } ?>
-					<div class="col-sm-<?php echo $nfc_cols; ?>"><?php echo $nfc_id; ?></div>
-					
-					<div class="col-sm-1">
-						<form method="post" action="list_room_logs.php">
-							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-							<input class="button" type="submit" value="Muokkaa" />
-						</form>
-					</div>
-					<div class="col-sm-1">
-						<form method="post" action="inc/sub/room/remove_room_log.php">
-							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-							<input class="button" type="submit" value="Poista" />
-						</form>
-					</div>
-				</div>
-<?php		
-		}
-?>
-
 
 </div>
 

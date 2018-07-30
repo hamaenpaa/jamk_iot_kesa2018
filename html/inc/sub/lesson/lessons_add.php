@@ -1,12 +1,12 @@
-<script src="../../../libs/jquery/jquery-3.3.1.min.js" /></script>
-<link rel="stylesheet" type="text/css" href="../../../libs/dtp/jquery.datetimepicker.min.css"/ >
-<script src="../../../libs/dtp/jquery.datetimepicker.full.min.js"></script>
-<script src="../../../js/datepicker.js"></script>
-<script src="../../js/lessons_mass_add.js"></script>
+<script src="libs/jquery/jquery-3.3.1.min.js" /></script>
+<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
+<script src="libs/dtp/jquery.datetimepicker.full.min.js"></script>
+<script src="js/datepicker.js"></script>
+<script src="js/lessons_mass_add.js"></script>
 
 <?php
 echo '
-<form method="POST" action="lessons_add.php">
+<form method="POST" action="' . $_SERVER['PHP_SELF']	 . '">
 <input placeholder="Aloitusaika + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" id="date_start" class="datetime_picker" name="lesson_start_date">
 <input placeholder="Lopetusaika + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker" name="lesson_end_date">
 <br><br>
@@ -147,15 +147,16 @@ echo "<hr>";
 	$query_values = substr($query_values, 0, -1); //Removes the last comma not used
 	$query_string = "INSERT INTO ca_lesson (course_id, room_id, begin_time, end_time) VALUES $query_values";
 	
-	/*
+	
 		if ($res_update_lessons = $conn->query($query_string)) {
-		echo "Success";
+		echo "succ";
+		//header("Location: list_lessons.php");
 		} else {
 		echo "err-X";	
 		}
-	*/
-	echo "<hr>";
-	echo "Query values: " . $query_string;
+	
+	//echo "<hr>";
+	//echo "Query values: " . $query_string;
 	} else {
 	echo "Invalid Dates";	
 	}

@@ -4,12 +4,11 @@ session_start();
 }
 if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 1) { //Validate permission levels
 	if (isset($course_id)) { unset($course_id); } //Removes CourseID variable if it exists, not really necessary
-	
 	echo "<form method='POST' action='" . $_SERVER['PHP_SELF'] . "'>";
-		if (!isset($conn)) {
-		include "inc/db_connect_inc.php";	
-		}
-
+	
+	if (!isset($conn)) {
+	include "inc/db_connect_inc.php";	
+	}
 	?>
 	<h2>Tunti Haku</h2>
 	<div class="row">
@@ -22,7 +21,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 				
 	<div class="row">
 	<div class="col-sm-2"><input name="lesson_date_start" class="datetime_picker" value="<?php if (isset($_POST['lesson_date_start'])) { echo $_POST['lesson_date_start'];	} ?>" size="16"></div>
-	<div class="col-sm-2"><input name="lesson_date_end" class="datetime_picker" size="16" value="<?php if (isset($_POST['lesson_date_end'])) { echo $_POST['lesson_date_start'];	} ?>"></div>
+	<div class="col-sm-2"><input name="lesson_date_end" class="datetime_picker" size="16" value="<?php if (isset($_POST['lesson_date_end'])) { echo $_POST['lesson_date_end'];	} ?>"></div>
 	<div class="col-sm-1">
 	<?php
 	include 'list_rooms.php';
@@ -40,8 +39,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	
 	<?php
 	if (isset($_POST['lesson_date_start']) && isset($_POST['lesson_date_end']) && 
-	!empty($_POST['lesson_date_start']) && !empty($_POST['lesson_date_end'])
-	) {
+	!empty($_POST['lesson_date_start']) && !empty($_POST['lesson_date_end'])) {
 	 
 	//Our YYYY-MM-DD date.
 	$start_date_fin = $_POST['lesson_date_start'];
@@ -58,125 +56,115 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	//$start_date_converted;
 	//$end_date_converted;
 	
-			$query_select = "SELECT ca_lesson.id, ca_lesson.room_id, ca_lesson.course_id, ca_lesson.begin_time, ca_lesson.end_time FROM 
-			ca_lesson INNER JOIN ca_course_teacher ON ca_course_teacher.course_id = ca_lesson.course_id
-			WHERE ca_course_teacher.staff_id = ? AND";
+		$query_select = "SELECT ca_lesson.id, ca_lesson.room_id, ca_lesson.course_id, ca_lesson.begin_time, ca_lesson.end_time FROM 
+		ca_lesson INNER JOIN ca_course_teacher ON ca_course_teacher.course_id = ca_lesson.course_id
+		WHERE ca_course_teacher.staff_id = ? AND";
 			
-			if (isset($_POST['lesson_room']) && $_POST['lesson_room'] != 0) {
-			$room = $_POST['lesson_room'];
-			$query_select .= " ca_lesson.room_id = ? AND ";
-			} else {
-			$room = false;
-			}
+		if (isset($_POST['lesson_room']) && $_POST['lesson_room'] != 0) {
+		$room = $_POST['lesson_room'];
+		$query_select .= " ca_lesson.room_id = ? AND ";
+		} else {
+		$room = false;
+		}
 			
-			if (isset($_POST['lesson_course']) && $_POST['lesson_course'] != 0) {
-			$course = $_POST['lesson_course'];
-			$query_select .= " ca_lesson.course_id = ? AND ";
-			} else {
-			$course = false;
-			}
+		if (isset($_POST['lesson_course']) && $_POST['lesson_course'] != 0) {
+		$course = $_POST['lesson_course'];
+		$query_select .= " ca_lesson.course_id = ? AND ";
+		} else {
+		$course = false;
+		}
 	
-			if (!isset($conn)) {
-			include "inc/db_connect_inc.php";	
+			
+		
+			
+		$query_select .= " ca_lesson.begin_time >= ? AND ca_lesson.end_time <= ?";
+			
+			
+		if ($res_get_lesson = $conn->prepare($query_select)) {
+			/* BRAINSTORMING */ 	
+			if ($room != false && $course != false) { //All 4 exists
+			$res_get_lesson->bind_param("iiiss",$_SESSION['staff_id'],$room,$course,$start_date_converted,$end_date_converted);
+			} else if ($room != false && $course == false) { //Lesson exists, course doesnt
+			$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$room,$start_date_converted,$end_date_converted);
+			} else if ($room == false && $course != false) { //Course exists, lesson doesnt
+			$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$course,$start_date_converted,$end_date_converted);
+			} else { //Neither lesson or course exists
+			$res_get_lesson->bind_param("iss",$_SESSION['staff_id'],$start_date_converted,$end_date_converted);
 			}
-			
-		
-			
-			$query_select .= " ca_lesson.begin_time >= ? AND ca_lesson.end_time <= ?";
-			
-			
-			if ($res_get_lesson = $conn->prepare($query_select)) {
-				/* BRAINSTORMING */ 	
-				if ($room != false && $course != false) { //All 4 exists
-				$res_get_lesson->bind_param("iiiss",$_SESSION['staff_id'],$room,$course,$start_date_converted,$end_date_converted);
-				} else if ($room != false && $course == false) { //Lesson exists, course doesnt
-				$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$room,$start_date_converted,$end_date_converted);
-				} else if ($room == false && $course != false) { //Course exists, lesson doesnt
-				$res_get_lesson->bind_param("iiss",$_SESSION['staff_id'],$course,$start_date_converted,$end_date_converted);
-				} else { //Neither lesson or course exists
-				$res_get_lesson->bind_param("iss",$_SESSION['staff_id'],$start_date_converted,$end_date_converted);
-				}
 				
 				
-				//echo "<hr>";
-				//echo $room . " - " .  $course . " - " .  $start_date_converted . " - " .  $end_date_converted;
-				//echo "<hr>";
+			//echo "<hr>";
+			//echo $room . " - " .  $course . " - " .  $start_date_converted . " - " .  $end_date_converted;
+			//echo "<hr>";
+			
+			if ($res_get_lesson->execute()) {
+				$res_get_lesson->store_result();
 				
-				if ($res_get_lesson->execute()) {
-					$res_get_lesson->store_result();
+				$rows_get_lesson = $res_get_lesson->num_rows();
+				
+				if ($rows_get_lesson > 0 ) {
+					$res_get_lesson->bind_result($lesson_id, $lesson_room_id, $lessons_course_id, $lesson_begin_time, $lesson_end_time);
 					
-					$rows_get_lesson = $res_get_lesson->num_rows();
+					echo "<h2>Hakutulokset</h2>";
+					while ($res_get_lesson->fetch()) {
 					
-					if ($rows_get_lesson > 0 ) {
-						$res_get_lesson->bind_result($lesson_id, $lesson_room_id, $lessons_course_id, $lesson_begin_time, $lesson_end_time);
+						$convert_date_eng_fin_1 = $lesson_begin_time;
+						$dateObj_start= DateTime::createFromFormat('Y-m-d H:i:s', $convert_date_eng_fin_1);
+						$date_start_eng_to_fin_1 = $dateObj_start->format('d.m.Y H:i:s');
+					
+						$convert_date_eng_fin_2 = $lesson_end_time;
+						$dateObj_start= DateTime::createFromFormat('Y-m-d H:i:s', $convert_date_eng_fin_2);
+						$date_start_eng_to_fin_2 = $dateObj_start->format('d.m.Y H:i:s');
 						
-						echo "<h2>Hakutulokset</h2>";
-						while ($res_get_lesson->fetch()) {
-						
-							$convert_date_eng_fin_1 = $lesson_begin_time;
-							$dateObj_start= DateTime::createFromFormat('Y-m-d H:i:s', $convert_date_eng_fin_1);
-							$date_start_eng_to_fin_1 = $dateObj_start->format('d.m.Y H:i:s');
-						
-		
-							$convert_date_eng_fin_2 = $lesson_end_time;
-							$dateObj_start= DateTime::createFromFormat('Y-m-d H:i:s', $convert_date_eng_fin_2);
-							$date_start_eng_to_fin_2 = $dateObj_start->format('d.m.Y H:i:s');
 							
-							
-								if (!isset($lesson_course_id)) {
-								$lesson_course_id = "(Tyhjä)";	
-								}
-								if (!isset($lesson_room_id)) {
-								$lesson_room_id = "(Tyhjä)";	
-								}
+							if (!isset($lesson_course_id)) {
+							$lesson_course_id = "(Tyhjä)";	
+							}
+							if (!isset($lesson_room_id)) {
+							$lesson_room_id = "(Tyhjä)";	
+							}
 						
 						
-						echo "Luennon ID: " . $lesson_id . " | Huone: " . $lesson_room_id . " | Kurssi: " . $lesson_course_id . " | " . $date_start_eng_to_fin_1 . " ~ " . $date_start_eng_to_fin_2 . " <input type='button' value='Poista'>";
-						}
-					} else {
-					
-					//echo "<hr>";
-					//echo $query_select;
-					//echo "<br>";
-					//echo "$start_date_converted ~ $end_date_converted";
-					//echo "<hr>";
-					
-					
-					if (!isset($room) || $room == false) { $room = "(Tyhjä)"; }
-					if (!isset($course) || $course == false ) { $course = "(Tyhjä)"; }	
-						
-					echo "<h2>Haun Tulokset</h2>";
-					echo "<p>Tuloksia haulle ei löytynyt.</p><hr>";
-					echo "<h4>Hakuparametrit</h4>
-					<ul>
-					<li><b>Aikaväli</b>: $start_date_fin ~ $end_date_fin</li>
-					<li><b>Luokka</b>: $room</li>
-					<li><b>Kurssi</b>: $course</li>
-					</ul>";
+					echo "Luennon ID: " . $lesson_id . " | Huone: " . $lesson_room_id . " | Kurssi: " . $lesson_course_id . " | " . $date_start_eng_to_fin_1 . " ~ " . $date_start_eng_to_fin_2 . " <input type='button' value='Poista'>";
 					}
-					
-					
 				} else {
-					echo "ERROR-EXECUTE";
-				//ERROR->$res_get_lessons->EXECUTE	
-				}
-				
-				
-				
-				
-			} else {
+					
+				//echo "<hr>";
 				//echo $query_select;
-				echo "asd";
-			//ERROR->$res_get_lesson->PREPARE
-			//echo $query_select  -> troubleshoot
+				//echo "<br>";
+				//echo "$start_date_converted ~ $end_date_converted";
+				//echo "<hr>";
+				
+					
+				if (!isset($room) || $room == false) { $room = "(Tyhjä)"; }
+				if (!isset($course) || $course == false ) { $course = "(Tyhjä)"; }	
+						
+				echo "<h2>Haun Tulokset</h2>";
+				echo "<p>Tuloksia haulle ei löytynyt.</p><hr>";
+				echo "<h4>Hakuparametrit</h4>
+				<ul>
+				<li><b>Aikaväli</b>: $start_date_fin ~ $end_date_fin</li>
+				<li><b>Luokka</b>: $room</li>
+				<li><b>Kurssi</b>: $course</li>
+				</ul>";
+				}
+					
+					
+			} else {
+				echo "ERROR-EXECUTE";
+			//ERROR->$res_get_lessons->EXECUTE	
 			}
+				
+				
+				
+				
+		} else {
+		//echo $query_select;
+		echo "asd";
+		//ERROR->$res_get_lesson->PREPARE
+		//echo $query_select  -> troubleshoot
+		}
 			
 	}
-	?>
-
-	
-	
-	
-<?php
 }
 ?>

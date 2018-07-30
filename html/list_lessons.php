@@ -36,10 +36,15 @@ header("Location: index.php");
 			//Kurssi postattu -> Hakuväliformi
 	
 			
-			include "inc/sub/lesson/coursename_fetch.php";
+			include "inc/sub/lesson/lesson_fetch.php";
 			
 			
-			include "inc/sub/lesson/lesson_add_form.html";
+			echo "<hr>";
+			
+			include "inc/sub/lesson/lessons_add.php";
+			
+			
+			//include "inc/sub/lesson/lesson_add_form.html";
 			
 			
 			include "inc/db_disconnect_inc.php";

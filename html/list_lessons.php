@@ -8,7 +8,6 @@ header("Location: index.php");
 <html>
 	<head>
 		<title>IoT Project</title>
-		<link rel="stylesheet" type="text/css" href="css/iot.css">
 		<?php include("inc/header.php"); ?>
 		<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
 		<script src="libs/dtp/jquery.datetimepicker.full.min.js"></script>

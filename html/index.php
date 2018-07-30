@@ -10,10 +10,11 @@
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<h1>Hienon hieno sisäänkirjautuminen</h1>
-					<?php include "inc/navigation.php"; ?>
-				</div>
-				<div class="nav">
+					<div class="nav">
+						<h1>Hienon hieno sisäänkirjautuminen</h1>
+						<?php include "inc/navigation.php"; ?>
+						<img class="mobile-nav-img" src="../html/img/navbutton.png" alt="Navigation Button">
+					</div>
 				</div>
 			</header>
 				<div class="content-wrap">

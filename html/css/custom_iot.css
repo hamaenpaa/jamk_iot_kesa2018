@@ -122,11 +122,40 @@ h6 {
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 777px) {
+@media only screen and (max-width: 832px) {
+	.banner-wrap a {
+		font-size: 16px !important;
+	}
+}
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 765px) {
 	.banner-wrap a {
 		font-size: 14px !important;
 	}
 }
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 699px) {
+	.banner-wrap a {
+		font-size: 12px !important;
+	}
+}
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 632px) {
+	.banner-wrap a {
+		display: none !important;
+	}
+}
+
+/* The mobile navigation button will be visible for now on */
+@media only screen and (max-width: 632px) {
+	.mobile-nav-img {
+		display: block !important;
+	}
+}
+
 
 @media only screen and (max-width: 624px) {
 	.banner-wrap a {
@@ -142,11 +171,20 @@ h6 {
 	float: right;
 }
 
+.mobile-nav-img {
+		display: none;
+		text-align: right;
+		height: 32px;
+		width: 32px;
+		margin: 0 15px 0 0;
+}
+
 /* Style for the content-wrap */
 .content-wrap {
 	display: block;
 	height: content;
 	padding: 10px;
+	margin: 10px;
 }
 
 /* Inputs will be filled out from the left if they are inside content-wrap */
@@ -325,19 +363,17 @@ footer {
 }
 
 /* Style for counting found courses */
-
 #count_of_results {
 	font-style: italic;
 }
 
 /* Style for course listing */
 .col-sm-2 {
-	border-left: 1px;
+	border-width: 0 0 1px 1px;
 }
 
 .col-sm-6 {
-	border-left: 1px;
-	border-right: 1px;
+	border-width: 0 1px 1px 1px;
 }
 
 .col-sm-2, .col-sm-6 {
@@ -349,12 +385,12 @@ footer {
 	max-height: 70px;
 }
 
-.col-sm-2 b {
+.col-sm-2, .col-sm-6  h5 {
 	text-align: center !important;
+	border-bottom: 1px;
 }
 
 /* Style for adding or modifying courses */
-
 #seek_courses .text-box {
 	width: 400px;
 }
@@ -373,3 +409,6 @@ footer {
 	border-width: 1px;
 	margin: 0 0 3px 0;
 }
+
+/* --------- Style for RoomLog --------- */
+/* RoomLog breaks around 560px width */

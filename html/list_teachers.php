@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>IoT Project</title>
-		<link rel="stylesheet" type="text/css" href="css/iot.css">
 		<?php include("inc/header.php"); ?>
 	</head>
 	<body>

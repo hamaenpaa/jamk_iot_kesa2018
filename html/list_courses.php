@@ -10,6 +10,7 @@
 				<div class="banner-wrap">
 					<h1>Kurssit</h1>
 					<?php include("inc/navigation.php"); ?>
+					<img class="mobile-nav-img" src="../html/img/navbutton.png" alt="Navigation Button">
 				</div>
 				<div class="nav">
 				</div>

@@ -38,7 +38,6 @@ h5 {
 	font-size: 16px;
 	text-align: center;
 	font-weight: bold;
-	border-bottom: 1px;
 }
 
 h6 {
@@ -91,7 +90,7 @@ h6 {
 	color: white;
 	background-color: #00497d;
 	box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
-	word-break: ;
+	overflow: auto;
 }
 
 /* Style for links inside the banner */
@@ -119,6 +118,12 @@ h6 {
 
 .banner-wrap a:target {
 	background-color: #002844;
+}
+
+/* Style for disabled submit buttons */
+input[type="submit"]:disabled {
+	background-color: orange;
+	text-decoration: line-through;
 }
 
 /* Media screen style for the banner links */
@@ -150,9 +155,9 @@ h6 {
 }
 
 /* The mobile navigation button will be visible for now on */
-@media only screen and (max-width: 649px) {
+@media only screen and (min-width: 650px) {
 	.mobile-nav-img {
-		display: block !important;
+		display: none !important;
 	}
 }
 
@@ -160,16 +165,15 @@ h6 {
 
 /* Style for navigation bar */
 .nav {
-	padding: 10px;
-	float: right;
+	clear: right;
 }
 
 .mobile-nav-img {
-		display: none;
-		text-align: right;
-		height: 32px;
-		width: 32px;
-		margin: 0 15px 0 0;
+	float: right;
+	display: block;
+	height: 32px;
+	width: 32px;
+	margin: 0 0 0 0;
 }
 
 /* Style for the content-wrap */
@@ -361,26 +365,59 @@ footer {
 }
 
 /* Style for course listing */
-.col-sm-2 {
-	border-width: 0 0 1px 1px;
-}
-
-.col-sm-6 {
-	border-width: 0 1px 1px 1px;
-}
-
 .col-sm-2, .col-sm-6 {
-	text-align: left !important;
-	border-style: solid;
-	border-color: black;
+	text-align: left;
+	border: 1px solid grey;
 	background-color: white;
 	padding: 5px 2px 5px 2px;
-	max-height: 70px;
 }
 
-.col-sm-2, .col-sm-6  h5 {
-	text-align: center !important;
-	border-bottom: 1px;
+.col-sm-2 p, .col-sm-6 p {
+	overflow: auto;
+	height: 60px;
+	font-size: 14px;
+}
+
+.col-sm-2 div, .col-sm-6 div {
+	height: auto;
+	border-collapse: collapse;
+    border-style: hidden;
+}
+
+.col-sm-1 {
+	display: flex;
+}
+
+.col-sm-1 button {
+	margin: 0 5px 0 5px;
+}
+
+/* Adding media query for the bootstrap table */
+
+@media only screen and (max-width: 767px) {
+	.col-sm-2, .col-sm-6  h5 {
+		display: flex;
+		justify-content: flex-start !important;
+	}
+}
+
+@media only screen and (max-width: 847px) {
+	h5 {
+		font-size: 14px !important;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.col-sm-1 {
+		padding: 0 !important;
+		margin: 5px 0 5px -1px !important;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.col-sm-1 button {
+		justify-content: space-between;
+	}
 }
 
 /* Style for adding or modifying courses */
@@ -405,3 +442,5 @@ footer {
 
 /* --------- Style for RoomLog --------- */
 /* RoomLog breaks around 560px width */
+
+/* --------- Style for Rooms listing page --------- */

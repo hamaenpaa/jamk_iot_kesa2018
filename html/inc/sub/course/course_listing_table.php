@@ -45,17 +45,15 @@
 			while($res = $result->fetch_assoc()) {
 ?>
 				<div class="row">
-					<div class="col-sm-2"><?php echo $res['Course_ID']; ?></div>
-					<div class="col-sm-2"><?php echo $res['Course_name']; ?></div>
-					<div class="col-sm-6"><?php echo $res['Course_description']; ?></div>
+					<div class="col-sm-2"><p><?php echo $res['Course_ID']; ?></p></div>
+					<div class="col-sm-2"><p><?php echo $res['Course_name']; ?></p></div>
+					<div class="col-sm-6"><p><?php echo $res['Course_description']; ?></p></div>
 					<div class="col-sm-1">
 						<form method="post" action="list_courses.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>
 							<input class="button" type="submit" value="Muokkaa" />
 						</form>
-					</div>
-					<div class="col-sm-1">
 						<form method="post" action="inc/sub/course/remove_course.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>

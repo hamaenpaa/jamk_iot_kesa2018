@@ -1,6 +1,4 @@
-<script src="libs/jquery/jquery-3.3.1.min.js" /></script>
-<link rel="stylesheet" type="text/css" href="libs/dtp/jquery.datetimepicker.min.css"/ >
-<script src="libs/dtp/jquery.datetimepicker.full.min.js"></script>
+
 <script src="js/datepicker.js"></script>
 <script src="js/lessons_mass_add.js"></script>
 

@@ -122,44 +122,37 @@ h6 {
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 832px) {
+@media only screen and (max-width: 849px) {
 	.banner-wrap a {
 		font-size: 16px !important;
 	}
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 765px) {
+@media only screen and (max-width: 782px) {
 	.banner-wrap a {
 		font-size: 14px !important;
 	}
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 699px) {
+@media only screen and (max-width: 716px) {
 	.banner-wrap a {
 		font-size: 12px !important;
 	}
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 632px) {
+@media only screen and (max-width: 649px) {
 	.banner-wrap a {
 		display: none !important;
 	}
 }
 
 /* The mobile navigation button will be visible for now on */
-@media only screen and (max-width: 632px) {
+@media only screen and (max-width: 649px) {
 	.mobile-nav-img {
 		display: block !important;
-	}
-}
-
-
-@media only screen and (max-width: 624px) {
-	.banner-wrap a {
-		font-size: 12px !important;
 	}
 }
 

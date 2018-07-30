@@ -61,7 +61,7 @@
 	}
 	
 	function get_course_students_not_at_room_log($conn, $sql_room_log_sql_query_end_part,
-		$student_ids_at_room_log) {
+		$student_ids_at_room_log, $course) {
 			
 		$room_log_student_ids_list = implode(",", $student_ids_at_room_log);
 		
@@ -73,20 +73,28 @@
 		
 		$sql_course_students_not_at_room_log =
 			"SELECT ca_student.ID, ca_student.student_id, 
-			 ca_student.FirstName, ca_student.LastName, ca_student.NFC_ID
-			 FROM ca_student, ca_course_student WHERE 
+			 ca_student.FirstName, ca_student.LastName, ca_student.NFC_ID,
+			 ca_course.course_id, ca_course.course_name
+			 FROM ca_student, ca_course_student, ca_course WHERE 
+			 ca_student.ID = ca_course_student.student_id AND
+			 ca_course_student.course_id = ca_course.ID AND 
 			 ca_course_student.course_id = ? ". $sql_condition_of_id_list;
+			 
 		$q_course_students = $conn->prepare($sql_course_students_not_at_room_log);
 		$q_course_students->bind_param("i", $course);
 		$q_course_students->execute();		
 		$q_course_students->store_result();
 		$q_course_students->bind_result($student_id, $ui_student_id, 
-			$studentFirstName, $studentLastName, $NFC_ID);
+			$studentFirstName, $studentLastName, $NFC_ID, 
+			$ui_course_ID, $course_name);
 		$course_students_arr = array();
 		if ($q_course_students->num_rows > 0) {
 			while($course_students = $q_course_students->fetch()) {
-				$course_students_arr[] = array($student_id, $ui_student_id,
-					$studentFirstName, $studentLastName, $NFC_ID);
+				$course_students_arr[] = array(
+					"student_id" => $student_id, "ui_student_id" => $ui_student_id,
+					"firstName" => $studentFirstName, "lastName" => $studentLastName, 
+					"nfc_id" => $NFC_ID,
+					"ui_course_ID" => $ui_course_ID, "course_name" => $course_name);
 			}
 		}		
 		return $course_students_arr;

@@ -33,49 +33,55 @@
 		$room_logs = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
 			$sql_room_log_end_part, $begin_time, $end_time, $room, $course);
 		
-		$dt_cols = "0"; $name_cols = "0"; $nfc_cols = "0"; $course_cols = "0"; $room_cols = "0";
-		if (!WITH_COURSES && !WITH_ROOMS) {
-			$dt_cols = "4";
-			$name_cols = "4";
-			$nfc_cols = "2";
-		}
-		else if (WITH_COURSES && !WITH_ROOMS) {
-			$dt_cols = "2";
-			$name_cols = "3";
-			$course_cols = "3";
-			$nfc_cols = "2";
-		}
-		else if (WITH_ROOMS && !WITH_COURSES) {
-			$dt_cols = "2";
-			$name_cols = "3";
-			$room_cols = "3";
-			$nfc_cols = "2";			
-		}
-		else {
-			$dt_cols = "2";
-			$name_cols = "2";
-			$nfc_cols = "2";
-			$room_cols = "2";
-			$course_cols = "2";
-		}
-		
 		$room_log_distinct_students = get_room_log_distinct_students($conn, 
 			WITH_COURSES, WITH_ROOMS,
 			$sql_room_log_end_part,
 			$begin_time, $end_time, $course, $room);
 		
-		var_dump($room_log_distinct_students);
-		
 		$course_students_not_at_room_log = 
 			get_course_students_not_at_room_log($conn, $sql_room_log_end_part,
-			$room_log_distinct_students);		
-		
-		if (count($room_logs) > 0) {	
+			$room_log_distinct_students, $course);		
+
+		if (count($course_students_not_at_room_log) > 0) {
 ?>
+
+<h2>Kurssin oppilaat ilman tuntikirjausta</h2>
+
+<div class="room_log_listing_table">
+	
+<?php
+	include("ui_table_column_widths_for_unsigned_students.php");
+	include("room_log_column_header_row.php");
+		
+	foreach($course_students_not_at_room_log as $course_student) {
+		$student_first_name = $course_student['firstName'];
+		$student_last_name = $course_student['lastName'];	
+		$nfc_id = $course_student['nfc_id'];
+		$ui_course_ID = $course_student['ui_course_ID'];
+		$course_name = $course_student['course_name'];
+		$guest_first_name = ""; $guest_last_name = "";
+		
+		include("room_log_data_row.php");
+	}
+
+?>	
+</div>
+
+<?php
+		}
+		if (count($room_logs) > 0) {
+			include("ui_table_column_widths_for_signed_in_students.php");
+
+
+		
+?>
+
+<h2>Oppilaat, joille on tuntikirjaus</h2>
 
 <div class="room_log_listing_table">
 
 <?php
+
 			include("room_log_column_header_row.php");
 			foreach($room_logs as $room_log) {
 				$student_first_name = $room_log['student_first_name'];

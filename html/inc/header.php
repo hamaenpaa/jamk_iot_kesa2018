@@ -10,7 +10,8 @@ $cfg_rootdir = "";
 }
 ?>
 
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <?php
 	echo '<link rel="stylesheet" href="' . $cfg_rootdir . 'css/iot_reset.css" />';

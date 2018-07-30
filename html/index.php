@@ -2,16 +2,17 @@
 <html>
     <?php include("inc/db_connect_inc.php"); ?>
 	<head>
-	<title>IoT Project</title>
-	<?php include "inc/header.php"; ?>
-	
-	<script src="js/login_validate.js"></script>
+		<title>IoT Project</title>
+		<?php include "inc/header.php"; ?>
+		<script src="js/login_validate.js"></script>
 	</head>
 	<body>
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<p>Hienon hieno sisäänkirjautuminen</p><?php include "inc/navigation.php"; ?>
+					<h1>Hienon hieno sisäänkirjautuminen</h1>
+					<?php include "inc/navigation.php"; ?>
+					<img class="mobile-nav-img" src="../html/img/navbutton.png" alt="Navigation Button">
 				</div>
 				<div class="nav">
 				</div>
@@ -28,16 +29,9 @@
 								<input type="password" name="password" id="password">
 							</div>
 							<div id="button-wrap">
-								<input type="submit" id="sign-in" value="Sign In">
+								<input class="button" type="submit" id="sign-in" value="Sign In">
 							</div>
 						</form>
 					</div>
 				</div>
-			<footer>
-				<div class="footer-wrap">
-					<p>&#169; IoT projekti kesä 2018</p>
-				</div>
-			</footer>
-		</div>
-	</body>
-</html>
+	<?php include "inc/footer.php"; ?>

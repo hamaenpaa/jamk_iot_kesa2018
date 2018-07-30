@@ -22,7 +22,7 @@ h1 {
 h2 {
 	font-size: 22px;
 	font-weight: bold;
-	margin: 10px 0 5px 10px !important;
+	margin: 10px 0 5px 0 !important;
 }
 
 h3 {
@@ -35,8 +35,10 @@ h4 {
 }
 
 h5 {
-	font-size: 18px;
+	font-size: 16px;
+	text-align: center;
 	font-weight: bold;
+	border-bottom: 1px;
 }
 
 h6 {
@@ -57,20 +59,19 @@ h6 {
 .button {
     background-color: #00497d;
     color: white;
-	margin-left: 43.6%;
     padding: 3px 10px;
 	border-radius: 5px;
 	border-style: solid;
     cursor: pointer;
 }
 
-/* Media screen style for the banner links */
+/* Media screen style for the banner links
 @media only screen and (max-width: 708px) {
 	.button {
 		text-align: left !important;
 		margin-left: 0px !important;
 	}
-}
+} */
 
 /* Style for the page-wrapper */
 .page-wrap {
@@ -95,11 +96,12 @@ h6 {
 
 /* Style for links inside the banner */
 .banner-wrap a {
-	padding: 5px 10px 5px 10px;
 	width: content;
+	padding: 5px 10px 5px 10px;
 	color: white;
 	text-decoration: none;
 	font-size: 18px;
+	font-weight: bold;
 }
 
 .banner-wrap a:hover {
@@ -120,19 +122,41 @@ h6 {
 }
 
 /* Media screen style for the banner links */
-@media only screen and (max-width: 777px) {
+@media only screen and (max-width: 849px) {
+	.banner-wrap a {
+		font-size: 16px !important;
+	}
+}
+
+/* Media screen style for the banner links */
+@media only screen and (max-width: 782px) {
 	.banner-wrap a {
 		font-size: 14px !important;
 	}
 }
 
-@media only screen and (max-width: 624px) {
+/* Media screen style for the banner links */
+@media only screen and (max-width: 716px) {
 	.banner-wrap a {
 		font-size: 12px !important;
 	}
 }
 
-/* Mobile navigation at 567 pixels */
+/* Media screen style for the banner links */
+@media only screen and (max-width: 649px) {
+	.banner-wrap a {
+		display: none !important;
+	}
+}
+
+/* The mobile navigation button will be visible for now on */
+@media only screen and (max-width: 649px) {
+	.mobile-nav-img {
+		display: block !important;
+	}
+}
+
+/* Mobile navigation at 573 pixels */
 
 /* Style for navigation bar */
 .nav {
@@ -140,11 +164,20 @@ h6 {
 	float: right;
 }
 
+.mobile-nav-img {
+		display: none;
+		text-align: right;
+		height: 32px;
+		width: 32px;
+		margin: 0 15px 0 0;
+}
+
 /* Style for the content-wrap */
 .content-wrap {
 	display: block;
 	height: content;
 	padding: 10px;
+	margin: 10px;
 }
 
 /* Inputs will be filled out from the left if they are inside content-wrap */
@@ -175,6 +208,24 @@ h6 {
 	float: left;
 	min-width: 264px;
 	margin-bottom: 5px;
+}
+
+/* Style for log in page's form */
+#input-form {
+	width: 200px;
+	text-align: center;
+	margin: auto;
+}
+
+#input-form p {
+	text-align: left;
+	margin: 3px 0 3px 17.5px !important;
+	font-weight: bold;
+}
+
+#sign-in {
+	text-align: center !important;
+	margin: 10px 0 0 0 !important;
 }
 
 /* Style for inputs inside form-wrap */
@@ -250,16 +301,11 @@ footer {
 	max-width: 1200px;
 }
 
-/* Style for seek rooms headings */
-#seek_rooms h2 {
-	margin: 10px 0 5px 0 !important;
-}
-
 /* Style for the panels */
-/*.panel-wrap {
+.panel-wrap {
 	display: inline-block;
 	text-align: left;
-}*/
+}
 
 /* Style for panel buttons */
 .panel-wrap {
@@ -273,3 +319,89 @@ footer {
 .other_page {
 	color: black !important;
 }
+
+/* --------- Course listing page --------- */
+
+/* Specific row class for course search form */
+#seek_students_form, #course_table {
+	margin: 0 0 0 15px;
+}
+
+#count_of_results {
+	margin: 0 0 5px 0;
+}
+
+.row-type-2 {
+	display: flex;
+	justify-content: space-between;
+	max-width: 400px;
+	min-width: 300px;
+}
+
+#seek_students_form .row-type-2 {
+	margin: 0 15px 0 0;
+}
+
+.row-type-2 input {
+	margin: 0 0 3px 0;
+}
+
+.row-type-3 {
+	text-align: left !important;
+}
+
+.row-type-3 .button {	
+	border-width: 1px;
+	margin: 0 0 3px 0;
+}
+
+/* Style for counting found courses */
+#count_of_results {
+	font-style: italic;
+}
+
+/* Style for course listing */
+.col-sm-2 {
+	border-width: 0 0 1px 1px;
+}
+
+.col-sm-6 {
+	border-width: 0 1px 1px 1px;
+}
+
+.col-sm-2, .col-sm-6 {
+	text-align: left !important;
+	border-style: solid;
+	border-color: black;
+	background-color: white;
+	padding: 5px 2px 5px 2px;
+	max-height: 70px;
+}
+
+.col-sm-2, .col-sm-6  h5 {
+	text-align: center !important;
+	border-bottom: 1px;
+}
+
+/* Style for adding or modifying courses */
+#seek_courses .text-box {
+	width: 400px;
+}
+
+@media only screen and (max-width: 505px) {
+	#seek_courses .text-box  {
+		max-width: 350px !important;
+	}
+}
+
+.row-type-4 {
+	text-align: left;
+}
+
+.row-type-5 .button {
+	border-width: 1px;
+	margin: 0 0 3px 0;
+}
+
+/* --------- Style for RoomLog --------- */
+/* RoomLog breaks around 560px width */

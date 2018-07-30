@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>IoT Project</title>
 		<?php include("inc/header.php"); ?>
 	</head>
 	<title>IoT Project</title>
@@ -19,18 +18,4 @@
 			<div class="content-wrap">
 				<?php include("inc/list_rooms.php"); ?>
 			</div>
-			<footer>
-				<div class="footer-wrap">
-					<div class="footer-links">
-						<p>Linkkejä</p>
-					</div>
-					<div class="footer-contacts">
-						<p>&#169; IoT projekti kesä 2018</p>
-						<p>JAMKin logo</p>
-						<p>Yhteystietoja yms.</p>
-					</div>
-				</div>
-			</footer>
-		</div>
-	</body>
-</html>
+	<?php include "inc/footer.php"; ?>

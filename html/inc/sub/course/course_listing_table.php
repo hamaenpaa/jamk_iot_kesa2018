@@ -1,6 +1,6 @@
 <?php
 	define("MAX_COURSES_AT_SEARCH", 50);
-	define("PAGE_SIZE", 2);
+	define("PAGE_SIZE", 20);
 	
     $sql_seek = "SELECT * FROM ca_course WHERE removed=0 ";
     $sql_seek = add_further_seek_param($conn, $sql_seek, "course_ID", $seek_course_ID);
@@ -20,12 +20,14 @@
 	
 	$page_count = intdiv($count, PAGE_SIZE);
 	if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
-	$page_links = generate_page_list("list_courses.php".$seek_params_get, $page_count, $page,
+	$page_links = generate_page_list(
+						"list_courses.php".$seek_params_get, 
+						$page_count, $page,
+						"page", 
 						"","","curr_page","other_page");	
 	
    	if ($result = $conn->query($sql_seek)) {
-		$count_rows = mysqli_num_rows($result);
-   		if ($count_rows > 0) { 
+   		if ($count > 0) { 
 ?>
 <div id="count_of_results">Haussa löytyi 
 	<?php echo $count." ".$courses_text ?>.
@@ -33,9 +35,9 @@
 
 <div id="course_table">
 	<div class="row">
-		<div class="col-sm-2"><b>Kurssin tunnus</b></div>
-		<div class="col-sm-3"><b>Kurssin nimi</b></div>
-		<div class="col-sm-6"><b>Kurssin kuvaus</b></div>
+		<div class="col-sm-2"><h5>Kurssin tunnus</h5></div>
+		<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
+		<div class="col-sm-6"><h5>Kurssin kuvaus</h5></div>
 		<div class="col-sm-1"></div>
 	</div>
 
@@ -50,14 +52,14 @@
 						<form method="post" action="list_courses.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>
-							<input type="submit" value="Muokkaa" />
+							<input class="button" type="submit" value="Muokkaa" />
 						</form>
 					</div>
 					<div class="col-sm-1">
 						<form method="post" action="inc/sub/course/remove_course.php">
 							<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
 <?php echo $seek_params_hidden_inputs; ?>
-							<input type="submit" value="Poista" />
+							<input class="button" type="submit" value="Poista" />
 						</form>
 					</div>
 				</div>

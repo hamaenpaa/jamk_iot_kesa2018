@@ -14,6 +14,7 @@
 	}
 	
 	function generate_page_list($root_url, $page_count, $curr_page, 
+		$html_page_parameter,
 		$container_id, $container_more_classes,
 		$curr_page_class, $other_page_class) {
 		$id_attribute = "";
@@ -29,7 +30,7 @@
 			} else {
 				$html .= "?";
 			}
-			$html .= "page=" . ($i + 1). "\" ";
+			$html .= $html_page_parameter . "=" . ($i + 1). "\" ";
 			if ($i == $curr_page - 1) {
 				if ($curr_page_class != "") {
 					$html .= " class=\"" . $curr_page_class . "\" />";

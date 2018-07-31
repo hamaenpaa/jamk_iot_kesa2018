@@ -393,7 +393,6 @@ footer {
 }
 
 /* Adding media query for the bootstrap table */
-
 @media only screen and (max-width: 767px) {
 	.col-sm-2, .col-sm-6  h5 {
 		display: flex;
@@ -441,6 +440,33 @@ footer {
 }
 
 /* --------- Style for RoomLog --------- */
-/* RoomLog breaks around 560px width */
+
+#seek_specific_room_or_course {
+	margin: 0 0 5px 0;
+}
+
+#lesson_select {
+	max-width: 290px;
+	height: content;
+}
+
+.col-sm-1-wrap {
+	width: 115px;
+	display: flex;
+	justify-content: space-between;
+}
+
+@media only screen and (max-width: 767px) {
+	.room_log_listing_table .col-sm-2 {
+		max-width: 300px !important;
+	}
+}
 
 /* --------- Style for Rooms listing page --------- */
+
+
+/* --------- Style for NFC tag listing page --------- */
+
+#nfc_tag_table {
+	padding: 0 0 0 10px;
+}

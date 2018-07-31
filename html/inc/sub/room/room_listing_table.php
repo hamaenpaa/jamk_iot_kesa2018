@@ -39,27 +39,31 @@
 			<div id="room_table">
 				<div class="row">
 					<div class="col-sm-10"><b>Huoneen tunnus</b></div>
-					<div class="col-sm-1">Muokkaa</div>
-					<div class="col-sm-1">Poista</div>
+					<div class="col-sm-1-wrap">
+						<div class="col-sm-1">Muokkaa</div>
+						<div class="col-sm-1">Poista</div>
+					</div>
 				</div>
 <?php   	
 				while($res = $result->fetch_assoc()) {
 ?>
 					<div class="row">
 						<div class="col-sm-10"><?php echo $res['room_name']; ?></div>
-						<div class="col-sm-1">
-							<form method="post" action="list_rooms.php">
-<?php echo $seek_params_hidden_inputs; ?>
-								<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-								<input class="button" type="submit" value="Muokkaa" />
-							</form>
-						</div>
-						<div class="col-sm-1">
-							<form method="post" action="inc/sub/room/remove_room.php">
-<?php echo $seek_params_hidden_inputs; ?>
-								<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-								<input class="button" type="submit" value="Poista" />
-							</form>
+						<div class="col-sm-1-wrap">
+							<div class="col-sm-1">
+								<form method="post" action="list_rooms.php">
+	<?php echo $seek_params_hidden_inputs; ?>
+									<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
+									<input class="button" type="submit" value="Muokkaa" />
+								</form>
+							</div>
+							<div class="col-sm-1">
+								<form method="post" action="inc/sub/room/remove_room.php">
+	<?php echo $seek_params_hidden_inputs; ?>
+									<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
+									<input class="button" type="submit" value="Poista" />
+								</form>
+							</div>
 						</div>
 					</div>
 <?php		

@@ -28,5 +28,5 @@
 	<input type="text" name="room_name" value="<?php echo $room_name; ?>" 
 		maxlength="40" required autofocus />
 <?php echo $seek_params_hidden_inputs; ?>	
-	<input type="submit" value="Talleta"/>
+	<input class="button" type="submit" value="Talleta"/>
 </form>

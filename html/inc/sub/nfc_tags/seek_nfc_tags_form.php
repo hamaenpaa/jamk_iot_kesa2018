@@ -7,6 +7,6 @@
 <?php echo checkbox_input("seek_include_active", $seek_include_active); ?>
 		<label>Passiiviset mukaan:<label>
 <?php echo checkbox_input("seek_include_passive", $seek_include_passive); ?>		
-		<input type="submit" value="Hae" />
+		<input class="button" type="submit" value="Hae" />
 	</form>
 </div>

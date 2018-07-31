@@ -103,7 +103,7 @@
 <?php					
 				}
 ?>
-			<input type="submit" value="Valitse"/>
+			<input class="button" type="submit" value="Valitse"/>
 		</form>
 <?php
 		}

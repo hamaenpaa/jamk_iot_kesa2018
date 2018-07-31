@@ -31,5 +31,5 @@
 		echo checkbox_input("active", $active); 
 		echo $seek_params_hidden_inputs;
 	?>
-	<input type="submit" value="Talleta"/>
+	<input class="button" type="submit" value="Talleta"/>
 </form>

@@ -36,16 +36,18 @@
 		</div>
 <?php } ?>
 	<div class="col-sm-<?php echo $nfc_cols; ?>"><?php echo $nfc_id; ?></div>
-	<div class="col-sm-1">
-		<form method="post" action="list_room_logs.php">
-			<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-			<input class="button" type="submit" value="Muokkaa" />
-		</form>
-	</div>
-	<div class="col-sm-1">
-		<form method="post" action="inc/sub/room/remove_room_log.php">
-			<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
-			<input class="button" type="submit" value="Poista" />
-		</form>
+	<div class="col-sm-1-wrap">
+		<div class="col-sm-1">
+			<form method="post" action="list_room_logs.php">
+				<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
+				<input class="button" type="submit" value="Muokkaa" />
+			</form>
+		</div>
+		<div class="col-sm-1">
+			<form method="post" action="inc/sub/room/remove_room_log.php">
+				<input type="hidden" name="id" value="<?php echo $res['ID']; ?>"/>
+				<input class="button" type="submit" value="Poista" />
+			</form>
+		</div>
 	</div>
 </div>

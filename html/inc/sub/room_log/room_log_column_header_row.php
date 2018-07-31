@@ -13,6 +13,8 @@
 	  }
 ?>
 	<div class="col-sm-<?php echo $nfc_cols; ?>"><b>NFC ID</b></div>
-	<div class="col-sm-1"><b>Muokkaa</b></div>
-	<div class="col-sm-1"><b>Poista</b></div>
+	<div class="col-sm-1-wrap">
+		<div class="col-sm-1"><b>Muokkaa</b></div>
+		<div class="col-sm-1"><b>Poista</b></div>
+	</div>
 </div>

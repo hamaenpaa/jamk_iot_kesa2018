@@ -1,4 +1,6 @@
 <?php 
+	include("lessons_at_db.php");
+
 	if (isset($seek_with) && $seek_with != "") {
 		if ($seek_with == "course") {
 			$course = get_post_or_get($conn, "course");

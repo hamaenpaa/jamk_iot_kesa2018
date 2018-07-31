@@ -40,7 +40,7 @@ if (!isset($_SESSION['staff_id']) && !isset($_SESSION['staff_permlevel'])) {
 								$_SESSION['staff_id'] = $id;
 								$_SESSION['staff_permlevel'] = $perms;
 								$_SESSION['staff_fullname'] = $firstname . " " . $lastname;
-								header("Location: main.php");
+								header("Location: list_room_logs.php");
 								//Login success, redirect -> ?
 								} else {
 								//Login failed, wrong information	

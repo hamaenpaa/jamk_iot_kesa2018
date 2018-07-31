@@ -7,6 +7,7 @@ if (!isset($conn)) {
 include "../../db_connect_inc.php";	
 }
 
+
 /* Fetches all lessons related to logged in staff -> teacher id */
 if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] >= 0 && $_SESSION['staff_permlevel'] <= 1) {
 	if ($res_get_courses_list = $conn->prepare("SELECT ca_course_teacher.course_id, ca_course.course_name FROM ca_course 
@@ -17,7 +18,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] >= 0 && 
 		echo "<select name='lesson_course'>";
 		echo "<option value='0'>Valitse</option>";
 			while ($res_get_courses_list->fetch()) {
-				if (isset($_POST['lesson_course']) && $_POST['lesson_course'] == $course_id) {
+				if (isset($_POST['lesson_course']) && $_POST['lesson_course'] == $course_id && isset($course_prefill) && $course_prefill == true) {
 				echo "<option value='$course_id' selected>$course_name</option>";
 				} else {
 				echo "<option value='$course_id'>$course_name</option>";	

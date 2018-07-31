@@ -24,31 +24,15 @@ header("Location: index.php");
 				<div class="nav">
 				</div>
 			</header>
-			<div class="content-wrap">
-			<style>
-			form { width:auto; }
-			
-			</style>
-			
+			<div class="content-wrap">			
 			<?php
 			//Kurssia ei ole haettu -> Listaa kurssit 
-
 			//Kurssi postattu -> Hakuväliformi
-	
-			
 			include "inc/sub/lesson/lesson_fetch.php";
-			
-			
 			echo "<hr>";
-			
 			include "inc/sub/lesson/lessons_add.php";
-			
-			
 			//include "inc/sub/lesson/lesson_add_form.html";
-			
-			
 			include "inc/db_disconnect_inc.php";
-				
 			?>	
 			</div>
 			<footer>

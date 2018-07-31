@@ -9,8 +9,16 @@ echo '
 <input placeholder="Lopetusaika + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker" name="lesson_end_date">
 <br><br>
 <label for="list_rooms">Luokka</label>';
+//isset($room_prefill) && $room_prefill == true
+if (!isset($_POST['Lesson_add'])) {
+$room_prefill = false;
+$course_prefill = false;	
+} else {
+$room_prefill = true;
+$course_prefill = true;		
+}
 include 'list_rooms.php';
-echo '<label for="lesson_course">Luento</label>';
+echo '<label for="lesson_course">Kurssi</label>';
 include 'list_courses.php';
 echo '
 <br><br>
@@ -19,7 +27,7 @@ echo '
 <label for="lesson_wednesday">Ke</label><input id="lesson_wednesday" type="checkbox" name="lesson_wednesday">
 <label for="lesson_thursday">To</label><input id="lesson_thursday" type="checkbox" name="lesson_thursday">
 <label for="lesson_friday">Pe</label><input id="lesson_friday" type="checkbox" name="lesson_friday">
-<p><label for="user_error_check" >Olen varmistanut aikavälin, kellonajan, luokan ja luennon.</label><input id="user_error_check" name="user_error_check" type="checkbox"><br><input id="lesson_add_mass" type="submit"></p>
+<p><label for="user_error_check" >Olen varmistanut aikavälin, kellonajan, luokan ja luennon.</label><input id="user_error_check" name="user_error_check" type="checkbox"><br><input name="Lesson_add" id="lesson_add_mass" type="submit"></p>
 </form>';
 
 ?>
@@ -46,7 +54,7 @@ $end = date("2018-08-24 00:00:00");
 $list_mondays = getDateForSpecificDayBetweenDates($start,$end,1);
 */
 
-if (isset($_POST['lesson_start_date']) && isset($_POST['lesson_end_date']) && isset($_POST['lesson_course']) && isset($_POST['lesson_room']) && $_POST['lesson_course'] != 0 && $_POST['lesson_room'] != 0) {
+if (isset($_POST['lesson_add']) && isset($_POST['lesson_start_date']) && isset($_POST['lesson_end_date']) && isset($_POST['lesson_course']) && isset($_POST['lesson_room']) && $_POST['lesson_course'] != 0 && $_POST['lesson_room'] != 0) {
 
 if (!isset($conn)) {
 include "../../db_connect_inc.php";

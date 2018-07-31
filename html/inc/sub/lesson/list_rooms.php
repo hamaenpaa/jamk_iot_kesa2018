@@ -15,7 +15,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] >= 0 && 
 		echo "<option value='0'>Valitse</option>";
 			while ($res_get_roomnames->fetch()) {
 				
-				if (isset($_POST['lesson_room']) && $_POST['lesson_room'] == $room_id) {
+				if (isset($_POST['lesson_room']) && $_POST['lesson_room'] == $room_id && isset($room_prefill) && $room_prefill == true) {
 				echo "<option value='$room_id' selected>$room_name</option>";
 				} else {
 				echo "<option value='$room_id'>$room_name</option>";	

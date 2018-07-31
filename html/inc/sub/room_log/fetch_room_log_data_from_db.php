@@ -82,17 +82,48 @@
 	function get_room_logs_of_student_ids($room_logs, $student_ids, $those_included) {
 		$ret_val = array();
 		foreach($room_logs as $room_log) {
-			if ($those_included) {
-				if (in_array($room_log['student_db_id'], $student_ids)) {
-					$ret_val[] = $room_log;
+			if (isset($room_log['student_db_id']) && $room_log['student_db_id'] != null) {
+				if ($those_included) {
+					if (in_array($room_log['student_db_id'], $student_ids)) {
+						$ret_val[] = $room_log;
+					}
+				} else {
+					if (!in_array($room_log['student_db_id'], $student_ids)) {
+						$ret_val[] = $room_log;
+					}		
 				}
-			} else {
-				if (!in_array($room_log['student_db_id'], $student_ids)) {
-					$ret_val[] = $room_log;
-				}		
 			}
 		}
 		return $ret_val;
+	}
+	
+	function get_all_course_students($conn, $course) {
+		$sql_course_students =
+			"SELECT ca_student.ID, ca_student.student_id, 
+			 ca_student.FirstName, ca_student.LastName, ca_student.NFC_ID,
+			 ca_course.course_id, ca_course.course_name
+			 FROM ca_student, ca_course_student, ca_course WHERE 
+			 ca_student.ID = ca_course_student.student_id AND
+			 ca_course_student.course_id = ca_course.ID AND 
+			 ca_course_student.course_id = ?";		
+		$q_course_students = $conn->prepare($sql_course_students);
+		$q_course_students->bind_param("i", $course);
+		$q_course_students->execute();		
+		$q_course_students->store_result();
+		$q_course_students->bind_result($student_id, $ui_student_id, 
+			$studentFirstName, $studentLastName, $NFC_ID, 
+			$ui_course_ID, $course_name);
+		$course_students_arr = array();
+		if ($q_course_students->num_rows > 0) {
+			while($course_students = $q_course_students->fetch()) {
+				$course_students_arr[] = array(
+					"student_id" => $student_id, "ui_student_id" => $ui_student_id,
+					"firstName" => $studentFirstName, "lastName" => $studentLastName, 
+					"nfc_id" => $NFC_ID,
+					"ui_course_ID" => $ui_course_ID, "course_name" => $course_name);
+			}
+		}		
+		return $course_students_arr;	
 	}
 	
 	function get_course_students_not_at_room_log($conn, $sql_room_log_sql_query_end_part,
@@ -126,7 +157,7 @@
 		if ($q_course_students->num_rows > 0) {
 			while($course_students = $q_course_students->fetch()) {
 				$course_students_arr[] = array(
-					"student_id" => $student_id, "ui_student_id" => $ui_student_id,
+					"student_db_id" => $student_id, "ui_student_id" => $ui_student_id,
 					"firstName" => $studentFirstName, "lastName" => $studentLastName, 
 					"nfc_id" => $NFC_ID,
 					"ui_course_ID" => $ui_course_ID, "course_name" => $course_name);

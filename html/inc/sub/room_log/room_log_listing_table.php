@@ -35,7 +35,13 @@
 			$begin_time, $end_time, $course, $room);
 		$course_students_not_at_room_log = 
 			get_course_students_not_at_room_log($conn, $sql_room_log_end_part,
-			$room_log_distinct_students, $course);		
+			$room_log_distinct_students, $course);	
+		if ($course != "") {
+			$all_course_students = get_all_course_students($conn, $course);
+			$room_log_course_students = get_room_logs_of_student_ids($room_logs_students, $all_course_students, true);
+		}
+
+			
 		if (count($course_students_not_at_room_log) > 0) {
 ?>
 <h2>Kurssin oppilaat ilman tuntikirjausta</h2>

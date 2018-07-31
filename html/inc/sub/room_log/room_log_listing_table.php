@@ -35,7 +35,14 @@
 			$begin_time, $end_time, $course, $room);
 		$course_students_not_at_room_log = 
 			get_course_students_not_at_room_log($conn, $sql_room_log_end_part,
-			$room_log_distinct_students, $course);		
+			$room_log_distinct_students, $course);	
+		if ($course != "") {
+			$all_course_students = get_all_course_students($conn, $course);
+			$room_log_course_students = get_room_logs_of_student_ids($room_logs_students, $all_course_students, true);
+			$room_logs_not_course_students = get_room_logs_of_student_ids($room_logs_students, $all_course_students, false);
+		}
+
+			
 		if (count($course_students_not_at_room_log) > 0) {
 ?>
 <h2>Kurssin oppilaat ilman tuntikirjausta</h2>
@@ -56,15 +63,15 @@
 </div>
 <?php
 		}
-		if (count($room_logs_students) > 0) {
+		if (count($room_log_course_students) > 0) {
 			include("ui_table_column_widths_for_signed_in_students.php");
 ?>
-<h2>Oppilaat, joille on tuntikirjaus</h2>
+<h2>Kurssin oppilaat, joille on tuntikirjaus</h2>
 <div class="room_log_listing_table">
 <?php
 			$guest_first_name = ""; $guest_last_name = "";
 			include("room_log_column_header_row.php");
-			foreach($room_logs_students as $room_log) {
+			foreach($room_log_course_students as $room_log) {
 				$student_first_name = $room_log['student_first_name'];
 				$student_last_name = $room_log['student_last_name'];
 				$dt = $room_log['dt'];
@@ -77,6 +84,28 @@
 ?>
 </div>
 <?php
+		}
+		if (count($room_logs_not_course_students) > 0) {
+?>
+<h2>Oppitunnille kirjautuneet koulun oppilaat, jotka eivät ole kurssin varsinaisia oppilaita</h2>
+<div class="room_log_listing_table">
+<?php
+			include("ui_table_column_widths_for_signed_in_students.php");
+			$guest_first_name = ""; $guest_last_name = "";
+			include("room_log_column_header_row.php");
+			foreach($room_logs_not_course_students as $room_log) {
+				$student_first_name = $room_log['student_first_name'];
+				$student_last_name = $room_log['student_last_name'];
+				$dt = $room_log['dt'];
+				$room_name = $room_log['room_name'];
+				$ui_course_ID = $room_log['ui_course_ID'];
+				$course_name = $room_log['course_name'];
+				$nfc_id = $room_log['nfc_id'];
+				include("room_log_data_row.php"); 
+			}	
+?>
+</div>
+<?php		
 		}
 		$sql_room_log_end_part_guests = get_room_log_sql_query_end_part(
 			$seek_with, WITH_COURSES, WITH_ROOMS, false);

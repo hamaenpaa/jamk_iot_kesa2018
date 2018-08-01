@@ -47,22 +47,27 @@ if (!isset($_SESSION['staff_id']) && !isset($_SESSION['staff_permlevel'])) {
 									if ($res_insert_falselogin = $conn->prepare("INSERT INTO ca_staff_failed_login_log (user_ip, dt) VALUES (?,?)")) {
 										$res_insert_falselogin->bind_param("ss", $remIP, $curdate);
 										$res_insert_falselogin->execute();
+										header("Location: list_room_logs.php");
 									} else {
 									//ERROR IN PREPARE (INSERT) -> SQL MISTAKE (failed to insert false login data)
+									echo "t";
 									}
 								}
 							$res_gd->free_result();
 							} else {
 							//ERROR	-> MISSING DATA OR SIMILAR
+							echo "l";
 							}
 						} else {
 						//ERROR IN PREPARE (SELECT) -> SQL MISTAKE (failed to check account database)
+						echo "y";
 						}				
 					} else {
 					echo "Too many logins, please try again in 15 minutes after your first failed login attempt.";	
 					}
 				} else {
 				//ERROR IN PREPARE (SELECT) -> SQL MISTAKE (failed logins)	
+				echo "s";
 				}
 			include "inc/db_disconnect_inc.php";
 			} else {

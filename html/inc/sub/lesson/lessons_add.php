@@ -54,7 +54,7 @@ $end = date("2018-08-24 00:00:00");
 $list_mondays = getDateForSpecificDayBetweenDates($start,$end,1);
 */
 
-if (isset($_POST['lesson_add']) && isset($_POST['lesson_start_date']) && isset($_POST['lesson_end_date']) && isset($_POST['lesson_course']) && isset($_POST['lesson_room']) && $_POST['lesson_course'] != 0 && $_POST['lesson_room'] != 0) {
+if (isset($_POST['Lesson_add']) && isset($_POST['lesson_start_date']) && isset($_POST['lesson_end_date']) && isset($_POST['lesson_course']) && isset($_POST['lesson_room']) && $_POST['lesson_course'] != 0 && $_POST['lesson_room'] != 0) {
 
 if (!isset($conn)) {
 include "../../db_connect_inc.php";

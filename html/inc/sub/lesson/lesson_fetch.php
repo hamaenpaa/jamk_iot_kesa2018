@@ -16,7 +16,6 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	<div class="col-sm-2"><b>Lopetus aika</b></div>
 	<div class="col-sm-1"><b>Luokka</b></div>
 	<div class="col-sm-1"><b>Kurssit</b></div>
-	<div class="col-sm-1"></div>
 	</div>
 				
 	<div class="row">
@@ -24,20 +23,55 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	<div class="col-sm-2"><input name="lesson_date_end" class="datetime_picker" size="16" value="<?php if (isset($_POST['lesson_date_end'])) { echo $_POST['lesson_date_end'];	} ?>"></div>
 	<div class="col-sm-1">
 	<?php
+	if (!isset($_POST['Lesson_fetch'])) {
+	$room_prefill = false;
+	$course_prefill = false;	
+	} else {
+	$room_prefill = true;
+	$course_prefill = true;		
+	}
 	include 'list_rooms.php';
 	?>
 	</div>
 	
 	
-	<div class="col-sm-1">
+	<div class="col-sm-2">
 	<?php
 	include 'list_courses.php';
 	?>
 	</div>
-	<div class="col-sm-2"><input type="submit" value="Suorita"></div>
+	<div class="col-sm-2"><input type="submit" name="Lesson_fetch" value="Suorita"></div>
 	</div></form>
-	
 	<?php
+	/* Remove Lesson Script */
+	if(isset($_POST['check_list']) && !empty($_POST['check_list'])) {
+		if (!isset($conn)) {
+		include "inc/db_connect_inc.php";
+		}
+		
+		foreach($_POST['check_list'] as $check) {
+		echo $check; //echoes the value set in the HTML form for each checked checkbox.
+		//so, if I were to check 1, 3, and 5 it would echo value 1, value 3, value 5.
+		//in your case, it would echo whatever $row['Report ID'] is equivalent to. 
+		 	if ($remLes = $conn->prepare("DELETE ca_lesson FROM ca_lesson
+				INNER JOIN ca_course_teacher ON ca_lesson.course_id = ca_course_teacher.course_id
+				WHERE ca_lesson.id = ? AND ca_course_teacher.staff_id = ?")) {
+			$remLes->bind_param("ii", $check, $_SESSION['staff_id']);
+				if ($remLes->execute()) {
+				echo "<p>Luento: " .  $check . " on poistettu onnistuneesti.</p>";
+				} else {
+				//$remLes->ERROR->EXECUTE	
+				}
+			} else {
+			//$remLes->ERROR->PREPARE	
+			}
+		}
+	//echo "<pre>Array of checkbox values:\n"; 
+    //print_r($_POST["RemLesson"]); 
+    //echo "</pre>"; 
+	}
+	
+	
 	if (isset($_POST['lesson_date_start']) && isset($_POST['lesson_date_end']) && 
 	!empty($_POST['lesson_date_start']) && !empty($_POST['lesson_date_end'])) {
 	 
@@ -102,10 +136,17 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 				
 				$rows_get_lesson = $res_get_lesson->num_rows();
 				
-				if ($rows_get_lesson > 0 ) {
+				/*
+				echo "<hr>";
+				echo $_SESSION['staff_id'];
+				echo "<hr>";
+				*/
+				
+				if ($rows_get_lesson > 0) {
 					$res_get_lesson->bind_result($lesson_id, $lesson_room_id, $lessons_course_id, $lesson_begin_time, $lesson_end_time);
 					
 					echo "<h2>Hakutulokset</h2>";
+					echo "<form style='' method='POST' action='" . $_SERVER['PHP_SELF'] . "'>";
 					while ($res_get_lesson->fetch()) {
 					
 						$convert_date_eng_fin_1 = $lesson_begin_time;
@@ -124,16 +165,26 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 							$lesson_room_id = "(Tyhjä)";	
 							}
 						
-						
-					echo "Luennon ID: " . $lesson_id . " | Huone: " . $lesson_room_id . " | Kurssi: " . $lesson_course_id . " | " . $date_start_eng_to_fin_1 . " ~ " . $date_start_eng_to_fin_2 . " <input type='button' value='Poista'>";
+					echo "<p style='margin-top:4px;vertical-align:middle;'><input type='checkbox' value='$lesson_id' name='check_list[]'>Luennon ID: " . $lesson_id . " | Huone: " . $lesson_room_id . " | Kurssi: " . $lesson_course_id . " | " . $date_start_eng_to_fin_1 . " - " . $date_start_eng_to_fin_2 . "<input type='hidden' name='RemLesson' value='" . $lesson_id . "'></p>";
 					}
+					echo "<input type='Submit' value='Remove Selected'></form>";
 				} else {
 					
-				//echo "<hr>";
-				//echo $query_select;
-				//echo "<br>";
-				//echo "$start_date_converted ~ $end_date_converted";
-				//echo "<hr>";
+				/*
+				echo "<hr>";
+				echo $query_select;
+				echo "<br>";
+				echo "$start_date_converted ~ $end_date_converted";
+				echo "<hr>";
+				*/
+				
+				/* 
+				SELECT ca_lesson.id, ca_lesson.room_id, ca_lesson.course_id, ca_lesson.begin_time, ca_lesson.end_time FROM ca_lesson 
+				INNER JOIN ca_course_teacher ON ca_course_teacher.course_id = ca_lesson.course_id 
+				WHERE ca_course_teacher.staff_id = ? AND ca_lesson.begin_time >= ? AND ca_lesson.end_time <= ?
+				
+				Between: 2018-02-27 10:06:00 ~ 2019-03-30 10:06:00
+				*/
 				
 					
 				if (!isset($room) || $room == false) { $room = "(Tyhjä)"; }

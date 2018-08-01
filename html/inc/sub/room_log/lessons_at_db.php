@@ -1,4 +1,15 @@
 <?php
+	function get_teacher_courses_for_now($conn, $staff_id, $begin_time) {
+		$sql_teacher_courses_for_now = 
+			"SELECT ca_course.ID FROM ca_course, ca_course_teacher, ca_lesson
+			 WHERE ca_course.ID = ca_course_teacher.course_id AND
+			 ca_course_teacher.staff_id = ? AND
+			 ca_lesson.course_id = ca_course.ID AND 
+			 ca_lesson.begin_time <= ? AND ca_lesson.end_time > NOW()";
+		
+	}
+
+
 	function get_current_time_lessons_for_course_or_room($conn, $course, $room) {
 		$sql_get_current_time_lessons = 
 			"SELECT ca_lesson.ID, ca_lesson.begin_time, ca_lesson.end_time,
@@ -107,6 +118,5 @@
 		}
 		
 		return $lessons;
-		
 	}
 ?>

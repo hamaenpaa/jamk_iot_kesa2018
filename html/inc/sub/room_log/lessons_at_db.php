@@ -65,6 +65,8 @@
 		// * video teaching: students sitting at different rooms of school or remotely through
 		//   for example Skype etc. and still belonging to same course teaching.
 
+		$db_earliest_begin_time_at_now = from_ui_to_db($earliest_begin_time_at_now);
+		
 		$sql_previous_lessons = "SELECT end_time FROM ca_lesson WHERE end_time < ?";
 		if (isset($course) && $course != null && $course != "") {
 			$sql_previous_lessons .= " AND ca_lesson.course_id = ?";
@@ -75,13 +77,13 @@
 		$q_previous_lessons = $conn->prepare($sql_previous_lessons);
 		if (isset($course) && $course != null && $course != "" && 
 			isset($room) && $room != null && $room != "") {
-			$q_previous_lessons->bind_param("ii", $course, $room);
+			$q_previous_lessons->bind_param("sii", $db_earliest_begin_time_at_now, $course, $room);
 		}
 		else if (isset($course) && $course != null && $course != "") {
-			$q_previous_lessons->bind_param("i", $course);
+			$q_previous_lessons->bind_param("si", $db_earliest_begin_time_at_now, $course);
 		}
 		else if (isset($room) && $room != null && $room != "") {
-			$q_previous_lessons->bind_param("i", $room);
+			$q_previous_lessons->bind_param("si", $db_earliest_begin_time_at_now, $room);
 		}		
 		$q_previous_lessons->bind_result($end_time);		
 		$latest_previous_end_time = null;

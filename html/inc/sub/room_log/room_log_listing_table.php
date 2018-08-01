@@ -5,6 +5,16 @@
 	$begin_time = get_post_or_get($conn, "begin_time");
 	$end_time = get_post_or_get($conn, "end_time");
 	$lesson = get_post_or_get($conn, "lesson");
+	
+	if (!isset($room)) {
+		$room = "";
+	}
+	if (!isset($course)) {
+		$course = "";
+	}	
+	
+	$cur_time_lessons = get_current_time_lessons_for_course_or_room($conn, $course, $room);
+	
 	if ((isset($begin_time) && isset($end_time) &&
 		$begin_time != "" && $end_time != "") ||
 		(isset($lesson) && $lesson != "")) {

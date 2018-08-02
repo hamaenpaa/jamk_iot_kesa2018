@@ -1,12 +1,23 @@
 <?php
-	function get_teacher_courses_for_now($conn, $staff_id, $begin_time) {
+	function get_teacher_courses_for_now($conn, $staff_id) {
 		$sql_teacher_courses_for_now = 
 			"SELECT ca_course.ID FROM ca_course, ca_course_teacher, ca_lesson
 			 WHERE ca_course.ID = ca_course_teacher.course_id AND
 			 ca_course_teacher.staff_id = ? AND
 			 ca_lesson.course_id = ca_course.ID AND 
-			 ca_lesson.begin_time <= ? AND ca_lesson.end_time > NOW()";
+			 ca_lesson.begin_time <= NOW() AND ca_lesson.end_time >= NOW() 
+			 ORDER BY ca_lesson.begin_time DESC";
+		$q_teacher_courses_for_now = $conn->prepare($sql_teacher_courses_for_now);
+		$q_teacher_courses_for_now->bind_param("i", $staff_id);
+		$q_teacher_courses_for_now->execute();		
+		$q_teacher_courses_for_now->store_result();		
+		$q_teacher_courses_for_now->bind_result($course_id);
+		$course_ids = array();
 		
+		while($row = $q_teacher_courses_for_now->fetch()) {
+			$course_ids[] = $course_id;
+		}
+		return $course_ids;
 	}
 
 
@@ -19,7 +30,7 @@
 			$sql_get_current_time_lessons .= " AND ca_lesson.course_id = ?";
 		}
 		if (isset($room) && $room != null && $room != "") {
-			$sql_get_current_time_lessons .= " AND ca_lesson.room = ?";
+			$sql_get_current_time_lessons .= " AND ca_lesson.room_id = ?";
 		}		
 
 		$q_current_time_lessons = $conn->prepare($sql_get_current_time_lessons);
@@ -114,7 +125,7 @@
 		if ($latest_previous_end_time != null) {
 			$lessons['begin_time'] = from_unix_time_to_ui($latest_previous_end_time);
 		} else {
-			$lessons['begin_time'] = ""; // <- First reasonable time at same date
+			$lessons['begin_time'] = get_db_time_of_school_day_begin();
 		}
 		
 		return $lessons;

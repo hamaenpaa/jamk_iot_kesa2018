@@ -1,6 +1,10 @@
 <?php
 	$seek_with = get_post_or_get($conn, "seek_with");
 	if (isset($seek_with) && $seek_with != "") {
+		$courses = get_teacher_courses_for_now($conn, $_SESSION['staff_id']);
+		if (count($courses) > 0) {
+			$seek_with_value = $courses[0];
+		}
 ?>
 		<form id="seek_specific_room_or_course_form" action="list_room_logs.php" method="POST">
 			<input type="hidden" name="seek_with" value="<?php echo $seek_with; ?>" />

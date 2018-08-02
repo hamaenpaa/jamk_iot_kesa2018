@@ -49,16 +49,16 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 		include "inc/db_connect_inc.php";
 		}
 		
-		foreach($_POST['check_list'] as $check) {
-		echo $check; //echoes the value set in the HTML form for each checked checkbox.
-		//so, if I were to check 1, 3, and 5 it would echo value 1, value 3, value 5.
-		//in your case, it would echo whatever $row['Report ID'] is equivalent to. 
+		echo "<br>";
+		$count = 0;
+		foreach($_POST['check_list'] as $check) {	
 		 	if ($remLes = $conn->prepare("DELETE ca_lesson FROM ca_lesson
 				INNER JOIN ca_course_teacher ON ca_lesson.course_id = ca_course_teacher.course_id
 				WHERE ca_lesson.id = ? AND ca_course_teacher.staff_id = ?")) {
 			$remLes->bind_param("ii", $check, $_SESSION['staff_id']);
+				
 				if ($remLes->execute()) {
-				echo "<p>Luento: " .  $check . " on poistettu onnistuneesti.</p>";
+				$count++;
 				} else {
 				//$remLes->ERROR->EXECUTE	
 				}
@@ -66,6 +66,7 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 			//$remLes->ERROR->PREPARE	
 			}
 		}
+		echo "<pre>" .  $count . " luentoa on poistettu onnistuneesti.</pre>";
 	//echo "<pre>Array of checkbox values:\n"; 
     //print_r($_POST["RemLesson"]); 
     //echo "</pre>"; 

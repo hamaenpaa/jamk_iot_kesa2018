@@ -1,5 +1,5 @@
 $(function() {
-/* Functions to verify if users really have the right values inserted */
+/* Functions to verify if users really have the right values inserted  blaa */
 $("#lesson_add_mass").prop("disabled", true);
 	$("#user_error_check").on("click", function() {
 		if ($("#lesson_add_mass").prop("disabled") == true) {

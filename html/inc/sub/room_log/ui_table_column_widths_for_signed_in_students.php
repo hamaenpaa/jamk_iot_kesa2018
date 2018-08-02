@@ -1,5 +1,13 @@
 <?php
 	$dt_cols = "0"; $name_cols = "0"; $nfc_cols = "0"; $course_cols = "0"; $room_cols = "0";
+	
+	$dt_extra_css_classes = "";
+	$name_extra_css_classes = "";
+	$room_extra_css_classes = "";
+	$course_extra_css_classes = "";
+	$btn_wrap_extra_css_classes = "";
+	$btn_extra_css_classes = "";
+	
 	if (!WITH_COURSES && !WITH_ROOMS) {
 		$dt_cols = "4";
 		$name_cols = "6";

@@ -161,8 +161,6 @@ input[type="submit"]:disabled {
 	}
 }
 
-/* Mobile navigation at 573 pixels */
-
 /* Style for navigation bar */
 .nav {
 	clear: right;
@@ -173,7 +171,6 @@ input[type="submit"]:disabled {
 	display: block;
 	height: 32px;
 	width: 32px;
-	margin: 0 0 0 0;
 }
 
 /* Style for the content-wrap */
@@ -324,15 +321,30 @@ footer {
 	color: black !important;
 }
 
-/* --------- Course listing page --------- */
 
-/* Specific row class for course search form */
-#seek_students_form, #course_table {
-	margin: 0 0 0 15px;
+/* Adding margin to the different listing tables and forms */
+.room_log_listing_table, #seek_students_form, #course_table {
+	margin: 0  15px 0 15px;
 }
 
+/* Style for the columns */
+.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10 {
+	text-align: left;
+	border: 1px solid dimgrey;
+	color: white;
+	background-color: grey;
+	padding: 5px 2px 5px 2px;
+}
+
+/* --------- Course listing page --------- */
+
+/* Adding margin below the result listing */
 #count_of_results {
 	margin: 0 0 5px 0;
+}
+
+#table_course_teachers, #table_course_students, #table_students_to_add, #table_teachers_to_add, #nfc_tag_table {
+	margin: 0  15px 0 15px !important;
 }
 
 .row-type-2 {
@@ -364,14 +376,6 @@ footer {
 	font-style: italic;
 }
 
-/* Style for course listing */
-.col-sm-2, .col-sm-6 {
-	text-align: left;
-	border: 1px solid grey;
-	background-color: white;
-	padding: 5px 2px 5px 2px;
-}
-
 .col-sm-2 p, .col-sm-6 p {
 	overflow: auto;
 	height: 60px;
@@ -394,15 +398,20 @@ footer {
 
 /* Adding media query for the bootstrap table */
 @media only screen and (max-width: 767px) {
-	.col-sm-2, .col-sm-6  h5 {
-		display: flex;
-		justify-content: flex-start !important;
+	.heading-row {
+		display: none !important;
 	}
 }
 
 @media only screen and (max-width: 847px) {
 	h5 {
 		font-size: 14px !important;
+	}
+}
+
+@media only screen and (max-width: 773px) {
+	h5, .col-sm-2 p, .col-sm-4, .col-sm-6 p {
+		font-size: 12px !important;
 	}
 }
 
@@ -436,7 +445,7 @@ footer {
 
 .row-type-5 .button {
 	border-width: 1px;
-	margin: 0 0 3px 0;
+	margin: 3px 0 3px 0;
 }
 
 /* --------- Style for RoomLog --------- */
@@ -456,17 +465,52 @@ footer {
 	justify-content: space-between;
 }
 
-@media only screen and (max-width: 767px) {
-	.room_log_listing_table .col-sm-2 {
-		max-width: 300px !important;
+div.col-sm-2 b, div.col-sm-4 b {
+	text-align: center;
+}
+
+/* Tempopary solution */
+/* Hiding heading row elements at a certain width */
+@media only screen and (max-width: 929px) {
+	.heading-row {
+		display: none !important;
+	}
+}
+
+/* --------- Style for NFC tag listing page --------- */
+
+/* Adding margin between check-boxes */
+#seek_nfc_tags input {
+	margin: 0 5px 0 5px;
+	}
+	
+@media only screen and (max-width: 722px) {
+	.no-margin-input {
+		margin: 0 5px 0 0 !important;
 	}
 }
 
 /* --------- Style for Rooms listing page --------- */
 
-
-/* --------- Style for NFC tag listing page --------- */
-
-#nfc_tag_table {
-	padding: 0 0 0 10px;
+#room_table {
+	margin: 0 15px 0 15px;
 }
+#seek_rooms input {
+	margin: 0 0 0 5px;
+}
+
+/* --------- Style for Teachers listing page --------- */
+
+#seek_students input {
+	margin: 0 5px 0 5px;
+}
+
+/* --------- Style for Students listing page --------- */
+
+/* --------- Style for Guests listing page --------- */
+
+#seek_guests input {
+	margin: 0 5px 0 5px;
+}
+
+/* --------- Style for Lessons listing page --------- */

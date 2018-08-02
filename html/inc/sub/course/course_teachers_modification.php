@@ -7,8 +7,10 @@
 			<form method="POST" action="list_courses.php">
 				<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	    		<input type="hidden" name="add_teacher" value="1" />
-<?php echo $seek_params_hidden_inputs; ?>	    		
-				<input type="submit" value="Lisää opettaja"/>
+<?php echo $seek_params_hidden_inputs; ?>
+				<div class="row-type-5">    		
+					<input class="button" type="submit" value="Lisää opettaja"/>
+				</div>
 			</form>
 <?php
 		}

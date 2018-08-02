@@ -34,11 +34,13 @@
 </div>
 
 <div id="course_table">
-	<div class="row">
-		<div class="col-sm-2"><h5>Kurssin tunnus</h5></div>
-		<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
-		<div class="col-sm-6"><h5>Kurssin kuvaus</h5></div>
-		<div class="col-sm-1"></div>
+	<div class="heading-row">
+		<div class="row">
+			<div class="col-sm-2"><h5>Kurssin tunnus</h5></div>
+			<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
+			<div class="col-sm-6"><h5>Kurssin kuvaus</h5></div>
+			<div class="col-sm-1"></div>
+		</div>
 	</div>
 
 <?php   	

@@ -16,8 +16,8 @@
         		<h2>Lisää opettaja</h2>
 				<div id="table_teachers_to_add">
 					<div class="row">
-						<div class="col-sm-6"><b>Etunimi</b></div>
-						<div class="col-sm-5"><b>Sukunimi</b></div>
+						<div class="col-sm-6"><h5>Etunimi</h5></div>
+						<div class="col-sm-5"><h5>Sukunimi</h5></div>
 						<div class="col-sm-1"></div>
 					</div>			
 <?php				
@@ -33,7 +33,7 @@
 									<input type="hidden" name="course_id" value="<?php echo $id; ?>" />
 									<input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>" />
 <?php echo $seek_params_hidden_inputs; ?>													
-									<input type="submit" value="Lisää"/>
+									<input class="button" type="submit" value="Lisää"/>
 								</form>
 							</div>
 						</div>	
@@ -52,8 +52,10 @@
 ?>
 	<form action="list_courses.php" method="post">
 		<input type="hidden" name="id" value="<?php echo $id; ?>"/>
-		<?php echo $seek_params_hidden_inputs; ?>	
-		<input type="submit" value="Lopeta lisääminen"/>
+		<?php echo $seek_params_hidden_inputs; ?>
+		<div class="row-type-5">
+			<input class="button" type="submit" value="Lopeta lisääminen"/>
+		</div>
 	</form>
 <?php
 	}

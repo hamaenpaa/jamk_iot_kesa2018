@@ -48,8 +48,8 @@
 ?>
 		<div id="table_course_students">
 			<div class="row">
-				<div class="col-sm-6"><b>Etunimi</b></div>
-				<div class="col-sm-5"><b>Sukunimi</b></div>
+				<div class="col-sm-6"><h5>Etunimi</h5></div>
+				<div class="col-sm-5"><h5>Sukunimi</h5></div>
 				<div class="col-sm-1"></div>
 			</div>	
 <?php     
@@ -68,9 +68,8 @@
 								echo hidden_input("student_id", $student_id);
 								echo $seek_params_hidden_inputs; 
 							?>			
-							<input type="submit" value="Poista"/>				
+							<input class="button" type="submit" value="Poista"/>				
 						</form>					
-					
 					</div>
 				</div>
 <?php

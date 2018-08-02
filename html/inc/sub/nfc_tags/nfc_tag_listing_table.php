@@ -47,8 +47,8 @@
 		</div>
 			<div id="nfc_tag_table">
 				<div class="row">
-					<div class="col-sm-8"><b>NFC ID</b></div>
-					<div class="col-sm-2"><b>Aktiivinen</b></div>
+					<div class="col-sm-8"><h5>NFC ID</h5></div>
+					<div class="col-sm-2"><h5>Aktiivinen</h5></div>
 					<div class="col-sm-1-wrap">
 						<div class="col-sm-1">Muokkaa</div>
 						<div class="col-sm-1">Poista</div>

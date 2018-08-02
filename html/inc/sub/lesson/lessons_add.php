@@ -159,7 +159,7 @@ if (isset($_SESSION['staff_id'])) {
 		if (isset($_POST['lesson_monday'])) {
 		$get_mondays = getDateForSpecificDayBetweenDates($lesson_start_date, $lesson_end_date, 1);
 			foreach ($get_mondays as $monday) {
-			$query_values .= "($room,$course,'" . $monday . " $lesson_start_date_his','" . $monday . " $lesson_end_date_his'),";	
+			$query_values .= "($course, $room,'" . $monday . " $lesson_start_date_his','" . $monday . " $lesson_end_date_his'),";	
 			}
 		}
 		
@@ -167,7 +167,7 @@ if (isset($_SESSION['staff_id'])) {
 		if (isset($_POST['lesson_tuesday'])) {
 		$get_tuesdays = getDateForSpecificDayBetweenDates($lesson_start_date, $lesson_end_date, 2);
 			foreach ($get_tuesdays as $tuesday) {
-			$query_values .= "($room,$course,'" . $tuesday . " $lesson_start_date_his','" . $tuesday . " $lesson_end_date_his'),";	
+			$query_values .= "($course, $room,'" . $tuesday . " $lesson_start_date_his','" . $tuesday . " $lesson_end_date_his'),";	
 			}
 		}	
 
@@ -175,7 +175,7 @@ if (isset($_SESSION['staff_id'])) {
 		if (isset($_POST['lesson_wednesday'])) {
 		$get_wednesdays = getDateForSpecificDayBetweenDates($lesson_start_date, $lesson_end_date, 3);
 			foreach ($get_wednesdays as $wednesday) {
-			$query_values .= "($room, $course,'" . $wednesday . " $lesson_start_date_his','" . $wednesday . " $lesson_end_date_his'),";	
+			$query_values .= "($course, $room,'" . $wednesday . " $lesson_start_date_his','" . $wednesday . " $lesson_end_date_his'),";	
 			}
 		}		
 		
@@ -183,7 +183,7 @@ if (isset($_SESSION['staff_id'])) {
 		if (isset($_POST['lesson_thursday'])) {
 		$get_thursdays = getDateForSpecificDayBetweenDates($lesson_start_date, $lesson_end_date, 4);
 			foreach ($get_thursdays as $thursday) {
-			$query_values .= "($room,$course,'" . $thursday . " $lesson_start_date_his','" . $thursday . " $lesson_end_date_his'),";	
+			$query_values .= "($course, $room,'" . $thursday . " $lesson_start_date_his','" . $thursday . " $lesson_end_date_his'),";	
 			}
 		}	
 		
@@ -191,7 +191,7 @@ if (isset($_SESSION['staff_id'])) {
 		if (isset($_POST['lesson_friday'])) {
 		$get_fridays = getDateForSpecificDayBetweenDates($lesson_start_date, $lesson_end_date, 5);
 			foreach ($get_fridays as $friday) {
-			$query_values .= "($room, $course,'" . $friday . " $lesson_start_date_his','" . $friday . " $lesson_end_date_his'),";	
+			$query_values .= "($course, $room,'" . $friday . " $lesson_start_date_his','" . $friday . " $lesson_end_date_his'),";	
 			}
 		}	
 		

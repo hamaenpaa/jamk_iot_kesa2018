@@ -12,8 +12,9 @@
 		if (strpos($dt,"-") !== false) {
 			list($date_part,$time_part) = explode(" ", $dt);
 			list($yyyy,$mm,$dd) = explode("-", $date_part);
+			$mm = ltrim($mm, "0"); $dd = ltrim($dd, "0");
 			list($hh,$m,$s) = explode(":", $time_part);		
-			return $dd. "." . $mm . "." .$yyyy. " ".$hh.":".$mm.":".$s;
+			return $dd. "." . $mm . "." .$yyyy. " ".$hh.":".$m.":".$s;
 		}
 		return $dt;
 	}
@@ -23,8 +24,9 @@
 		if (strpos($dt,".") !== false) {
 			list($date_part,$time_part) = explode(" ", $dt);
 			list($dd,$mm,$yyyy) = explode(".", $date_part);
+			$mm = ltrim($mm, "0"); $dd = ltrim($dd, "0");
 			list($hh,$m,$s) = explode(":", $time_part);
-			return $dd. "." . $mm. "." . $yyyy." ".$hh.":".$mm;
+			return $dd. "." . $mm. "." . $yyyy." ".$hh.":".$m;
 		}
 		return $dt;		
 	}

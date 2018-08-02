@@ -1,6 +1,4 @@
 <?php 
-	include("lessons_at_db.php");
-
 	if (isset($seek_with) && $seek_with != "") {
 		if ($seek_with == "course") {
 			$course = get_post_or_get($conn, "course");
@@ -93,7 +91,10 @@
 								else {
 									echo $ui_course_ID . " ". $course_name;
 								}
-								echo " ".$begin_time ."-". $end_time;
+								echo " ".drop_seconds_from_ui(from_db_to_ui($begin_time)) .
+									"-". 
+									drop_date_part_from_ui(drop_seconds_from_ui(
+										from_db_to_ui($end_time)));
 ?>
 							</option>
 <?php							

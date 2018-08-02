@@ -1,10 +1,12 @@
 $(function() {
-/* Functions to verify if users really have the right values inserted */
+/* Functions to verify if users really have the right values inserted  blaa */
 $("#lesson_add_mass").prop("disabled", true);
 	$("#user_error_check").on("click", function() {
 		if ($("#lesson_add_mass").prop("disabled") == true) {
 		ds = $("#date_start").val();
 		de = $("#date_end").val();
+		dsH = $("#date_start_h").val();
+		deH = $("#date_end_h").val();
 		
 		mo = $("#lesson_monday").prop("checked");
 		tu = $("#lesson_tuesday").prop("checked");
@@ -22,6 +24,7 @@ $("#lesson_add_mass").prop("disabled", true);
 		message = "Vahvistus\n\n"
 		message += "Lisää luennot väliltä: " + ds + " ~ " + de + "";
 		message += "\n Joka: " + mo_msg + tu_msg + we_msg + th_msg + fr_msg;
+		message += "\n Kello: " + dsH + " - " + deH;
 		message += "\n » Voit nyt lähettää luennot palvelimelle.";
 		
 		

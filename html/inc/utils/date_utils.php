@@ -8,19 +8,31 @@
 		return $dt;
 	}
 	
+	function from_db_to_ui($dt) {
+		if (strpos($dt,"-") !== false) {
+			list($date_part,$time_part) = explode(" ", $dt);
+			list($yyyy,$mm,$dd) = explode("-", $date_part);
+			list($hh,$m,$s) = explode(":", $time_part);		
+			return $dd. "." . $mm . "." .$yyyy. " ".$hh.":".$mm.":".$s;
+		}
+		return $dt;
+	}
+	
+	
+	function drop_seconds_from_ui($dt) {
+		if (strpos($dt,".") !== false) {
+			list($date_part,$time_part) = explode(" ", $dt);
+			list($dd,$mm,$yyyy) = explode(".", $date_part);
+			list($hh,$m,$s) = explode(":", $time_part);
+			return $dd. "." . $mm. "." . $yyyy." ".$hh.":".$mm;
+		}
+		return $dt;		
+	}
+	
 	function from_db_to_unix_milliseconds($db_dt) {
-	//	echo "dt_dt " . $db_dt;
 		list($date_part,$time_part) = explode(" ", $db_dt);
 		list($dd,$mm,$yyyy) = explode("-", $date_part);
 		list($hours,$minutes,$seconds) = explode(":", $time_part);
-		
-/*		echo "hours " . $hours . "\n".
-			 "minutes " . $minutes . "\n".
-			 "seconds " . $seconds . "\n".
-			 "mm " . $mm . "\n".
-			 "dd " . $dd . "\n".
-			 "yyyy " . $yyyy . "\n";*/
-		
 		return mktime($hours,$minutes,$seconds,$mm,$dd,$yyyy);
 	}
 	

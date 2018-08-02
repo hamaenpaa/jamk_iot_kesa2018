@@ -92,7 +92,9 @@
 									echo $ui_course_ID . " ". $course_name;
 								}
 								echo " ".drop_seconds_from_ui(from_db_to_ui($begin_time)) .
-									" - ". drop_seconds_from_ui(from_db_to_ui($end_time));
+									"-". 
+									drop_date_part_from_ui(drop_seconds_from_ui(
+										from_db_to_ui($end_time)));
 ?>
 							</option>
 <?php							

@@ -31,6 +31,14 @@
 		return $dt;		
 	}
 	
+	function drop_date_part_from_ui($dt) {
+		if (strpos($dt,".") !== false) {
+			list($date_part,$time_part) = explode(" ", $dt);
+			return $time_part;
+		}
+		return $dt;
+	}
+	
 	function from_db_to_unix_milliseconds($db_dt) {
 		list($date_part,$time_part) = explode(" ", $db_dt);
 		list($dd,$mm,$yyyy) = explode("-", $date_part);

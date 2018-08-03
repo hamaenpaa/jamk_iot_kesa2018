@@ -58,9 +58,9 @@ if (isset($_SESSION['staff_id'])) {
 	$room_prefill = true;
 	$course_prefill = true;		
 	}
-	include 'list_rooms.php';
+	include 'inc/sub/lesson/list_rooms.php';
 	echo '<label for="lesson_course">Kurssi</label>';
-	include 'list_courses.php';
+	include 'inc/sub/lesson/list_courses.php';
 	echo '<br><br>
 	<label for="lesson_monday">Ma</label><input id="lesson_monday" type="checkbox" name="lesson_monday">
 	<label for="lesson_tuesday">Ti</label><input id="lesson_tuesday" type="checkbox" name="lesson_tuesday">

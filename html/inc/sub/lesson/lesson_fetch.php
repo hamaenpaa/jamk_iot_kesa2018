@@ -14,14 +14,15 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	<div class="row">
 	<div class="col-sm-2"><b>Aloitus aika</b></div>
 	<div class="col-sm-2"><b>Lopetus aika</b></div>
-	<div class="col-sm-1"><b>Luokka</b></div>
-	<div class="col-sm-1"><b>Kurssit</b></div>
+	<div class="col-sm-2"><b>Luokka</b></div>
+	<div class="col-sm-2"><b>Kurssit</b></div>
+	<div class="col-sm-2"><b>Hae</b></div>
 	</div>
 				
 	<div class="row">
 	<div class="col-sm-2"><input name="lesson_date_start" class="datetime_picker" value="<?php if (isset($_POST['lesson_date_start'])) { echo $_POST['lesson_date_start'];	} ?>" size="16"></div>
 	<div class="col-sm-2"><input name="lesson_date_end" class="datetime_picker" size="16" value="<?php if (isset($_POST['lesson_date_end'])) { echo $_POST['lesson_date_end'];	} ?>"></div>
-	<div class="col-sm-1">
+	<div class="col-sm-2">
 	<?php
 	if (!isset($_POST['Lesson_fetch'])) {
 	$room_prefill = false;
@@ -30,14 +31,14 @@ if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 0 || 
 	$room_prefill = true;
 	$course_prefill = true;		
 	}
-	include 'list_rooms.php';
+	include 'inc/sub/lesson/list_rooms.php';
 	?>
 	</div>
 	
 	
 	<div class="col-sm-2">
 	<?php
-	include 'list_courses.php';
+	include 'inc/sub/lesson/list_courses.php';
 	?>
 	</div>
 	<div class="col-sm-2"><input type="submit" name="Lesson_fetch" value="Suorita"></div>

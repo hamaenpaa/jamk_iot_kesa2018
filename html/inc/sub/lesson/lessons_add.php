@@ -21,7 +21,7 @@ if (isset($_SESSION['staff_id'])) {
 	<h2>Lisää luentoja</h2>
 	<form method="POST" action="' . $_SERVER['PHP_SELF']	 . '">
 	<input placeholder="Aloitus pvm" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" id="date_start" class="datetime_picker2" name="lesson_start_date">
-	<input placeholder="Lopetus pvm + Tunti" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker2" name="lesson_end_date">
+	<input placeholder="Lopetus pvm" size="16" alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 08:00" id="date_end" class="datetime_picker2" name="lesson_end_date">
 	<br><br>';
 	$timespan = array("06:00","06:15","06:30","06:45","07:00","07:15","07:30","07:45","08:00","08:15","08:30","08:45","09:00","09:15","09:30","09:45","10:00","10:15","10:30","10:45",
 					"11:00","11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30","15:45",
@@ -58,9 +58,9 @@ if (isset($_SESSION['staff_id'])) {
 	$room_prefill = true;
 	$course_prefill = true;		
 	}
-	include 'list_rooms.php';
+	include 'inc/sub/lesson/list_rooms.php';
 	echo '<label for="lesson_course">Kurssi</label>';
-	include 'list_courses.php';
+	include 'inc/sub/lesson/list_courses.php';
 	echo '<br><br>
 	<label for="lesson_monday">Ma</label><input id="lesson_monday" type="checkbox" name="lesson_monday">
 	<label for="lesson_tuesday">Ti</label><input id="lesson_tuesday" type="checkbox" name="lesson_tuesday">

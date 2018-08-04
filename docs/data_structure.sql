@@ -113,6 +113,14 @@ CREATE TABLE ca_roomlog (
 	PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS ca_text;
+CREATE TABLE ca_text (
+    ID INT NOT NULL AUTO_INCREMENT,
+	lang varchar(50),
+	text TEXT,
+	PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;
+
 INSERT INTO ca_staff (FirstName, LastName, Email, 
 Password,
 Active, `Permission`) 

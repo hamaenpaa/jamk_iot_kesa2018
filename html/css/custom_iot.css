@@ -336,66 +336,6 @@ footer {
 	padding: 5px 2px 5px 2px;
 }
 
-/* --------- Course listing page --------- */
-
-/* Adding margin below the result listing */
-#count_of_results {
-	margin: 0 0 5px 0;
-}
-
-#table_course_teachers, #table_course_students, #table_students_to_add, #table_teachers_to_add, #nfc_tag_table {
-	margin: 0  15px 0 15px !important;
-}
-
-.row-type-2 {
-	display: flex;
-	justify-content: space-between;
-	max-width: 400px;
-	min-width: 300px;
-}
-
-#seek_students_form .row-type-2 {
-	margin: 0 15px 0 0;
-}
-
-.row-type-2 input {
-	margin: 0 0 3px 0;
-}
-
-.row-type-3 {
-	text-align: left !important;
-}
-
-.row-type-3 .button {	
-	border-width: 1px;
-	margin: 0 0 3px 0;
-}
-
-/* Style for counting found courses */
-#count_of_results {
-	font-style: italic;
-}
-
-.col-sm-2 p, .col-sm-6 p {
-	overflow: auto;
-	height: 60px;
-	font-size: 14px;
-}
-
-.col-sm-2 div, .col-sm-6 div {
-	height: auto;
-	border-collapse: collapse;
-    border-style: hidden;
-}
-
-.col-sm-1 {
-	display: flex;
-}
-
-.col-sm-1 button {
-	margin: 0 5px 0 5px;
-}
-
 /* Adding media query for the bootstrap table */
 @media only screen and (max-width: 767px) {
 	.heading-row {
@@ -490,27 +430,3 @@ div.col-sm-2 b, div.col-sm-4 b {
 	}
 }
 
-/* --------- Style for Rooms listing page --------- */
-
-#room_table {
-	margin: 0 15px 0 15px;
-}
-#seek_rooms input {
-	margin: 0 0 0 5px;
-}
-
-/* --------- Style for Teachers listing page --------- */
-
-#seek_students input {
-	margin: 0 5px 0 5px;
-}
-
-/* --------- Style for Students listing page --------- */
-
-/* --------- Style for Guests listing page --------- */
-
-#seek_guests input {
-	margin: 0 5px 0 5px;
-}
-
-/* --------- Style for Lessons listing page --------- */

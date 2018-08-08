@@ -72,7 +72,6 @@ while True:
     db = MySQLdb.connect("[ip/host]", "[username]", "[password]", "ca")
     curs=db.cursor()
 
-
     # Useful commands
     # format(int(data[2:8].decode("utf-8"), 16)) | Gets the configurable 4byte ID from the card
     # format(binascii.hexlify(uid))              | Gets the tag uniqueID which is burnt to card
@@ -80,34 +79,10 @@ while True:
     # Manual configuration | Room ID | Current Datetime | Tag Unique ID
     curdate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     tagID = format(binascii.hexlify(uid))
-    roomID = 2
-
-    mySelectQuery = ("SELECT ca_lesson.course_id, ca_student.ID FROM ca_lesson \
-    INNER JOIN ca_course_student ON ca_lesson.course_id = ca_course_student.course_id \
-    INNER JOIN ca_student ON ca_course_student.student_id = ca_student.ID \
-    WHERE ca_lesson.room_id = %s AND \
-    ca_lesson.begin_time <= %s AND \
-    ca_lesson.end_time >= %s AND ca_student.NFC_ID = %s")
-    curs.execute(mySelectQuery,(roomID,curdate,curdate,tagID))    
-    row = curs.fetchone()
-    # Debugging parse row0, row1 (course id, student id)
-    # print("CourseID:",row[0]," StudentID:",row[1])
-
-    # Parse SQL Result to variables
-    if curs.rowcount > 0:
-        courseID = row[0]
-        studentID = row[1]
-    else:
-        courseID = 0
-        studentID = 0
-
-    # print curs.rowcount
-    # print roomID
-    # print curdate
-    # print tagID
+    roomIdentifier = "CLASS ABC1";
 
     # format(int(data[2:8].decode("utf-8"), 16))
-    curs.execute("Insert into ca_roomlog (room_id,dt,NFC_ID,course_id,student_id) values (%s,%s,%s,%s,%s)",(1,curdate,format(binascii.hexlify(uid)),courseID,studentID))
+    curs.execute("Insert into ca_roomlog (room_identifier,dt,NFC_ID) values (%s,%s,%s)",(roomIdentifier,curdate,format(binascii.hexlify(uid))))
     db.commit()
     print('User Id: {0}'.format(int(data[2:8].decode("utf-8"), 16)))
     print('Current timestamp: '+curdate)

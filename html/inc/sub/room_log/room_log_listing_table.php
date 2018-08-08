@@ -37,9 +37,9 @@
 			<div class="room_log_listing_table">
 				<div class="heading-row">
 					<div class="row">
-					<div class="col-sm-<?php echo $dt_cols; ?>"><b>Sisääntuloaika</b></div>
-					<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
 					<div class="col-sm-<?php echo $nfc_cols; ?>"><h5>NFC ID</h5></div>
+					<div class="col-sm-<?php echo $dt_cols; ?>"><h5>Sisääntuloaika</h5></div>
+					<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
 				</div>
 			</div>
 <?php
@@ -49,14 +49,14 @@
 				$nfc_id = $room_log['nfc_id'];
 ?>				
 				<div class="row">
+					<div class="col-sm-<?php echo $nfc_cols; ?>">
+						<?php echo $nfc_id; ?>
+					</div>				
 					<div class="col-sm-<?php echo $dt_cols . " ". $dt_extra_css_classes; ?>">
 						<?php echo from_db_to_ui($dt); ?>
 					</div>
 					<div class="col-sm-<?php echo $room_cols . " " . $room_extra_css_classes; ?>">
 						<?php echo $room_identifier;  ?>
-					</div>
-					<div class="col-sm-<?php echo $nfc_cols; ?>">
-						<?php echo $nfc_id; ?>
 					</div>
 				</div>				
 <?php				

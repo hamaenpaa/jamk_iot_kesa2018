@@ -35,8 +35,8 @@
 			id="date_end" class="datetime_picker"
 			name="end_time" <?php echo $end_time_value_param; ?> />		
 		
-		<input type="text" name="seek_room" value="<?php echo $seek_room; ?>" placeholder="Etsittävä luokan tunnisteen osa" />
-		<input type="text" name="seek_nfc_id" value="<?php echo $seek_nfc_id; ?>" placeholder="Etsittävä NFC ID:n osa" />
+		<input id="seek_room" type="text" name="seek_room" value="<?php echo $seek_room; ?>" placeholder="Etsittävä luokan tunnisteen osa" />
+		<input id="seek_nfc_id" type="text" name="seek_nfc_id" value="<?php echo $seek_nfc_id; ?>" placeholder="Etsittävä NFC ID:n osa" />
 
 		<input class="button" type="submit" value="Valitse"/>	
 	</form>

@@ -12,14 +12,10 @@
 	
 	if ((isset($begin_time) && isset($end_time) &&
 		$begin_time != "" && $end_time != "")) {
-		if (!isset($begin_time) || !isset($end_time) ||
-			$begin_time == "" || $end_time == "") {
-			$begin_time = $lesson_times['begin_time']; 
-			$end_time = $lesson_times['end_time'];
-		} else {
-			$begin_time = from_ui_to_db($begin_time);
-			$end_time = from_ui_to_db($end_time);			
-		}
+
+		$begin_time = from_ui_to_db($begin_time);
+		$end_time = from_ui_to_db($end_time);			
+		
 
 		$course = get_post_or_get($conn, "course");
 		$room = get_post_or_get($conn, "room");
@@ -33,6 +29,7 @@
 	
 			$dt_cols = "4";	$nfc_cols = "4"; $room_cols = "4";			
 ?>
+			<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 			<h2>Sisäänkirjautuneet ihmiset</h2>
 			<div class="room_log_listing_table">
 				<div class="heading-row">

@@ -54,6 +54,10 @@
 		return date("j.n.Y G:i".$second_part, $unix_time);
 	}
 	
+	function from_unix_time_to_db($unix_time) {
+		return date("Y-m-d H:i:s", $unix_time);
+	}	
+	
 	function get_db_time_of_school_day_begin() {
 		return date("Y-m-d 06:00:00");
 	}

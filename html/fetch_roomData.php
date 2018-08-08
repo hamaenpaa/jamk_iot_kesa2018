@@ -2,7 +2,7 @@
 include "inc/db_connect_inc.php";
 
 if (isset($_GET['rid'])) {
-	$rid = intval($_GET['rid']);
+	$rid = $_GET['rid'];
 	
 	if (isset($_GET['interval']) && $_GET['interval'] <= 20) {
 		$interval = intval($_GET['interval']);
@@ -18,20 +18,20 @@ if (isset($_GET['rid'])) {
 	} else {
 		$lastfetch = 0;	
 	}
-	
 	if ($res_getRL = $conn->prepare(
 		"SELECT ca_roomlog.id, ca_roomlog.NFC_ID, ca_roomlog.dt FROM ca_roomlog 
-		 WHERE ca_roomlog.room_identifier = ? AND ca_roomlog.dt >= ? ORDER BY ca_roomlog.id DESC LIMIT 1")) {
-		
-		$res_getRL->bind_param("iss", $rid, $NFC_ID, $curDateM, $showresults);
+		 WHERE ca_roomlog.room_identifier = ? AND ca_roomlog.dt >= ? 
+		 ORDER BY ca_roomlog.id DESC LIMIT 1")) {
+			 
+		$res_getRL->bind_param("ss", $rid, $curDateM);
 		if ($res_getRL->execute()) {
 			$res_getRL->store_result();
 			$res_getRL_rows = $res_getRL->num_rows();
 			if ($res_getRL_rows == 1) {
-				$res_getRL->bind_result($roomlogID,$roomlogdt);
+				$res_getRL->bind_result($roomlogID,$NFC_ID,$roomlogdt);
 				$res_getRL->fetch();
 				echo "<h2>NFC_ID: $NFC_ID</h2><p style='display:inline-block;'>Kirjautumisaika: $roomlogdt<p>";
-				echo "<hr> ->" . md5($roomlogID)
+				echo "<hr> ->" . md5($roomlogID);
 			} else {
 				echo "<h2>Ole hyvä ja lue korttisi lukijassa</h2>";
 			}		

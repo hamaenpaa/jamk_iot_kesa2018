@@ -15,7 +15,7 @@
 			
 						/* Do not touch */
 						refreshRate = interval * 1000; 
-						<?php echo "rid = " . intval($_GET['rid']) . ";"; ?>
+						<?php echo "rid = \"" . $_GET['rid'] . "\";"; ?>
 						lque = 0;
 						function getRoomData(room,time) {
 							$.get("fetch_roomData.php?rid="+rid+"&interval="+time, 

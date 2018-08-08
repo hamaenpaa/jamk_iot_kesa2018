@@ -7,7 +7,7 @@
 				ca_roomlog.dt, ca_roomlog.room_identifier 
               FROM ca_roomlog WHERE ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? 
 			  AND ca_roomlog.room_identifier LIKE '%" .$room_seek ."%'
-			  AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%'";					
+			  AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%' ORDER BY NFC_ID ASC, dt DESC";
 		$q_room_logs = $conn->prepare($sql_room_logs_total);
 		$q_room_logs->bind_param("ss", $begin_time, $end_time);
 		$q_room_logs->execute();		

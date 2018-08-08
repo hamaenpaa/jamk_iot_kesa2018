@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS ca_roomlog;
 CREATE TABLE ca_roomlog (
     ID INT NOT NULL AUTO_INCREMENT,
 	NFC_ID varchar(50),
-	room_identfier VARCHAR(50),
+	room_identifier VARCHAR(50),
 	dt DATETIME NOT NULL,
 	PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;

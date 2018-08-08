@@ -12,7 +12,7 @@
 		<div class="page-wrap">
 			<header>
 				<div class="banner-wrap">
-					<h1>Huone logit</h1>
+					<h1>Huoneen sisäänkirjautumiset</h1>
 					<?php include("inc/navigation.php"); ?>
 				</div>
 				<div class="nav">

@@ -1,16 +1,15 @@
 <?php
-	function get_room_log($conn, $sql_room_log_sql_query_end_part,
+	function get_room_log($conn,
 		$begin_time, $end_time, $room_seek, $nfc_id_seek) {
 			
 		$sql_room_logs_total = 
 			"SELECT ca_roomlog.ID, ca_roomlog.NFC_ID, 
 				ca_roomlog.dt, ca_roomlog.room_identifier 
               FROM ca_roomlog WHERE ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? 
-			  AND ca_roomlog.room_identifier LIKE '%?%' 
-			  AND ca_roomlog.NFC_ID LIKE '%?%'";					
+			  AND ca_roomlog.room_identifier LIKE '%" .$room_seek ."%'
+			  AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%'";					
 		$q_room_logs = $conn->prepare($sql_room_logs_total);
-		$q_room_logs->bind_param("ssss", $begin_time, $end_time, 
-			$room_seek, $nfc_id_seek);
+		$q_room_logs->bind_param("ss", $begin_time, $end_time);
 		$q_room_logs->execute();		
 		$q_room_logs->store_result();		
 		$q_room_logs->bind_result($room_log_id, $nfc_id, $dt, $room_identifier);		

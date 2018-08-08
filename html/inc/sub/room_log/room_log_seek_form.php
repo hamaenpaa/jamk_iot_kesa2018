@@ -1,6 +1,29 @@
+<?php
+	$begin_time = get_post_or_get($conn, "begin_time");
+	$end_time = get_post_or_get($conn, "end_time");
+	$seek_room = get_post_or_get($conn, "seek_room");
+	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");	
+
+	if (!isset($begin_time)) {
+		$begin_time_value_param = "";
+	} else {
+		$begin_time_value_param = " value=\"".$begin_time."\" ";
+	}
+	if (!isset($end_time)) {
+		$end_time_value_param = "";
+	} else {
+		$end_time_value_param = " value=\"".$end_time."\" ";
+	}
+	if (!isset($seek_room)) {
+		$seek_room = "";
+	} 
+	if (!isset($seek_nfc_id)) {
+		$seek_nfc_id = "";
+	} 	
+?>
 <div>
 	<form id="seek_specific_room_or_course_form" 
-		action="list_room_logs.php" method="POST">
+		action="index.php" method="POST">
 		<input  
 			placeholder="Aloitusaika" size="16" 
 			alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
@@ -12,8 +35,8 @@
 			id="date_end" class="datetime_picker"
 			name="end_time" <?php echo $end_time_value_param; ?> />		
 		
-		<input type="text" name="seek_room" value="<?php echo $seek_room_input; ?>" />
-		<input type="text" name="seek_nfc_id" value="<?php echo $seek_nfc_id; ?>" />
+		<input type="text" name="seek_room" value="<?php echo $seek_room; ?>" placeholder="Etsittävä luokan tunnisteen osa" />
+		<input type="text" name="seek_nfc_id" value="<?php echo $seek_nfc_id; ?>" placeholder="Etsittävä NFC ID:n osa" />
 
 		<input class="button" type="submit" value="Valitse"/>	
 	</form>

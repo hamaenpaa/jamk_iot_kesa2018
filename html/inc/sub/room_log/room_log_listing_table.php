@@ -24,16 +24,13 @@
 		$course = get_post_or_get($conn, "course");
 		$room = get_post_or_get($conn, "room");
 			
-		$sql_room_log_end_part = get_room_log_sql_query_end_part();
-		$room_logs_students = get_room_log($conn, WITH_COURSES, WITH_ROOMS, 
-			$sql_room_log_end_part, $begin_time, $end_time, $room, $course, true);
-		if ($course != "") {
-			$all_course_students = get_all_course_students($conn, $course);
-			$room_log_course_students = get_room_logs_of_student_ids($room_logs_students, $all_course_students, true);
-			$room_logs_not_course_students = get_room_logs_of_student_ids($room_logs_students, $all_course_students, false);
-		}
+		$room_logs_students = get_room_log($conn,
+			$begin_time, $end_time, $seek_room, $seek_nfc_id);
 
-		if (count($room_log_course_students) > 0) {
+
+
+
+		if (count($room_logs_students) > 0) {
 			$dt_extra_css_classes = "";
 			$room_extra_css_classes = "";
 			$nfc_extra_css_classes = "";
@@ -52,9 +49,9 @@
 				</div>
 			</div>
 <?php
-			foreach($room_log_course_students as $room_log) {
+			foreach($room_logs_students as $room_log) {
 				$dt = $room_log['dt'];
-				$room_name = $room_log['room_name'];
+				$room_identifier = $room_log['room_identifier'];
 				$nfc_id = $room_log['nfc_id'];
 ?>				
 				<div class="row">
@@ -62,7 +59,7 @@
 						<?php echo $dt; ?>
 					</div>
 					<div class="col-sm-<?php echo $room_cols . " " . $room_extra_css_classes; ?>">
-						<?php echo $room_name;  ?>
+						<?php echo $room_identifier;  ?>
 					</div>
 					<div class="col-sm-<?php echo $nfc_cols; ?>">
 						<?php echo $nfc_id; ?>

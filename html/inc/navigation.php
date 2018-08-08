@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
 session_start();	
 }
 $curpage = basename($_SERVER["SCRIPT_FILENAME"], '.php');
-
+/*
 if (isset($_SESSION['staff_permlevel']) && $_SESSION['staff_permlevel'] == 1) {
 //Admin navigation list
 $pages = array("list_room_logs","list_courses","list_nfc_tags","list_rooms","list_teachers","list_students","list_guests","list_lessons","logout");	
@@ -94,3 +94,4 @@ $pageTIAM = count ($pages_title);
 <style>
 
 </style>
+*/

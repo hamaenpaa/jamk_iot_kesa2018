@@ -23,7 +23,8 @@ if (isset($last_fetch_time)) {
 		 WHERE 
 			ca_roomlog.dt > ?  
 			  AND ca_roomlog.room_identifier LIKE '%" .$seek_room ."%'
-			  AND ca_roomlog.NFC_ID LIKE '%" . $seek_nfc_id ."%'";
+			  AND ca_roomlog.NFC_ID LIKE '%" . $seek_nfc_id ."%'
+			  ORDER BY NFC_ID ASC, dt DESC";
 	if ($res_getRL = $conn->prepare($sql_room_logs_total)) {
 		$res_getRL->bind_param("s", $last_fetch_time);
 		$res_getRL->execute();		
@@ -38,10 +39,11 @@ if (isset($last_fetch_time)) {
 					$new_rows[] = array( 
 						"NFC_ID" => $NFC_ID,
 						"roomlog_id" => $roomlogID,
-						"roomlog_dt" => $roomlogdt,
+						"roomlog_dt" => from_db_to_ui($roomlogdt),
 						"room_identifier" => $room_identifier
 					);
 				}
+				$new_rows['count'] = $res_getRL_rows;
 				$new_rows['last_fetch_time'] = time();
 				echo json_encode($new_rows);
 			} else {

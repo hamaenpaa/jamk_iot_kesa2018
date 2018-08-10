@@ -32,20 +32,20 @@
 			<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 			<h2>Sisäänkirjautuneet ihmiset</h2>
 			<div class="room_log_listing_table">
-				<div class="heading-row">
+			<!--	<div class="heading-row"> -->
 					<div class="row">
-					<div class="col-sm-<?php echo $nfc_cols; ?>"><h5>NFC ID</h5></div>
-					<div class="col-sm-<?php echo $dt_cols; ?>"><h5>Sisääntuloaika</h5></div>
-					<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
-				</div>
-			</div>
+						<div class="col-sm-<?php echo $nfc_cols; ?>"><h5>NFC ID</h5></div>
+						<div class="col-sm-<?php echo $dt_cols; ?>"><h5>Sisääntuloaika</h5></div>
+						<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
+					</div>
+	<!--			</div> -->
 <?php
 			foreach($room_logs_students as $room_log) {
 				$dt = $room_log['dt'];
 				$room_identifier = $room_log['room_identifier'];
 				$nfc_id = $room_log['nfc_id'];
 ?>				
-				<div class="row">
+				<div class="row datarow">
 					<div class="col-sm-<?php echo $nfc_cols; ?>">
 						<?php echo $nfc_id; ?>
 					</div>				

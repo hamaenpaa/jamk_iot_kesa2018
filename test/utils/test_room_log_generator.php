@@ -1,4 +1,7 @@
 <?php
+	ini_set('max_execution_time', 10000); 
+	set_time_limit(10000);
+
 	/* configuration of generation*/
 	$corresponding_NFC_IDS = "ASDDJ,SADAS";
 	$room_ids = "ABC1,ABC2";
@@ -29,6 +32,8 @@
 		$sql_insert .= $room_id . "',NOW())";
 		echo $sql_insert . "<br>\n";
 		$conn->query($sql_insert);	
+		
+		sleep(10);
 	}
 	
 	include($cfg_path . "inc/db_disconnect_inc.php");

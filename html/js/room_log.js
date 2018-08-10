@@ -1,15 +1,3 @@
-$(function() {
-  $("#seek_with").on("change", function() {
-   $("#seek_with_form").submit();
-  });
-});
-
-$(function() {
-  $("#seek_specific_room_or_course").on("change", function() {
-   $("#seek_specific_room_or_course_form").submit();
-  });
-});
-
 $().ready(function() {
 	time = $('#last_fetch_time').html();
 	if (time !== undefined) {
@@ -62,6 +50,9 @@ $().ready(function() {
 								"</div>";
 							var wrappedSet = firstOfNFCIdElems[iOfNFCIdBeforeElem];
 							wrappedSet.before(elemToBeInserted);
+							if (i == 0)
+								$("#new_room_log_notifications").html(
+									"<b>Sinulla on uusia merkintöjä lokissa</b>");
 						}
 					}
 			});
@@ -75,3 +66,66 @@ $().ready(function() {
 		);
 	}
 });
+
+function log_arr(arr) {
+	for(i=0; i < arr.length; i++) {
+	    console.log("i = " + i + " -> " + arr[i]);	
+	}
+}
+
+function validateForm() {
+    var begin_datetime = document.forms["seek_room_log_form"]["begin_time"].value;
+	var end_datetime = document.forms["seek_room_log_form"]["end_time"].value;
+	
+	var begin_datetime_parts = begin_datetime.split(" ");
+	var end_datetime_parts = end_datetime.split(" ");
+	
+	var begin_date_parts = begin_datetime_parts[0].split(".");
+	var end_date_parts = end_datetime_parts[0].split(".");
+	
+	var begin_time_parts = begin_datetime_parts[1].split(":");
+	var end_time_parts = end_datetime_parts[1].split(":");	
+	
+	var begin_day_of_month = parseInt(begin_date_parts[0]);
+	var end_day_of_month = parseInt(end_date_parts[0]);
+	
+	var begin_month = parseInt(begin_date_parts[1]);
+	var end_month = parseInt(end_date_parts[1]);
+	
+	var begin_year = parseInt(begin_date_parts[2]);
+	var end_year = parseInt(end_date_parts[2]);
+	
+	var begin_hours = parseInt(begin_time_parts[0]);
+	var end_hours = parseInt(end_time_parts[0]);
+
+	var begin_minutes = parseInt(begin_time_parts[1]);
+	var end_minutes = parseInt(end_time_parts[1]);
+	
+	var datetimeorder_correct = true;
+	if (begin_year > end_year) {
+		datetimeorder_correct = false;
+	} else if (begin_year == end_year) {
+		if (begin_month > end_month) {
+			datetimeorder_correct = false;
+		} else if (begin_month == end_month) {
+			if (begin_day_of_month > end_day_of_month) {
+				datetimeorder_correct = false;
+			} else if (begin_day_of_month == end_day_of_month) {
+				if (begin_hours > end_hours) {
+					datetimeorder_correct = false;
+				} else if (begin_hours == end_hours) {
+					if (begin_minutes > end_minutes) {
+						datetimeorder_correct = false;
+					}
+				}
+			}
+		}
+	}
+		
+	if (!datetimeorder_correct) {
+		$("#validation_errors").html("Alkuaika on loppuajan jälkeen: korjaa se!");
+		return false;
+	} else {
+		$("#validation_errors").html("");
+	}
+}

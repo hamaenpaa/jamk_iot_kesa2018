@@ -22,13 +22,14 @@
 			
 		$room_logs_students = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id);
-		if (count($room_logs_students) > 0) {
+	//	if (count($room_logs_students) > 0) {
 			$dt_extra_css_classes = "";
 			$room_extra_css_classes = "";
 			$nfc_extra_css_classes = "";
 	
 			$dt_cols = "4";	$nfc_cols = "4"; $room_cols = "4";			
 ?>
+			<div id="new_room_log_notifications"></div>
 			<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 			<h2>Sisäänkirjautuneet ihmiset</h2>
 			<div class="room_log_listing_table">
@@ -58,7 +59,7 @@
 				</div>				
 <?php				
 			}
-		}
+	//	}
 	}
 ?>
 </div>

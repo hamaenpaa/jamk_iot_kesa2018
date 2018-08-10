@@ -24,15 +24,16 @@ $().ready(function() {
 						}
 						var firstNFCIdElemFound = [];
 						var firstOfNFCIdElems = [];
+						var allEmpty = true;
 						$(".datarow div:first-child").each(
 						   function (i,obj) {
+							   allEmpty = false;
 							   var nfc_id = obj.innerHTML.trim();
 							   if (!firstNFCIdElemFound.includes(nfc_id)) {
 								   if (nfc_ids_at_new.includes(nfc_id)) {
 									   firstOfNFCIdElems.push($(obj.parentElement));  
 									   firstNFCIdElemFound.push(nfc_id);
 								   }
-								   
 							   }
 						   }
 						);
@@ -48,8 +49,35 @@ $().ready(function() {
 								"<div class=\"col-sm-4\">" + jsonData[i].roomlog_dt + "</div>" +
 								"<div class=\"col-sm-4\">" + jsonData[i].room_identifier + "</div>" +
 								"</div>";
-							var wrappedSet = firstOfNFCIdElems[iOfNFCIdBeforeElem];
-							wrappedSet.before(elemToBeInserted);
+							if (iOfNFCIdBeforeElem == -1) {
+								if (allEmpty) {
+									$(".room_log_listing_table").append(elemToBeInserted);
+									firstOfNFCIdElems.push($($(".datarow")[0]));	
+									allEmpty = false;
+								} else {
+									var lastBefore = -1;
+									for(j=0; j < firstNFCIdElemFound.length; j++) {
+										if (firstNFCIdElemFound[j].localeCompare(jsonData[i].NFC_ID) < 0) {
+											lastBefore = j;
+										} else {
+											break;
+										}
+									}
+									if (lastBefore == -1) {
+										$(".room_log_listing_table").append(elemToBeInserted);
+										firstOfNFCIdElems.push($($(".datarow")[0]));	
+									} else {
+										var wrappedSet = firstOfNFCIdElems[lastBefore];
+										wrappedSet.before(elemToBeInserted);	
+										firstOfNFCIdElems.push(wrappedSet.prev());
+									}
+								}
+								firstNFCIdElemFound.push(jsonData[i].NFC_ID);
+															
+							} else {
+								var wrappedSet = firstOfNFCIdElems[iOfNFCIdBeforeElem];
+								wrappedSet.before(elemToBeInserted);
+							}
 							if (i == 0)
 								$("#new_room_log_notifications").html(
 									"<b>Sinulla on uusia merkintöjä lokissa</b>");
@@ -67,11 +95,7 @@ $().ready(function() {
 	}
 });
 
-function log_arr(arr) {
-	for(i=0; i < arr.length; i++) {
-	    console.log("i = " + i + " -> " + arr[i]);	
-	}
-}
+
 
 function validateForm() {
     var begin_datetime = document.forms["seek_room_log_form"]["begin_time"].value;

@@ -1,3 +1,7 @@
+<?php 
+	include("inc/db_connect_inc.php"); 
+	include("inc/utils/request_param_utils.php");
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,7 +23,7 @@
 				</div>
 			</header>
 			<div class="content-wrap">
-				<?php include("inc/list_room_logs.php"); ?>
+				<?php include("inc/". $inc_module . ".php"); ?>
 			</div>
 			<footer>
 				<div class="footer-wrap">
@@ -36,3 +40,4 @@
 		</div>
 	</body>
 </html>
+<?php include("inc/db_disconnect_inc.php"); ?>

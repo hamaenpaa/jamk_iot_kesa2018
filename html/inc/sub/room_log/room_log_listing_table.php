@@ -22,24 +22,21 @@
 			
 		$room_logs_students = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id);
-	//	if (count($room_logs_students) > 0) {
-			$dt_extra_css_classes = "";
-			$room_extra_css_classes = "";
-			$nfc_extra_css_classes = "";
+		$dt_extra_css_classes = "";
+		$room_extra_css_classes = "";
+		$nfc_extra_css_classes = "";
 	
-			$dt_cols = "4";	$nfc_cols = "4"; $room_cols = "4";			
+		$dt_cols = "4";	$nfc_cols = "4"; $room_cols = "4";			
 ?>
-			<div id="new_room_log_notifications"></div>
-			<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
-			<h2>Sisäänkirjautuneet ihmiset</h2>
-			<div class="room_log_listing_table">
-			<!--	<div class="heading-row"> -->
-					<div class="row">
-						<div class="col-sm-<?php echo $nfc_cols; ?>"><h5>NFC ID</h5></div>
-						<div class="col-sm-<?php echo $dt_cols; ?>"><h5>Sisääntuloaika</h5></div>
-						<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
-					</div>
-	<!--			</div> -->
+		<div id="new_room_log_notifications"></div>
+		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
+		<h2>Sisäänkirjautuneet ihmiset</h2>
+		<div class="room_log_listing_table">
+			<div class="row">
+				<div class="col-sm-<?php echo $nfc_cols; ?>"><h5>NFC ID</h5></div>
+				<div class="col-sm-<?php echo $dt_cols; ?>"><h5>Sisääntuloaika</h5></div>
+				<div class="col-sm-<?php echo $room_cols; ?>"><h5>Luokka</h5></div>
+			</div>
 <?php
 			foreach($room_logs_students as $room_log) {
 				$dt = $room_log['dt'];
@@ -59,7 +56,8 @@
 				</div>				
 <?php				
 			}
-	//	}
+?>
+		</div>
+<?php
 	}
 ?>
-</div>

@@ -18,8 +18,12 @@ if (!isset($seek_nfc_id)) {
 if (isset($last_fetch_time)) {
 	$sql_room_logs_total = 
 		"SELECT ca_roomlog.ID, ca_roomlog.NFC_ID, 
-				ca_roomlog.dt, ca_roomlog.room_identifier 
+				ca_roomlog.dt, ca_roomlog.room_identifier,
+				ca_lesson.topic
          FROM ca_roomlog 
+		 LEFT JOIN ca_lesson ON 
+			DATE(ca_lesson.begin_time) = DATE(ca_roomlog.dt) AND 
+			ca_lesson.room_identifier = ca_roomlog.room_identifier	
 		 WHERE 
 			ca_roomlog.dt > ?  
 			  AND ca_roomlog.room_identifier LIKE '%" .$seek_room ."%'
@@ -33,14 +37,15 @@ if (isset($last_fetch_time)) {
 			$res_getRL->store_result();
 			$res_getRL_rows = $res_getRL->num_rows();
 			if ($res_getRL_rows > 0) {
-				$res_getRL->bind_result($roomlogID,$NFC_ID,$roomlogdt,$room_identifier);
+				$res_getRL->bind_result($roomlogID,$NFC_ID,$roomlogdt,$room_identifier,$topic);
 				$new_rows = array();
 				while($res_getRL->fetch()) {
 					$new_rows[] = array( 
 						"NFC_ID" => $NFC_ID,
 						"roomlog_id" => $roomlogID,
 						"roomlog_dt" => from_db_to_ui($roomlogdt),
-						"room_identifier" => $room_identifier
+						"room_identifier" => $room_identifier,
+						"topic" => $topic
 					);
 				}
 				$new_rows['count'] = $res_getRL_rows;

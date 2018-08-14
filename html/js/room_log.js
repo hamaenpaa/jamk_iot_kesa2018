@@ -44,10 +44,12 @@ $().ready(function() {
 						}
 						for(i=0; i < jsonData.count; i++) {
 							iOfNFCIdBeforeElem = firstNFCIdElemFound.indexOf(jsonData[i].NFC_ID);
+							if (jsonData[i].topic == null) { jsonData[i].topic = "&nbsp;"; }
 							elemToBeInserted = "<div class=\"row datarow\">" +
-								"<div class=\"col-sm-4\">" + jsonData[i].NFC_ID + "</div>" +
-								"<div class=\"col-sm-4\">" + jsonData[i].roomlog_dt + "</div>" +
-								"<div class=\"col-sm-4\">" + jsonData[i].room_identifier + "</div>" +
+								"<div class=\"col-sm-3\">" + jsonData[i].NFC_ID + "</div>" +
+								"<div class=\"col-sm-3\">" + jsonData[i].roomlog_dt + "</div>" +
+								"<div class=\"col-sm-3\">" + jsonData[i].room_identifier + "</div>" +
+								"<div class=\"col-sm-3\">" + jsonData[i].topic + "</div>" +
 								"</div>";
 							if (iOfNFCIdBeforeElem == -1) {
 								if (allEmpty) {

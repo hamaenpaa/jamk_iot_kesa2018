@@ -18,5 +18,6 @@ CREATE TABLE ca_lesson (
 	end_time DATETIME NOT NULL,
 	room_identifier VARCHAR(50),
 	topic VARCHAR(150),
+	removed TINYINT(1) DEFAULT 0,
 	PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;

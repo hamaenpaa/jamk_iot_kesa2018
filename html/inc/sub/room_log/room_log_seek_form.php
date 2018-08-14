@@ -22,25 +22,29 @@
 	} 	
 ?>
 
-<!--  -->
 <div>
 	<form name="seek_room_log_form" id="seek_room_log_form" 
 		action="index.php" method="POST" onsubmit="return validateForm()" >
+		<label>Aloitusaika:</label>
 		<input  
 			placeholder="Aloitusaika" size="16" 
 			alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
 			id="date_start" class="datetime_picker"
 			name="begin_time" <?php echo $begin_time_value_param; ?> required />
+		<br/>
+		<label>Lopetusaika:</label>
 		<input 
 			placeholder="Lopetusaika" size="16" 
 			alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 09:00" 
 			id="date_end" class="datetime_picker"
-			name="end_time" <?php echo $end_time_value_param; ?> required />		
-		
+			name="end_time" <?php echo $end_time_value_param; ?> required />
+		<br/>
+		<label>Etsittävä luokan tunnisteen osa:</label>
 		<input id="seek_room" type="text" name="seek_room" value="<?php echo $seek_room; ?>" placeholder="Etsittävä luokan tunnisteen osa" />
+		<br/>
+		<label>Etsittävä NFC ID:n osa:</label>
 		<input id="seek_nfc_id" type="text" name="seek_nfc_id" value="<?php echo $seek_nfc_id; ?>" placeholder="Etsittävä NFC ID:n osa" />
-
-		<!-- <button onclick="validateForm()">Here</button> -->
+		<br/>
 		<input type="submit" value="Valitse"/>
 	</form>
 </div>

@@ -2,6 +2,8 @@
 	$id = "";
 	$begin_time_value_param = "";
 	$end_time_value_param = "";
+	$room_identifier = "";
+	$topic = "";
 	if (isset($_POST['id'])) {
 ?>
 		<h2>Muokkaa koulutusta tai oppituntia</h2>

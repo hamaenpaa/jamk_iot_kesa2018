@@ -6,9 +6,11 @@
 	if (isset($_POST['id']) || isset($_GET['id'])) {
 		$id = get_post_or_get($conn, 'id');
 	}
-	
-	$begin_time = from_ui_to_db(strip_tags($_POST['begin_time']));
-	$end_time = from_ui_to_db(strip_tags($_POST['end_time']));
+	$lesson_date = date_from_ui_to_db(strip_tags($_POST['lesson_date']));
+	$begin_time = strip_tags($_POST['begin_time']) . ":00";
+	$end_time = strip_tags($_POST['end_time']). ":00";
+	$begin_date_time = $lesson_date . " " . $begin_time;
+	$end_date_time = $lesson_date . " " . $end_time;
 	$topic = strip_tags($_POST['topic']);
 	$room_identifier = strip_tags($_POST['room_identifier']);
 	
@@ -36,7 +38,7 @@
 		$q = $conn->prepare("UPDATE ca_lesson SET 
 			begin_time = ?, end_time = ?, room_identifier = ?, topic=? WHERE ID = ?");
 		if ($q) {
-			$q->bind_param("ssssi", $begin_time, $end_time, $room_identifier, $topic, $id);
+			$q->bind_param("ssssi", $begin_date_time, $end_date_time, $room_identifier, $topic, $id);
 			$q->execute();
 		}
 	} else {
@@ -45,7 +47,7 @@
 				ca_lesson (begin_time, end_time, room_identifier, topic) 
 				VALUES (?,?,?,?)");
 		if ($q) {
-			$q->bind_param("ssss", $begin_time, $end_time, $room_identifier, $topic);
+			$q->bind_param("ssss", $begin_date_time, $end_date_time, $room_identifier, $topic);
 			$q->execute();
 		}		
 	}

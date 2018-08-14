@@ -10,10 +10,9 @@
 ?>
 			<div id="lesson_listing_table">
 				<div class="row">
-					<div class="col-sm-2"><h5>Alkuaika</h5></div>
-					<div class="col-sm-2"><h5>Loppuaika</h5></div>
+					<div class="col-sm-3"><h5>Aikaväli</h5></div>
 					<div class="col-sm-3"><h5>Huone</h5></div>
-					<div class="col-sm-3"><h5>Aihe</h5></div>
+					<div class="col-sm-4"><h5>Aihe</h5></div>
 					<div class="col-sm-1-wrap">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-1"></div>
@@ -27,16 +26,15 @@
 					$topic = $lesson['topic'];
 ?>				
 					<div class="row">
-						<div class="col-sm-2">
-							<?php echo drop_seconds_from_ui(from_db_to_ui($begin_time)); ?>
+						<div class="col-sm-3">
+							<?php echo 
+								from_db_datetimes_to_same_day_date_plus_times(
+									$begin_time, $end_time); ?>
 						</div>			
-						<div class="col-sm-2">
-							<?php echo drop_seconds_from_ui(from_db_to_ui($end_time)); ?>
-						</div>							
 						<div class="col-sm-3">
 							<?php echo $room_identifier; ?>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<?php echo $topic;  ?>
 						</div>
 						<div class="col-sm-1-wrap">

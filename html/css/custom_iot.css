@@ -337,6 +337,11 @@ footer {
 	padding: 5px 2px 5px 2px;
 }
 
+
+#lesson_listing_table {
+	margin: 0  15px 0 15px !important;
+}
+
 /* Adding media query for the bootstrap table */
 @media only screen and (max-width: 767px) {
 	.heading-row {
@@ -380,6 +385,21 @@ footer {
 	}
 }
 
+.row-type-2 {
+	display: flex;
+	justify-content: space-between;
+	max-width: 400px;
+	min-width: 300px;
+}
+
+.row-type-2 input {
+	margin: 0 0 3px 0;
+}
+
+.row-type-1 input {
+	margin: 0 0 3px 0;
+}
+
 .row-type-4 {
 	text-align: left;
 }
@@ -404,6 +424,14 @@ footer {
 	width: 115px;
 	display: flex;
 	justify-content: space-between;
+}
+
+.col-sm-1 {
+	display: flex;
+}
+
+.col-sm-1 button {
+	margin: 0 5px 0 5px;
 }
 
 div.col-sm-2 b, div.col-sm-4 b {

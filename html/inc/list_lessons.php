@@ -1,4 +1,6 @@
 <?php
+    $index_page = "index.php?screen=1";
+
  	include("utils/html_utils.php");
 	include("utils/sql_utils.php");
 	include("utils/date_utils.php");

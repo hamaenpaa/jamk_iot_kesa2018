@@ -32,20 +32,33 @@
 	}
 ?>	
 	
-<form method="post" action="inc/sub/lesson/save_lesson.php">
+<form name="add_or_modify_lesson_form" method="post" 
+	action="inc/sub/lesson/save_lesson.php"
+	onsubmit="return validateAddOrModifyForm()" >
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
-	<label>Alkuaika:</label>
-	<input id="begin_time" name="begin_time" class="datetime_picker" 
-		<?php echo $begin_time_value_param; ?> />	
-	<label>Loppuaika:</label>
-	<input id="end_time" name="end_time" class="datetime_picker" 
-		<?php echo $end_time_value_param; ?> />		
-	<label>Huoneen tunnus:</label>
-	<input type="text" name="room_identifier" value="<?php echo $room_identifier; ?>" 
-		maxlength="40" required />
-	<label>Aihe:</label>
-	<input type="text" name="topic" value="<?php echo $topic; ?>" 
-		maxlength="40" required />		
-<?php echo $seek_params_hidden_inputs; ?>	
-	<input class="button" type="submit" value="Talleta"/>
+	<div class="row-type-2">
+		<label>Alkuaika:</label>
+		<input id="begin_time" name="begin_time" class="datetime_picker" 
+			<?php echo $begin_time_value_param; ?> />
+	</div>
+	<div class="row-type-2">
+		<label>Loppuaika:</label>
+		<input id="end_time" name="end_time" class="datetime_picker" 
+			<?php echo $end_time_value_param; ?> />	
+    </div>		
+	<div class="row-type-2">
+		<label>Huoneen tunnus:</label>
+		<input type="text" name="room_identifier" value="<?php echo $room_identifier; ?>" 
+			maxlength="50" required />
+	</div>
+	<div class="row-type-2">
+		<label>Aihe:</label>
+		<input type="text" name="topic" value="<?php echo $topic; ?>" 
+			maxlength="150" required />		
+	</div>
+<?php echo $seek_params_hidden_inputs; ?>
+    <div class="row-type-5">
+		<input class="button" type="submit" value="Talleta"/>
+	</div>
 </form>
+<div id="add_or_modify_lesson_form_validation_errors"></div>

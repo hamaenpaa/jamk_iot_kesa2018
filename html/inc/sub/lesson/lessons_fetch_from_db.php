@@ -5,7 +5,8 @@
                 ca_lesson.end_time, ca_lesson.room_identifier,			
 				ca_lesson.topic 
               FROM ca_lesson WHERE 
-				ca_lesson.begin_time >= ? AND ca_lesson.end_time <= ? 
+			    ((? <= ca_lesson.begin_time AND ca_lesson.begin_time <= ?) OR
+				 (? <= ca_lesson.end_time AND ca_lesson.end_time <= ?))
 			  AND ca_lesson.room_identifier LIKE '%" .$room_seek ."%'
 			  AND ca_lesson.topic LIKE '%" . $topic_seek .
 			  "%' ORDER BY begin_time DESC, room_identifier ASC";
@@ -15,7 +16,7 @@
 		echo $sql_lessons;
 		echo "begin_time" . $begin_time;
 		echo "end_time" . $end_time;
-		$q_lessons->bind_param("ss", $end_time, $begin_time);
+		$q_lessons->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);
 		$q_lessons->execute();		
 		$q_lessons->store_result();
 		$q_lessons->bind_result($lesson_id, $begin_time, $end_time, 

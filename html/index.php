@@ -9,9 +9,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<?php include("inc/header.php"); ?>
 		<?php include("inc/datepicker.php"); ?>
-		<?php echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>' ?>
+		<?php echo '<script src="' . $cfg_rootdir . 'js/utils.js" /></script>' ?>
+		<?php 
+			$screen = get_post_or_get($conn, "screen");
+			if (!isset($screen) || $screen == "" || $screen == "0") {
+				echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>'.
+					'<title>Sisäänkirjaukset</title>';
+			}  else {
+				echo '<script src="' . $cfg_rootdir . 'js/lessons.js" /></script>'.
+					'<title>Oppitunnit/koulutukset</title>';
+					
+			}
+		?>
 	</head>
-	<title>IoT Project</title>
+	<
 	<body>
 		<div class="page-wrap">
 			<header>
@@ -28,12 +39,8 @@
 			<footer>
 				<div class="footer-wrap">
 					<div class="footer-links">
-						<p>Linkkejä</p>
 					</div>
 					<div class="footer-contacts">
-						<p>&#169; IoT projekti kesä 2018</p>
-						<p>JAMKin logo</p>
-						<p>Yhteystietoja yms.</p>
 					</div>
 				</div>
 			</footer>

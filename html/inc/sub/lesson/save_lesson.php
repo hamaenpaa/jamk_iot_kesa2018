@@ -1,5 +1,6 @@
 <?php
     include("../../db_connect_inc.php");
+	include("../../utils/date_utils.php");
 	include("../../utils/request_param_utils.php");
 	$id = "";
 	if (isset($_POST['id']) || isset($_GET['id'])) {
@@ -51,5 +52,5 @@
 
 	include("../../db_disconnect_inc.php");
 	
-	header("Location: index.php?screen=1".$seek_params_get);
+	header("Location: ../../../index.php?screen=1".$seek_params_get);
 ?>

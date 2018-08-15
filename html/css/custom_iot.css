@@ -11,6 +11,15 @@ body {
 	margin: 0px;
 }
 
+/* Style for the page-wrapper */
+.page-wrap {
+	margin: auto;
+	width: 90%;
+	max-width: 1200px;
+	min-width: 390px;
+	background-color: #d6e4f9;
+}
+
 /* Styles for headings */
 h1 {
 	font-size: 22px;
@@ -212,7 +221,7 @@ footer {
 }
 
 /* Style for the columns */
-.col-sm-3, .col-sm-4 {
+.col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6 {
 	text-align: left;
 	border: 1px solid dimgrey;
 	color: white;

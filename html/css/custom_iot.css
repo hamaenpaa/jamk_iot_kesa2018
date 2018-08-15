@@ -1,5 +1,5 @@
 /* Nullifier for paragraphs and headings*/
-body p, h1, h2, h3, h4, h5, h6 {
+body p, h1, h2, h5, {
 	margin: 0px !important;
 }
 
@@ -25,25 +25,11 @@ h2 {
 	margin: 10px 0 5px 0 !important;
 }
 
-h3 {
-	font-size: 22px;
-	font-style: italic;
-}
-
-h4 {
-	font-size: 18px;
-}
-
 h5 {
 	font-size: 16px;
 	text-align: center;
 	font-weight: bold;
 	color: black;
-}
-
-h6 {
-	font-size: 18px;
-	font-style: italic;
 }
 
 
@@ -72,15 +58,6 @@ h6 {
 		margin-left: 0px !important;
 	}
 } */
-
-/* Style for the page-wrapper */
-.page-wrap {
-	margin: auto;
-	width: 90%;
-	max-width: 1200px;
-	min-width: 390px;
-	background-color: #d6e4f9;
-}
 
 /* Style for the banner-wrap */
 .banner-wrap {
@@ -155,23 +132,9 @@ input[type="submit"]:disabled {
 	}
 }
 
-/* The mobile navigation button will be visible for now on */
-@media only screen and (min-width: 650px) {
-	.mobile-nav-img {
-		display: none !important;
-	}
-}
-
 /* Style for navigation bar */
 .nav {
 	clear: right;
-}
-
-.mobile-nav-img {
-	float: right;
-	display: block;
-	height: 32px;
-	width: 32px;
 }
 
 /* Style for the content-wrap */
@@ -193,59 +156,6 @@ input[type="submit"]:disabled {
 		text-align: center !important;
 		max-width: 90% !important;
 	}
-}
-
-/* Style for form-wrap */
-.form-wrap {
-	padding: 0 10px;
-	max-width: 600px;
-	text-align: center;
-}
-
-/* Style for labels inside form-wrap */
-.form-wrap label {
-	display: block;
-	text-align: left;
-	font-weight: bold;
-	float: left;
-	min-width: 264px;
-	margin-bottom: 5px;
-}
-
-/* Style for log in page's form */
-#input-form {
-	width: 200px;
-	text-align: center;
-	margin: auto;
-}
-
-#input-form p {
-	text-align: left;
-	margin: 3px 0 3px 17.5px !important;
-	font-weight: bold;
-}
-
-#sign-in {
-	text-align: center !important;
-	margin: 10px 0 0 0 !important;
-}
-
-/* Style for inputs inside form-wrap */
-.form-wrap input {
-	display: block;
-	text-align: start;
-	float: rigth;
-	min-width: 330px;
-	margin-bottom: 5px;
-}
-
-/* Style for text-areas inside form-wrap */
-.form-wrap textarea {
-	display: block;
-	float: rigth;
-	padding-left: 20p;
-	margin: 0 0 5px 0;
-	max-width: 328px;
 }
 
 /* Styles for the footer */
@@ -295,41 +205,14 @@ footer {
 	color: #bfbfc0;
 }
 
-/* Style for selects */
-.select-wrap {
-	display: inline-block;
-	margin: auto;
-	text-align: center;
-	max-width: 1200px;
-}
-
-/* Style for the panels */
-.panel-wrap {
-	display: inline-block;
-	text-align: left;
-}
-
-/* Style for panel buttons */
-.panel-wrap {
-	margin-right: 5px;
-}
-
-.curr_page {
-	color: blue !important;
-}
-
-.other_page {
-	color: black !important;
-}
-
 
 /* Adding margin to the different listing tables and forms */
-.room_log_listing_table, #course_table {
+.room_log_listing_table {
 	margin: 0  15px 0 15px;
 }
 
 /* Style for the columns */
-.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10 {
+.col-sm-3, .col-sm-4 {
 	text-align: left;
 	border: 1px solid dimgrey;
 	color: white;
@@ -341,13 +224,6 @@ footer {
 #lesson_listing_table, #course_listing_table, 
 #course_lesson_listing_table, #lessons_without_course_listing_table {
 	margin: 0  15px 0 15px !important;
-}
-
-/* Adding media query for the bootstrap table */
-@media only screen and (max-width: 767px) {
-	.heading-row {
-		display: none !important;
-	}
 }
 
 @media only screen and (max-width: 847px) {
@@ -412,15 +288,6 @@ footer {
 
 /* --------- Style for RoomLog --------- */
 
-#seek_specific_room_or_course {
-	margin: 0 0 5px 0;
-}
-
-#lesson_select {
-	max-width: 450px;
-	height: content;
-}
-
 .col-sm-1-wrap {
 	width: 115px;
 	display: flex;
@@ -438,25 +305,3 @@ footer {
 div.col-sm-2 b, div.col-sm-4 b {
 	text-align: center;
 }
-
-/* Tempopary solution */
-/* Hiding heading row elements at a certain width */
-@media only screen and (max-width: 929px) {
-	.heading-row {
-		display: none !important;
-	}
-}
-
-/* --------- Style for NFC tag listing page --------- */
-
-/* Adding margin between check-boxes */
-#seek_nfc_tags input {
-	margin: 0 5px 0 5px;
-	}
-	
-@media only screen and (max-width: 722px) {
-	.no-margin-input {
-		margin: 0 5px 0 0 !important;
-	}
-}
-

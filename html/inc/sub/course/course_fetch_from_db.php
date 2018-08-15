@@ -7,11 +7,9 @@
 				AND description LIKE '%" .$description_seek ."%'
 				AND removed = 0";
 		$q_courses = $conn->prepare($sql_courses);
-//		$q_courses->bind_param();
 		$q_courses->execute();		
 		$q_courses->store_result();
 		$q_courses->bind_result($course_id, $name, $description);
-		
 		$courses_arr = array();
 		if ($q_courses->num_rows > 0) {
 			while($q_courses->fetch()) {
@@ -21,5 +19,57 @@
 			}
 		}
 		return $courses_arr;		
+	}
+	
+	function get_course_lessons($conn, $course_id) {
+		$sql_course_lessons = 
+			"SELECT ca_lesson.ID, ca_lesson.topic, ca_lesson.room_identifier,
+				ca_lesson.begin_time, ca_lesson.end_time FROM 
+				ca_lesson WHERE ca_lesson.removed = 0 AND ca_lesson.course_id = ?";
+		$q = $conn->prepare($sql_course_lessons);
+		$course_lessons_arr = array();
+		if ($q) {
+			$q->bind_param("i", $course_id);
+			$q->execute();
+			$q->store_result(); 		
+			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
+			while ($q->fetch()) {
+				$course_lessons_arr[] = 
+					array(
+						"lesson_id" => $lesson_id,
+						"topic" => $topic,
+						"begin_time" => $begin_time,
+						"end_time" => $end_time,
+						"room_identifier" => $room_identifier
+					);
+			}
+		}
+		return $course_lessons_arr;
+	}
+	
+	function get_lessons_without_course($conn) {
+		$sql_lessons_without_course = 
+			"SELECT ca_lesson.ID, ca_lesson.topic, ca_lesson.room_identifier,
+				ca_lesson.begin_time, ca_lesson.end_time FROM 
+				ca_lesson WHERE ca_lesson.removed = 0 AND ca_lesson.course_id IS NULL";	
+		$q = $conn->prepare($sql_lessons_without_course);
+		$lessons_without_course_arr = array();
+		if ($q) {
+			$q->execute();
+			$q->store_result(); 		
+			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
+			while ($q->fetch()) {
+				$lessons_without_course_arr[] = 
+					array(
+						"lesson_id" => $lesson_id,
+						"topic" => $topic,
+						"begin_time" => $begin_time,
+						"end_time" => $end_time,
+						"room_identifier" => $room_identifier
+					);
+			}
+		}
+		return $lessons_without_course_arr;
+		
 	}
 ?>

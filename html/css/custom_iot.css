@@ -324,7 +324,7 @@ footer {
 
 
 /* Adding margin to the different listing tables and forms */
-.room_log_listing_table, #seek_students_form, #course_table {
+.room_log_listing_table, #course_table {
 	margin: 0  15px 0 15px;
 }
 
@@ -338,7 +338,8 @@ footer {
 }
 
 
-#lesson_listing_table, #course_listing_table {
+#lesson_listing_table, #course_listing_table, 
+#course_lesson_listing_table, #lessons_without_course_listing_table {
 	margin: 0  15px 0 15px !important;
 }
 

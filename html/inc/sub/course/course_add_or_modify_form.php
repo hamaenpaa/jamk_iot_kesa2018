@@ -1,16 +1,15 @@
 <?php
-	$id = "";
+	$id = get_post_or_get($conn, "id");
 	$name = "";
 	$description = "";
-	if (isset($_POST['id'])) {
+	if ($id != "") {
 ?>
 		<h2>Muokkaa kurssia</h2>
 <?php
-		$id = $_POST['id'];
 		$q = $conn->prepare(
 			"SELECT name, description FROM ca_course WHERE ID=?");
 		if ($q) {
-			$q->bind_param("s", $_POST['id']);
+			$q->bind_param("i", intval($id));
 			$q->execute();
 			$q->bind_result($name, $description);
 			$q->fetch();
@@ -43,3 +42,5 @@
 		<input class="button" type="submit" value="Talleta"/>
 	</div>
 </form>
+
+<?php include("list_course_lessons.php"); ?>

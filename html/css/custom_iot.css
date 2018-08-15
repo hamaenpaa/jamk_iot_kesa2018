@@ -221,7 +221,7 @@ footer {
 }
 
 /* Style for the columns */
-.col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6 {
+.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6 {
 	text-align: left;
 	border: 1px solid dimgrey;
 	color: white;

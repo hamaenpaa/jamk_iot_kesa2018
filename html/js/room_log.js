@@ -5,13 +5,20 @@ $().ready(function() {
 		function getRoomData() {
 			seek_room = $("#seek_room").val();
 			seek_nfc = $("#seek_nfc_id").val();
+			seek_topic = $("#seek_topic").val();
+			seek_course_name = $("#seek_course_name").val();			
 			time = $('#last_fetch_time').html();
 			if (seek_room === undefined)
 				seek_room = "";
 			if (seek_nfc === undefined)
 				seek_nfc = "";
+			if (seek_course_name === undefined)
+				seek_course_name = "";	
+			if (seek_topic === undefined)
+				seek_topic = "";				
 			$.get("inc/sub/room_log/get_new_room_log.php?last_fetch_time=" + time +
-				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc, 
+				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc +
+				"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic, 
 				function(data) {
 					if (data != "{}") {
 						jsonData = JSON.parse(data);
@@ -46,10 +53,11 @@ $().ready(function() {
 							iOfNFCIdBeforeElem = firstNFCIdElemFound.indexOf(jsonData[i].NFC_ID);
 							if (jsonData[i].topic == null) { jsonData[i].topic = "&nbsp;"; }
 							elemToBeInserted = "<div class=\"row datarow\">" +
-								"<div class=\"col-sm-3\">" + jsonData[i].NFC_ID + "</div>" +
-								"<div class=\"col-sm-3\">" + jsonData[i].roomlog_dt + "</div>" +
-								"<div class=\"col-sm-3\">" + jsonData[i].room_identifier + "</div>" +
+								"<div class=\"col-sm-2\">" + jsonData[i].NFC_ID + "</div>" +
+								"<div class=\"col-sm-2\">" + jsonData[i].roomlog_dt + "</div>" +
+								"<div class=\"col-sm-2\">" + jsonData[i].room_identifier + "</div>" +
 								"<div class=\"col-sm-3\">" + jsonData[i].topic + "</div>" +
+								"<div class=\"col-sm-3\">" + jsonData[i].course_name + "</div>" +
 								"</div>";
 							if (iOfNFCIdBeforeElem == -1) {
 								if (allEmpty) {

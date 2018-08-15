@@ -3,6 +3,8 @@
 	$end_time = get_post_or_get($conn, "end_time");
 	$seek_room = get_post_or_get($conn, "seek_room");
 	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");	
+	$seek_course_name = get_post_or_get($conn, "seek_course_name");
+	$seek_topic = get_post_or_get($conn, "seek_topic");	
 
 	if (!isset($begin_time)) {
 		$begin_time_value_param = "";
@@ -20,6 +22,12 @@
 	if (!isset($seek_nfc_id)) {
 		$seek_nfc_id = "";
 	} 	
+	if (!isset($seek_topic)) {
+		$seek_topic = "";
+	}	
+	if (!isset($seek_course_name)) {
+		$seek_course_name = "";
+	}		
 ?>
 
 <div>
@@ -53,6 +61,18 @@
 				maxlength="50" value="<?php echo $seek_nfc_id; ?>" 
 				placeholder="Etsittävä NFC ID:n osa" />
 		</div>
+		<div class="row-type-2">
+			<label>Etsittävä aiheen osa:</label>
+			<input id="seek_topic" type="text" name="seek_topic" 
+				maxlength="50" value="<?php echo $seek_topic; ?>" 
+				placeholder="Etsittävä aiheen osa" />
+		</div>		
+		<div class="row-type-2">
+			<label>Etsittävä kurssin nimen osa:</label>
+			<input id="seek_course_name" type="text" name="seek_course_name" 
+				maxlength="50" value="<?php echo $seek_course_name; ?>" 
+				placeholder="Etsittävä kurssin nimen osa" />
+		</div>		
 		<div class="row-type-5">		
 			<input class="button" type="submit" value="Valitse"/>
 		</div>

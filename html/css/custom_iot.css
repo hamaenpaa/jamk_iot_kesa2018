@@ -338,7 +338,7 @@ footer {
 }
 
 
-#lesson_listing_table {
+#lesson_listing_table, #course_listing_table {
 	margin: 0  15px 0 15px !important;
 }
 

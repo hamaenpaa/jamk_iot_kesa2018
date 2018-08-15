@@ -18,6 +18,16 @@ CREATE TABLE ca_lesson (
 	end_time DATETIME NOT NULL,
 	room_identifier VARCHAR(50),
 	topic VARCHAR(150),
+	course_id INT,
+	removed TINYINT(1) DEFAULT 0,
+	PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS ca_course;
+CREATE TABLE ca_course (
+    ID INT NOT NULL AUTO_INCREMENT,
+	name varchar(50),
+	description TEXT,
 	removed TINYINT(1) DEFAULT 0,
 	PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;

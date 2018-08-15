@@ -1,11 +1,13 @@
 <?php
-	function get_courses($conn, $name_seek, $description_seek) {
+	function get_courses($conn, $name_seek, $description_seek, $topic_seek) {
 		$sql_courses = 
 			"SELECT ca_course.ID, ca_course.name, ca_course.description
 				FROM ca_course WHERE 
 				name LIKE '%" .$name_seek ."%'
 				AND description LIKE '%" .$description_seek ."%'
-				AND removed = 0";
+				AND removed = 0 
+				AND EXISTS (SELECT id FROM ca_lesson WHERE 
+				ca_lesson.topic LIKE '%". $topic_seek. "%')";
 		$q_courses = $conn->prepare($sql_courses);
 		$q_courses->execute();		
 		$q_courses->store_result();

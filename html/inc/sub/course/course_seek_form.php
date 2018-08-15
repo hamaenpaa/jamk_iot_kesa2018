@@ -2,9 +2,11 @@
 <?php
 	$name_seek = get_post_or_get($conn, "name_seek");
 	$description_seek = get_post_or_get($conn, "description_seek");
+	$topic_seek = get_post_or_get($conn, "topic_seek");
 	$seek_params_hidden_inputs = 
 		hidden_input("name_seek", $name_seek) .
-		hidden_input("description_seek", $description_seek);	
+		hidden_input("description_seek", $description_seek).
+		hidden_input("topic_seek", $description_seek);	
 ?>
 <form name="courses_seek" action="<?php echo $index_page; ?>" method="POST" >	
 	<div class="row-type-2">
@@ -19,6 +21,14 @@
 			id="description_seek" 
 			value="<?php echo $description_seek; ?>"  />
 	</div>
+	<div class="row-type-2">
+		<label>Oppitunnin aihe:</label>
+		<input name="topic_seek" placeholder="Aihe"
+			id="topic_seek" 
+			value="<?php echo $topic_seek; ?>"  />
+	</div>	
+	
+	
 	<div class="row-type-5">
 		<input class="button" type="submit" value="Hae"/>
 	</div>

@@ -1,6 +1,6 @@
 <?php
 		include("course_fetch_from_db.php");
-		$courses = get_courses($conn, $name_seek, $description_seek);
+		$courses = get_courses($conn, $name_seek, $description_seek, $topic_seek);
 ?>
 		<h2>Kurssit</h2>
 <?php

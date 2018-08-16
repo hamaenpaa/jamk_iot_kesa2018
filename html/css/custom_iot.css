@@ -60,14 +60,6 @@ h5 {
     cursor: pointer;
 }
 
-/* Media screen style for the banner links
-@media only screen and (max-width: 708px) {
-	.button {
-		text-align: left !important;
-		margin-left: 0px !important;
-	}
-} */
-
 /* Style for the banner-wrap */
 .banner-wrap {
 	display: block;
@@ -81,6 +73,7 @@ h5 {
 }
 
 /* Style for links inside the banner */
+
 .banner-wrap a {
 	width: content;
 	padding: 5px 10px 5px 10px;
@@ -107,11 +100,6 @@ h5 {
 	background-color: #002844;
 }
 
-/* Style for disabled submit buttons */
-input[type="submit"]:disabled {
-	background-color: orange;
-	text-decoration: line-through;
-}
 
 /* Media screen style for the banner links */
 @media only screen and (max-width: 849px) {
@@ -134,17 +122,6 @@ input[type="submit"]:disabled {
 	}
 }
 
-/* Media screen style for the banner links */
-@media only screen and (max-width: 649px) {
-	.banner-wrap a {
-		display: none !important;
-	}
-}
-
-/* Style for navigation bar */
-.nav {
-	clear: right;
-}
 
 /* Style for the content-wrap */
 .content-wrap {
@@ -294,6 +271,84 @@ footer {
 	border-width: 1px;
 	margin: 3px 0 3px 0;
 }
+
+/* ------------- mobile nav ------------- */
+
+@media only screen and (min-width: 650px) {
+	.mobile-nav-img {
+		display: none !important;
+	}
+	li {
+		display: inline;
+	}
+}
+
+@media only screen and (max-width : 650px) {
+	.mobile-nav-img {
+		float: right;
+		display: block;
+		height: 32px;
+		width: 32px;
+	}
+
+	nav#navigation {
+		float: right;
+		padding: 2px;	
+		z-index: 100;
+	}
+
+	nav#navigation ul, nav#navigation:active ul { 
+		display: none;
+		position: absolute;
+		padding: 5px;
+		background: #fff;
+		border: 5px solid #444;
+		right: 20px;
+		top: 5px;
+		width: 50%;
+		border-radius: 4px 0 4px 4px;
+	}
+
+	ul#mobile_links {
+		list-style: none;
+	}
+
+	nav#navigation li {
+		text-align: center;
+		width: 100%;
+		padding: 2px 0;
+		margin: 0;
+	}
+
+	nav#navigation:hover ul {
+		display: block;
+	}
+
+	ul#mobile_links li {
+	    display: block !important;
+		text-align: center;
+		width: 100%;
+		padding: 0 0;
+		margin: 0;
+			float: left;
+		vertical-align: baseline;
+	}
+
+	.banner-wrap ul#mobile_links li a {
+		display:block !important;
+		color: #4C9CF1;
+		font-weight: bold;
+		font-size: 16px !important;
+		width: content;
+		padding: 5px 2px 5px 2px;
+		text-decoration: none;
+	}
+
+	ul#mobile_links li a:hover {
+		color: #444;
+	}
+}
+
 
 /* --------- Style for RoomLog --------- */
 

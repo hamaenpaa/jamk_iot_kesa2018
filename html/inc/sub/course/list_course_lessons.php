@@ -6,8 +6,8 @@
 		$course_lessons = get_course_lessons($conn, $id);
 		if (count($course_lessons) > 0) {
 ?>			
-			<div id="course_lesson_listing_table">
-				<div class="row">
+			<div id="course_lesson_listing_table" class="datatable">
+				<div class="row heading-row">
 					<div class="col-sm-3"><h5>Aikaväli</h5></div>
 					<div class="col-sm-3"><h5>Huone</h5></div>
 					<div class="col-sm-5"><h5>Aihe</h5></div>
@@ -16,7 +16,7 @@
 <?php
 				foreach($course_lessons as $course_lesson) {
 ?>
-					<div class="row">
+					<div class="row datarow">
 						<div class="col-sm-3">
 							<?php echo 
 								from_db_datetimes_to_same_day_date_plus_times(
@@ -57,11 +57,17 @@
 		$lessons_without_course = get_lessons_without_course($conn);
 		if (count($lessons_without_course) > 0) {
 ?>
-			<div id="lessons_without_course_listing_table">
+			<div id="lessons_without_course_listing_table" class="datatable">
+				<div class="row heading-row">
+					<div class="col-sm-3"><h5>Aikaväli</h5></div>
+					<div class="col-sm-3"><h5>Huone</h5></div>
+					<div class="col-sm-5"><h5>Aihe</h5></div>
+					<div class="col-sm-1"></div>
+				</div>				
 <?php
-			foreach($lessons_without_course as $lesson_without_course) {
+				foreach($lessons_without_course as $lesson_without_course) {
 ?>
-					<div class="row">
+					<div class="row datarow">
 						<div class="col-sm-3">
 							<?php echo 
 								from_db_datetimes_to_same_day_date_plus_times(

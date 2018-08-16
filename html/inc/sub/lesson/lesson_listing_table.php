@@ -8,11 +8,11 @@
 <?php
 		if (count($lessons) > 0) {
 ?>
-			<div id="lesson_listing_table">
-				<div class="row">
-					<div class="col-sm-3"><h5>Aikaväli</h5></div>
+			<div id="lesson_listing_table" class="datatable">
+				<div class="row heading-row">
+					<div class="col-sm-4"><h5>Aikaväli</h5></div>
 					<div class="col-sm-3"><h5>Huone</h5></div>
-					<div class="col-sm-4"><h5>Aihe</h5></div>
+					<div class="col-sm-3"><h5>Aihe</h5></div>
 					<div class="col-sm-1-wrap">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-1"></div>
@@ -25,17 +25,17 @@
 					$room_identifier = $lesson['room_identifier'];
 					$topic = $lesson['topic'];
 ?>				
-					<div class="row">
-						<div class="col-sm-3">
-							<?php echo 
+					<div class="row datarow">
+						<div class="col-sm-4">
+							<?php echo str_replace(" ", "&nbsp;",
 								from_db_datetimes_to_same_day_date_plus_times(
-									$begin_time, $end_time); ?>
+									$begin_time, $end_time)); ?>
 						</div>			
 						<div class="col-sm-3">
-							<?php echo $room_identifier; ?>
+							<?php echo str_replace(" ", "&nbsp;", $room_identifier); ?>
 						</div>
-						<div class="col-sm-4">
-							<?php echo $topic;  ?>
+						<div class="col-sm-3">
+							<?php echo str_replace(" ", "&nbsp;", $topic);  ?>
 						</div>
 						<div class="col-sm-1-wrap">
 							<div class="col-sm-1">

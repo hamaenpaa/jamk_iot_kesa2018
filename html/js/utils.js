@@ -45,3 +45,42 @@ function is_datetime_order_correct(begin_datetime, end_datetime) {
 	}
 	return datetimeorder_correct;
 }
+
+
+$(document).ready(function(){
+	console.log("ready");
+	var $window = $(window);
+
+
+    function checkWidth() {
+        windowsize = $window.width();
+		console.log("windowsize = " + windowsize);
+
+		/* duplicate heading row for each datarow if narrow screen 
+			and adjust margins accordingly */
+        if (windowsize <= 767) {
+		   $(".datatable").each(function(i, obj) {
+			   headingrows = $(obj).find(".heading-row");
+			   if (headingrows.length == 1) {
+					$(obj).find(".datarow").before(headingrows[0]);
+			   }
+		   });
+        }
+        else {
+		   $(".datatable").each(function(i, obj) {
+			   headingrows = $(obj).find(".heading-row");
+			   if (headingrows.length > 1) {
+				   datarows = $(obj).find(".datarow");
+				   for(i=1; i < datarows.length; i++) {
+					   $(datarows[i]).prev().remove();
+				   }
+			   }
+		   });			
+            console.log("getting larger");
+        }
+    }
+
+    // can trigger the resize handler instead of
+    // explicitly calling checkWidth()
+    $window.resize(checkWidth).resize();	
+});	

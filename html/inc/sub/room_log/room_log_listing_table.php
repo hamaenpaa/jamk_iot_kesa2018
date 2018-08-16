@@ -17,13 +17,13 @@
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
-		<div class="room_log_listing_table">
-			<div class="row">
+		<div id="room_log_listing_table" class="datatable">
+			<div class="row heading-row">
 				<div class="col-sm-2"><h5>NFC ID</h5></div>
-				<div class="col-sm-2"><h5>Sisääntuloaika</h5></div>
+				<div class="col-sm-4"><h5>Sisääntuloaika</h5></div>
 				<div class="col-sm-2"><h5>Luokka</h5></div>
-				<div class="col-sm-3"><h5>Oppitunnin aihe</h5></div>
-				<div class="col-sm-3"><h5>Kurssin nimi</h5></div>
+				<div class="col-sm-2"><h5>Oppitunnin aihe</h5></div>
+				<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
 			</div>
 <?php
 			foreach($room_logs as $room_log) {
@@ -37,19 +37,19 @@
 ?>				
 				<div class="row datarow">
 					<div class="col-sm-2">
-						<?php echo $nfc_id; ?>
+						<?php echo str_replace(" ", "&nbsp;",$nfc_id); ?>
 					</div>				
-					<div class="col-sm-2">
-						<?php echo from_db_to_ui($dt); ?>
+					<div class="col-sm-4">
+						<?php echo str_replace(" ", "&nbsp;",from_db_to_ui($dt)); ?>
 					</div>
 					<div class="col-sm-2">
-						<?php echo $room_identifier;  ?>
+						<?php echo str_replace(" ", "&nbsp;",$room_identifier);  ?>
 					</div>
-					<div class="col-sm-3">
-						<?php echo $topic;  ?>
+					<div class="col-sm-2">
+						<?php echo str_replace(" ", "&nbsp;",$topic);  ?>
 					</div>	
-					<div class="col-sm-3">
-						<?php echo $course_name; ?>
+					<div class="col-sm-2">
+						<?php echo str_replace(" ", "&nbsp;",$course_name); ?>
 					</div>						
 				</div>				
 <?php				

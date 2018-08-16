@@ -6,8 +6,8 @@
 <?php
 		if (count($courses) > 0) {
 ?>
-			<div id="course_listing_table">
-				<div class="row">
+			<div id="course_listing_table" class="datatable">
+				<div class="row heading-row">
 					<div class="col-sm-4"><h5>Nimi</h5></div>
 					<div class="col-sm-6"><h5>Kuvaus</h5></div>
 					<div class="col-sm-1-wrap">
@@ -20,7 +20,7 @@
 					$name = $course['name'];
 					$description = $course['description'];
 ?>				
-					<div class="row">
+					<div class="row datarow">
 						<div class="col-sm-4">
 							<?php echo $name; ?>
 						</div>			

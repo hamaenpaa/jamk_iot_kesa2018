@@ -49,12 +49,20 @@
 		return $course_lessons_arr;
 	}
 	
-	function get_lessons_without_course($conn) {
+	function get_lessons_without_course($conn,
+	    $begin_time_seek, $end_time_seek, $room_seek, $topic_seek) {
 		$sql_lessons_without_course = 
 			"SELECT ca_lesson.ID, ca_lesson.topic, ca_lesson.room_identifier,
-				ca_lesson.begin_time, ca_lesson.end_time FROM 
-				ca_lesson WHERE ca_lesson.removed = 0 AND ca_lesson.course_id IS NULL";	
+				ca_lesson.begin_time, ca_lesson.end_time FROM ca_lesson WHERE 
+				ca_lesson.room_identifier LIKE '%".$room_seek."%' AND
+				ca_lesson.topic LIKE '%".$topic_seek."%' AND 
+			    ((? <= ca_lesson.begin_time AND ca_lesson.begin_time <= ?) OR
+				 (? <= ca_lesson.end_time AND ca_lesson.end_time <= ?))	AND		
+				ca_lesson.removed = 0 AND ca_lesson.course_id IS NULL";	
 		$q = $conn->prepare($sql_lessons_without_course);
+		$begin_time = from_ui_to_db($begin_time_seek);
+		$end_time = from_ui_to_db($end_time_seek);
+		$q->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);		
 		$lessons_without_course_arr = array();
 		if ($q) {
 			$q->execute();
@@ -72,6 +80,5 @@
 			}
 		}
 		return $lessons_without_course_arr;
-		
 	}
 ?>

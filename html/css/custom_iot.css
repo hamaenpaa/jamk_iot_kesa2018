@@ -373,3 +373,11 @@ div.heading-row {
 div.col-sm-2 b, div.col-sm-4 b {
 	text-align: center;
 }
+
+.curr_page {
+	color: blue !important;
+}
+
+.other_page {
+	color: black !important;
+}

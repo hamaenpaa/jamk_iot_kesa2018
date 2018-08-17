@@ -27,7 +27,15 @@
 	}	
 	if (!isset($seek_course_name)) {
 		$seek_course_name = "";
-	}		
+	}	
+
+	$seek_params_get = "?screen=" .
+		possible_get_param("begin_time",$begin_time,false).
+		possible_get_param("end_time",$end_time,false).
+		possible_get_param("seek_room",$seek_room,false).
+		possible_get_param("seek_nfc_id",$seek_nfc_id,false).
+		possible_get_param("seek_topic",$seek_topic,false).
+		possible_get_param("seek_course_name",$seek_course_name,false);
 ?>
 
 <div>
@@ -38,7 +46,7 @@
 			<input  
 				placeholder="Aloitusaika" 
 				alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
-				id="date_start" class="datetime_picker"
+				id="begin_time" class="datetime_picker"
 				name="begin_time" <?php echo $begin_time_value_param; ?> required />
 		</div>
 		<div class="row-type-2">
@@ -46,7 +54,7 @@
 			<input 
 				placeholder="Lopetusaika" 
 				alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 09:00" 
-				id="date_end" class="datetime_picker"
+				id="end_time" class="datetime_picker"
 				name="end_time" <?php echo $end_time_value_param; ?> required />
 		</div>
 		<div class="row-type-2">

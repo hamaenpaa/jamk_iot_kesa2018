@@ -4,4 +4,75 @@
 		   return "";
 		return '<input type="hidden" name="'.$field_name.'" value="'.$value.'"/>';	
 	}
+	
+	function link_with_params($root_url,$params,$classes,$content) {
+		$html = "<a href=\"" . $root_url;
+		foreach($params as $param) {
+			if (strpos($root_url, "?") > 0) {
+				$html .= "&";
+			} else {
+				$html .= "?";
+			}
+			$html .= $param['name'] . "=" . $param['value'];
+		}
+		$html .= "\" ";
+		if ($classes != "") 
+			$html .= " class=\"" . $classes . "\" ";
+		$html .= ">".$content."</a>";
+		return $html;
+	}
+	
+	function generate_page_list($root_url, $page_count, $curr_page, $page_page,
+		$html_page_parameter, $html_page_page_parameter,
+		$container_id, $container_more_classes,
+		$curr_page_class, $other_page_class) {
+
+		$id_attribute = "";
+		if ($page_count == 1) { return ""; } // No pages for one page
+		
+		$page_page_size = 20;
+		
+		if ($container_id != "") { $id_attribute = " id=\"" . $container_id . "\" "; }
+		$html =  "<div " . $id_attribute . 
+					" class=\"page_list " . $container_more_classes . "\" >";
+	    $i_begin = ($page_page - 1) * $page_page_size;
+		$i_end   = $page_page * $page_page_size;
+		$page_page_count = intdiv($page_count, $page_page_size);
+		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
+		if ($page_count < $i_end) {
+			$i_end = $page_count;
+		}
+		$i_end--;
+
+		if ($page_page != 1) {
+			$params = array(array("name" => "page", "value" => "1"),
+							array("name" => "page_page", "value" => "1"));
+			$html .= link_with_params($root_url, $params, "", "<<") . "&nbsp;";
+			$params = array(array("name" => "page", "value" => ($page_page - 1) * $page_page_size),
+							array("name" => "page_page", "value" => ($page_page - 1) ));
+			$html .= link_with_params($root_url, $params, "", "<") . "&nbsp;";
+		}
+		
+		for($i= $i_begin; $i <= $i_end; $i++) {
+			$params = array(array("name" => "page", "value" => ($i+1)),
+							array("name" => "page_page", "value" => $page_page));
+			$class = $other_page_class;
+			if ($i == $curr_page - 1) {
+				$class = $curr_page_class;
+			}
+			$html .= link_with_params($root_url, $params, $class, ($i+1)) . "&nbsp;";
+		}
+		
+		if ($page_page < $page_page_count) {
+			$params = array(array("name" => "page", "value" => $page_page * $page_page_size),
+							array("name" => "page_page", "value" => ($page_page + 1) ));
+			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">") . "&nbsp;";
+			$params = array(array("name" => "page", "value" => ($page_page_count - 1) * $page_page_size),
+							array("name" => "page_page", "value" => $page_page_count));
+			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">>");			
+		}
+		
+		$html .= "</div>";
+		return $html;
+	}	
 ?>

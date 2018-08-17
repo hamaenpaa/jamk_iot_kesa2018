@@ -9,9 +9,18 @@
 		$begin_time = from_ui_to_db($begin_time);
 		$end_time = from_ui_to_db($end_time);			
 			
+		$page = get_post_or_get($conn, "page");
+		if (!isset($page) || $page == "") {
+			$page = "1";
+		}
+		$page_page = get_post_or_get($conn, "page_page");
+		if (!isset($page_page) || $page_page == "") {
+			$page_page = "1";
+		}		
+			
 		$room_logs = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic, 
-			$seek_course_name);
+			$seek_course_name, $page, "");
 ?>
 		<div id="new_room_log_notifications"></div>
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
@@ -26,7 +35,7 @@
 				<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
 			</div>
 <?php
-			foreach($room_logs as $room_log) {
+			foreach($room_logs['room_logs'] as $room_log) {
 				$dt = $room_log['dt'];
 				$room_identifier = $room_log['room_identifier'];
 				$nfc_id = $room_log['nfc_id'];
@@ -57,5 +66,10 @@
 ?>
 		</div>
 <?php
+		echo generate_page_list("index.php".$seek_params_get, 
+			$room_logs['page_count'], $page, $page_page,
+			"page", "page_page",
+			"roomlog_pages", "",
+		    "curr_page", "other_page");
 	}
 ?>

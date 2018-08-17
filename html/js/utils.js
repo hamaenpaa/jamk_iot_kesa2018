@@ -48,14 +48,10 @@ function is_datetime_order_correct(begin_datetime, end_datetime) {
 
 
 $(document).ready(function(){
-	console.log("ready");
 	var $window = $(window);
-
 
     function checkWidth() {
         windowsize = $window.width();
-		console.log("windowsize = " + windowsize);
-
 		/* duplicate heading row for each datarow if narrow screen 
 			and adjust margins accordingly */
         if (windowsize <= 767) {
@@ -76,7 +72,6 @@ $(document).ready(function(){
 				   }
 			   }
 		   });			
-            console.log("getting larger");
         }
     }
 

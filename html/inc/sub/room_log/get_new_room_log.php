@@ -27,14 +27,15 @@ if (isset($last_fetch_time)) {
 		 LEFT JOIN ca_lesson ON 
 			DATE(ca_lesson.begin_time) = DATE(ca_roomlog.dt) AND 
 			ca_lesson.room_identifier = ca_roomlog.room_identifier	
+			AND ca_lesson.topic LIKE '%" . $seek_topic . "%'					
+			AND ca_lesson.removed = 0			
 		 LEFT JOIN ca_course ON ca_course.id = ca_lesson.course_id
+			  AND ca_course.name LIKE '%" . $seek_course_name . "%'
+			  AND ca_course.removed = 0 		 
 		 WHERE 
 			ca_roomlog.dt > ?  
 			  AND ca_roomlog.room_identifier LIKE '%" .$seek_room ."%'
 			  AND ca_roomlog.NFC_ID LIKE '%" . $seek_nfc_id ."%'
-			  AND ca_course.name LIKE '%" . $seek_course_name . "%'
-			  AND ca_lesson.topic LIKE '%" . $seek_topic . "%'
-			  AND ca_course.removed = 0 AND ca_lesson.removed = 0
 			  ORDER BY NFC_ID ASC, dt DESC";
 	if ($res_getRL = $conn->prepare($sql_room_logs_total)) {
 		$res_getRL->bind_param("s", $last_fetch_time);

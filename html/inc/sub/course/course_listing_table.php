@@ -1,10 +1,10 @@
 <?php
 		include("course_fetch_from_db.php");
-		$courses = get_courses($conn, $name_seek, $description_seek, $topic_seek);
+		$courses_arr = get_courses($conn, $name_seek, $description_seek, $topic_seek, $page);
 ?>
 		<h2>Kurssit</h2>
 <?php
-		if (count($courses) > 0) {
+		if ($courses_arr['count'] > 0) {
 ?>
 			<div id="course_listing_table" class="datatable">
 				<div class="row heading-row">
@@ -16,7 +16,7 @@
 					</div>
 				</div>
 <?php
-				foreach($courses as $course) {
+				foreach($courses_arr['courses'] as $course) {
 					$name = $course['name'];
 					$description = $course['description'];
 ?>				
@@ -51,6 +51,11 @@
 ?>
 			</div>
 <?php
+			echo generate_page_list($index_page.$seek_params_get, 
+				$courses_arr['page_count'], $page, $page_page,
+				"page", "page_page",
+				"course_pages", "",
+				"curr_page", "other_page");			
 		} else {
 ?>
 			<b>Haulla ei löytynyt yhtään kurssia</b>

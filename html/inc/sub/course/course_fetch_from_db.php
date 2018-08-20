@@ -1,25 +1,55 @@
 <?php
-	function get_courses($conn, $name_seek, $description_seek, $topic_seek) {
-		$sql_courses = 
-			"SELECT ca_course.ID, ca_course.name, ca_course.description
-				FROM ca_course WHERE 
+	define("PAGE_SIZE", 2);
+
+	function get_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
+		$total_fields = "ca_course.ID, ca_course.name, ca_course.description";
+		$topic_part = "";
+		if ($topic_seek != "") {
+			$topic_part = "AND (EXISTS (SELECT id FROM ca_lesson WHERE
+				ca_lesson.course_id = ca_course.id AND
+				ca_lesson.topic LIKE '%". $topic_seek. "%' AND ca_lesson.removed = 0)";
+		}
+		
+		$end_part_without_pages = " FROM ca_course WHERE 
 				name LIKE '%" .$name_seek ."%'
 				AND description LIKE '%" .$description_seek ."%'
-				AND removed = 0 
-				AND EXISTS (SELECT id FROM ca_lesson WHERE 
-				ca_lesson.topic LIKE '%". $topic_seek. "%')";
-		$q_courses = $conn->prepare($sql_courses);
+				AND removed = 0 " . $topic_part . 
+			    " ORDER BY name ASC";
+		$sql_courses_total = "SELECT " . $total_fields . $end_part_without_pages .
+			" LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
+		$sql_course_count = "SELECT COUNT(*) " . $end_part_without_pages;
+		
+		$q_courses = $conn->prepare($sql_courses_total);
 		$q_courses->execute();		
 		$q_courses->store_result();
 		$q_courses->bind_result($course_id, $name, $description);
-		$courses_arr = array();
+		
+		$q_courses_count = "SELECT COUNT(*) " . $end_part_without_pages;
+		$q_courses_count = $conn->prepare($sql_course_count);
+		$q_courses_count->execute();		
+		$q_courses_count->store_result();
+		$q_courses_count->bind_result($count);
+		$q_courses_count->fetch();		
+	
+		$courses = array();
 		if ($q_courses->num_rows > 0) {
 			while($q_courses->fetch()) {
-				$courses_arr[] = array("course_id" => $course_id,
+				$courses[] = array("course_id" => $course_id,
 					"name" => $name, 
 					"description" => $description);
 			}
 		}
+
+		$page_count = intdiv($count, PAGE_SIZE);
+		if ($page_count * PAGE_SIZE < $count) { $page_count++; }		
+
+		$courses_arr = array(
+			"courses" => $courses,
+			"count" => $count,
+			"page_count" => $page_count			
+	
+		);
+		
 		return $courses_arr;		
 	}
 	

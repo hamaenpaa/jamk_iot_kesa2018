@@ -20,6 +20,10 @@
 	$seek_params_get .= possible_get_param("lesson_add_room_seek",$lesson_add_room_seek, false);
 	$seek_params_get .= possible_get_param("lesson_add_topic_seek",$lesson_add_topic_seek, false);
 
+	// remove course can easily change the position so that 
+	// current page does not exist anymore: reset to first page;
+	// it is the same as not having page parameters at all	
+	
 	$q = $conn->prepare("UPDATE ca_course SET removed = 1 WHERE ID = ?");
 	if ($q) {
 		$q->bind_param("i", $id);

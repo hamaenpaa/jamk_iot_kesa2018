@@ -66,10 +66,10 @@
 		}
 		
 		if ($page_page < $page_page_count) {
-			$params = array(array("name" => "page", "value" => $page_page * $page_page_size),
+			$params = array(array("name" => "page", "value" => $page_page * $page_page_size + 1),
 							array("name" => "page_page", "value" => ($page_page + 1) ));
 			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">") . "&nbsp;";
-			$params = array(array("name" => "page", "value" => ($page_page_count - 1) * $page_page_size),
+			$params = array(array("name" => "page", "value" => $page_count),
 							array("name" => "page_page", "value" => $page_page_count));
 			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">>");			
 		}

@@ -27,6 +27,14 @@
 	if (!isset($page_page) || $page_page == "") {
 		$page_page = "1";
 	}	
+	$page_lesson_add = get_post_or_get($conn, "page_lesson_add");
+	if (!isset($page_lesson_add) || $page_lesson_add == "") {
+		$page_lesson_add = "1";
+	}
+	$page_lesson_add_page = get_post_or_get($conn, "page_lesson_add_page");
+	if (!isset($page_lesson_add_page) || $page_lesson_add_page == "") {
+		$page_lesson_add_page = "1";
+	}	
 	
 	$seek_params_hidden_inputs = 
 		hidden_input("name_seek", $name_seek) .
@@ -37,13 +45,15 @@
 		hidden_input("lesson_add_room_seek", $lesson_add_room_seek) .
 		hidden_input("lesson_add_topic_seek", $lesson_add_topic_seek) .	
 		hidden_input("page", $page) .
-		hidden_input("page_page", $page_page);	
+		hidden_input("page_page", $page_page) .	
+		hidden_input("page_lesson_add", $page_lesson_add) .
+		hidden_input("page_lesson_add_page", $page_lesson_add_page);			
 
 	$seek_params_get = 
 		possible_get_param("name_seek",$name_seek,false).
 		possible_get_param("description_seek",$description_seek,false).
 		possible_get_param("topic_seek",$topic_seek,false).
-		possible_get_param("lesson_add_begin_time_seek_seek",$lesson_add_begin_time_seek,false).
+		possible_get_param("lesson_add_begin_time_seek",$lesson_add_begin_time_seek,false).
 		possible_get_param("lesson_add_end_time_seek",$lesson_add_end_time_seek,false).
 		possible_get_param("lesson_add_room_seek", $lesson_add_room_seek) .
 		possible_get_param("lesson_add_topic_seek", $lesson_add_topic_seek);		

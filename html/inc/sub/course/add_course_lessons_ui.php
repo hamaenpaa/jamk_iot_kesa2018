@@ -3,7 +3,9 @@
 			hidden_input("id", $id) .
 			hidden_input("name_seek", $name_seek) .
 			hidden_input("description_seek", $description_seek).
-			hidden_input("topic_seek", $topic_seek);		
+			hidden_input("topic_seek", $topic_seek) .				
+			hidden_input("page", $page) .
+			hidden_input("page_page", $page_page);		
 ?>
 		<h2>Lisää kurssille oppitunti</h2>
 		<h3>Lisättävien oppituntien etsintä</h3>
@@ -43,7 +45,8 @@
 		if ($lesson_add_begin_time_seek != "" && $lesson_add_end_time_seek != "") {
 			$lessons_without_course = get_lessons_without_course(
 			$conn, $lesson_add_begin_time_seek, $lesson_add_end_time_seek,
-			$lesson_add_room_seek, $lesson_add_topic_seek);
+			$lesson_add_room_seek, $lesson_add_topic_seek,
+			$page_lesson_add);
 	
 			$seek_params_hidden_inputs = 
 				hidden_input("name_seek", $name_seek) .
@@ -53,8 +56,13 @@
 				hidden_input("lesson_add_end_time_seek", $lesson_add_end_time_seek) .
 				hidden_input("lesson_add_room_seek", $lesson_add_room_seek) .
 				hidden_input("lesson_add_topic_seek", $lesson_add_topic_seek);		
-	
-			if (count($lessons_without_course) > 0) {
+				hidden_input("page", $page) .
+				hidden_input("page_page", $page_page);
+			$seek_params_get .= 
+				possible_get_param("id", $id,false) .
+				possible_get_param("page",$page,false).
+				possible_get_param("page_page",$page_page,false);	
+			if ($lessons_without_course['count'] > 0) {
 ?>
 				<div id="lessons_without_course_listing_table" class="datatable">
 					<div class="row heading-row">
@@ -64,7 +72,7 @@
 						<div class="col-sm-1"></div>
 					</div>				
 <?php
-					foreach($lessons_without_course as $lesson_without_course) {
+					foreach($lessons_without_course['lessons'] as $lesson_without_course) {
 ?>
 						<div class="row datarow">
 							<div class="col-sm-3">
@@ -95,7 +103,12 @@
 ?>
 				</div>
 <?php			
-			
+				echo generate_page_list($index_page.$seek_params_get, 
+					$lessons_without_course['page_count'], 
+					$page_lesson_add, $page_lesson_add_page,
+					"page_lesson_add", "page_lesson_add_page",
+					"lesson_add_pages", "",
+					"curr_page", "other_page");				
 			} else {
 ?>
 				<b>Kaikki haetut oppitunnit ovat jo kursseilla</b>

@@ -19,15 +19,18 @@
 					<div class="row datarow">
 						<div class="col-sm-3">
 							<?php echo 
-								from_db_datetimes_to_same_day_date_plus_times(
+									str_replace(" ", "&nbsp;", 
+									from_db_datetimes_to_same_day_date_plus_times(
 									$course_lesson["begin_time"], 
-									$course_lesson["end_time"]); ?>
+									$course_lesson["end_time"])); ?>
 						</div>			
 						<div class="col-sm-3">
-							<?php echo $course_lesson["room_identifier"]; ?>
+							<?php echo str_replace(" ", "&nbsp;",
+								$course_lesson["room_identifier"]); ?>
 						</div>
 						<div class="col-sm-5">
-							<?php echo $course_lesson["topic"];  ?>
+							<?php echo str_replace(" ", "&nbsp;",
+								$course_lesson["topic"]);  ?>
 						</div>
 						<div class="col-sm-1">
 								<form method="post" action="inc/sub/course/remove_lesson_from_course.php">

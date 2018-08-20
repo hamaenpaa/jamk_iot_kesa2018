@@ -22,10 +22,10 @@
 ?>				
 					<div class="row datarow">
 						<div class="col-sm-4">
-							<?php echo $name; ?>
+							<?php echo str_replace(" ", "&nbsp;", $name); ?>
 						</div>			
 						<div class="col-sm-6">
-							<?php echo $description; ?>
+							<?php echo str_replace(" ", "&nbsp;", $description); ?>
 						</div>
 						<div class="col-sm-1-wrap">
 							<div class="col-sm-1">

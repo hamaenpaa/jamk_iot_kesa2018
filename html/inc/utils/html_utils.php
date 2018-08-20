@@ -7,12 +7,14 @@
 	
 	function link_with_params($root_url,$params,$classes,$content) {
 		$html = "<a href=\"" . $root_url;
+		$i_param = 1;
 		foreach($params as $param) {
-			if (strpos($root_url, "?") > 0) {
+			if (strpos($root_url, "?") > 0 || $i_param > 1) {
 				$html .= "&";
 			} else {
 				$html .= "?";
 			}
+			$i_param++;
 			$html .= $param['name'] . "=" . $param['value'];
 		}
 		$html .= "\" ";

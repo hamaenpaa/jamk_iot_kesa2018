@@ -47,17 +47,20 @@
 		$i_end--;
 
 		if ($page_page != 1) {
-			$params = array(array("name" => "page", "value" => "1"),
-							array("name" => "page_page", "value" => "1"));
-			$html .= link_with_params($root_url, $params, "", "<<") . "&nbsp;";
-			$params = array(array("name" => "page", "value" => ($page_page - 1) * $page_page_size),
-							array("name" => "page_page", "value" => ($page_page - 1) ));
-			$html .= link_with_params($root_url, $params, "", "<") . "&nbsp;";
+			$params = array(array("name" => $html_page_parameter, "value" => "1"),
+							array("name" => $html_page_page_parameter, "value" => "1"));
+			$html .= link_with_params($root_url, $params, "other_page", "<<") . "&nbsp;";
+			$params = array(array("name" => $html_page_parameter, 
+								  "value" => ($page_page - 1) * $page_page_size),
+							array("name" => $html_page_page_parameter, 
+							      "value" => ($page_page - 1) ));
+			$html .= link_with_params($root_url, $params, "other_page", "<") . "&nbsp;";
 		}
 		
 		for($i= $i_begin; $i <= $i_end; $i++) {
-			$params = array(array("name" => "page", "value" => ($i+1)),
-							array("name" => "page_page", "value" => $page_page));
+			$params = array(array("name" => $html_page_parameter, "value" => ($i+1)),
+							array("name" => $html_page_page_parameter, 
+							      "value" => $page_page));
 			$class = $other_page_class;
 			if ($i == $curr_page - 1) {
 				$class = $curr_page_class;
@@ -66,12 +69,16 @@
 		}
 		
 		if ($page_page < $page_page_count) {
-			$params = array(array("name" => "page", "value" => $page_page * $page_page_size + 1),
-							array("name" => "page_page", "value" => ($page_page + 1) ));
-			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">") . "&nbsp;";
-			$params = array(array("name" => "page", "value" => $page_count),
-							array("name" => "page_page", "value" => $page_page_count));
-			$html .= "&nbsp;" . link_with_params($root_url, $params, "", ">>");			
+			$params = array(array("name" => $html_page_parameter, 
+			                      "value" => $page_page * $page_page_size + 1),
+							array("name" => $html_page_page_parameter, 
+							      "value" => ($page_page + 1) ));
+			$html .= "&nbsp;" . link_with_params($root_url, $params, "other_page", ">") . "&nbsp;";
+			$params = array(array("name" => $html_page_parameter, 
+			                      "value" => $page_count),
+							array("name" => $html_page_page_parameter, 
+							      "value" => $page_page_count));
+			$html .= "&nbsp;" . link_with_params($root_url, $params, "other_page", ">>");			
 		}
 		
 		$html .= "</div>";

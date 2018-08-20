@@ -376,8 +376,10 @@ div.col-sm-2 b, div.col-sm-4 b {
 
 .curr_page {
 	color: blue !important;
+	font-weight: bold;
 }
 
 .other_page {
 	color: black !important;
+	font-weight: bold;
 }

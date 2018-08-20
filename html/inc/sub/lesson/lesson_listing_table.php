@@ -1,12 +1,12 @@
 <?php
 	if ($begin_time_seek_value_param != "" && $end_time_seek_value_param != "") {
 		include("lessons_fetch_from_db.php");
-		$lessons = get_lessons($conn, 
-			$begin_time_seek, $end_time_seek, $room_seek, $topic_seek);
+		$lessons_arr = get_lessons($conn, 
+			$begin_time_seek, $end_time_seek, $room_seek, $topic_seek, $page);
 ?>
 		<h2>Haetut koulutukset tai oppitunnit</h2>
 <?php
-		if (count($lessons) > 0) {
+		if ($lessons_arr['count'] > 0) {
 ?>
 			<div id="lesson_listing_table" class="datatable">
 				<div class="row heading-row">
@@ -19,7 +19,7 @@
 					</div>
 				</div>
 <?php
-				foreach($lessons as $lesson) {
+				foreach($lessons_arr['lessons'] as $lesson) {
 					$begin_time = $lesson['begin_time'];
 					$end_time = $lesson['end_time'];
 					$room_identifier = $lesson['room_identifier'];
@@ -61,6 +61,12 @@
 ?>
 			</div>
 <?php
+			echo generate_page_list($index_page.$seek_params_get, 
+				$lessons_arr['page_count'], $page, $page_page,
+				"page", "page_page",
+				"lesson_pages", "",
+				"curr_page", "other_page");
+
 		} else {
 ?>
 			<b>Haulla ei löytynyt yhtään koulutusta/oppituntia</b>

@@ -18,12 +18,15 @@
 	$end_time_seek = get_post_or_get($conn, "end_time_seek");
 	$room_seek = get_post_or_get($conn, "room_seek");
 	$topic_seek = get_post_or_get($conn, "topic_seek");
+	$page = get_post_or_get($conn, "page");
+	$page_page = get_post_or_get($conn, "page_page");	
 	
 	$seek_params_get = possible_get_param("begin_time_seek", $begin_time_seek, false);
 	$seek_params_get .= possible_get_param("end_time_seek", $end_time_seek, false);
 	$seek_params_get .= possible_get_param("room_seek", $room_seek, false);		
 	$seek_params_get .= possible_get_param("topic_seek", $topic_seek, false);	
-	
+	$seek_params_get .= possible_get_param("page",$page, false);
+	$seek_params_get .= possible_get_param("page_page", $page_page, false);		
 	
 /* if (strlen($room_name) > 40) {
 		header("Location: ../../../list_rooms.php".$seek_params_get);

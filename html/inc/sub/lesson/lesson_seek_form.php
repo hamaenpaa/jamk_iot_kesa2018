@@ -4,6 +4,9 @@
 	$end_time_seek = get_post_or_get($conn, "end_time_seek");
 	$room_seek = get_post_or_get($conn, "room_seek");
 	$topic_seek = get_post_or_get($conn, "topic_seek");
+	$page = get_post_or_get($conn, "page");
+	$page_page = get_post_or_get($conn, "page_page");	
+	
 	if (!isset($room_seek)) {
 		$room_seek = "";	
 	}
@@ -20,11 +23,28 @@
 	} else {
 		$end_time_seek_value_param = " value=\"".$end_time_seek."\" ";
 	}
+	$page = get_post_or_get($conn, "page");
+	if (!isset($page) || $page == "") {
+		$page = "1";
+	}
+	$page_page = get_post_or_get($conn, "page_page");
+	if (!isset($page_page) || $page_page == "") {
+		$page_page = "1";
+	}	
+	
 	$seek_params_hidden_inputs = 
 		hidden_input("begin_time_seek", $begin_time_seek) .
 		hidden_input("end_time_seek", $end_time_seek) .
 		hidden_input("room_seek", $room_seek) .
-		hidden_input("topic_seek", $topic_seek);		
+		hidden_input("topic_seek", $topic_seek) .
+		hidden_input("page", $page) .
+		hidden_input("page_page", $page_page);	
+
+	$seek_params_get = 
+		possible_get_param("begin_time_seek",$begin_time_seek,false).
+		possible_get_param("end_time_seek",$end_time_seek,false).
+		possible_get_param("room_seek",$room_seek,false).
+		possible_get_param("topic_seek",$topic_seek,false);		
 ?>
 
 <form name="lessons_seek" action="index.php?screen=1" method="POST"

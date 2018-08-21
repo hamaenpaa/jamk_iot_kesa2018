@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_SIZE", 2);
+	define("PAGE_SIZE", 20);
 
 	function get_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
 		$total_fields = "ca_course.ID, ca_course.name, ca_course.description";

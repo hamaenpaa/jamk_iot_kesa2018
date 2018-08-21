@@ -5,6 +5,11 @@
 		<h2>Kurssit</h2>
 <?php
 		if ($courses_arr['count'] > 0) {
+			$seek_params_hidden_inputs .= 
+				hidden_input("course_count", $courses_arr['count']) .
+				hidden_input("page_size", PAGE_SIZE) .
+				hidden_input("page_count", $courses_arr['page_count']) .
+				hidden_input("page_page_size", PAGE_PAGE_SIZE);			
 ?>
 			<div id="course_listing_table" class="datatable">
 				<div class="row heading-row">

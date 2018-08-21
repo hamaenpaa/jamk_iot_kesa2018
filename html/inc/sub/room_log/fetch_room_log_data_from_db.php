@@ -26,8 +26,10 @@
 			  ORDER BY NFC_ID ASC, dt DESC";
 		$usual_tables_and_conditions = $tables_and_conditions_begin . $date_part .
 		    $tables_and_conditions_end;
-		$sql_room_logs_total = "SELECT " . $fields . $usual_tables_and_conditions.
-		    " LIMIT " . (($page - 1) * ROOM_LOG_PAGE_SIZE) . "," . ROOM_LOG_PAGE_SIZE;
+		$sql_room_logs_total = "SELECT " . $fields . $usual_tables_and_conditions;
+		if ($page != -1) {
+			$sql_room_logs_total .= " LIMIT " . (($page - 1) * ROOM_LOG_PAGE_SIZE) . "," . ROOM_LOG_PAGE_SIZE;
+		}
 		$sql_count = "SELECT COUNT(*) " . $usual_tables_and_conditions;
 		$sql_new = "SELECT COUNT(*) " . 
 			$tables_and_conditions_begin . "ca_roomlog.dt > ?" .

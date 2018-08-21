@@ -44,9 +44,9 @@
 <?php
 		if ($lesson_add_begin_time_seek != "" && $lesson_add_end_time_seek != "") {
 			$lessons_without_course = get_lessons_without_course(
-			$conn, $lesson_add_begin_time_seek, $lesson_add_end_time_seek,
-			$lesson_add_room_seek, $lesson_add_topic_seek,
-			$page_lesson_add);
+				$conn, $lesson_add_begin_time_seek, $lesson_add_end_time_seek,
+				$lesson_add_room_seek, $lesson_add_topic_seek,
+				$page_lesson_add);
 	
 			$seek_params_hidden_inputs = 
 				hidden_input("name_seek", $name_seek) .
@@ -55,9 +55,15 @@
 				hidden_input("lesson_add_begin_time_seek", $lesson_add_begin_time_seek) .
 				hidden_input("lesson_add_end_time_seek", $lesson_add_end_time_seek) .
 				hidden_input("lesson_add_room_seek", $lesson_add_room_seek) .
-				hidden_input("lesson_add_topic_seek", $lesson_add_topic_seek);		
+				hidden_input("lesson_add_topic_seek", $lesson_add_topic_seek).		
 				hidden_input("page", $page) .
-				hidden_input("page_page", $page_page);
+				hidden_input("page_page", $page_page).
+				hidden_input("page_add_lesson", $page_lesson_add) .
+				hidden_input("page_add_lesson_count", $lessons_without_course['page_count']) .
+				hidden_input("page_add_lesson_page_size", PAGE_SIZE).
+				hidden_input("page_add_lesson_page", $page_lesson_add_page).
+				hidden_input("lesson_count", $lessons_without_course['count']);
+				
 			$seek_params_get .= 
 				possible_get_param("id", $id,false) .
 				possible_get_param("page",$page,false).
@@ -77,15 +83,20 @@
 						<div class="row datarow">
 							<div class="col-sm-3">
 								<?php echo 
-								from_db_datetimes_to_same_day_date_plus_times(
-									$lesson_without_course["begin_time"], 
-									$lesson_without_course["end_time"]); ?>
+								str_replace(" ", "&nbsp;", 
+									from_db_datetimes_to_same_day_date_plus_times(
+										$lesson_without_course["begin_time"], 
+										$lesson_without_course["end_time"])); ?>
 							</div>			
 							<div class="col-sm-3">
-								<?php echo $lesson_without_course["room_identifier"]; ?>
+								<?php echo 
+									str_replace(" ", "&nbsp;", 
+										$lesson_without_course["room_identifier"]); ?>
 							</div>
 							<div class="col-sm-5">
-								<?php echo $lesson_without_course["topic"];  ?>
+								<?php echo 
+									str_replace(" ", "&nbsp;", 
+										$lesson_without_course["topic"]);  ?>
 							</div>
 							<div class="col-sm-1">
 								<form method="post" action="inc/sub/course/add_lesson_to_course.php">

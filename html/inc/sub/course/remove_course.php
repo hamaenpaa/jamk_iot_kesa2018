@@ -27,7 +27,7 @@
 	$seek_params_get .= possible_get_param("lesson_add_topic_seek",$lesson_add_topic_seek, false);
 
 	// if all fits inside one page less and on the last page,
-	// page is decremented and o
+	// page is decremented
 	if ($course_count - 1 <= ($page_count - 1) * $page_size && 
 		$page == $page_count) {
 		$page--;

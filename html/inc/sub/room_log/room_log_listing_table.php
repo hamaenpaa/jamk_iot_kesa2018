@@ -17,7 +17,9 @@
 		if (!isset($page_page) || $page_page == "") {
 			$page_page = "1";
 		}		
-			
+	
+
+	
 		$room_logs = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic, 
 			$seek_course_name, $page, "");
@@ -30,7 +32,6 @@
 ?>
 		<div id="new_room_log_notifications"></div>
 		<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
-		
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
@@ -74,9 +75,11 @@
 ?>
 		</div>
 <?php
-		echo generate_page_list("index.php".$seek_params_get, 
+		$seek_params = array($begin_time, $end_time, $seek_room, $seek_nfc_id,
+			$seek_topic, $seek_course_name);		
+		echo generate_js_page_list("get_js_room_log_page",
+			$seek_params, 
 			$room_logs['page_count'], $page, $page_page,
-			"page", "page_page",
 			"roomlog_pages", "",
 		    "curr_page", "other_page");
 	}

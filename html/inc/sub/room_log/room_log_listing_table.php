@@ -33,6 +33,8 @@
 		<div id="new_room_log_notifications"></div>
 		<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
+		<div id="page" style="display:none">1</div>
+		<div id="page_page" style="display:none">1</div>
 		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
 		<div id="room_log_listing_table" class="datatable">

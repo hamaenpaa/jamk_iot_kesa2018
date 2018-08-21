@@ -1,13 +1,3 @@
-function getParameterByName(name) {
-    url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 $().ready(function() {
 	time = $('#last_fetch_time').html();
 	if (time !== undefined) {
@@ -19,8 +9,8 @@ $().ready(function() {
 			seek_course_name = $("#seek_course_name").val();
 			begin_time = $("#begin_time").val();
 			end_time = $("#end_time").val();
-			page = getParameterByName("page");
-			page_page = getParameterByName("page_page");
+			page = $('#page').html();
+			page_page = $('#page_page').html();
 			time = $('#last_fetch_time').html();
 			if (begin_time === undefined || begin_time == "") {
 				return;
@@ -129,6 +119,8 @@ function get_js_room_log_page(
 			$("#room_log_listing_table").append(elemToBeInserted);
 		}		
 		$("#roomlog_pages").replaceWith(jsonData.page_list);
+		$('#page').html(page);
+		$('#page_page').html(page_page);
 	});	
 	
 }

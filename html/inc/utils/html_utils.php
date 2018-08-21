@@ -1,4 +1,6 @@
 <?php
+	define("PAGE_PAGE_SIZE", 20);
+
 	function hidden_input($field_name, $value) {
 		if ($value == "")
 		   return "";
@@ -32,15 +34,13 @@
 		$id_attribute = "";
 		if ($page_count == 1) { return ""; } // No pages for one page
 		
-		$page_page_size = 20;
-		
 		if ($container_id != "") { $id_attribute = " id=\"" . $container_id . "\" "; }
 		$html =  "<div " . $id_attribute . 
 					" class=\"page_list " . $container_more_classes . "\" >";
-	    $i_begin = ($page_page - 1) * $page_page_size;
-		$i_end   = $page_page * $page_page_size;
-		$page_page_count = intdiv($page_count, $page_page_size);
-		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
+	    $i_begin = ($page_page - 1) * PAGE_PAGE_SIZE;
+		$i_end   = $page_page * PAGE_PAGE_SIZE;
+		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
+		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
 		if ($page_count < $i_end) {
 			$i_end = $page_count;
 		}
@@ -51,7 +51,7 @@
 							array("name" => $html_page_page_parameter, "value" => "1"));
 			$html .= link_with_params($root_url, $params, "other_page", "<<") . "&nbsp;";
 			$params = array(array("name" => $html_page_parameter, 
-								  "value" => ($page_page - 1) * $page_page_size),
+								  "value" => ($page_page - 1) * PAGE_PAGE_SIZE),
 							array("name" => $html_page_page_parameter, 
 							      "value" => ($page_page - 1) ));
 			$html .= link_with_params($root_url, $params, "other_page", "<") . "&nbsp;";
@@ -70,7 +70,7 @@
 		
 		if ($page_page < $page_page_count) {
 			$params = array(array("name" => $html_page_parameter, 
-			                      "value" => $page_page * $page_page_size + 1),
+			                      "value" => $page_page * PAGE_PAGE_SIZE + 1),
 							array("name" => $html_page_page_parameter, 
 							      "value" => ($page_page + 1) ));
 			$html .= "&nbsp;" . link_with_params($root_url, $params, "other_page", ">") . "&nbsp;";

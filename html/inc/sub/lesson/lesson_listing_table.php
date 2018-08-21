@@ -7,6 +7,11 @@
 		<h2>Haetut koulutukset tai oppitunnit</h2>
 <?php
 		if ($lessons_arr['count'] > 0) {
+			$seek_params_hidden_inputs .= 
+				hidden_input("lesson_count", $lessons_arr['count']) .
+				hidden_input("page_size", PAGE_SIZE) .
+				hidden_input("page_count", $lessons_arr['page_count']) .
+				hidden_input("page_page_size", PAGE_PAGE_SIZE);
 ?>
 			<div id="lesson_listing_table" class="datatable">
 				<div class="row heading-row">

@@ -25,39 +25,36 @@
 				</div>
 <?php
 				foreach($lessons_arr['lessons'] as $lesson) {
-					$begin_time = $lesson['begin_time'];
-					$end_time = $lesson['end_time'];
+					$time_interval = $lesson['time_interval'];
 					$room_identifier = $lesson['room_identifier'];
 					$topic = $lesson['topic'];
 ?>				
 					<div class="row datarow">
 						<div class="col-sm-4">
-							<?php echo str_replace(" ", "&nbsp;",
-								from_db_datetimes_to_same_day_date_plus_times(
-									$begin_time, $end_time)); ?>
+							<?php echo $time_interval; ?>
 						</div>			
 						<div class="col-sm-3">
-							<?php echo str_replace(" ", "&nbsp;", $room_identifier); ?>
+							<?php echo $room_identifier; ?>
 						</div>
 						<div class="col-sm-3">
-							<?php echo str_replace(" ", "&nbsp;", $topic);  ?>
+							<?php echo $topic;  ?>
 						</div>
 						<div class="col-sm-1-wrap">
 							<div class="col-sm-1">
-								<form method="post" action="<?php echo $index_page; ?>">
-									<input type="hidden" name="id" 
-										value="<?php echo $lesson['lesson_id']; ?>"/>
-<?php echo $seek_params_hidden_inputs; ?>
-									<input class="button" type="submit" value="Muokkaa" />
-								</form>	
-							</div>
+<?php
+								$modify_lesson_params = array($lesson['lesson_id']);
+								$modify_js_call = java_script_call("modifyLesson", 
+									$modify_lesson_params);
+?>	
+								<button class="button" onclick="<?php echo $modify_js_call; ?>">Muokkaa</button>
+							</div>						
 							<div class="col-sm-1">
-								<form method="post" action="inc/sub/lesson/remove_lesson.php">
-									<input type="hidden" name="id" 
-										value="<?php echo $lesson['lesson_id']; ?>"/>
-<?php echo $seek_params_hidden_inputs; ?>
-									<input class="button" type="submit" value="Poista" />
-								</form>				
+<?php 
+								$remove_lesson_params = array($lesson['lesson_id']);
+								$remove_js_call = java_script_call("removeLesson", 
+									$remove_lesson_params);
+?>			
+								<button class="button" onclick="<?php echo $remove_js_call; ?>">Poista</button>
 							</div>
 						</div>
 					</div>
@@ -66,16 +63,26 @@
 ?>
 			</div>
 <?php
-			echo generate_page_list($index_page.$seek_params_get, 
+			echo generate_js_page_list("get_lessons_page",
+				array(), 
 				$lessons_arr['page_count'], $page, $page_page,
-				"page", "page_page",
 				"lesson_pages", "",
 				"curr_page", "other_page");
-
 		} else {
 ?>
 			<b>Haulla ei löytynyt yhtään koulutusta/oppituntia</b>
 <?php
 		}
+?>
+		<!-- These are because seek fields etc. can be changes after
+		     last query and other user and also to make js functions
+			 work easier -->
+		<div id="page" style="display:none"><?php echo $page; ?></div>
+		<div id="page_page" style="display:none"><?php echo $page_page; ?></div>
+		<div id="last_query_begin_time_seek" style="display:none"><?php echo $begin_time_seek; ?></div>
+		<div id="last_query_end_time_seek" style="display:none"><?php echo $end_time_seek; ?></div>
+		<div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
+		<div id="last_query_room_seek" style="display:none"><?php echo $room_seek; ?></div>
+<?php
 	}
 ?>

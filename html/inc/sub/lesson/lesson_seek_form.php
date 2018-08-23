@@ -65,12 +65,12 @@
 	</div>
 	<div class="row-type-2">
 		<label>Etsittävä luokan tunnisteen osa:</label>
-		<input name="room_seek" value="<?php echo $room_seek; ?>"
+		<input id="room_seek" name="room_seek" value="<?php echo $room_seek; ?>"
 			placeholder="Huoneen tunnus" maxlength="50"/>
 	</div>
 	<div class="row-type-2">
 		<label>Etsittävä aiheen osa:</label>
-		<input name="topic_seek" value="<?php echo $topic_seek; ?>" 
+		<input id="topic_seek" name="topic_seek" value="<?php echo $topic_seek; ?>" 
 			placeholder="Aihe" maxlength="150"/>
 	</div>
 	<div class="row-type-5">

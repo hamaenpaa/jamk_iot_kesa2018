@@ -15,9 +15,11 @@
 		$sql_lessons = 
 			"SELECT " .  $total_fields . $sql_end_without_page_def .
 			 " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
+			 
 		$q_lessons = $conn->prepare($sql_lessons);
 		$begin_time = from_ui_to_db($begin_time);
 		$end_time = from_ui_to_db($end_time);
+		
 		$q_lessons->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);
 		$q_lessons->execute();		
 		$q_lessons->store_result();
@@ -37,19 +39,28 @@
 		if ($q_lessons->num_rows > 0) {
 			while($q_lessons->fetch()) {
 				$lessons[] = array("lesson_id" => $lesson_id,
-					"begin_time" => $begin_time, "end_time" => $end_time,
-					"room_identifier" => $room_identifier,
-					"topic" => $topic);
+					"time_interval" => str_replace(" ", "&nbsp;",
+						from_db_datetimes_to_same_day_date_plus_times(
+							$begin_time, $end_time)),
+					"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
+					"topic" => str_replace(" ", "&nbsp;", $topic));
 			}
 		}
 		
 		$page_count = intdiv($count, PAGE_SIZE);
 		if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
+		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
+		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+		
+		if ($page_count == 0) { $page_count = 1; }
+		if ($page_page_count == 0) { $page_page_count = 1; }
 		
 		$lessons_arr = array(
 			"lessons" => $lessons, 
 			"count" => $count,
-			"page_count" => $page_count);
+			"page_count" => $page_count,
+			"page_page_count" => $page_page_count);
+		
 		return $lessons_arr;		
 	}
 ?>

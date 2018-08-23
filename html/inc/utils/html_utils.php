@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_PAGE_SIZE", 20);
+	define("PAGE_PAGE_SIZE", 2);
 
 	function hidden_input($field_name, $value) {
 		if ($value == "")
@@ -26,17 +26,23 @@
 		return $html;
 	}
 
-	function link_with_javascript_call($js_function, $params, $classes, $content) {
-		$html = "<a href=\"javascript:void(0);\" onclick=\"".$js_function . "(";
+	function java_script_call($js_function, $params) {
+		$js_call = $js_function . "(";
 		$i_param = 1;
 		foreach($params as $param) {
-			$html .= "'". $param. "'";
+			$js_call .= "'". $param. "'";
 			if ($i_param < count($params)) {
-				$html .= ",";
+				$js_call .= ",";
 			}
 			$i_param++;
 		}
-		$html .= ")\""; 
+		$js_call .= ")";
+		return $js_call;
+	}
+	
+	function link_with_javascript_call($js_function, $params, $classes, $content) {
+		$html = "<a href=\"javascript:void(0);\" onclick=\"".
+				java_script_call($js_function, $params) . "\"";
 		if ($classes != "") 
 			$html .= " class=\"" . $classes . "\" ";		
 		$html .= ">" . $content . "</a>";

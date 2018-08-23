@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_PAGE_SIZE", 2);
+	define("PAGE_PAGE_SIZE", 20);
 
 	function hidden_input($field_name, $value) {
 		if ($value == "")
@@ -83,9 +83,7 @@
 		if ($page_page != 1) {	
 			$html .= link_with_javascript_call($js_function, 
 						join_arrs(
-							array(1,1, 
-								"other_page", "curr_page"
-							),
+							array(1,1),
 							$seek_params),
 						"other_page", "<<") . "&nbsp;";
 			$html .= link_with_javascript_call(
@@ -93,9 +91,7 @@
 						join_arrs(
 							array( 
 								($page_page - 1) * PAGE_PAGE_SIZE,
-								$page_page - 1,
-								"other_page", "curr_page"
-							),
+								$page_page - 1),
 							$seek_params), 
 						"other_page", "<") . "&nbsp;";			
 		}
@@ -108,9 +104,7 @@
 						$js_function, 
 						join_arrs(
 							array(
-								$i+1, $page_page,
-								"other_page", "curr_page"
-							),
+								$i+1, $page_page),
 							$seek_params), 
 						$class, ($i+1)) . "&nbsp;";			
 		}
@@ -120,15 +114,13 @@
 						join_arrs(
 							array(
 								$page_page * PAGE_PAGE_SIZE + 1, 
-								($page_page + 1), 
-								"other_page", "curr_page"),
+								($page_page + 1)),
 							$seek_params), 
 						"other_page", ">") . "&nbsp;";	
 			$html .= link_with_javascript_call($js_function, 
 						join_arrs(
 							array(
-								$page_count, $page_page_count,
-								"other_page", "curr_page"),
+								$page_count, $page_page_count),
 							$seek_params), 
 						"other_page", ">>");							
 		}

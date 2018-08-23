@@ -3,12 +3,12 @@ $().ready(function() {
 	if (time !== undefined) {
 		refreshRate = 2000;
 		function getRoomData() {
-			seek_room = $("#seek_room").val();
-			seek_nfc = $("#seek_nfc_id").val();
-			seek_topic = $("#seek_topic").val();
-			seek_course_name = $("#seek_course_name").val();
-			begin_time = $("#begin_time").val();
-			end_time = $("#end_time").val();
+			begin_time = $("#last_query_begin_time").html();
+			end_time = $("#last_query_end_time").html();
+			seek_room = $("#last_query_room").html();
+			seek_nfc_id = $("#last_query_nfc_id").html();
+			seek_topic = $("#last_query_topic").html();
+			seek_course_name = $("#last_query_course_name").html();
 			page = $('#page').html();
 			page_page = $('#page_page').html();
 			time = $('#last_fetch_time').html();
@@ -20,8 +20,8 @@ $().ready(function() {
 			}			
 			if (seek_room === undefined)
 				seek_room = "";
-			if (seek_nfc === undefined)
-				seek_nfc = "";
+			if (seek_nfc_id === undefined)
+				seek_nfc_id = "";
 			if (seek_course_name === undefined)
 				seek_course_name = "";	
 			if (seek_topic === undefined)
@@ -31,7 +31,7 @@ $().ready(function() {
 			if (page_page == null)
 				page_page = 1;
 			$.get("inc/sub/room_log/get_new_room_log.php?last_fetch_time=" + time +
-				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc +
+				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc_id +
 				"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic+
 				"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
 				"&page_page="+page_page, 
@@ -90,16 +90,21 @@ function validateForm() {
 	return correct;
 }
 
-function get_js_room_log_page(
-		page, page_page, other_page_class, curr_page_class,
-		begin_time, end_time, seek_room, seek_nfc_id,
-		seek_topic, seek_course_name) {
+function get_js_room_log_page(page, page_page) {
+	begin_time = $("#last_query_begin_time").html();
+	end_time = $("#last_query_end_time").html();
+	seek_room = $("#last_query_room").html();
+	seek_nfc_id = $("#last_query_nfc_id").html();
+	seek_topic = $("#last_query_topic").html();
+	seek_course_name = $("#last_query_course_name").html();
+	
 	$.get("inc/sub/room_log/get_room_log_page_ajax.php?" +
 			"seek_room="+seek_room + "&seek_nfc_id="+seek_nfc_id +
 			"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic+
 			"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
 			"&page_page="+page_page, function (data) {
 		jsonData = JSON.parse(data);
+		
 		$("#room_log_listing_table .datarow").remove();
 		for(i=0; i < jsonData.room_logs.length; i++) {
 			if (jsonData.room_logs[i].topic == null) { 

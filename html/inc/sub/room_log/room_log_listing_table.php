@@ -32,9 +32,16 @@
 ?>
 		<div id="new_room_log_notifications"></div>
 		<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
+		
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 		<div id="page" style="display:none">1</div>
 		<div id="page_page" style="display:none">1</div>
+		<div id="last_query_begin_time" style="display:none"><?php echo $begin_time; ?></div>
+		<div id="last_query_end_time" style="display:none"><?php echo $end_time; ?></div>
+		<div id="last_query_room" style="display:none"><?php echo $seek_room; ?></div>	
+		<div id="last_query_topic" style="display:none"><?php echo $seek_topic; ?></div>
+		<div id="last_query_nfc_id" style="display:none"><?php echo $seek_nfc_id; ?></div>
+		<div id="last_query_course_name" style="display:none"><?php echo $seek_course_name; ?></div>
 		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
 		<div id="room_log_listing_table" class="datatable">
@@ -77,8 +84,7 @@
 ?>
 		</div>
 <?php
-		$seek_params = array($begin_time, $end_time, $seek_room, $seek_nfc_id,
-			$seek_topic, $seek_course_name);		
+		$seek_params = array();		
 		echo generate_js_page_list("get_js_room_log_page",
 			$seek_params, 
 			$room_logs['page_count'], $page, $page_page,

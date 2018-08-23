@@ -20,10 +20,8 @@ $room_logs = get_room_log($conn,
 	$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic,
 	$seek_course_name, $page, "");
 
-$seek_params = array($begin_time, $end_time, $seek_room,
-	$seek_nfc_id, $seek_topic, $seek_course_name);
 $room_logs["page_list"] = generate_js_page_list("get_js_room_log_page", 
-		$seek_params,
+		array(),
 		$room_logs["page_count"], $page, $page_page,
 		"roomlog_pages", "",
 		"curr_page", "other_page");

@@ -39,10 +39,10 @@
 		<h2>Sisäänkirjautuneet ihmiset</h2>
 		<div id="room_log_listing_table" class="datatable">
 			<div class="row heading-row">
-				<div class="col-sm-2"><h5>NFC ID</h5></div>
+				<div class="col-sm-2"><h5>NFC&nbsp;ID</h5></div>
 				<div class="col-sm-4"><h5>Sisääntuloaika</h5></div>
 				<div class="col-sm-2"><h5>Luokka</h5></div>
-				<div class="col-sm-2"><h5>Oppitunnin aihe</h5></div>
+				<div class="col-sm-2"><h5>Oppitunnin&nbsp;aihe</h5></div>
 				<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
 			</div>
 <?php
@@ -57,19 +57,19 @@
 ?>				
 				<div class="row datarow">
 					<div class="col-sm-2">
-						<?php echo str_replace(" ", "&nbsp;",$nfc_id); ?>
+						<?php echo $nfc_id; ?>
 					</div>				
 					<div class="col-sm-4">
-						<?php echo str_replace(" ", "&nbsp;",from_db_to_ui($dt)); ?>
+						<?php echo $dt; ?>
 					</div>
 					<div class="col-sm-2">
-						<?php echo str_replace(" ", "&nbsp;",$room_identifier);  ?>
+						<?php echo $room_identifier;  ?>
 					</div>
 					<div class="col-sm-2">
-						<?php echo str_replace(" ", "&nbsp;",$topic);  ?>
+						<?php echo $topic;  ?>
 					</div>	
 					<div class="col-sm-2">
-						<?php echo str_replace(" ", "&nbsp;",$course_name); ?>
+						<?php echo $course_name; ?>
 					</div>						
 				</div>				
 <?php				

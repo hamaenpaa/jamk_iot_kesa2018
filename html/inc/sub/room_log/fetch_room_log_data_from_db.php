@@ -1,5 +1,7 @@
 <?php
 	define("ROOM_LOG_PAGE_SIZE","50");
+	
+	include("../../utils/date_utils.php");	
 
 	function get_room_log($conn,
 		$begin_time, $end_time, $room_seek, $nfc_id_seek, $topic_seek,
@@ -63,11 +65,11 @@
 		if ($q_room_logs->num_rows > 0) {
 			while($room_logs = $q_room_logs->fetch()) {
 				$room_log_arr[] = array("room_log_id " => $room_log_id,
-					"dt" => $dt, 
-					"nfc_id" => $nfc_id, 
-					"room_identifier" => $room_identifier,
-					"topic" => $topic,
-					"course_name" => $course_name);
+					"dt" => str_replace(" ", "&nbsp;", from_db_to_ui($dt)), 
+					"nfc_id" => str_replace(" ", "&nbsp;", $nfc_id), 
+					"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
+					"topic" => str_replace(" ", "&nbsp;", $topic),
+					"course_name" => str_replace(" ", "&nbsp;", $course_name));
 			}
 		}
 		

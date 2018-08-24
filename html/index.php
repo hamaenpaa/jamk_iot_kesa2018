@@ -15,10 +15,12 @@
 			if (!isset($screen) || $screen == "" || $screen == "0") {
 				echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>'.
 					'<title>Sisäänkirjaukset</title>';
-			}  else {
+			} else if ($screen == "1") {
 				echo '<script src="' . $cfg_rootdir . 'js/lessons.js" /></script>'.
 					'<title>Oppitunnit/koulutukset</title>';
-					
+			} else {
+				echo '<script src="' . $cfg_rootdir . 'js/courses.js" /></script>'.
+					'<title>Kurssit</title>';
 			}
 		?>
 	</head>

@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_SIZE", 20);
+	define("PAGE_SIZE", 2);
 
 	function get_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
 		$total_fields = "ca_course.ID, ca_course.name, ca_course.description";
@@ -34,6 +34,10 @@
 		$courses = array();
 		if ($q_courses->num_rows > 0) {
 			while($q_courses->fetch()) {
+				$name = str_replace(" ", "&nbsp;", $name);
+				if ($name == "") { $name = "&nbsp;"; }
+				$description = str_replace(" ", "&nbsp;", $description);
+				if ($description == "") { $description = "&nbsp;"; }			
 				$courses[] = array("course_id" => $course_id,
 					"name" => $name, 
 					"description" => $description);
@@ -42,11 +46,17 @@
 
 		$page_count = intdiv($count, PAGE_SIZE);
 		if ($page_count * PAGE_SIZE < $count) { $page_count++; }		
-
+		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
+		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+		
+		if ($page_count == 0) { $page_count = 1; }
+		if ($page_page_count == 0) { $page_page_count = 1; }
+		
 		$courses_arr = array(
 			"courses" => $courses,
 			"count" => $count,
-			"page_count" => $page_count			
+			"page_count" => $page_count,
+			"page_page_count" => $page_page_count			
 	
 		);
 		
@@ -67,13 +77,18 @@
 			$q->store_result(); 		
 			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
+				$lesson_period = 
+					str_replace(" ", "&nbsp;", 
+						from_db_datetimes_to_same_day_date_plus_times(
+							$begin_time, $end_time));
 				$course_lessons_arr[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => $topic,
-						"begin_time" => $begin_time,
-						"end_time" => $end_time,
-						"room_identifier" => $room_identifier
+						"topic" => str_replace(" ", "&nbsp;", $topic),
+						"lesson_period" => $lesson_period,
+						"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
+						"remove_call" => 
+							java_script_call("removeCourseLesson", array($course_id, $lesson_id))						
 					);
 			}
 		}
@@ -95,9 +110,9 @@
 			"SELECT " . $total_fields . $sql_end_part_without_paging .
 			" LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 		$sql_lessons_count = "SELECT COUNT(*) " . $sql_end_part_without_paging;			
-		
 		$begin_time = from_ui_to_db($begin_time_seek);
-		$end_time = from_ui_to_db($end_time_seek);			
+		$end_time = from_ui_to_db($end_time_seek);	
+
 		$q = $conn->prepare($sql_lessons_without_course);
 		$q->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);		
 		
@@ -117,24 +132,33 @@
 			$q->store_result(); 		
 			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
+				$lesson_period = str_replace(" ", "&nbsp;", 
+						from_db_datetimes_to_same_day_date_plus_times(
+							$begin_time, $end_time));
 				$lessons_without_course[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => $topic,
-						"begin_time" => $begin_time,
-						"end_time" => $end_time,
-						"room_identifier" => $room_identifier
+						"topic" => str_replace(" ", "&nbsp;", $topic),
+						"lesson_period" => $lesson_period,
+						"room_identifier" => str_replace(
+							" ", "&nbsp;", $room_identifier)
 					);
 			}
 		}
 		
 		$page_count = intdiv($count, PAGE_SIZE);
-		if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
+		if ($page_count * PAGE_SIZE < $count) { $page_count++; }		
+		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
+		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+		
+		if ($page_count == 0) { $page_count = 1; }
+		if ($page_page_count == 0) { $page_page_count = 1; }
 		
 		$lessons_without_course_arr = array(
 			"lessons" => $lessons_without_course, 
 			"count" => $count,
-			"page_count" => $page_count);	
+			"page_count" => $page_count,
+			"page_page_count" => $page_page_count);	
 		
 		return $lessons_without_course_arr;
 	}

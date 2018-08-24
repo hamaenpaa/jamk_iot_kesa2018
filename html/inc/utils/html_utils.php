@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_PAGE_SIZE", 20);
+	define("PAGE_PAGE_SIZE", 2);
 
 	function hidden_input($field_name, $value) {
 		if ($value == "")
@@ -151,12 +151,12 @@
 		if ($page_page != 1) {
 			$params = array(array("name" => $html_page_parameter, "value" => "1"),
 							array("name" => $html_page_page_parameter, "value" => "1"));
-			$html .= link_with_params($root_url, $params, "other_page", "<<") . "&nbsp;";
+			$html .= link_with_params($root_url, $params, $other_page_class, "<<") . "&nbsp;";
 			$params = array(array("name" => $html_page_parameter, 
 								  "value" => ($page_page - 1) * PAGE_PAGE_SIZE),
 							array("name" => $html_page_page_parameter, 
 							      "value" => ($page_page - 1) ));
-			$html .= link_with_params($root_url, $params, "other_page", "<") . "&nbsp;";
+			$html .= link_with_params($root_url, $params, $other_page_class, "<") . "&nbsp;";
 		}
 		
 		for($i= $i_begin; $i <= $i_end; $i++) {
@@ -175,12 +175,12 @@
 			                      "value" => $page_page * PAGE_PAGE_SIZE + 1),
 							array("name" => $html_page_page_parameter, 
 							      "value" => ($page_page + 1) ));
-			$html .= "&nbsp;" . link_with_params($root_url, $params, "other_page", ">") . "&nbsp;";
+			$html .= "&nbsp;" . link_with_params($root_url, $params, $other_page_class, ">") . "&nbsp;";
 			$params = array(array("name" => $html_page_parameter, 
 			                      "value" => $page_count),
 							array("name" => $html_page_page_parameter, 
 							      "value" => $page_page_count));
-			$html .= "&nbsp;" . link_with_params($root_url, $params, "other_page", ">>");			
+			$html .= "&nbsp;" . link_with_params($root_url, $params, $other_page_class, ">>");			
 		}
 		
 		$html .= "</div>";

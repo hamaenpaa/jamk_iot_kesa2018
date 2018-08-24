@@ -14,13 +14,15 @@
 			$screen = get_post_or_get($conn, "screen");
 			if (!isset($screen) || $screen == "" || $screen == "0") {
 				echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>'.
-					'<title>Sisäänkirjaukset</title>';
+					'<title>Huoneen sisäänkirjaukset</title>';
 			} else if ($screen == "1") {
 				echo '<script src="' . $cfg_rootdir . 'js/lessons.js" /></script>'.
 					'<title>Oppitunnit/koulutukset</title>';
-			} else {
+			} else if ($screen == "2") {
 				echo '<script src="' . $cfg_rootdir . 'js/courses.js" /></script>'.
 					'<title>Kurssit</title>';
+			} else if ($screen == "4") {
+				echo '<title>Sisäänkirjautuminen</title>';
 			}
 		?>
 	</head>
@@ -35,7 +37,11 @@
 				</div>
 			</header>
 			<div class="content-wrap">
-				<?php include("inc/". $inc_module . ".php"); ?>
+				<?php 
+					if ($inc_module != "") { 
+						include("inc/". $inc_module . ".php"); 
+					}
+				?>
 			</div>
 			<footer>
 				<div class="footer-wrap">

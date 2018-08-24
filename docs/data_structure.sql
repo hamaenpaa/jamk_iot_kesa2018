@@ -31,3 +31,21 @@ CREATE TABLE ca_course (
 	removed TINYINT(1) DEFAULT 0,
 	PRIMARY KEY (ID)
 ) DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS ca_user_failed_login_log;
+CREATE TABLE ca_user_failed_login_log (
+    ID INT NOT NULL AUTO_INCREMENT,
+	user_ip VARCHAR(15) NOT NULL,
+	dt DATETIME NOT NULL,
+	PRIMARY KEY (ID)
+) DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS ca_user;
+CREATE TABLE ca_user (
+    ID INT NOT NULL AUTO_INCREMENT,
+	`Permission` TINYINT(1) DEFAULT 0, # admin=1 / teacher=0
+	Username varchar(65),
+	Password varchar(65), #sha 256
+	removed TINYINT(1) DEFAULT 0,
+    PRIMARY KEY (ID)
+) ;

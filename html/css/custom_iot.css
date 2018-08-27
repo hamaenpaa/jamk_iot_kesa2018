@@ -383,3 +383,21 @@ div.col-sm-2 b, div.col-sm-4 b {
 	color: black !important;
 	font-weight: bold;
 }
+
+/* Style for log in page's form */
+#login-input-form {
+	width: 200px;
+	text-align: center;
+	margin: auto;
+}
+
+#login-input-form p {
+	text-align: left;
+	margin: 3px 0 3px 17.5px !important;
+	font-weight: bold;
+}
+
+#sign-in {
+	text-align: center !important;
+	margin: 10px 0 0 0 !important;
+}

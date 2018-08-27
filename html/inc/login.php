@@ -1,4 +1,4 @@
-<div id="input-form">
+<div id="login-input-form">
 	<form action="inc/login_confirm.php" method="post">
 		<div id="username-cell">
 			<p>Käyttäjätunnus</p>

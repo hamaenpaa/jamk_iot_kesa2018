@@ -21,6 +21,9 @@
 			} else if ($screen == "2") {
 				echo '<script src="' . $cfg_rootdir . 'js/courses.js" /></script>'.
 					'<title>Kurssit</title>';
+			} else if ($screen == "3") {
+				echo '<script src="' . $cfg_rootdir . 'js/users.js" /></script>'.
+					'<title>Käyttäjät</title>';					
 			} else if ($screen == "4") {
 				echo '<title>Sisäänkirjautuminen</title>';
 			}

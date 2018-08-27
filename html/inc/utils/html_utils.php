@@ -66,11 +66,11 @@
 		$container_id, $container_more_classes,
 		$curr_page_class, $other_page_class) {
 			
-		if ($page_count == 1) { return ""; } // No pages for one page
+		
 		if ($container_id != "") { $id_attribute = " id=\"" . $container_id . "\" "; }
 		$html =  "<div " . $id_attribute . 
 					" class=\"page_list " . $container_more_classes . "\" >";
-
+		if ($page_count == 1) { return $html . "</div>"; } // Only container for one page
 	    $i_begin = ($page_page - 1) * PAGE_PAGE_SIZE;
 		$i_end   = $page_page * PAGE_PAGE_SIZE;
 		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);

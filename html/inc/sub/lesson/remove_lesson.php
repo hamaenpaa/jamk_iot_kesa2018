@@ -1,4 +1,11 @@
 <?php
+	if (!isset($_SESSION)) {
+		session_start();	
+	} 
+	if (!isset($_SESSION['user_id'])) {
+		return;	
+	} 
+
     include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	

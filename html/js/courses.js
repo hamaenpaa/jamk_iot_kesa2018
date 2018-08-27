@@ -29,12 +29,12 @@ function get_course_page(page, page_page) {
 }
 
 function removeCourse(course_id) {
-	$.get("inc/sub/lesson/remove_lesson.php?id="+lesson_id, function (data) {	
+	$.get("inc/sub/course/remove_course.php?id="+course_id, function (data) {	
 		page = $("#page").html();
 		page_page = $("#page_page").html();		
 		
-		// load new lesson list with lesson removed and modified page & page_page
-		get_lessons_page(page, page_page);	
+		// load new course list with lesson removed and modified page & page_page
+		get_course_page(page, page_page);	
 	});
 }
 
@@ -237,8 +237,11 @@ function removeCourseLesson(course_id, lesson_id) {
 		function(data) {
 			refresh_course_lessons(course_id);	
 			page = $("#lessons_without_course_page").html();
-			page_page =	$("#lessons_without_course_page_page").html();			
-			fetch_available_new_course_lessons(page, page_page, course_id);
+			page_page =	$("#lessons_without_course_page_page").html();	
+			// refetch new course lessons IF THEY HAVE BEEN SEEKED SO FAR
+			if (page != "" && page != "0" && page != undefined) {
+				fetch_available_new_course_lessons(page, page_page, course_id);
+			}
 		}
 	);
 }

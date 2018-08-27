@@ -13,3 +13,11 @@
 		</div>
 	</form>
 </div>
+<div id="login_msg">
+<?php 
+	$msg = get_post_or_get($conn, "msg");
+	if (isset($msg) && $msg != "") {
+		echo $msg;
+	}
+?>
+</div>

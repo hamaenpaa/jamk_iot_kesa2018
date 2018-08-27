@@ -391,6 +391,12 @@ div.col-sm-2 b, div.col-sm-4 b {
 	margin: auto;
 }
 
+#login_msg {
+	width: 600px;
+	text-align: center;
+	margin: auto;	
+}
+
 #login-input-form p {
 	text-align: left;
 	margin: 3px 0 3px 17.5px !important;

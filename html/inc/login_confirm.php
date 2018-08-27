@@ -1,24 +1,32 @@
 <?php
 include("db_connect_inc.php"); 
 
+$msg = "";
+
 if (!isset($_SESSION)) {
 	session_start();	
 } 
 if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_permlevel'])) { //Katsoo onko käyttäjä kirjautunut jo sisään
 	$validate_info = validate();
 	if ($validate_info["passed"]) {
-		if (checkLogin($conn,$validate_info["postun"],$validate_info["postpw"])) {
-			echo "here189273489127378912739129839128";
+		$login_info = checkLogin($conn,$validate_info["postun"],$validate_info["postpw"]);
+		if ($login_info['passed']) {
 			include("db_disconnect_inc.php"); 
 			header("Location: ../index.php");
 		}
+		$msg = $login_info['msg'];
+	} else {
+		$msg = $validate_info['msg'];
 	}
+	header("Location: ../index.php?screen=4&msg=".$msg);
 } else {
 	//Käyttäjä on kirjautunut jo sisään, uudelleen ohjaa index.php sivulle.
-	header("Location: ../index.php");
+	$msg = 
+		"<p>Olet jo kirjautunut sisään, mikäli sivusto ei uudelleenohjaa paina <a href='index.php'>tästä</a>.</p>";
+	header("Location: ../index.php?screen=4&msg=".$msg);
 	include("db_disconnect_inc.php"); 
-	echo "<p>Olet jo kirjautunut sisään, mikäli sivusto ei uudelleenohjaa paina <a href='index.php'>tästä</a>.</p>";
 }
+
 
 function validate() {
 	$postun = "";
@@ -30,20 +38,22 @@ function validate() {
 			$passed = true;
 		} else {
 			//Käyttäjänimen ja salasanan pituuden
-			echo "<p>Käyttäjänimen tai salasanan pituus väärä. Käyttäjänimi 3-255, Salasana 5-200.";
+			$msg = "<p>Käyttäjänimen tai salasanan pituus väärä. Käyttäjänimi 3-255, Salasana 5-200.";
 			$passed = false;
 		}		
 	} else {
 		//Ei tunnistettu käyttäjänimen tai salasanan syöttöä
-		echo "<p>Ei tunnistettu käyttäjänimen tai salasanan syöttöä.</p>";	
+		$msg = "<p>Ei tunnistettu käyttäjänimen tai salasanan syöttöä.</p>";	
 		$passed = false;
 	}	
-	return array("passed" => $passed, "postun" => $postun, "postpw" => $postpw);
+	return array("passed" => $passed, "postun" => $postun, "postpw" => $postpw,
+		"msg" => $msg);
 }
 
 
 function checkLogin($conn,$postun,$postpw) {
-	echo "dadaaaa";
+	$msg_tech_error = "Tekninen virhe. Yritä myöhemmin uudestaan.";
+	
 	// Find user IP or check localhost
 	if ($_SERVER['REMOTE_ADDR'] == "::1") {
 		$remIP = "localhost"; //Localhost IP:n manuaali-asetus
@@ -88,42 +98,37 @@ function checkLogin($conn,$postun,$postpw) {
 						$_SESSION['user_id'] = $id;
 						$_SESSION['user_permlevel'] = $perms;
 						$passed = true;
-						echo "hereasdasdasdasdasdasdasdasdasdasdasda";
 					} else {
-						echo "klfjasdkljfl";
 						//Käyttäjänimi tai salasana oli väärä, asetetaan tieto failed_login kantaan
 						if ($res_insert_falselogin = $conn->prepare("INSERT INTO ca_user_failed_login_log (user_ip, dt) VALUES (?,?)")) {
 							$res_insert_falselogin->bind_param("ss", $remIP, $curdate);
 							$res_insert_falselogin->execute();
 							$rows_false_logins++;
-							echo "Kirjautuminen epäonnistui: " . $rows_false_logins . "/5 kertaa. ";
+							$msg = "Kirjautuminen epäonnistui: " . $rows_false_logins . "/5 kertaa. ";
 							if ($rows_false_logins < 5) {
-								echo "(Jos tämä ylittyy, kirjautuminen evätään 15 minuutin ajaksi ensimmäisestä kirjautumisesta)";
+								$msg .= "(Jos tämä ylittyy, kirjautuminen evätään 15 minuutin ajaksi ensimmäisestä kirjautumisesta)";
 							}
 							else {
-								echo "Kirjautuminen evätään 15 minuutin ajaksi ensimmäisestä kirjautumisesta.";
+								$msg .= "Kirjautuminen evätään 15 minuutin ajaksi ensimmäisestä kirjautumisesta.";
 							}
 						} else {
-								echo "hmmmm2...";
+							$msg = $msg_tech_error;
 						}
 					}
 					$res_gd->free_result(); //Vapauttaa tulokset
 				} else {
-					echo "lajsfzkldfj";
+					$msg = $msg_tech_error;
 				}
 			} else {
-				echo "hmmmm...";
+				$msg = $msg_tech_error;
 			}
 		} else {
 			$too_many_error_logins = true;
 			//Anti-bruteforce iskee -> käyttäjä kirjautunut väärillä tunnuksilla yli X määrän
-			echo "<p>Liian monta virheellistä kirjautumista, ole hyvä ja yritä uudelleen 15 minuutin kuluttua.</p>";	
+			$msg = "<p>Liian monta virheellistä kirjautumista, ole hyvä ja yritä uudelleen 15 minuutin kuluttua.</p>";	
 		}  
-			
-	} else {
-		echo "sdklasöldköl";
-	}
-	return $passed;	
+	} 
+	return array("passed" => $passed, "msg" => $msg);	
 }
 
 ?>

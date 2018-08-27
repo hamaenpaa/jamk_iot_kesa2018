@@ -1,4 +1,11 @@
 <?php
+if (!isset($_SESSION)) {
+	session_start();	
+} 
+if (!isset($_SESSION['user_id'])) {
+	return;	
+}
+
 include("../../utils/request_param_utils.php");
 include("../../utils/html_utils.php");
 include("course_fetch_from_db.php");

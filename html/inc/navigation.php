@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 } 
 $screen = get_post_or_get($conn, "screen");
 $inc_module = "";
-$skip_screens = array(3);
+$skip_screens = array();
 if (!isset($_SESSION['user_id'])) {
 	$login_logout_text = "Sisäänkirjautuminen";
 	$skip_screens = array(1,2,3);
@@ -21,10 +21,10 @@ if ($screen != "") {
 		if (isset($_SESSION['user_id'])) {
 			$inc_module = "list_courses";
 		}
-/*	} else if ($screen == "3") {
+	} else if ($screen == "3") {
 		if (isset($_SESSION['user_id'])) {
 			$inc_module = "list_users";
-		}*/
+		}
 	} else if ($screen == "4") {
 		if (!isset($_SESSION['user_id'])) {
 			$inc_module = "login";

@@ -11,19 +11,23 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_permlevel'])) { //Kat
 	if ($validate_info["passed"]) {
 		$login_info = checkLogin($conn,$validate_info["postun"],$validate_info["postpw"]);
 		if ($login_info['passed']) {
-			include("db_disconnect_inc.php"); 
 			header("Location: ../index.php");
 		}
 		$msg = $login_info['msg'];
 	} else {
 		$msg = $validate_info['msg'];
 	}
-	header("Location: ../index.php?screen=4&msg=".$msg);
+	if ($msg != "") {
+		session_destroy();
+		header("Location: ../index.php?screen=4&msg=".$msg);
+	}
+	include("db_disconnect_inc.php"); 	
 } else {
 	//Käyttäjä on kirjautunut jo sisään, uudelleen ohjaa index.php sivulle.
 	$msg = 
 		"<p>Olet jo kirjautunut sisään, mikäli sivusto ei uudelleenohjaa paina <a href='index.php'>tästä</a>.</p>";
 	header("Location: ../index.php?screen=4&msg=".$msg);
+	session_destroy();
 	include("db_disconnect_inc.php"); 
 }
 

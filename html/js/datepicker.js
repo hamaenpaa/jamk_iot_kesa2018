@@ -7,6 +7,10 @@ Asentaa kyseisen valikon classeihin nimeltä datetime_picker.
 */
 $(function() {
 	$.datetimepicker.setLocale('fi');
+	setUpDatetimepickers();
+});
+
+function setUpDatetimepickers() {
 	jQuery('.datetime_picker').datetimepicker({ 
 		datepicker:true,
 		allowTimes:[
@@ -28,8 +32,8 @@ $(function() {
 			'21:00'
 		],
 		format:'d.m.Y H:i' //Finnish format
-	});
-});
+	});	
+}
 
 $(function() {
 	$.datetimepicker.setLocale('fi');

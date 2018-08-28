@@ -136,6 +136,7 @@ function build_new_avail_course_lessons_section(course_id) {
 			"<button class=\"button\" onclick=\"" + call + "\" >Hae</button>" +
 		"</div>" +
 		"<div id=\"add_avail_lesson_seek_params\" style=\"display:none\"></div>");
+		setUpDatetimepickers();
 }
 
 function seek_available_new_course_lessons(course_id) {

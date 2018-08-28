@@ -1,8 +1,5 @@
 <?php
 	include("fetch_room_log_data_from_db.php");
-/*	$begin_time = get_post_or_get($conn, "begin_time");
-	$end_time = get_post_or_get($conn, "end_time");*/
-	
 	if ((isset($begin_time) && isset($end_time) &&
 		$begin_time != "" && $end_time != "")) {
 
@@ -17,9 +14,6 @@
 		if (!isset($page_page) || $page_page == "") {
 			$page_page = "1";
 		}		
-	
-
-	
 		$room_logs = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic, 
 			$seek_course_name, $page, "");
@@ -31,8 +25,9 @@
 			"&end_time=" . $end_time;
 ?>
 		<div id="new_room_log_notifications"></div>
+<?php if (count($room_logs) > 0) { ?>
 		<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
-		
+<?php } ?>		
 		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
 		<div id="page" style="display:none">1</div>
 		<div id="page_page" style="display:none">1</div>

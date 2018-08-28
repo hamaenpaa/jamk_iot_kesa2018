@@ -36,7 +36,7 @@ $().ready(function() {
 				"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
 				"&page_page="+page_page, 
 				function(data) {
-					if (data != "{}") {
+					if (data != "{}" && data != "") {
 						jsonData = JSON.parse(data);
 						if (jsonData.count_new > 0) {
 							$('#last_fetch_time').html(jsonData.last_fetch_time);
@@ -83,7 +83,8 @@ function validateForm() {
 	
 	var correct = is_datetime_order_correct(begin_datetime, end_datetime);
 	if (!correct) {
-		$("#validation_errors").html("Alkuaika on loppuajan jälkeen: korjaa se!");
+		$("#validation_errors").html(
+			"Ajat ei ole aikoja ollenkaan tai alkuaika on loppuajan jälkeen: korjaa se!");
 	} else {
 		$("#validation_errors").html("");
 	}
@@ -103,29 +104,29 @@ function get_js_room_log_page(page, page_page) {
 			"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic+
 			"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
 			"&page_page="+page_page, function (data) {
-		jsonData = JSON.parse(data);
-		
-		$("#room_log_listing_table .datarow").remove();
-		for(i=0; i < jsonData.room_logs.length; i++) {
-			if (jsonData.room_logs[i].topic == null) { 
-				jsonData.room_logs[i].topic = "&nbsp;"; 
-			}
-			if (jsonData.room_logs[i].course_name == null) { 
-				jsonData.room_logs[i].course_name = "&nbsp;"; 
-			}								
-			elemToBeInserted = 
-				"<div class=\"row datarow\">" +
-					"<div class=\"col-sm-2\">" + jsonData.room_logs[i].nfc_id + "</div>" +
-					"<div class=\"col-sm-4\">" + jsonData.room_logs[i].dt + "</div>" +
-					"<div class=\"col-sm-2\">" + jsonData.room_logs[i].room_identifier + "</div>" +
-					"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topic + "</div>" +
-					"<div class=\"col-sm-2\">" + jsonData.room_logs[i].course_name + "</div>" +
-				"</div>";
-			$("#room_log_listing_table").append(elemToBeInserted);
-		}		
-		$("#roomlog_pages").replaceWith(jsonData.page_list);
-		$('#page').html(page);
-		$('#page_page').html(page_page);
+		if (data != "") {
+			jsonData = JSON.parse(data);	
+			$("#room_log_listing_table .datarow").remove();
+			for(i=0; i < jsonData.room_logs.length; i++) {
+				if (jsonData.room_logs[i].topic == null) { 
+					jsonData.room_logs[i].topic = "&nbsp;"; 
+				}
+				if (jsonData.room_logs[i].course_name == null) { 
+					jsonData.room_logs[i].course_name = "&nbsp;"; 
+				}								
+				elemToBeInserted = 
+					"<div class=\"row datarow\">" +
+						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].nfc_id + "</div>" +
+						"<div class=\"col-sm-4\">" + jsonData.room_logs[i].dt + "</div>" +
+						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].room_identifier + "</div>" +
+						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topic + "</div>" +
+						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].course_name + "</div>" +
+					"</div>";
+				$("#room_log_listing_table").append(elemToBeInserted);
+			}		
+			$("#roomlog_pages").replaceWith(jsonData.page_list);
+			$('#page').html(page);
+			$('#page_page').html(page_page);
+		}
 	});	
-	
 }

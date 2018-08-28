@@ -4,7 +4,25 @@
 	function get_room_log($conn,
 		$begin_time, $end_time, $room_seek, $nfc_id_seek, $topic_seek,
 		$course_name_seek, $page, $last_new_fetch_time) {
-			
+
+		if (!isDateTime($begin_time) || !isDateTime($end_time) ||
+			!isDatetime1Before($begin_time, $end_time)) {
+			return array();			
+		}		
+		if (strlen($room_seek) > 50 || strlen($nfc_id_seek) > 50 ||
+			strlen($topic_seek) > 150  || strlen($course_name_seek) > 50) {
+			return array();
+		}
+		if (!is_integerable($page) || $page == "" || $page == "0") {
+			return array();
+		}
+		if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
+			return array();
+		}	
+		if ($last_new_fetch_time != "" && !is_integerable($last_new_fetch_time)) {
+			return array();
+		}
+		
 		$fields = "ca_roomlog.ID, ca_roomlog.NFC_ID, 
 				ca_roomlog.dt, ca_roomlog.room_identifier, ca_lesson.topic,
 				ca_course.name ";

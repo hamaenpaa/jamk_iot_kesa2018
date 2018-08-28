@@ -28,14 +28,6 @@
 	if (!isset($seek_course_name)) {
 		$seek_course_name = "";
 	}	
-
-	$seek_params_get = "?screen=" .
-		possible_get_param("begin_time",$begin_time,false).
-		possible_get_param("end_time",$end_time,false).
-		possible_get_param("seek_room",$seek_room,false).
-		possible_get_param("seek_nfc_id",$seek_nfc_id,false).
-		possible_get_param("seek_topic",$seek_topic,false).
-		possible_get_param("seek_course_name",$seek_course_name,false);
 ?>
 
 <div>
@@ -74,7 +66,7 @@
 		<div class="row-type-2">
 			<label>Etsittävä aiheen osa:</label>
 			<input id="seek_topic" type="text" name="seek_topic" 
-				maxlength="50" value="<?php echo $seek_topic; ?>" 
+				maxlength="150" value="<?php echo $seek_topic; ?>" 
 				placeholder="Etsittävä aiheen osa" />
 		</div>		
 		<div class="row-type-2">

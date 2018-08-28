@@ -36,26 +36,28 @@ function get_lessons_page(page, page_page) {
 			"&room_seek="+room_seek+"&topic_seek="+topic_seek+
 			"&page="+page+
 			"&page_page="+page_page, function (data) {
-		jsonData = JSON.parse(data);
-		$("#lesson_listing_table .datarow").remove();
-		for(i=0; i < jsonData.lessons.length; i++) {
-			elemToBeInserted = 
-				"<div class=\"row datarow\">" +
-					"<div class=\"col-sm-4\">" + jsonData.lessons[i].time_interval + "</div>" +
-					"<div class=\"col-sm-3\">" + jsonData.lessons[i].room_identifier + "</div>" +
-					"<div class=\"col-sm-3\">" + jsonData.lessons[i].topic + "</div>" +
-					modify_and_remove_columns(
-						jsonData.lessons[i].modify_call,
-						jsonData.lessons[i].remove_call) +
-				"</div>";
-			$("#lesson_listing_table").append(elemToBeInserted);
-		}		
-		checkWidth();
-		$("#lesson_pages").replaceWith(jsonData.page_list);
+		if (data != "") {
+			jsonData = JSON.parse(data);
+			$("#lesson_listing_table .datarow").remove();
+			for(i=0; i < jsonData.lessons.length; i++) {
+				elemToBeInserted = 
+					"<div class=\"row datarow\">" +
+						"<div class=\"col-sm-4\">" + jsonData.lessons[i].time_interval + "</div>" +
+						"<div class=\"col-sm-3\">" + jsonData.lessons[i].room_identifier + "</div>" +
+						"<div class=\"col-sm-3\">" + jsonData.lessons[i].topic + "</div>" +
+						modify_and_remove_columns(
+							jsonData.lessons[i].modify_call,
+							jsonData.lessons[i].remove_call) +
+					"</div>";
+				$("#lesson_listing_table").append(elemToBeInserted);
+			}		
+			checkWidth();
+			$("#lesson_pages").replaceWith(jsonData.page_list);
 		
-		// These can change also due to another user:
-		$("#page").html(jsonData.page); 
-		$("#page_page").html(jsonData.page_page);
+			// These can change also due to another user:
+			$("#page").html(jsonData.page); 
+			$("#page_page").html(jsonData.page_page);
+		}
 	});
 }
 

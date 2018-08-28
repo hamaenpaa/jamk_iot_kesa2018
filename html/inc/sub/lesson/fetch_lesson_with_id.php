@@ -12,6 +12,11 @@
 	
 	$id = get_post_or_get($conn, "id");
 	
+	if (!is_integerable($id) || $id == "" || $id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}	
+	
 	$total_fields = "ca_lesson.begin_time,
         ca_lesson.end_time, ca_lesson.room_identifier,			
 		ca_lesson.topic ";	

@@ -11,6 +11,10 @@
 		return $param_value;
 	}
 	
+	function purifyParam($conn, $param) {
+		return strip_tags($conn->real_escape_string($param));
+	}
+	
 	function possible_get_param($param_name,$value,$first=true) {
 		$ret_val = "";
 		if ($value != "") {

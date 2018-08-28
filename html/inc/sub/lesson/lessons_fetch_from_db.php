@@ -2,6 +2,22 @@
 	define("PAGE_SIZE", 50);
 
 	function get_lessons($conn, $begin_time, $end_time, $room_seek, $topic_seek, $page) {
+		if (!isDateTime($begin_time_seek) || !isDateTime($end_time_seek) ||
+			!isDatetime1Before($begin_time_seek, $end_time_seek) {
+			return array();			
+		}
+		if (!is_integerable($page) || $page == "" || $page == "0") {
+			return array();	
+		}
+		if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
+			return array();	
+		}
+		$room_seek = purifyParam($conn, $room_seek);
+		$topic_seek = purifyParam($conn, $topic_seek);
+		if (strlen($room_seek) > 50 || strlen($topic_seek) > 150) {
+			return array();	
+		}
+		
 		$total_fields = "ca_lesson.ID, ca_lesson.begin_time,
                 ca_lesson.end_time, ca_lesson.room_identifier,			
 				ca_lesson.topic ";
@@ -17,9 +33,6 @@
 			 " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 			 
 		$q_lessons = $conn->prepare($sql_lessons);
-		$begin_time = from_ui_to_db($begin_time);
-		$end_time = from_ui_to_db($end_time);
-		
 		$q_lessons->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);
 		$q_lessons->execute();		
 		$q_lessons->store_result();

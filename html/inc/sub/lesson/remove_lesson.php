@@ -11,6 +11,11 @@
 	
 	$id = get_post_or_get($conn, "id");
 	
+	if (!is_integerable($id) || $id == "" || $id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}	
+	
 	$q = $conn->prepare("UPDATE ca_lesson SET removed = 1 WHERE ID = ?");
 	if ($q) {
 		$q->bind_param("i", $id);

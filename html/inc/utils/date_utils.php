@@ -78,7 +78,7 @@
 	
 	function from_db_to_unix_milliseconds($db_dt) {
 		list($date_part,$time_part) = explode(" ", $db_dt);
-		list($dd,$mm,$yyyy) = explode("-", $date_part);
+		list($yyyy,$mm,$dd) = explode("-", $date_part);
 		list($hours,$minutes,$seconds) = explode(":", $time_part);
 		return mktime($hours,$minutes,$seconds,$mm,$dd,$yyyy);
 	}
@@ -97,5 +97,37 @@
 	
 	function get_db_time_of_school_day_begin() {
 		return date("Y-m-d 06:00:00");
+	}
+	
+	
+    function isTime($time) {
+        if (preg_match("/^([1-2][0-3]|[01]?[1-9]):([0-5]?[0-9]):([0-5]?[0-9])$/", $time))
+            return true;
+        return false;
+    }
+
+	function isDateTime($dbdatetime) {
+		$parts = explode(" ", $dbdatetime);
+		list($y, $m, $d) = explode("-", $parts[0]);
+
+		if(checkdate($m, $d, $y) && isTime($parts[1]) ){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	function isTime1Before($time1, $time2) {
+		list($hh1,$mm1) = explode(":", $time1);
+		list($hh2,$mm2) = explode(":", $time2);
+		if ($hh1 < $hh2) { return true; }
+		if ($hh1 > $hh2) { return false; }
+		if ($mm1 < $mm2) { return true; }
+		return false;
+	}
+	
+	function isDatetime1Before($dbdatetime1, $dbdatetime2) {
+		return from_db_to_unix_milliseconds($dbdatetime1) < 
+				from_db_to_unix_milliseconds($dbdatetime2);
 	}
 ?>

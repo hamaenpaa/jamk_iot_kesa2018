@@ -1,6 +1,8 @@
 <?php
 	if ($begin_time_seek_value_param != "" && $end_time_seek_value_param != "") {
 		include("lessons_fetch_from_db.php");
+		$begin_time_seek = from_ui_to_db($begin_time_seek);
+		$end_time_seek = from_ui_to_db($end_time_seek);	
 		$lessons_arr = get_lessons($conn, 
 			$begin_time_seek, $end_time_seek, $room_seek, $topic_seek, $page);
 ?>

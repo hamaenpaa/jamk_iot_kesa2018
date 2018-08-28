@@ -10,7 +10,9 @@
 	include("../../utils/request_param_utils.php");
 	
 	$id = get_post_or_get($conn, "id");
-	
+	if (!is_integerable($id)) {
+		return;
+	}
 
 	$q = $conn->prepare("UPDATE ca_user SET removed = 1 WHERE ID = ?");
 	if ($q) {

@@ -12,8 +12,18 @@
 	$id = get_post_or_get($conn, "id");
 	$username = get_post_or_get($conn, "username");
 	$password = get_post_or_get($conn, "password");
+	
+	if (!is_integerable($id)) {
+		return;
+	}
+	
 	if ($_SESSION['user_permlevel'] == 1) {
 		$permission = get_post_or_get($conn, "permission");
+	}
+
+	if (!validateUser($username, $password)) {
+		include("../../db_disconnect_inc.php");
+		return;
 	}
 	
 	if ($id == "0") {
@@ -37,4 +47,16 @@
 		$q->execute();
 	}
 	include("../../db_disconnect_inc.php");
+	
+	
+	function validateUser($username, $password) {
+		$passed = true;
+		if (strlen($username) < 3 || strlen($username) > 65) {
+			$passed = false;
+		}
+		if (strlen($password) < 5 || strlen($password) > 50) {
+			$passed = false;
+		}		
+		return $passed;
+	}
 ?>

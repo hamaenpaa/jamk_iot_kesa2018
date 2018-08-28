@@ -23,4 +23,8 @@
 		}
 		return $ret_val;	
 	}
+	
+	function is_integerable( $v ){
+		return is_numeric($v) && +$v === (int)(+$v);
+	}	
 ?>

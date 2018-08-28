@@ -31,20 +31,6 @@
 	if (!isset($page_page) || $page_page == "") {
 		$page_page = "1";
 	}	
-	
-	$seek_params_hidden_inputs = 
-		hidden_input("begin_time_seek", $begin_time_seek) .
-		hidden_input("end_time_seek", $end_time_seek) .
-		hidden_input("room_seek", $room_seek) .
-		hidden_input("topic_seek", $topic_seek) .
-		hidden_input("page", $page) .
-		hidden_input("page_page", $page_page);	
-
-	$seek_params_get = 
-		possible_get_param("begin_time_seek",$begin_time_seek,false).
-		possible_get_param("end_time_seek",$end_time_seek,false).
-		possible_get_param("room_seek",$room_seek,false).
-		possible_get_param("topic_seek",$topic_seek,false);		
 ?>
 
 <form name="lessons_seek" action="index.php?screen=1" method="POST"

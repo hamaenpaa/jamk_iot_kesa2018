@@ -2,14 +2,11 @@
 	define("PAGE_SIZE", 50);
 
 	function get_lessons($conn, $begin_time, $end_time, $room_seek, $topic_seek, $page) {
-		if (!isDateTime($begin_time_seek) || !isDateTime($end_time_seek) ||
-			!isDatetime1Before($begin_time_seek, $end_time_seek) {
+		if (!isDateTime($begin_time) || !isDateTime($end_time) ||
+			!isDatetime1Before($begin_time, $end_time)) {
 			return array();			
 		}
 		if (!is_integerable($page) || $page == "" || $page == "0") {
-			return array();	
-		}
-		if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
 			return array();	
 		}
 		$room_seek = purifyParam($conn, $room_seek);

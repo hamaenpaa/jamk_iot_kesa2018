@@ -13,13 +13,29 @@ function validateSeekForm() {
 }
 
 function validateAddOrModifyForm() {
+	if (!checkDateStr($("#lesson_date").val())) {
+		$("#add_or_modify_lesson_form_validation_errors").html(
+			"Päiväys ei ole oikea päiväys: korjaa se!");
+		return false;
+	}
+	if ($("#room_identifier").val().length > 50) {
+		$("#add_or_modify_lesson_form_validation_errors").html(
+			"Huoneen tunnus ei voi olla pidempi kuin 50 merkkiä. Korjaa se!");
+		return false;		
+	}
+	if ($("#topic").val().length > 150) {
+		$("#add_or_modify_lesson_form_validation_errors").html(
+			"Aihe ei voi olla pidempi kuin 50 merkkiä. Korjaa se!");
+		return false;		
+	}	
+	
 	var begin_time = $("#begin_time").val();
 	var end_time = $("#end_time").val();
 	
 	var correct = is_time_order_correct(begin_time, end_time);
 	if (!correct) {
 		$("#add_or_modify_lesson_form_validation_errors").html(
-			"Alkuaika on loppuajan jälkeen: korjaa se!");
+			"Ajat eivät ole oikeita aikoja tai alkuaika on loppuajan jälkeen: korjaa se!");
 	} else {
 		$("#add_or_modify_lesson_form_validation_errors").html("");
 	}	

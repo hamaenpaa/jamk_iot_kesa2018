@@ -25,6 +25,9 @@
 	}
 	
 	function is_integerable( $v ){
+		if ($v == "") {
+			return true;
+		}
 		return is_numeric($v) && +$v === (int)(+$v);
 	}	
 ?>

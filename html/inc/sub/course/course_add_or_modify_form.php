@@ -3,7 +3,7 @@
 <input type="hidden" id="id" name="id" value="" />
 <div class="row-type-2">
 	<label>Nimi:</label>
-	<input id="name" name="name" value="" required />		
+	<input id="name" name="name" value="" maxlength="50" required />		
 </div>
 <div class="row-type-2">
 	<label>Kurssin kuvaus:</label>
@@ -15,4 +15,5 @@
 <div class="row-type-5">
 	<button class="button" onclick="saveCourse()">Talleta</button>
 </div>
+<div id="course_validation_msgs"></div>
 <div id="course_lessons_handling"></div>

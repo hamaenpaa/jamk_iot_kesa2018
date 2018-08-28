@@ -11,6 +11,11 @@
 
 	$id = get_post_or_get($conn, "id");
 	
+	if (!is_integerable($id) || $id == "" || $id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}	
+	
 	$sql = "SELECT ca_course.name, ca_course.description FROM
 			ca_course WHERE id=?";
 	$q_course = $conn->prepare($sql);

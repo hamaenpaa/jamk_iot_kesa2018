@@ -250,6 +250,9 @@ function saveCourse() {
 	id = $("#id").val();
 	name = $("#name").val();
 	description = $("#description").val();
+	if (!validateCourse(name, description)) {
+		return;
+	}
 	$.get("inc/sub/course/save_course.php?id=" + id +
 		"&name="+name+"&description="+description,
 		function(data) {
@@ -261,6 +264,29 @@ function saveCourse() {
 			$("#description").val("");
 			$("#add_or_modify_course_header").html("Lisää kurssi");
 			$("#course_lessons_handling").html("");
+			$("#course_validation_msgs").html("");
 		}
 	);		
+}
+
+
+function validateCourse(name, description) {
+	passed = true;
+	msg = "";
+	if (name == "") {
+		msg = "Kurssin nimi on pakollinen";
+		passed = false;
+	}
+	if (passed && name.length > 50) {
+		msg = "Kurssin nimen maksimimipituus on 50 merkkiä";
+		passed = false;		
+	}
+	if (passed && description.length > 500) {
+		msg = "Kurssin kuvauksen maksimimipituus on 500 merkkiä";
+		passed = false;		
+	}
+	if (!passed) {
+		$("#course_validation_msgs").html(msg);
+	}
+	return passed;
 }

@@ -19,6 +19,19 @@
 	$topic_seek = get_post_or_get($conn, 'topic_seek');
 	$page = get_post_or_get($conn, "page");
 	$page_page = get_post_or_get($conn, "page_page");
+
+	if (!is_integerable($course_id) || $course_id == "" || $course_id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}	
+	if (!is_integerable($page) || $page == "" || $page == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}
+	if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}
 	
 	$lessons = fetch_lessons_without_course($conn, $course_id,
 	    $begin_time_seek, $end_time_seek, $room_seek, $topic_seek, $page);

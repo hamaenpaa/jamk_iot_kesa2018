@@ -14,6 +14,7 @@
 	$password = get_post_or_get($conn, "password");
 	
 	if (!is_integerable($id)) {
+		include("../../db_disconnect_inc.php");
 		return;
 	}
 	

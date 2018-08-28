@@ -17,6 +17,11 @@
 		$id = get_post_or_get($conn, 'id');
 	}
 	
+	if (!is_integerable($id) || $id == "" || $id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}		
+	
 	$course_lessons = get_course_lessons($conn, $id);
 
 	include("../../db_disconnect_inc.php");

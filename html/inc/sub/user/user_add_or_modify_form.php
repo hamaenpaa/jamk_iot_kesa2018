@@ -9,3 +9,4 @@
 	<button class="button" onclick="<?php echo $add_js_call; ?>">Lisää käyttäjä</button>
 </div>
 <div id="add_or_modify_user_form"></div>
+<div id="validation_msgs"></div>

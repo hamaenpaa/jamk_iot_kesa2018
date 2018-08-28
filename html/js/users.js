@@ -34,15 +34,18 @@ function buildAddOrModifForm(header, user_id, username, user_permission, curr_us
 		"<input type=\"hidden\" id=\"user_id\" name=\"id\" value=\"" + user_id + "\" />" +
 		"<div class=\"row-type-2\">" + 
 			"<label>Käyttäjätunnus:</label>" +
-			"<input type=\"text\" id=\"username\" name=\"username\" value=\"" + username + "\" required />" +
+			"<input type=\"text\" id=\"username\" name=\"username\" " +
+			 " minlength=\"3\" maxlength=\"65\" value=\"" + username + "\" required />" +
 		"</div>" +
 		"<div class=\"row-type-2\">" + 
 			"<label>Salasana:</label>" +
-			"<input type=\"password\" id=\"password\" name=\"password\" value=\"\" required />" +
+			"<input type=\"password\" id=\"password\" name=\"password\" value=\"\" " +
+			" minlength=\"5\" maxlength=\"50\" required />" +
 		"</div>" +
 		"<div class=\"row-type-2\">" + 
 			"<label>Salasanan varmistus:</label>" +
-			"<input type=\"password\" id=\"password_confirm\" name=\"password_confirm\" value=\"\" required />" +
+			"<input type=\"password\" id=\"password_confirm\" " + 
+			"name=\"password_confirm\" value=\"\" minlength=\"5\" maxlength=\"50\" required />" +
 		"</div>" +		
 		permission_input + 
 		"<button class=\"button\" onclick=\"saveUser(" + curr_user_perm + 
@@ -63,9 +66,8 @@ function saveUser(curr_user_perm) {
 			input_user_perm = "&permission=0";
 		}
 	}
-	if (password != password_confirm) {
-		alert("Salasanat eivät täsmää");
-	} else {
+	if (validateUser(username, password, password_confirm)) {
+		$("#validation_msgs").html("");
 		$.get("inc/sub/user/save_user.php?id=" + user_id + "&username=" + username +
 		    "&password=" + password + input_user_perm, function(data) {
 			$("#add_or_modify_user_form").html("");	
@@ -76,6 +78,31 @@ function saveUser(curr_user_perm) {
 			get_user_page(page, page_page);			
 		})
 	}
+}
+
+function validateUser(username, password, password_confirm) {
+	passed = true;
+	if (password != password_confirm) {
+		$("#validation_msgs").html("Salasanat eivät täsmää");
+		passed = false;
+	}
+	if (passed && username.length < 3) {
+		$("#validation_msgs").html("Käyttäjätunnuksen pituus on alle 3 merkkiä");
+		passed = false;		
+	}
+	if (passed && username.length > 65) {
+		$("#validation_msgs").html("Käyttäjätunnuksen pituus on yli 65 merkkiä");
+		passed = false;		
+	}
+	if (passed && password.length < 5) {
+		$("#validation_msgs").html("Salasanan pituus on alle 5 merkkiä");
+		passed = false;		
+	}
+	if (passed && password.length > 50) {
+		$("#validation_msgs").html("Salasanan pituus on yli 50 merkkiä");
+		passed = false;		
+	}	
+	return passed;
 }
 
 function get_user_page(page, page_page) {

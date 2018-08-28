@@ -10,6 +10,11 @@
     include("../../utils/request_param_utils.php");
 
 	$id = get_post_or_get($conn, "id");
+	if (!is_integerable($id) || $id == "" || $id == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}
+	
 	$user = array();
 	if ($id == $_SESSION['user_id'] || $_SESSION['user_permlevel'] == 1) {
 		$sql = "SELECT ca_user.username,permission FROM ca_user WHERE id=?";

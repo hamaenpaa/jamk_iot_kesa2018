@@ -1,7 +1,14 @@
 <?php
-	define("PAGE_SIZE", 2);
+	define("PAGE_SIZE", 20);
 
 	function get_users($conn, $username_seek, $page) {
+		if (strlen($username_seek) > 65) {
+			return array();
+		}
+		if (!is_integerable($page) || $page == "" || $page == "0") {
+			return array();
+		}
+		
 		$fields = "id, username, permission";
 		$end_part = " FROM ca_user WHERE username LIKE '%".	$username_seek . 
 					"%' AND removed=0 ";
@@ -43,6 +50,4 @@
 		);
 		return $users_arr;		
 	}
-
-
 ?>

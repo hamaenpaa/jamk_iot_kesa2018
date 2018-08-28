@@ -9,7 +9,6 @@
 		$page_page = "1";
 	}
 ?>
-
 <form name="users_seek" action="<?php echo $index_page; ?>" method="POST" >	
 	<div class="row-type-2">
 		<label>Käyttäjänimi:</label>

@@ -26,6 +26,11 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}	
+	if (strlen($name_seek) > 50 || strlen($description_seek) > 500 ||
+		strlen($topic_seek) > 150) {
+		include("../../db_disconnect_inc.php");
+		return;
+	}
 
 	$courses = fetch_courses($conn, $name_seek, $description_seek, $topic_seek, $page);
 

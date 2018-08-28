@@ -3,7 +3,7 @@
 		session_start();	
 	} 
 	if (!isset($_SESSION['user_id'])) {
-		return "sdasd";	
+		return;	
 	} 
 
 	include("../../utils/request_param_utils.php");
@@ -20,6 +20,15 @@
 	$page = get_post_or_get($conn, "page");
 	$page_page = get_post_or_get($conn, "page_page");
 
+	$begin_time_seek = from_ui_to_db($begin_time_seek);
+	$end_time_seek = from_ui_to_db($end_time_seek);	
+	
+	if (!isDateTime($begin_time_seek) || !isDateTime($end_time_seek) ||
+	    !isDatetime1Before($begin_time_seek, $end_time_seek) {
+		include("../../db_disconnect_inc.php");
+		return;			
+	}
+	
 	if (!is_integerable($course_id) || $course_id == "" || $course_id == "0") {
 		include("../../db_disconnect_inc.php");
 		return;
@@ -29,6 +38,10 @@
 		return;
 	}
 	if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
+		include("../../db_disconnect_inc.php");
+		return;
+	}
+	if (strlen($room_seek) > 50 || strlen($topic_seek) > 150) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}

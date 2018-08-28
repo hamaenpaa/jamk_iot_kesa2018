@@ -110,8 +110,6 @@
 			"SELECT " . $total_fields . $sql_end_part_without_paging .
 			" LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 		$sql_lessons_count = "SELECT COUNT(*) " . $sql_end_part_without_paging;			
-		$begin_time = from_ui_to_db($begin_time_seek);
-		$end_time = from_ui_to_db($end_time_seek);	
 
 		$q = $conn->prepare($sql_lessons_without_course);
 		$q->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);		

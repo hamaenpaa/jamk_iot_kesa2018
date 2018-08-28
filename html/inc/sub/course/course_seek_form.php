@@ -63,23 +63,25 @@
 		<label>Nimi:</label>
 		<input name="name_seek" 
 			id="name_seek" placeholder="Nimi" 
-			value="<?php echo $name_seek; ?>" />
+			value="<?php echo $name_seek; ?>" maxlength="50" />
 	</div>
 	<div class="row-type-2">
 		<label>Kuvaus:</label>
 		<input name="description_seek" placeholder="Kuvaus"
 			id="description_seek" 
-			value="<?php echo $description_seek; ?>"  />
+			value="<?php echo $description_seek; ?>" maxlength="500" />
 	</div>
 	<div class="row-type-2">
 		<label>Oppitunnin aihe:</label>
 		<input name="topic_seek" placeholder="Aihe"
 			id="topic_seek" 
-			value="<?php echo $topic_seek; ?>"  />
+			value="<?php echo $topic_seek; ?>" maxlength="150" />
 	</div>	
 	
 	
 	<div class="row-type-5">
-		<input class="button" type="submit" value="Hae"/>
+		<input class="button" type="submit" 
+			onsubmit="return checkCourseSeek();" value="Hae"/>
 	</div>
 </form>
+<div id="course_seek_validation_msgs"></div>

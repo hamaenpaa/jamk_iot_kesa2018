@@ -1,7 +1,14 @@
 <?php
-	define("PAGE_SIZE", 2);
+	define("PAGE_SIZE", 20);
 
 	function get_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
+		if (!is_integerable($page) || $page == "" || $page == "0") {
+			return array();
+		}
+		if (strlen($name_seek) > 50 || strlen($description_seek) > 500 ||
+			strlen($topic_seek) > 150) {
+			return array();
+		}
 		$total_fields = "ca_course.ID, ca_course.name, ca_course.description";
 		$topic_part = "";
 		if ($topic_seek != "") {
@@ -112,10 +119,12 @@
 		$sql_lessons_count = "SELECT COUNT(*) " . $sql_end_part_without_paging;			
 
 		$q = $conn->prepare($sql_lessons_without_course);
-		$q->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);		
+		$q->bind_param("ssss", $begin_time_seek, $end_time_seek, 
+			$begin_time_seek, $end_time_seek);		
 		
 		$q_count = $conn->prepare($sql_lessons_count);
-		$q_count->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);	
+		$q_count->bind_param("ssss", $begin_time_seek, $end_time_seek, 
+			$begin_time_seek, $end_time_seek);	
 		$count = 0;
 		if ($q_count) {
 			$q_count->execute();

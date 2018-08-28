@@ -225,20 +225,20 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 								"<div class=\"col-sm-5\">" + jsonData.lessons[i].topic + "</div>" +
 									js_action_column(jsonData.lessons[i].add_call, "Lisää") +
 								"</div>"
-						);
+							);
+						}
+						$("#lessons_without_course_page").html(jsonData.page);
+						$("#lessons_without_course_page_page").html(jsonData.page_page);
+						$("#lessons_without_course_pages").replaceWith(
+							jsonData.page_list);
+					} else {
+						$("#lessons_without_course_listing_table").html(
+						"Yhtään oppituntia ei ole vapaana lisättäväksi");
 					}
-					$("#lessons_without_course_page").html(jsonData.page);
-					$("#lessons_without_course_page_page").html(jsonData.page_page);
-					$("#lessons_without_course_pages").replaceWith(
-						jsonData.page_list);
 					checkWidth();
 				}
-			} else {
-				$("#lessons_without_course_listing_table").html(
-					"Yhtään oppituntia ei ole vapaana lisättäväksi");
 			}
-		}
-	);
+		);
 	}
 }
 
@@ -247,15 +247,19 @@ function validate_available_new_lessons_fetch_params(
 	if (!is_datetime_order_correct(seek_begin_time, seek_begin_time)) {
 		$("#new_avail_lessons_validation_msgs").html(
 		   "Etsinnässä olevan aikavälin ajat eivät ole oikeita aikoja tai ne ovat väärässä järjestyksessä.");
+		return false;
 	} else if (seek_room.length > 50) {
 		$("#new_avail_lessons_validation_msgs").html(
 			"Huoneen tunnisteen maksimipituus on 50 merkkiä. " +
 			"Ei ole mieltä etsiä pidemmällä merkkijonolla");
+		return false;
 	} else if (seek_topic.length > 150) {
 		$("#new_avail_lessons_validation_msgs").html(
 			"Aiheen maksimipituus on 150 merkkiä. " +
 			"Ei ole mieltä etsiä pidemmällä merkkijonolla");
+		return false;
 	}	
+	return true;
 }
 
 function addLessonCourse(course_id, lesson_id) {

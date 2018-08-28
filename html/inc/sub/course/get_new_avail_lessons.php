@@ -24,7 +24,7 @@
 	$end_time_seek = from_ui_to_db($end_time_seek);	
 	
 	if (!isDateTime($begin_time_seek) || !isDateTime($end_time_seek) ||
-	    !isDatetime1Before($begin_time_seek, $end_time_seek) {
+	    !isDatetime1Before($begin_time_seek, $end_time_seek)) {
 		include("../../db_disconnect_inc.php");
 		return;			
 	}

@@ -12,16 +12,19 @@
 	<div class="row-type-2">
 		<label>Päiväys:</label>
 		<input id="lesson_date" name="lesson_date" class="date_picker" 
+			autocomplete="off"
 			<?php echo $lesson_date_value_param; ?> />		
 	</div>
 	<div class="row-type-2">
 		<label>Alkuaika:</label>
-		<input id="begin_time" name="begin_time" class="time_picker" 
+		<input id="begin_time" name="begin_time" class="time_picker"
+			autocomplete="off"
 			<?php echo $begin_time_value_param; ?> />
 	</div>
 	<div class="row-type-2">
 		<label>Loppuaika:</label>
 		<input id="end_time" name="end_time" class="time_picker" 
+			autocomplete="off"
 			<?php echo $end_time_value_param; ?> />	
     </div>		
 	<div class="row-type-2">

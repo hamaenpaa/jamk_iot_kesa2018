@@ -53,6 +53,7 @@
 		<label>Aloitusaika:</label>
 		<input name="begin_time_seek" class="datetime_picker" 
 			id="begin_time_seek" placeholder="Aloitusaika" 
+			autocomplete="off"
 			alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00"
 			<?php echo $begin_time_seek_value_param; ?> required />
 	</div>
@@ -60,6 +61,7 @@
 		<label>Lopetusaika:</label>
 		<input name="end_time_seek" class="datetime_picker" 
 			id="end_time_seek" placeholder="Lopetusaika" 
+			autocomplete="off"
 			alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00"
 			<?php echo $end_time_seek_value_param; ?> required />
 	</div>

@@ -111,14 +111,14 @@ function build_new_avail_course_lessons_section(course_id) {
 		"<div class=\"row-type-2\">" +
 			"<label>Aloitusaika:</label>" +
 			"<input name=\"lesson_add_begin_time_seek\" class=\"datetime_picker\" " + 
-				"id=\"lesson_add_begin_time_seek\" placeholder=\"Aloitusaika\" " +
+				"id=\"lesson_add_begin_time_seek\" autocomplete=\"off\" placeholder=\"Aloitusaika\" " +
 				"alt=\"Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00\" " +
 				" required />" +
 		"</div>" +
 		"<div class=\"row-type-2\">" +
 			"<label>Lopetusaika:</label>" + 
 			"<input name=\"lesson_add_end_time_seek\" class=\"datetime_picker\" " +
-				"id=\"lesson_add_end_time_seek\" placeholder=\"Lopetusaika\" " +
+				"id=\"lesson_add_end_time_seek\" autocomplete=\"off\" placeholder=\"Lopetusaika\" " +
 				"alt=\"Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00\" " +
 				" required />" +
 		"</div>" + 

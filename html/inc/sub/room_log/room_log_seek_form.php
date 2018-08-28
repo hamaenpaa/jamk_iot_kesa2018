@@ -47,6 +47,7 @@
 				placeholder="Aloitusaika" 
 				alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 07:00" 
 				id="begin_time" class="datetime_picker"
+				autocomplete="off"
 				name="begin_time" <?php echo $begin_time_value_param; ?> required />
 		</div>
 		<div class="row-type-2">
@@ -55,6 +56,7 @@
 				placeholder="Lopetusaika" 
 				alt="Päivämäärä suomalaisessa muodossa esim: 31.07.2018 09:00" 
 				id="end_time" class="datetime_picker"
+				autocomplete="off"
 				name="end_time" <?php echo $end_time_value_param; ?> required />
 		</div>
 		<div class="row-type-2">

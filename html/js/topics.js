@@ -3,7 +3,6 @@ function get_topics_page(page, page_page) {
 	$.get("inc/sub/topic/get_topic_page_ajax.php?" +
 			"&name_seek="+name_seek + "&page="+page+ "&page_page="+page_page, 
 			function (data) {
-		console.log(data);
 		if (data != "") {
 			jsonData = JSON.parse(data);
 			$("#topics_listing_table .datarow").remove();

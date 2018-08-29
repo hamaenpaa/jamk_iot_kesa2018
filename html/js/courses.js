@@ -92,7 +92,7 @@ function refresh_course_lessons(course_id) {
 			jsonData = JSON.parse(data);
 			if (jsonData.length > 0) {
 				course_lessons_cont.append(
-					"<div id=\"course_lesson_listing_table\" class=\"datatable\"></div>")
+					"<div id=\"course_lesson_listing_table\" class=\"datatable\"></div>");
 				course_lessons_data_table = $("#course_lesson_listing_table");
 				course_lessons_data_table.append(
 						"<div class=\"row heading-row\">" +

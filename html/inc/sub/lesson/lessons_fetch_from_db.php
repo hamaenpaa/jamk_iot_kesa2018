@@ -73,4 +73,49 @@
 		
 		return $lessons_arr;		
 	}
+	
+	function get_lesson_topics($conn, $id) {
+		$sql = "SELECT ca_topic.id, ca_topic.name FROM 
+					ca_lesson, ca_lesson_topic, ca_topic
+		        WHERE ca_topic.id = ca_lesson_topic.topic_id AND 
+				      ca_lesson_topic.lesson_id = ca_lesson.id AND
+					  ca_lesson.id = ?";
+		$q = $conn->prepare($sql);
+		$q->bind_param("i", $id);
+		$q->execute();	
+		$q->store_result();
+		$q->bind_result($topic_id, $name);
+		$topics = array();
+		while($q->fetch()) {
+			$topics[] = array(
+				"name" => $name, 
+				"remove_call" => 
+					java_script_call("removeLessonTopic", array($id, $topic_id))						
+			);
+		}
+		return $topics;
+	}
+	
+	function get_new_avail_lesson_topics($conn, $id) {
+		$sql = "SELECT ca_topic.id, ca_topic.name FROM 
+					ca_topic 
+					LEFT JOIN ca_lesson_topic ON ca_topic.id = ca_lesson_topic.topic_id
+		        WHERE NOT EXISTS (SELECT ca_lesson_topic.topic_id WHERE
+					ca_lesson_topic.lesson_id = ? AND 
+					ca_lesson_topic.topic_id = ca_topic.id)";
+		$q = $conn->prepare($sql);
+		$q->bind_param("i", $id);
+		$q->execute();	
+		$q->store_result();
+		$q->bind_result($topic_id, $name);
+		$topics = array();
+		while($q->fetch()) {
+			$topics[] = array(
+				"name" => $name, 
+				"add_call" => 
+					java_script_call("addTopicToLesson", array($topic_id, $id))						
+			);
+		}
+		return $topics;		
+	}
 ?>

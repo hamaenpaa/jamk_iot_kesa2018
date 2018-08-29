@@ -101,8 +101,100 @@ function modifyLesson(lesson_id) {
 				$("#room_identifier").val(jsonData.room_identifier);
 				$("#topic").val(jsonData.topic);
 			}
+			buildLessonTopicHandling(lesson_id);
 		}
 	);
+}
+
+function buildLessonTopicHandling(lesson_id) {
+	$("#lesson_topics_handling").html(
+		"<h2>Oppitunnin/koulutuksen aiheiden käsittely</h2>" +
+		"<div id=\"lesson_topics\"></div>" +
+		"<div id=\"new_avail_lesson_topics\"></div>"	
+	);
+	fetchLessonTopics(lesson_id);
+	fetchNewAvailLessonTopics(lesson_id);
+}
+
+function fetchLessonTopics(lesson_id) {
+	$.get("inc/sub/lesson/get_lesson_topics.php?id=" + lesson_id,
+		function(data) {
+			jsonData = JSON.parse(data);
+			$("#lesson_topics").html("<b>Oppitunnin aiheet</b>");
+			if (jsonData.length > 0) {
+				$("#lesson_topics").append(
+					"<div id=\"lesson_topics_listing_table\" class=\"datatable\"></div>");
+				table = $("#lesson_topics_listing_table");
+				table.append(
+					"<div class=\"row heading-row\">" +
+						"<div class=\"col-sm-11\"><h5>Aihe</h5></div>" +
+						"<div class=\"col-sm-1\"></div>" +
+					"</div>");
+				for(i=0; i < jsonData.length; i++) {
+					table.append(
+						"<div class=\"row data-row\">" +	
+							"<div class=\"col-sm-11\">" +jsonData[i].name + "</div>" +
+							js_action_column(jsonData[i].remove_call, "Poista") +
+						"</div>");
+				}
+				checkWidth();
+			} else {
+				$("#lesson_topics").html("<b>Oppitunnilla/koulutuksella ei ole yhtään aihetta");
+			}			
+		}
+	);
+}
+
+function removeLessonTopic(lesson_id, topic_id) {
+	$.get("inc/sub/lesson/remove_lesson_topic.php?topic_id=" + topic_id + 
+		"&lesson_id=" + lesson_id,
+		function (data) {
+			fetchLessonTopics(lesson_id);
+			fetchNewAvailLessonTopics(lesson_id);			
+		}
+	);
+}
+
+function fetchNewAvailLessonTopics(lesson_id) {
+	$.get("inc/sub/lesson/fetch_new_avail_lesson_topics.php?id=" + lesson_id,
+		function(data) {	
+			jsonData = JSON.parse(data);
+			$("#new_avail_lesson_topics").html(
+				"<b>Uusia aiheita saatavilla oppitunnin aiheiksi</b>");	
+			if (jsonData.length > 0) {
+				$("#new_avail_lesson_topics").append(
+					"<div id=\"lesson_new_avail_topics_listing_table\" class=\"datatable\"></div>");
+				table = $("#lesson_new_avail_topics_listing_table");
+				table.append(
+					"<div class=\"row heading-row\">" +
+						"<div class=\"col-sm-11\"><h5>Aihe</h5></div>" +
+						"<div class=\"col-sm-1\"></div>" +
+					"</div>");	
+				for(i=0; i < jsonData.length; i++) {
+					table.append(
+						"<div class=\"row data-row\">" +	
+							"<div class=\"col-sm-11\">" +jsonData[i].name + "</div>" +
+							js_action_column(jsonData[i].add_call, "Lisää") +
+						"</div>");
+				}	
+				checkWidth();
+			} else {
+				$("#new_avail_lesson_topics").html(
+					"<b>Oppitunnille ei ole olemassa yhtään uutta aihetta</b>");
+			}
+		}
+	);
+}
+
+
+function addTopicToLesson(topic_id, lesson_id) {
+	$.get("inc/sub/lesson/add_topic_to_lesson.php?topic_id=" + topic_id + 
+		"&lesson_id=" + lesson_id,
+		function (data) {
+			fetchLessonTopics(lesson_id);
+			fetchNewAvailLessonTopics(lesson_id);			
+		}
+	)
 }
 
 function saveLesson() {
@@ -129,6 +221,7 @@ function saveLesson() {
 				$("#topic").val("");					
 				$("#add_or_modify_lesson_header").html(
 					"Lisää koulutus tai oppitunti");
+				$("#lesson_topics_handling").html("");
 			}
 		);		
 	}

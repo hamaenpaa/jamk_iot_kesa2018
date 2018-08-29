@@ -42,3 +42,4 @@
 	</div>
 
 <div id="add_or_modify_lesson_form_validation_errors"></div>
+<div id="lesson_topics_handling"></div>

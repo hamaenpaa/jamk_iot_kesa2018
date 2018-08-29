@@ -58,5 +58,13 @@ CREATE TABLE ca_topic (
     PRIMARY KEY (ID)
 );
 
+DROP TABLE IF EXISTS ca_lesson_topic;
+CREATE TABLE ca_lesson_topic (
+    ID INT NOT NULL AUTO_INCREMENT,
+	lesson_id INT,
+	topic_id INT,
+    PRIMARY KEY (ID)
+);
+
 INSERT INTO ca_user (`Permission`,Username,Password) 
 	VALUES (1,"Admin","ba672edb750d8f4a7787e75fc1adeacd587afea9671f189234cb65015d446ad9");

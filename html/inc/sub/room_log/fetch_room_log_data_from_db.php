@@ -15,9 +15,6 @@
 		}
 		if (!is_integerable($page) || $page == "" || $page == "0") {
 			return array();
-		}
-		if (!is_integerable($page_page) || $page_page == "" || $page_page == "0") {
-			return array();
 		}	
 		if ($last_new_fetch_time != "" && !is_integerable($last_new_fetch_time)) {
 			return array();

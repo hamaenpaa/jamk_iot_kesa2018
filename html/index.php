@@ -16,15 +16,18 @@
 				echo '<script src="' . $cfg_rootdir . 'js/room_log.js" /></script>'.
 					'<title>Huoneen sisäänkirjaukset</title>';
 			} else if ($screen == "1") {
+				echo '<script src="' . $cfg_rootdir . 'js/topics.js" /></script>'.
+					'<title>Aiheet</title>';
+			} else if ($screen == "2") {
 				echo '<script src="' . $cfg_rootdir . 'js/lessons.js" /></script>'.
 					'<title>Oppitunnit/koulutukset</title>';
-			} else if ($screen == "2") {
+			} else if ($screen == "3") {
 				echo '<script src="' . $cfg_rootdir . 'js/courses.js" /></script>'.
 					'<title>Kurssit</title>';
-			} else if ($screen == "3") {
+			} else if ($screen == "4") {
 				echo '<script src="' . $cfg_rootdir . 'js/users.js" /></script>'.
 					'<title>Käyttäjät</title>';					
-			} else if ($screen == "4") {
+			} else if ($screen == "5") {
 				echo '<title>Sisäänkirjautuminen</title>';
 			}
 		?>

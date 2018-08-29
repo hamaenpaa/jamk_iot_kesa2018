@@ -1,5 +1,5 @@
 <?php
-    $index_page = "index.php?screen=3";
+    $index_page = "index.php?screen=4";
 
 	include("utils/sql_utils.php");
 	include("utils/html_utils.php");

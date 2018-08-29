@@ -33,7 +33,7 @@
 	}	
 ?>
 
-<form name="lessons_seek" action="index.php?screen=1" method="POST"
+<form name="lessons_seek" action="<?php echo $index_page; ?>" method="POST"
 	onsubmit="return validateSeekForm()" >	
 	<div class="row-type-2">
 		<label>Aloitusaika:</label>

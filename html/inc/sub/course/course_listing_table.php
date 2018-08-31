@@ -67,3 +67,5 @@
 <div id="last_query_name_seek" style="display:none"><?php echo $name_seek; ?></div>
 <div id="last_query_description_seek" style="display:none"><?php echo $description_seek; ?></div>
 <div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
+<div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
+<div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>

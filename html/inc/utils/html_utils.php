@@ -185,5 +185,21 @@
 		
 		$html .= "</div>";
 		return $html;
-	}	
+	}
+
+	function getTopicsHandlingContainer($conn, $container_id) {
+		$curpage = get_post_or_get($conn, $container_id . "_curpage");
+		if ($curpage == "") { $curpage = "1"; }
+		return 
+			"<div id=\"" . $container_id . "\">" . 
+				"<input type=\"hidden\" name=\"" .$container_id . "_curpage\" " .
+					"id=\"" .$container_id . "_curpage\" ".
+					"value=\"" . $curpage ."\" ".
+				"/>".
+				"<input type=\"hidden\" name=\"" .$container_id . "_seek_topics_name\" " .
+					"id=\"" .$container_id . "_seek_topics_name\" ".
+					"value=\"" . get_post_or_get($conn, $container_id . "_seek_topics_name")."\" ".
+				"/>".
+			"</div>";		
+	}
 ?>

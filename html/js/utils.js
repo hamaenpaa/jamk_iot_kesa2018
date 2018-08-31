@@ -1,3 +1,6 @@
+topics_page_page_size = 2;
+topics_page_size = 2;
+
 function strOnlyDigits(str) {
 	for(i=0; i < str.length; i++) {
 		if (str[i] < '0' || str[i] > '9') {
@@ -214,4 +217,275 @@ function modify_and_remove_columns(modify_call, remove_call) {
 			js_action_column(remove_call, "Poista") +
 		"</div>";
 	return ret;
+}
+
+function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
+	selected_ids = selected_ids + "";
+	selected_ids_arr = [];
+	if (selected_ids != "") {
+		selected_ids_arr = selected_ids.split(",");
+	}
+	topics_seek_input = $("#" + container_id + "_seek_topics_name");
+	topics_seek = topics_seek_input.val();
+	$.get("inc/utils/list_topics_ajax.php?topics_seek=" + topics_seek,
+		function(data) {
+			if (data != "") {
+				topics_seek_input.remove();	
+				jsonData = JSON.parse(data);	
+				$("#" + container_id).append(
+					"<div id=\"" + container_id + "_topic_seek_cont\" >" + 
+					"Valitut aiheen nimen osat pilkulla eroteltuina:<br>" + 
+					"<input type=\"text\" name=\"" + container_id + "_topic_parts_seek\"" + 
+						" id=\"topic_parts_seek\" value=\"" + topic_parts_seek + "\" />" +
+					"</div><br>");
+				$("#" + container_id).append(
+					"<div id=\"" + container_id + "_seek_topics_section\"></div>");
+				seek_topics_section = $("#" + container_id + "_seek_topics_section");
+				seek_topics_section.append("Etsi aiheita:");
+				seek_topics_section.append("<input type=\"text\" " +
+					"name=\"" + container_id + "_seek_topics_name\" " +
+					"id=\"" + container_id + "_seek_topics_name\" " +
+					"value=\"" + topics_seek + "\" />");
+				seek_topics_section.append(
+					"<button type=\"button\" class=\"button\" onclick=\"seek_topics('" + 
+						container_id + "'); return false;\">Etsi aiheita</button>");
+				seek_topics_section.append(
+					"<div id=\"" + container_id + "_table\" class=\"datatable\"></div>");
+				seek_topics_section.append("<div id=\"" + container_id + "_topic_pages\"></div>");	
+				topic_pages_section = $("#" + container_id + "_topic_pages");
+				topic_pages_section.append("<div id=\"" + container_id + 
+					"_current_page\" style=\"display:none\" >" + page + "</div");	
+				$("#" + container_id).append(
+					"<div id=\"" + container_id + "_selections\"></div>");	
+				selections = $("#" + container_id + "_selections");
+				selections.append("<b>Lisäksi valitut aiheet</b>");
+				selections.append("<input type=\"hidden\" " +
+					"name=\"" + container_id + "_selected_topic_ids\" " + 
+					"id=\"" + container_id + "_selected_topic_ids\" value=\"" + selected_ids + "\"/>");
+				selections.append(
+					"<div id=\"" + container_id + "_selections_table\" class=\"datatable\"></div>");
+				table = $("#" + container_id + "_table");
+				allTopics = jsonData.allTopics;
+				topics = [];
+				for(i=0; i < allTopics.length; i++) {
+					if (selected_ids_arr.indexOf(allTopics[i].id + "") >= 0) {
+						topics_elem = [];
+						topics_elem.push(allTopics[i].name);
+						topics_elem.push(allTopics[i].id);
+						topics.push(topics_elem);
+					}
+				}
+				curpage = $("#" + container_id + "_curpage").val();
+				buildTopicSelectionPage(container_id, 
+					allTopics, jsonData.seekedTopics, selected_ids, curpage); 
+				refreshTopicSelections(container_id, topics);
+			}
+		}
+	);
+}
+
+function seek_topics(container_id) {
+	page = $("#" + container_id + "_curpage").val();
+	selectedIds = $("#" + container_id + "_selected_topic_ids").val() + "";
+	refreshTopicSelectionPage(container_id, selectedIds, page);
+}
+
+function refreshTopicSelectionPage(container_id, selectedIds, page) {
+	topics_seek = $("#" + container_id + "_seek_topics_name").val();
+	$.get("inc/utils/list_topics_ajax.php?topics_seek=" + topics_seek,
+		function(data) {
+			if (data != "") {
+				jsonData = JSON.parse(data);
+				buildTopicSelectionPage(container_id, jsonData.allTopics,
+					jsonData.seekedTopics, selectedIds, page)
+			}
+		}
+	);
+}
+
+function buildTopicSelectionPage(
+	container_id, allTopics, seekedTopics, selectedIds, page) {
+	selected_ids_arr = [];
+	if (selectedIds != "") {
+		selected_ids_arr = selectedIds.split(",");
+	}
+	table = $("#" + container_id + "_table");
+	table.html("");
+	found_removed_selected_id = false;
+	for(i=0; i < selected_ids_arr.length; i++) {
+		found_selected_id = false;
+		for(j=0; j < allTopics.length; j++) {
+			if (selected_ids_arr[j] = allTopics[j].id + "") {
+				found_selected_id = true;
+				break;
+			}
+		}
+		if (!found_selected_id) {
+			found_removed_selected_id = true;
+			break;
+		}
+	}
+	if (found_removed_selected_id) {
+		topics = [];
+		for(i=0; i < selected_ids_arr.length; i++) {
+			name = "";
+			for(j=0; allTopics.length; j++) {
+				if (selected_ids_arr[j] = allTopics[j].id + "") {
+					name = allTopics[j].name;
+					break;
+				}
+			}
+			topic_elem = [];
+			topics_elem.push(name);
+			topics_elem.push(selected_ids_arr[i]);
+			topics.push(topics_elem);			
+		}
+		refreshTopicSelections(container_id, topics);
+	}
+	page_count = Math.floor((seekedTopics.length - 1)/ topics_page_size) + 1;
+	if (page_count == 0) {
+		page_count = 1;
+	}
+	if (page > page_count) {
+		page = page_count;
+	}
+	for(i=0; i < seekedTopics.length; i++) {
+		checkedValue = "";
+		if (selected_ids_arr.indexOf(seekedTopics[i].id + "") >= 0) {
+			checkedValue = " checked=\"checked\" ";
+		}
+		if (Math.floor(i / topics_page_size) + 1 == page) { 		
+			if ((i - (page - 1) * topics_page_size) % 4 == 0) {
+				i_row = (i - (page - 1) * topics_page_size) / 4 + 1;
+				row_id = container_id + "_table_" + i_row;
+				table.append(
+					"<div id=\"" + row_id + 
+						"\" class=\"row datarow\" ></div>");
+				row = $("#" + row_id);
+			}
+			row.append(
+				"<div class=\"col-sm-3\">" +
+					"<input type=\"checkbox\" " + 
+							"name=\""  + container_id + "_topics\" " +
+							"value=\"" + seekedTopics[i].id + "\" " + 
+							checkedValue + 
+							"onclick=\"setOrUnsetTopic('" + 
+							container_id + "','" + 
+							seekedTopics[i].id + "','" + 
+							seekedTopics[i].name +
+							"')\" />" + seekedTopics[i].name +
+				"</div>");
+		}
+	}
+	buildTopicPages(container_id, selectedIds, page_count, page);
+}
+
+
+function get_topic_page_link(container_id, selectedIds, page, link_content, css_classes) {
+	return "<a href=\"javascript:void(0);\" class=\"" + css_classes + "\" " +
+	       "onclick=\"refreshTopicSelectionPage('" +container_id +"','" + 
+			selectedIds + "','" + page + "')\" >" + 
+			link_content + "</a>";
+}
+
+function buildTopicPages(container_id, selectedIds, page_count, page) {
+	html_cont = "";
+	$("#" + container_id + "_curpage").val(page);
+	if (page_count <= 1) {
+		$("#" + container_id + "_topic_pages").html("");
+		return;
+	}
+	if (page > topics_page_size) {
+		html_cont += get_topic_page_link(container_id, selectedIds, 1, "<<", "other_page");
+		html_cont += "&nbsp;";
+		html_cont += get_topic_page_link(
+			container_id, selectedIds, (page_page - 1) * topics_page_size, "<", "other_page");
+	}
+	page_page = Math.floor((page - 1) / topics_page_page_size) + 1;
+	p_begin = (page_page - 1) * topics_page_page_size + 1;
+	p_end = page_page * topics_page_page_size;
+	if (p_end > page_count) {
+		p_end = page_count;
+	}
+	for(i_page=p_begin; i_page <= p_end; i_page++) {
+		css_classes = "other_page";
+		if (i_page == page) {
+			css_classes = "curr_page";
+		}
+		if (html_cont != "") {
+			html_cont += "&nbsp;";
+		}
+		html_cont += get_topic_page_link(container_id, selectedIds, i_page, i_page, css_classes);
+	}
+	if (page_page * topics_page_size < page_count) {
+		if (html_cont != "") {
+			html_cont += "&nbsp;";
+		}
+		html_cont += get_topic_page_link(container_id, 
+			selectedIds, page_page * topics_page_size + 1, ">", "other_page");
+		html_cont += "&nbsp;";
+		html_cont += get_topic_page_link(container_id, 
+			selectedIds, page_count, ">>", "other_page");		
+	}
+	$("#" + container_id + "_topic_pages").html(html_cont);	
+}
+
+function setOrUnsetTopic(container_id, topic_id, topic_name) {
+	selections = $("#" + container_id + "_selections_table div.topic_selection");
+	existing = $("#" + container_id + "_selections_" + topic_id);
+	new_topic = true;
+	if (existing.length > 0) {
+		existing.remove();
+		new_topic = false;
+	} 
+	topics = [];
+	if (new_topic) {
+		topic_arr_elem = [];
+		topic_arr_elem.push(topic_name);
+		topic_arr_elem.push(topic_id);
+		topics.push(topic_arr_elem);
+	}
+	addCurrentSelectionsToTopicsAndSort(container_id, topics);
+	refreshTopicSelections(container_id, topics);
+}
+
+function addCurrentSelectionsToTopicsAndSort(container_id, topics) {
+	selections = $("#" + container_id + "_selections_table div.topic_selection");
+	for(i=0; i < selections.length; i++) {
+		topic_arr_elem = [];
+		topic_arr_elem.push($(selections[i]).html());
+		id_attr = $(selections[i]).prop("id");
+		topic_arr_elem.push(id_attr.substring(container_id.length + 12, id_attr.length));
+		topics.push(topic_arr_elem);
+	}	
+	topics.sort(function (a,b) {
+		return a[1].localeCompare(b[1]);
+	});
+}
+
+function refreshTopicSelections(container_id, topics) {
+	elem_seek_id = "#" + container_id + "_selections_table";
+	selections_table = $("" + elem_seek_id);
+	selections_table.html("");
+	row_id = 0;
+	selection_vals = "";
+	var row;
+	for(i=0; i < topics.length; i++) {
+		row_id_attr = container_id + "_topics_selection_row_" + row_id;
+		if (i % 4 == 0) {
+			row_id++;
+			row_id_attr = container_id + "_topics_selection_row_" + row_id;
+			selections_table.append(
+				"<div id=\"" + row_id_attr + "\" class=\"row datarow\"></div>");
+		}
+		row = $("#" + row_id_attr);
+		row.append("<div class=\"topic_selection col-sm-3\" " + 
+			" id=\"" + container_id + "_selections_" + topics[i][1] + "\" >" +
+			topics[i][0] + "</div>");
+		if (selection_vals != "") {
+			selection_vals += ",";
+		}
+		selection_vals += topics[i][1];
+	}		
+	$("#" + container_id + "_selected_topic_ids").val(selection_vals);
 }

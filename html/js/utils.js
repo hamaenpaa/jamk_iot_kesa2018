@@ -237,11 +237,11 @@ function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
 					"Valitut aiheen nimen osat pilkulla eroteltuina:<br>" + 
 					"<input type=\"text\" name=\"" + container_id + "_topic_parts_seek\"" + 
 						" id=\"topic_parts_seek\" value=\"" + topic_parts_seek + "\" />" +
-					"</div><br>");
+					"</div>");
 				$("#" + container_id).append(
 					"<div id=\"" + container_id + "_seek_topics_section\"></div>");
 				seek_topics_section = $("#" + container_id + "_seek_topics_section");
-				seek_topics_section.append("Etsi aiheita:");
+				seek_topics_section.append("Etsi aiheita valittavaksi:");
 				seek_topics_section.append("<input type=\"text\" " +
 					"name=\"" + container_id + "_seek_topics_name\" " +
 					"id=\"" + container_id + "_seek_topics_name\" " +
@@ -253,8 +253,6 @@ function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
 					"<div id=\"" + container_id + "_table\" class=\"datatable\"></div>");
 				seek_topics_section.append("<div id=\"" + container_id + "_topic_pages\"></div>");	
 				topic_pages_section = $("#" + container_id + "_topic_pages");
-				topic_pages_section.append("<div id=\"" + container_id + 
-					"_current_page\" style=\"display:none\" >" + page + "</div");	
 				$("#" + container_id).append(
 					"<div id=\"" + container_id + "_selections\"></div>");	
 				selections = $("#" + container_id + "_selections");
@@ -315,7 +313,7 @@ function buildTopicSelectionPage(
 	for(i=0; i < selected_ids_arr.length; i++) {
 		found_selected_id = false;
 		for(j=0; j < allTopics.length; j++) {
-			if (selected_ids_arr[j] = allTopics[j].id + "") {
+			if (selected_ids_arr[j] == allTopics[j].id + "") {
 				found_selected_id = true;
 				break;
 			}
@@ -329,8 +327,8 @@ function buildTopicSelectionPage(
 		topics = [];
 		for(i=0; i < selected_ids_arr.length; i++) {
 			name = "";
-			for(j=0; allTopics.length; j++) {
-				if (selected_ids_arr[j] = allTopics[j].id + "") {
+			for(j=0; j < allTopics.length; j++) {
+				if (selected_ids_arr[j] == allTopics[j].id + "") {
 					name = allTopics[j].name;
 					break;
 				}

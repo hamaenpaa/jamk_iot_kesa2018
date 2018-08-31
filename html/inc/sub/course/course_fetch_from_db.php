@@ -1,20 +1,21 @@
 <?php
 	define("PAGE_SIZE", 20);
 
-	function get_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
+	function get_courses($conn, $name_seek, $description_seek, $topic_ids, $page) {
 		if (!is_integerable($page) || $page == "" || $page == "0") {
 			return array();
 		}
-		if (strlen($name_seek) > 50 || strlen($description_seek) > 500 ||
-			strlen($topic_seek) > 150) {
+		if (strlen($name_seek) > 50 || strlen($description_seek) > 500) {
 			return array();
 		}
 		$total_fields = "ca_course.ID, ca_course.name, ca_course.description";
-		$topic_part = "";
-		if ($topic_seek != "") {
-			$topic_part = "AND (EXISTS (SELECT id FROM ca_lesson WHERE
+		$topic_part  = "";
+		if ($topic_ids != "") {
+			$topic_part = "AND EXISTS (SELECT ca_lesson.id FROM ca_lesson WHERE
 				ca_lesson.course_id = ca_course.id AND
-				ca_lesson.topic LIKE '%". $topic_seek. "%' AND ca_lesson.removed = 0)";
+				EXISTS(SELECT id FROM ca_lesson_topic WHERE ca_lesson_topic.lesson_id =
+				ca_lesson.id AND ca_lesson_topic.topic_id IN (". $topic_ids .")) AND 
+				ca_lesson.removed = 0)";
 		}
 		
 		$end_part_without_pages = " FROM ca_course WHERE 

@@ -25,10 +25,13 @@ function checkCourseSeek() {
 function get_course_page(page, page_page) {
 	name_seek = $("#last_query_name_seek").html(); 
 	description_seek = $("#last_query_description_seek").html();
-	topic_seek = $("#last_query_topic_seek").html();
+	topic_seek_selection_ids = $("#last_query_lesson_topics_seek_selection").html();
+	topic_seek_name_parts = $("#last_query_lesson_topics_topic_seek").html();
 	$.get("inc/sub/course/get_course_page_ajax.php?" +
 			"name_seek="+name_seek + "&description_seek="+description_seek +
-			"&topic_seek="+topic_seek + "&page="+page+ "&page_page="+page_page, 
+			"&topic_seek_selection_ids="+topic_seek_selection_ids + 
+			"&topic_seek_name_parts="+topic_seek_name_parts + 
+			"&page="+page+ "&page_page="+page_page, 
 			function (data) {
 		jsonData = JSON.parse(data);
 		$("#course_listing_table .datarow").remove();

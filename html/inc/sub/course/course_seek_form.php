@@ -25,6 +25,10 @@
 	<div class="row-type-2">
 		<label>Oppitunnin aihe:</label>
 	</div>
+	<div class="row-type-2">
+		<label>(jos mitään ei valita, haetaan aiheista riippumatta)</label>
+	</div>	
+	
 	<div class="row-type-5">
 		<?php echo getTopicsHandlingContainer($conn, "lesson_topics_seek"); ?>
 	</div>

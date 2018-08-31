@@ -1,6 +1,10 @@
 <?php
 	include("course_fetch_from_db.php");
-	$courses_arr = get_courses($conn, $name_seek, $description_seek, $topic_seek, 1);
+	
+	$topic_ids = get_total_topic_ids($conn, 
+		$last_query_lesson_topics_topic_seek, 
+		$last_query_lesson_topics_seek_selection);
+	$courses_arr = get_courses($conn, $name_seek, $description_seek, $topic_ids, 1);
 ?>
 	<h2>Kurssit</h2>
 <?php
@@ -66,6 +70,5 @@
 <div id="page_page" style="display:none">1</div>
 <div id="last_query_name_seek" style="display:none"><?php echo $name_seek; ?></div>
 <div id="last_query_description_seek" style="display:none"><?php echo $description_seek; ?></div>
-<div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
 <div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
 <div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>

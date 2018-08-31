@@ -8,13 +8,18 @@
 
 	include("../../utils/request_param_utils.php");
 	include("../../utils/html_utils.php");
+	include("../../utils/topic_selection.php");
 	include("course_fetch_from_db.php");
 
 	include("../../db_connect_inc.php");
 
 	$description_seek = get_post_or_get($conn, "description_seek");
 	$name_seek = get_post_or_get($conn, "name_seek");
-	$topic_seek = get_post_or_get($conn, "topic_seek");
+	
+	$topic_seek_selection_ids = get_post_or_get($conn, "topic_seek_selection_ids");
+	$topic_seek_name_parts = get_post_or_get($conn, "topic_seek_name_parts");
+	
+	$topic_ids = get_total_topic_ids($conn, $topic_seek_name_parts, $topic_seek_selection_ids);
 	$page = get_post_or_get($conn, "page");
 	$page_page = get_post_or_get($conn, "page_page");
 
@@ -26,13 +31,12 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}	
-	if (strlen($name_seek) > 50 || strlen($description_seek) > 500 ||
-		strlen($topic_seek) > 150) {
+	if (strlen($name_seek) > 50 || strlen($description_seek) > 500) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}
 
-	$courses = fetch_courses($conn, $name_seek, $description_seek, $topic_seek, $page);
+	$courses = fetch_courses($conn, $name_seek, $description_seek, $topic_ids, $page);
 
 	if ($page > $courses["page_count"]) {
 		$page = $courses["page_count"];
@@ -40,7 +44,7 @@
 			$page_page = $courses["page_page_count"];
 		}
 		// refetch because page has changed:
-		$courses = fetch_courses($conn, $name_seek, $description_seek, $topic_seek, $page);
+		$courses = fetch_courses($conn, $name_seek, $description_seek, $topic_ids, $page);
 	} 	
 	
 	$courses['page'] = $page;
@@ -54,9 +58,9 @@
 	include("../../db_disconnect_inc.php");
 	echo json_encode($courses);
 
-	function fetch_courses($conn, $name_seek, $description_seek, $topic_seek, $page) {
+	function fetch_courses($conn, $name_seek, $description_seek, $topic_ids, $page) {
 		$courses = 
-			get_courses($conn, $name_seek, $description_seek, $topic_seek, $page);
+			get_courses($conn, $name_seek, $description_seek, $topic_ids, $page);
 		$courses_with_more_info = array();
 		foreach($courses['courses'] as $course) {
 			$course['remove_call'] = 

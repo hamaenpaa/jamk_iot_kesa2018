@@ -393,13 +393,13 @@ function buildTopicPages(container_id, selectedIds, page_count, page) {
 		$("#" + container_id + "_topic_pages").html("");
 		return;
 	}
+	page_page = Math.floor((page - 1) / topics_page_page_size) + 1;
 	if (page > topics_page_size) {
 		html_cont += get_topic_page_link(container_id, selectedIds, 1, "<<", "other_page");
 		html_cont += "&nbsp;";
 		html_cont += get_topic_page_link(
 			container_id, selectedIds, (page_page - 1) * topics_page_size, "<", "other_page");
 	}
-	page_page = Math.floor((page - 1) / topics_page_page_size) + 1;
 	p_begin = (page_page - 1) * topics_page_page_size + 1;
 	p_end = page_page * topics_page_page_size;
 	if (p_end > page_count) {

@@ -31,28 +31,26 @@
 		return;		
 	}
 	
-	$topic = strip_tags($_GET['topic']);
 	$room_identifier = strip_tags($_GET['room_identifier']);
-	if (strlen($topic) > 150 || strlen($topic) < 1 ||
-		strlen($room_identifier) > 50 || strlen($room_identifier) < 1) {
+	if (strlen($room_identifier) > 50 || strlen($room_identifier) < 1) {
 		include("../../db_disconnect_inc.php");
 		return;				
 	}
 
 	if ($id != "") {
 		$q = $conn->prepare("UPDATE ca_lesson SET 
-			begin_time = ?, end_time = ?, room_identifier = ?, topic=? WHERE ID = ?");
+			begin_time = ?, end_time = ?, room_identifier = ? WHERE ID = ?");
 		if ($q) {
-			$q->bind_param("ssssi", $begin_date_time, $end_date_time, $room_identifier, $topic, $id);
+			$q->bind_param("sssi", $begin_date_time, $end_date_time, $room_identifier, $id);
 			$q->execute();
 		}
 	} else {
 		$q = $conn->prepare(
 			"INSERT INTO 
-				ca_lesson (begin_time, end_time, room_identifier, topic) 
-				VALUES (?,?,?,?)");
+				ca_lesson (begin_time, end_time, room_identifier) 
+				VALUES (?,?,?)");
 		if ($q) {
-			$q->bind_param("ssss", $begin_date_time, $end_date_time, $room_identifier, $topic);
+			$q->bind_param("sss", $begin_date_time, $end_date_time, $room_identifier);
 			$q->execute();
 		}		
 	}

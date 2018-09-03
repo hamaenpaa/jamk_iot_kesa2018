@@ -18,15 +18,13 @@
 	}	
 	
 	$total_fields = "ca_lesson.begin_time,
-        ca_lesson.end_time, ca_lesson.room_identifier,			
-		ca_lesson.topic ";	
+        ca_lesson.end_time, ca_lesson.room_identifier";	
 	$sql_lesson = "SELECT " . $total_fields . " FROM ca_lesson WHERE id=?";
 	$q_lesson = $conn->prepare($sql_lesson);
 	$q_lesson->bind_param("i", $id);
 	$q_lesson->execute();		
 	$q_lesson->store_result();
-	$q_lesson->bind_result($begin_time, $end_time, 
-		$room_identifier, $topic);	
+	$q_lesson->bind_result($begin_time, $end_time, $room_identifier);	
 	$lesson = array();
 	if ($q_lesson->fetch()) {
 		$begin_time_parts = from_db_to_separate_date_and_time_ui($begin_time);
@@ -37,8 +35,7 @@
 			array("date" => $begin_time_parts['date_part'],
 				  "begin_time" => $begin_time_parts['time_part'],
 				  "end_time" => $end_time_parts['time_part'],
-  				  "room_identifier" => $room_identifier,
-				  "topic" => $topic);
+  				  "room_identifier" => $room_identifier);
 	}
 	include("../../db_disconnect_inc.php");
 	echo json_encode($lesson);

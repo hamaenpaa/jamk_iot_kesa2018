@@ -15,8 +15,7 @@
 		}
 		
 		$total_fields = "ca_lesson.ID, ca_lesson.begin_time,
-                ca_lesson.end_time, ca_lesson.room_identifier,			
-				ca_lesson.topic ";
+                ca_lesson.end_time, ca_lesson.room_identifier ";
 		$topic_part  = "";
 		if ($topic_ids != "") {
 			$topic_part = " AND 
@@ -35,13 +34,12 @@
 		$sql_lessons = 
 			"SELECT " .  $total_fields . $sql_end_without_page_def .
 			 " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
-			 
 		$q_lessons = $conn->prepare($sql_lessons);
 		$q_lessons->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);
 		$q_lessons->execute();		
 		$q_lessons->store_result();
 		$q_lessons->bind_result($lesson_id, $begin_time, $end_time, 
-			$room_identifier, $topic);		
+			$room_identifier);		
 
 		$sql_lessons_count = "SELECT COUNT(*) " . $sql_end_without_page_def;
 		
@@ -59,8 +57,7 @@
 					"time_interval" => str_replace(" ", "&nbsp;",
 						from_db_datetimes_to_same_day_date_plus_times(
 							$begin_time, $end_time)),
-					"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
-					"topic" => str_replace(" ", "&nbsp;", $topic));
+					"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier));
 			}
 		}
 		

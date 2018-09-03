@@ -31,11 +31,6 @@ function validateAddOrModifyForm() {
 			"Huoneen tunnus ei voi olla pidempi kuin 50 merkkiä. Korjaa se!");
 		return false;		
 	}
-	if ($("#topic").val().length > 150) {
-		$("#add_or_modify_lesson_form_validation_errors").html(
-			"Aihe ei voi olla pidempi kuin 50 merkkiä. Korjaa se!");
-		return false;		
-	}	
 	
 	var begin_time = $("#begin_time").val();
 	var end_time = $("#end_time").val();
@@ -52,37 +47,42 @@ function validateAddOrModifyForm() {
 
 function get_lessons_page(page, page_page) {
 	begin_time_seek = $("#last_query_begin_time_seek").html(); 
-	end_time_seek = $("#last_query_end_time_seek").html();
-	room_seek = $("#last_query_room_seek").html();
-	topic_seek = $("#last_query_topic_seek").html();
-	$.get("inc/sub/lesson/get_lesson_page_ajax.php?" +
+	// pages are not refreshed if lessons are not even fetched yet
+	if (begin_time_seek != undefined && begin_time_seek != "") { 
+		end_time_seek = $("#last_query_end_time_seek").html();
+		room_seek = $("#last_query_room_seek").html();
+		topic_seek_selection_ids = $("#last_query_lesson_topics_seek_selection").html();
+		topic_seek_name_parts = $("#last_query_lesson_topics_topic_seek").html();
+		$.get("inc/sub/lesson/get_lesson_page_ajax.php?" +
 			"begin_time_seek="+begin_time_seek + "&end_time_seek="+end_time_seek +
-			"&room_seek="+room_seek+"&topic_seek="+topic_seek+
+			"&room_seek="+room_seek+
+			"&topic_seek_selection_ids="+topic_seek_selection_ids + 
+			"&topic_seek_name_parts="+topic_seek_name_parts + 
 			"&page="+page+
 			"&page_page="+page_page, function (data) {
-		if (data != "") {
-			jsonData = JSON.parse(data);
-			$("#lesson_listing_table .datarow").remove();
-			for(i=0; i < jsonData.lessons.length; i++) {
-				elemToBeInserted = 
+			if (data != "") {
+				jsonData = JSON.parse(data);
+				$("#lesson_listing_table .datarow").remove();
+				for(i=0; i < jsonData.lessons.length; i++) {
+					elemToBeInserted = 
 					"<div class=\"row datarow\">" +
-						"<div class=\"col-sm-4\">" + jsonData.lessons[i].time_interval + "</div>" +
-						"<div class=\"col-sm-3\">" + jsonData.lessons[i].room_identifier + "</div>" +
-						"<div class=\"col-sm-3\">" + jsonData.lessons[i].topic + "</div>" +
+						"<div class=\"col-sm-5\">" + jsonData.lessons[i].time_interval + "</div>" +
+						"<div class=\"col-sm-6\">" + jsonData.lessons[i].room_identifier + "</div>" +
 						modify_and_remove_columns(
 							jsonData.lessons[i].modify_call,
 							jsonData.lessons[i].remove_call) +
 					"</div>";
-				$("#lesson_listing_table").append(elemToBeInserted);
-			}		
-			checkWidth();
-			$("#lesson_pages").replaceWith(jsonData.page_list);
+					$("#lesson_listing_table").append(elemToBeInserted);
+				}		
+				checkWidth();
+				$("#lesson_pages").replaceWith(jsonData.page_list);
 		
-			// These can change also due to another user:
-			$("#page").html(jsonData.page); 
-			$("#page_page").html(jsonData.page_page);
-		}
-	});
+				// These can change also due to another user:
+				$("#page").html(jsonData.page); 
+				$("#page_page").html(jsonData.page_page);
+			}
+		});
+	}
 }
 
 function removeLesson(lesson_id) {
@@ -212,11 +212,9 @@ function saveLesson() {
 		begin_time = $("#begin_time").val();
 		end_time = $("#end_time").val();
 		room_identifier = $("#room_identifier").val();
-		topic = $("#topic").val();
 		$.get("inc/sub/lesson/save_lesson.php?id=" + id +
 			"&lesson_date="+lesson_date+"&begin_time="+begin_time+
-			"&end_time="+end_time+"&room_identifier="+room_identifier+
-			"&topic="+topic,
+			"&end_time="+end_time+"&room_identifier="+room_identifier,
 			function(data) {
 				page = $("#page").html();
 				page_page = $("#page_page").html();				
@@ -226,7 +224,6 @@ function saveLesson() {
 				$("#begin_time").val("");
 				$("#end_time").val("");
 				$("#room_identifier").val("");
-				$("#topic").val("");					
 				$("#add_or_modify_lesson_header").html(
 					"Lisää koulutus tai oppitunti");
 				$("#lesson_topics_handling").html("");

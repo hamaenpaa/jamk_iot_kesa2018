@@ -15,9 +15,8 @@
 ?>
 			<div id="lesson_listing_table" class="datatable">
 				<div class="row heading-row">
-					<div class="col-sm-4"><h5>Aikaväli</h5></div>
-					<div class="col-sm-3"><h5>Huone</h5></div>
-					<div class="col-sm-3"><h5>Aihe</h5></div>
+					<div class="col-sm-5"><h5>Aikaväli</h5></div>
+					<div class="col-sm-6"><h5>Huone</h5></div>
 					<div class="col-sm-1-wrap">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-1"></div>
@@ -27,17 +26,13 @@
 				foreach($lessons_arr['lessons'] as $lesson) {
 					$time_interval = $lesson['time_interval'];
 					$room_identifier = $lesson['room_identifier'];
-					$topic = $lesson['topic'];
 ?>				
 					<div class="row datarow">
-						<div class="col-sm-4">
+						<div class="col-sm-5">
 							<?php echo $time_interval; ?>
 						</div>			
-						<div class="col-sm-3">
+						<div class="col-sm-6">
 							<?php echo $room_identifier; ?>
-						</div>
-						<div class="col-sm-3">
-							<?php echo $topic;  ?>
 						</div>
 						<div class="col-sm-1-wrap">
 							<div class="col-sm-1">
@@ -73,18 +68,16 @@
 			<b>Haulla ei löytynyt yhtään koulutusta/oppituntia</b>
 <?php
 		}
-?>
-		<!-- These are because seek fields etc. can be changes after
-		     last query and other user and also to make js functions
-			 work easier -->
-		<div id="page" style="display:none"><?php echo $page; ?></div>
-		<div id="page_page" style="display:none"><?php echo $page_page; ?></div>
-		<div id="last_query_begin_time_seek" style="display:none"><?php echo $begin_time_seek; ?></div>
-		<div id="last_query_end_time_seek" style="display:none"><?php echo $end_time_seek; ?></div>
-		<div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
-		<div id="last_query_room_seek" style="display:none"><?php echo $room_seek; ?></div>
-<?php
 	}
 ?>
+<!-- These are because seek fields etc. can be changes after
+     last query and other user and also to make js functions
+	 work easier -->
+<div id="page" style="display:none"><?php echo $page; ?></div>
+<div id="page_page" style="display:none"><?php echo $page_page; ?></div>
+<div id="last_query_begin_time_seek" style="display:none"><?php echo $begin_time_seek; ?></div>
+<div id="last_query_end_time_seek" style="display:none"><?php echo $end_time_seek; ?></div>
+<div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
+<div id="last_query_room_seek" style="display:none"><?php echo $room_seek; ?></div>
 <div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
 <div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>

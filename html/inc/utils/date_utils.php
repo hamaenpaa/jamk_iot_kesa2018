@@ -75,11 +75,36 @@
 		}
 		return $dt;
 	}
+
+	function is_integerable2( $v ){
+		if ($v == "") {
+			return true;
+		}
+		return is_numeric($v) && +$v === (int)(+$v);
+	}
 	
 	function from_db_to_unix_milliseconds($db_dt) {
 		list($date_part,$time_part) = explode(" ", $db_dt);
 		list($yyyy,$mm,$dd) = explode("-", $date_part);
 		list($hours,$minutes,$seconds) = explode(":", $time_part);
+		if (!is_integerable2($yyyy)) {
+			return 0;
+		}
+		if (!is_integerable2($mm)) {
+			return 0;
+		}
+		if (!is_integerable2($dd)) {
+			return 0;
+		}
+		if (!is_integerable2($hours)) {
+			return 0;
+		}
+		if (!is_integerable2($minutes)) {
+			return 0;
+		}		
+		if (!is_integerable2($seconds)) {
+			return 0;
+		}		
 		return mktime($hours,$minutes,$seconds,$mm,$dd,$yyyy);
 	}
 	
@@ -99,7 +124,6 @@
 		return date("Y-m-d 06:00:00");
 	}
 	
-	
     function isTime($time) {
         if (preg_match("/^([1-2][0-3]|[01]?[1-9]):([0-5]?[0-9]):([0-5]?[0-9])$/", $time))
             return true;
@@ -108,8 +132,21 @@
 
 	function isDateTime($dbdatetime) {
 		$parts = explode(" ", $dbdatetime);
-		list($y, $m, $d) = explode("-", $parts[0]);
+		if (count($parts) < 2) {
+			return false;
+		}
 
+		list($y, $m, $d) = explode("-", $parts[0]);
+		if (!is_integerable2($y)) {
+			return false;
+		}
+		if (!is_integerable2($m)) {
+			return false;
+		}
+		if (!is_integerable2($d)) {
+			return false;
+		}
+		
 		if(checkdate($m, $d, $y) && isTime($parts[1]) ){
 			return true;
 		} else {
@@ -120,6 +157,18 @@
 	function isTime1Before($time1, $time2) {
 		list($hh1,$mm1) = explode(":", $time1);
 		list($hh2,$mm2) = explode(":", $time2);
+		if (!is_integerable2($hh1)) {
+			return false;
+		}
+		if (!is_integerable2($mm1)) {
+			return false;
+		}
+		if (!is_integerable2($hh2)) {
+			return false;
+		}
+		if (!is_integerable2($mm2)) {
+			return false;
+		}				
 		if ($hh1 < $hh2) { return true; }
 		if ($hh1 > $hh2) { return false; }
 		if ($mm1 < $mm2) { return true; }

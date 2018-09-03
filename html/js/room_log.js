@@ -1,4 +1,9 @@
 $().ready(function() {
+	seek_selection = $("#last_query_lesson_topics_seek_selection").html();
+	topic_parts_seek = $("#last_query_lesson_topics_topic_seek").html();
+	container_id = "lesson_topics_seek";
+	selectTopicHandling(container_id, seek_selection, topic_parts_seek);
+
 	time = $('#last_fetch_time').html();
 	if (time !== undefined) {
 		refreshRate = 2000;
@@ -7,8 +12,9 @@ $().ready(function() {
 			end_time = $("#last_query_end_time").html();
 			seek_room = $("#last_query_room").html();
 			seek_nfc_id = $("#last_query_nfc_id").html();
-			seek_topic = $("#last_query_topic").html();
 			seek_course_name = $("#last_query_course_name").html();
+			seek_topic_selection = $("#last_query_lesson_topics_seek_selection").html();
+			topic_parts_seek = $("#last_query_lesson_topics_topic_seek").html();
 			page = $('#page').html();
 			page_page = $('#page_page').html();
 			time = $('#last_fetch_time').html();
@@ -24,15 +30,15 @@ $().ready(function() {
 				seek_nfc_id = "";
 			if (seek_course_name === undefined)
 				seek_course_name = "";	
-			if (seek_topic === undefined)
-				seek_topic = "";
 			if (page == null)
 				page = 1;
 			if (page_page == null)
 				page_page = 1;
 			$.get("inc/sub/room_log/get_new_room_log.php?last_fetch_time=" + time +
 				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc_id +
-				"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic+
+				"&seek_course_name="+seek_course_name+
+				"&seek_topic_selection="+seek_topic_selection+
+				"&topic_parts_seek="+topic_parts_seek+
 				"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
 				"&page_page="+page_page, 
 				function(data) {
@@ -53,7 +59,7 @@ $().ready(function() {
 								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].nfc_id + "</div>" +
 								"<div class=\"col-sm-4\">" + jsonData.room_logs[i].dt + "</div>" +
 								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].room_identifier + "</div>" +
-								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topic + "</div>" +
+								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topics + "</div>" +
 								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].course_name + "</div>" +
 								"</div>";
 								$("#room_log_listing_table").append(elemToBeInserted);
@@ -74,8 +80,6 @@ $().ready(function() {
 		);
 	}
 });
-
-
 
 function validateForm() {
     var begin_datetime = document.forms["seek_room_log_form"]["begin_time"].value;

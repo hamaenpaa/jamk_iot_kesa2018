@@ -14,13 +14,16 @@
 		if (!isset($page_page) || $page_page == "") {
 			$page_page = "1";
 		}		
+		$topic_ids = get_total_topic_ids($conn, 
+			$last_query_lesson_topics_topic_seek, 
+			$last_query_lesson_topics_seek_selection);	
 		$room_logs = get_room_log($conn,
-			$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic, 
-			$seek_course_name, $page, "");
+			$begin_time, $end_time, $seek_room, $seek_nfc_id, $topic_ids, 
+			$seek_course_name, $page, "", true);
 		$download_csv_url = "inc/sub/room_log/download_as_csv.php?&seek_room=".
 			$seek_room . "&seek_nfc_id=" . $seek_nfc_id .
 			"&seek_course_name=". $seek_course_name .
-			"&seek_topic=" . $seek_topic .
+			"&topic_ids=" . $topic_ids .
 			"&begin_time=" . $begin_time .
 			"&end_time=" . $end_time;
 ?>
@@ -44,7 +47,7 @@
 				<div class="col-sm-2"><h5>NFC&nbsp;ID</h5></div>
 				<div class="col-sm-4"><h5>Sisääntuloaika</h5></div>
 				<div class="col-sm-2"><h5>Luokka</h5></div>
-				<div class="col-sm-2"><h5>Oppitunnin&nbsp;aihe</h5></div>
+				<div class="col-sm-2"><h5>Oppitunnin&nbsp;aiheet</h5></div>
 				<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
 			</div>
 <?php
@@ -52,9 +55,9 @@
 				$dt = $room_log['dt'];
 				$room_identifier = $room_log['room_identifier'];
 				$nfc_id = $room_log['nfc_id'];
-				$topic = $room_log['topic'];
+				$topics = $room_log['topics'];
 				$course_name = $room_log['course_name'];
-				if ($topic == null || $topic == "") $topic = "&nbsp;";
+				if ($topics == null || $topics == "") $topics = "&nbsp;";
 				if ($course_name == null || $course_name == "") $course_name = "&nbsp;";
 ?>				
 				<div class="row datarow">
@@ -68,7 +71,7 @@
 						<?php echo $room_identifier;  ?>
 					</div>
 					<div class="col-sm-2">
-						<?php echo $topic;  ?>
+						<?php echo $topics;  ?>
 					</div>	
 					<div class="col-sm-2">
 						<?php echo $course_name; ?>
@@ -87,3 +90,6 @@
 		    "curr_page", "other_page");
 	}
 ?>
+<div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
+<div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>
+

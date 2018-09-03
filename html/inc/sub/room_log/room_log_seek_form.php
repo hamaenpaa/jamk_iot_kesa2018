@@ -28,6 +28,11 @@
 	if (!isset($seek_course_name)) {
 		$seek_course_name = "";
 	}	
+	$container_id = "lesson_topics_seek";
+	$last_query_lesson_topics_topic_seek = 
+		get_post_or_get($conn, $container_id . "_topic_parts_seek");
+	$last_query_lesson_topics_seek_selection = 
+		get_post_or_get($conn, $container_id . "_selected_topic_ids");
 ?>
 
 <div>
@@ -64,11 +69,15 @@
 				placeholder="Etsittävä NFC ID:n osa" />
 		</div>
 		<div class="row-type-2">
-			<label>Etsittävä aiheen osa:</label>
-			<input id="seek_topic" type="text" name="seek_topic" 
-				maxlength="150" value="<?php echo $seek_topic; ?>" 
-				placeholder="Etsittävä aiheen osa" />
-		</div>		
+			<label>Oppitunnin aihe:</label>
+		</div>
+		<div class="row-type-2">
+			<label>(jos mitään ei valita, haetaan aiheista riippumatta)</label>
+		</div>	
+	
+		<div class="row-type-5">
+			<?php echo getTopicsHandlingContainer($conn, "lesson_topics_seek"); ?>
+		</div>
 		<div class="row-type-2">
 			<label>Etsittävä kurssin nimen osa:</label>
 			<input id="seek_course_name" type="text" name="seek_course_name" 
@@ -76,7 +85,7 @@
 				placeholder="Etsittävä kurssin nimen osa" />
 		</div>		
 		<div class="row-type-5">		
-			<input class="button" type="submit" value="Valitse"/>
+			<input class="button" type="submit" value="Hae"/>
 		</div>
 	</form>
 </div>

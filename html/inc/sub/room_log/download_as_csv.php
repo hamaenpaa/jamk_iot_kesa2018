@@ -8,11 +8,11 @@
 	$end_time = get_post_or_get($conn, "end_time");
 	$seek_room = get_post_or_get($conn, "seek_room");
 	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");
-	$seek_topic = get_post_or_get($conn, "seek_topic");
+	$topic_ids = get_post_or_get($conn, "topic_ids");
 	$seek_course_name = get_post_or_get($conn, "seek_course_name");
 	
 	if (strlen($seek_room) > 50 || strlen($seek_nfc_id) > 50 ||
-		strlen($seek_topic) > 150  || strlen($seek_course_name) > 50) {
+		strlen($seek_course_name) > 50) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}
@@ -26,8 +26,8 @@
 	}
 	
 	$room_logs = get_room_log($conn,
-		$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic,
-		$seek_course_name, -1, "");
+		$begin_time, $end_time, $seek_room, $seek_nfc_id, $topic_ids,
+		$seek_course_name, -1, "", false);
 
 	include("../../db_disconnect_inc.php");
 		
@@ -36,7 +36,7 @@
 		"NFC ID",
 		"Sisääntuloaika",
 		"Luokka",
-		"Oppitunnin aihe",
+		"Oppitunnin aiheet",
 		"Kurssin nimi");
 	
 	foreach($room_logs['room_logs'] as $room_log) {
@@ -44,7 +44,7 @@
 			$room_log["nfc_id"], 
 			$room_log["dt"], 
 			$room_log["room_identifier"],
-			$room_log["topic"],
+			$room_log["topics"],
 			$room_log["course_name"]);
 	}
 		

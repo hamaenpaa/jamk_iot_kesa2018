@@ -334,9 +334,9 @@ function buildTopicSelectionPage(
 				}
 			}
 			topic_elem = [];
-			topics_elem.push(name);
-			topics_elem.push(selected_ids_arr[i]);
-			topics.push(topics_elem);			
+			topic_elem.push(name);
+			topic_elem.push(selected_ids_arr[i]);
+			topics.push(topic_elem);			
 		}
 		refreshTopicSelections(container_id, topics);
 	}

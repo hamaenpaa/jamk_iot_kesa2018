@@ -31,6 +31,11 @@
 	if (!isset($page_page) || $page_page == "") {
 		$page_page = "1";
 	}	
+	$container_id = "lesson_topics_seek";
+	$last_query_lesson_topics_topic_seek = 
+		get_post_or_get($conn, $container_id . "_topic_parts_seek");
+	$last_query_lesson_topics_seek_selection = 
+		get_post_or_get($conn, $container_id . "_selected_topic_ids");
 ?>
 
 <form name="lessons_seek" action="<?php echo $index_page; ?>" method="POST"
@@ -57,10 +62,15 @@
 			placeholder="Huoneen tunnus" maxlength="50"/>
 	</div>
 	<div class="row-type-2">
-		<label>Etsittävä aiheen osa:</label>
-		<input id="topic_seek" name="topic_seek" value="<?php echo $topic_seek; ?>" 
-			placeholder="Aihe" maxlength="150"/>
+		<label>Oppitunnin aihe:</label>
 	</div>
+	<div class="row-type-2">
+		<label>(jos mitään ei valita, haetaan aiheista riippumatta)</label>
+	</div>	
+	
+	<div class="row-type-5">
+		<?php echo getTopicsHandlingContainer($conn, "lesson_topics_seek"); ?>
+	</div
 	<div class="row-type-5">
 		<input class="button" type="submit" value="Hae"/>
 	</div>

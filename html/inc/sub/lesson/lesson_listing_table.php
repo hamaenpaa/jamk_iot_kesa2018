@@ -3,8 +3,11 @@
 		include("lessons_fetch_from_db.php");
 		$begin_time_seek = from_ui_to_db($begin_time_seek);
 		$end_time_seek = from_ui_to_db($end_time_seek);	
+		$topic_ids = get_total_topic_ids($conn, 
+			$last_query_lesson_topics_topic_seek, 
+			$last_query_lesson_topics_seek_selection);	
 		$lessons_arr = get_lessons($conn, 
-			$begin_time_seek, $end_time_seek, $room_seek, $topic_seek, $page);
+			$begin_time_seek, $end_time_seek, $room_seek, $topic_ids, $page);
 ?>
 		<h2>Haetut koulutukset tai oppitunnit</h2>
 <?php
@@ -83,3 +86,5 @@
 <?php
 	}
 ?>
+<div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
+<div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>

@@ -1,7 +1,7 @@
 <?php
 	define("PAGE_SIZE", 50);
 
-	function get_lessons($conn, $begin_time, $end_time, $room_seek, $topic_seek, $page) {
+	function get_lessons($conn, $begin_time, $end_time, $room_seek, $topic_ids, $page) {
 		if (!isDateTime($begin_time) || !isDateTime($end_time) ||
 			!isDatetime1Before($begin_time, $end_time)) {
 			return array();			
@@ -10,20 +10,27 @@
 			return array();	
 		}
 		$room_seek = purifyParam($conn, $room_seek);
-		$topic_seek = purifyParam($conn, $topic_seek);
-		if (strlen($room_seek) > 50 || strlen($topic_seek) > 150) {
+		if (strlen($room_seek) > 50) {
 			return array();	
 		}
 		
 		$total_fields = "ca_lesson.ID, ca_lesson.begin_time,
                 ca_lesson.end_time, ca_lesson.room_identifier,			
 				ca_lesson.topic ";
+		$topic_part  = "";
+		if ($topic_ids != "") {
+			$topic_part = " AND 
+				EXISTS(SELECT id FROM ca_lesson_topic WHERE 
+				ca_lesson_topic.lesson_id =	ca_lesson.id AND 
+				ca_lesson_topic.topic_id IN (". $topic_ids ."))";
+		}
+				
 		$sql_end_without_page_def = "FROM ca_lesson WHERE 
 			    ((? <= ca_lesson.begin_time AND ca_lesson.begin_time <= ?) OR
 				 (? <= ca_lesson.end_time AND ca_lesson.end_time <= ?))
-			  AND ca_lesson.room_identifier LIKE '%" .$room_seek ."%'
-			  AND ca_lesson.topic LIKE '%" . $topic_seek . "%' 
-			  AND ca_lesson.removed = 0 
+			  AND ca_lesson.room_identifier LIKE '%" .$room_seek ."%' ".
+			  $topic_part .
+			  " AND ca_lesson.removed = 0 
 			  ORDER BY begin_time DESC, room_identifier ASC";
 		$sql_lessons = 
 			"SELECT " .  $total_fields . $sql_end_without_page_def .

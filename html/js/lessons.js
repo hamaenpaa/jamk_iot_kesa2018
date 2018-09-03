@@ -1,3 +1,11 @@
+$().ready(function() {
+	seek_selection = $("#last_query_lesson_topics_seek_selection").html();
+	topic_parts_seek = $("#last_query_lesson_topics_topic_seek").html();
+	container_id = "lesson_topics_seek";
+	selectTopicHandling(container_id, seek_selection, topic_parts_seek);
+});
+
+
 function validateSeekForm() {
 	var begin_datetime = document.forms["lessons_seek"]["begin_time_seek"].value;
 	var end_datetime = document.forms["lessons_seek"]["end_time_seek"].value;

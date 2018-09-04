@@ -210,7 +210,8 @@
 				AND ca_topic.removed = 0
 				AND ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? 
 				AND ca_roomlog.room_identifier LIKE '%" .$room_seek ."%'
-				AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%'";				 
+				AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%'";
+				
 		$q_NFC_ID_topics_and_lessons = $conn->prepare($sql_NFC_ID_topics_and_lessons);
 		$q_NFC_ID_topics_and_lessons->bind_param("ss", $begin_time, $end_time);	
 		$q_NFC_ID_topics_and_lessons->execute();		

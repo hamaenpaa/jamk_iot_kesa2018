@@ -2,6 +2,7 @@
 	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/date_utils.php");
+	include("../setting/fetch_settings_from_db.php");
 	include("fetch_room_log_data_from_db.php");
 	
 	$begin_time = get_post_or_get($conn, "begin_time");
@@ -29,6 +30,8 @@
 		$begin_time, $end_time, $seek_room, $seek_nfc_id, $topic_ids,
 		$seek_course_name, -1, "", false);
 
+	$settings = getSettings($conn);
+		
 	include("../../db_disconnect_inc.php");
 		
 	$to_csv_arr = array();
@@ -46,6 +49,58 @@
 			$room_log["room_identifier"],
 			$room_log["topics"],
 			$room_log["course_name"]);
+	}
+	
+	if ($settings['usage_type'] == 1) {
+		$to_csv_arr[] = array("Sisäänkirjautuneiden ihmisten aiheittainen osallistuminen");
+		$to_csv_arr[] = array();
+		foreach($room_logs['NFC_ID_topics_and_lessons']
+			as $NFC_ID_topic_and_lesson_item) {
+			$to_csv_arr[] =	array("NFC ID: " . $NFC_ID_topic_and_lesson_item['nfc_id']);
+			$to_csv_arr[] = array("Aiheet:");
+			$topics = "";
+			foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
+				if ($topics != "") {
+					$topics .= ",";
+				}
+				$topics .= $topic['topic_name'];
+			}
+			$to_csv_arr[] = array($topics);
+			$to_csv_arr[] = array();
+			$to_csv_arr[] = array("Aiheet oppitunneittain");
+			foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
+				$to_csv_arr[] = array("Aihe: ", $topic['topic_name']);
+				$to_csv_arr[] = array("oppitunnit:");	
+				$to_csv_arr[] = array();
+				foreach($topic['lessons'] as $lesson) {
+					if ($lesson['course'] != "" && $lesson['course'] != null && $lesson['course'] != "NULL") {
+						$to_csv_arr[] = array("Kurssi:", $lesson['course']);
+					}
+					$to_csv_arr[] = array("Huone:", $lesson['room_identifier'], "Aika:", $lesson['time_interval']);
+				}
+			}
+		}
+	} else {
+		foreach($room_logs['NFC_ID_monthly_counts']['year_counts'] as $year_counts) {
+			$to_csv_arr[] = array("Kävijät vuonna " . $year_counts['year']);
+			$to_csv_arr[] = array("Koko vuonna oli valitulla ajalla yhteensä " . 
+					$year_counts['count'] . " kävijää.");
+			$to_csv_arr[] = array("Vuonna oli kuukausittain valitulla ajalla kävijöitä seuraavasti:");
+
+			$arr_months = array();
+			foreach($room_logs['NFC_ID_monthly_counts']['month_counts'] as $months_of_years) {
+				if ($months_of_years['year'] == $year_counts['year']) {
+					$arr_months = $months_of_years['months'];
+				}
+			}
+				
+			if (count($arr_months) > 0) {
+				foreach($arr_months as $month_key => $month_counts) {
+					$to_csv_arr[] = array($arr_month_names[$month_key], $month_counts);
+				}
+			}
+			$to_csv_arr[] = array();
+		}
 	}
 		
 	// file so no temp files needed, you might run out of memory though

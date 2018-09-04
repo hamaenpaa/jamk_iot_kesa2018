@@ -81,6 +81,7 @@
 		$room_log_arr = array();
 		$lesson_ids = array();
 		$lesson_topics_arr = array();
+		$lesson_courses = array();
 		if ($q_room_logs->num_rows > 0) {
 			while($room_logs = $q_room_logs->fetch()) {
 				if ($use_nbsp) {
@@ -103,6 +104,7 @@
 					"course_name" => $course_name,
 					"lesson_id" => $lesson_id,
 					"topics" => "");
+				$lesson_courses[$lesson_id] = $course_name;
 				if ($lesson_id != null && $lesson_id != "null" && $lesson_id != "") {
 					if (!in_array($lesson_id, $lesson_ids)) {
 						$lesson_ids[] = $lesson_id;
@@ -115,8 +117,89 @@
 				}
 			}
 		}
+		
+		$sql_NFC_ID_topics_and_lessons = 
+			"SELECT 
+				ca_roomlog.NFC_ID, 
+				ca_lesson.id, ca_lesson.begin_time, ca_lesson.end_time, 
+					ca_lesson.room_identifier,
+				ca_topic.id, ca_topic.name
+			 FROM ca_roomlog, ca_lesson, ca_lesson_topic, ca_topic
+			 WHERE DATE(ca_lesson.begin_time) = DATE(ca_roomlog.dt) AND 
+				 ca_lesson.room_identifier = ca_roomlog.room_identifier
+				 AND ca_lesson.removed = 0
+				 AND ca_lesson.id = ca_lesson_topic.lesson_id
+				 AND ca_lesson_topic.topic_id = ca_topic.id 
+				 AND ca_topic.removed = 0
+				 AND ca_roomlog.dt >= ? AND ca_roomlog.dt <= ? 
+				 AND ca_roomlog.room_identifier LIKE '%" .$room_seek ."%'
+				 AND ca_roomlog.NFC_ID LIKE '%" . $nfc_id_seek ."%'";				 
+		$q_NFC_ID_topics_and_lessons = $conn->prepare($sql_NFC_ID_topics_and_lessons);
+		$q_NFC_ID_topics_and_lessons->bind_param("ss", $begin_time, $end_time);	
+		$q_NFC_ID_topics_and_lessons->execute();		
+		$q_NFC_ID_topics_and_lessons->store_result();		
+		$q_NFC_ID_topics_and_lessons->bind_result(
+			$nfc_id, 
+			$lesson_id,	$lesson_begin_time, $lesson_end_time, $room_identifier,
+			$topic_id, $topic_name);		
+		$arr_NFC_ID_topics_and_lessons = array();
+		$last_nfc_id_key = 0;
+		while($NFC_ID_topics_and_lessons = $q_NFC_ID_topics_and_lessons->fetch()) {
+			$update_nfc_id_item_key = -1;
+			foreach($arr_NFC_ID_topics_and_lessons as $nfc_id_item_key => $nfc_id_item) {
+				if ($nfc_id_item['nfc_id'] == $nfc_id) {
+					$update_nfc_id_item = $nfc_id_item;
+					$update_nfc_id_item_key = $nfc_id_item_key;
+					break;
+				}
+			}
+			if ($update_nfc_id_item_key == -1) {
+				$update_nfc_id_item = array("nfc_id" => $nfc_id, "topics" => array());
+				$update_nfc_id_item_key = $last_nfc_id_key;
+				$last_nfc_id_key++;
+			}
+			$update_topic_item_key = -1;
+			foreach($update_nfc_id_item['topics'] as $topic_key => $topic_item) {
+				if ($topic_item['topic_id'] == $topic_id) {
+					$update_topic_item_key = $topic_key;
+					$update_topic_item = $topic_item;
+					break;
+				}
+			}
+			if ($update_topic_item_key == -1) {
+				$update_topic_item_key = count($update_nfc_id_item['topics']);
+				$update_topic_item = array("topic_id" => $topic_id,
+										   "topic_name" => $topic_name,
+										   "lessons" => array());
+			}
+			$update_lesson_item_key = -1;
+			foreach($update_topic_item['lessons'] as $lesson_key => $lesson_item) {
+				if ($lesson_item['lesson_id'] == $lesson_id) {
+					$update_lesson_item_key = $lesson_key;
+					$update_lesson_item = $lesson_item;
+					break;
+				}
+			}
+			if ($update_lesson_item_key == -1) {
+				$update_lesson_item_key = count($update_topic_item['lessons']);
+				$time_interval = from_db_datetimes_to_same_day_date_plus_times(
+							$begin_time, $end_time);
+				if ($use_nbsp) {
+					$time_interval = str_replace(" ", "&nbsp;", $time_interval);
+				}
+				$update_lesson_item = array("lesson_id" => $lesson_id,
+					"course" => $lesson_courses[$lesson_id],
+					"room_identifier" => $room_identifier,
+					"time_interval" => $time_interval);
+			}
+			$update_topic_item['lessons'][$update_lesson_item_key] = $update_lesson_item;
+			$update_nfc_id_item['topics'][$update_topic_item_key] = $update_topic_item;
+			$arr_NFC_ID_topics_and_lessons[$update_nfc_id_item_key] = $update_nfc_id_item;
+		}
+		
+		$lesson_topic_ids = array();
 		if (count($lesson_ids) > 0) {
-			$sql_lesson_topics = "SELECT ca_lesson.id, ca_topic.name 
+			$sql_lesson_topics = "SELECT ca_lesson.id, ca_topic.name, ca_topic.id 
 				FROM ca_lesson, ca_topic, ca_lesson_topic 
 				WHERE ca_lesson.id = ca_lesson_topic.lesson_id AND 
 			      ca_lesson_topic.topic_id = ca_topic.id AND
@@ -124,7 +207,10 @@
 			$q_lesson_topics = $conn->prepare($sql_lesson_topics);
 			$q_lesson_topics->execute();		
 			$q_lesson_topics->store_result();		
-			$q_lesson_topics->bind_result($lesson_id, $topic_name);	
+			$q_lesson_topics->bind_result($lesson_id, $topic_name, $topic_id);
+			if (!in_array($topic_id, $lesson_topic_ids)) {
+				$lesson_topic_ids[] = $topic_id;
+			}
 			while($lesson_topics = $q_lesson_topics->fetch()) {
 				if ($lesson_id != "null" && $lesson_id != null && $lesson_id != "") {
 					if ($use_nbsp) {
@@ -161,7 +247,8 @@
 		if ($page_count * ROOM_LOG_PAGE_SIZE < $count) { $page_count++; }			
 		$ret_arr = array("count" => $count, "page_count" => $page_count,
 			"count_new" => $count_new, 
-			"room_logs" => $room_log_arr);		
+			"room_logs" => $room_log_arr,
+			"NFC_ID_topics_and_lessons" => $arr_NFC_ID_topics_and_lessons);	
 		return $ret_arr;
 	}
 ?>

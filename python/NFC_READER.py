@@ -22,6 +22,9 @@ MISO = 24
 # GPIO 25, pin 22
 SCLK = 25
 
+# Default roomidentifier is not got from target database
+roomIdentifier = "HUONE"
+
 # Configure the key to use for writing to the MiFare card.  You probably don't
 # need to change this from the default below unless you know your card has a
 # different key associated with it.
@@ -79,7 +82,25 @@ while True:
     # Manual configuration | Room ID | Current Datetime | Tag Unique ID
     curdate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     tagID = format(binascii.hexlify(uid))
-    roomIdentifier = "CLASS ABC1";
+
+    # catch current time lesson room identifier or use default
+    today = datetime.utcnow().date()
+    begin_dt = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
+    end_dt = begin_dt + timedelta(1)
+    begin = begin_dt.strftime('%Y-%m-%d %H:%M:%S')
+    end = end_dt.strftime('%Y-%m-%d %H:%M:%S')
+    curs.execute("SELECT room_identifier FROM ca_lesson WHERE (" + begin_time + \
+        " <=  ca_lesson.begin_time AND ca_lesson.begin_time <= " + end_time + \
+        ") OR (" + begin_time + \
+        " <=  ca_lesson.end_time AND ca_lesson.end_time <= " + end_time + ")")
+    if curs.rowcount == 1: 
+        row = curs.fetchone()
+	    roomIdentifier = row['room_identifier']
+    else 
+        curs.execute("SELECT default_roomidentifier FROM ca_setting WHERE id=1")
+	    row = curs.fetchone()
+	    if not row['default_roomidentifier']:
+	        roomIdentifier = row['default_roomidentifier']
 
     # format(int(data[2:8].decode("utf-8"), 16))
     curs.execute("Insert into ca_roomlog (room_identifier,dt,NFC_ID) values (%s,%s,%s)",(roomIdentifier,curdate,format(binascii.hexlify(uid))))

@@ -89,36 +89,40 @@
 			"roomlog_pages", "",
 		    "curr_page", "other_page");
 ?>
-		<h2>Sisäänkirjautuneiden ihmisten aiheittainen osallistuminen</h2>
 <?php
-		foreach($room_logs['NFC_ID_topics_and_lessons']
-			as $NFC_ID_topic_and_lesson_item) {
+		if ($settings['usage_type'] == 1) {
 ?>
-			<h3><b>NFC ID: <?php echo $NFC_ID_topic_and_lesson_item['nfc_id']; ?></b></h3>
-			<h4><b>Aiheet:</b></h4>
+			<h2>Sisäänkirjautuneiden ihmisten aiheittainen osallistuminen</h2>
 <?php
-			$topics = "";
-			foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
-				if ($topics != "") {
-					$topics .= ",";
-				}
-				$topics .= $topic['topic_name'];
-			}
-			echo $topics . "<br>";
-?>			
-			<h4><b>Aiheet oppitunneittain</b></h4>
+			foreach($room_logs['NFC_ID_topics_and_lessons']
+				as $NFC_ID_topic_and_lesson_item) {
+?>
+				<h3><b>NFC ID: <?php echo $NFC_ID_topic_and_lesson_item['nfc_id']; ?></b></h3>
+				<h4><b>Aiheet:</b></h4>
 <?php
-			foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
-				echo "<b>Aihe: " . $topic['topic_name']. "</b><br>";
-				echo "<b>oppitunnit</b>:<br> ";
-				foreach($topic['lessons'] as $lesson) {
-					if ($lesson['course'] != "" && $lesson['course'] != null && $lesson['course'] != "NULL") {
-						echo "<b>Kurssi: </b>" . $lesson['course']. " ";
+				$topics = "";
+				foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
+					if ($topics != "") {
+						$topics .= ",";
 					}
-					echo "<b>Huone:</b> " . $lesson['room_identifier'] . " ". 
-						"<b>Aika:</b> " . $lesson['time_interval'] . "<br>";
+					$topics .= $topic['topic_name'];
 				}
-				echo "<br>";
+				echo $topics . "<br>";
+?>			
+				<h4><b>Aiheet oppitunneittain</b></h4>
+<?php
+				foreach($NFC_ID_topic_and_lesson_item['topics'] as $topic) {
+					echo "<b>Aihe: " . $topic['topic_name']. "</b><br>";
+					echo "<b>oppitunnit</b>:<br> ";
+					foreach($topic['lessons'] as $lesson) {
+						if ($lesson['course'] != "" && $lesson['course'] != null && $lesson['course'] != "NULL") {
+							echo "<b>Kurssi: </b>" . $lesson['course']. " ";
+						}
+						echo "<b>Huone:</b> " . $lesson['room_identifier'] . " ". 
+							"<b>Aika:</b> " . $lesson['time_interval'] . "<br>";
+					}
+					echo "<br>";
+				}
 			}
 		}
 	}

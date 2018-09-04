@@ -4,6 +4,7 @@
 	include("../../utils/date_utils.php");
 	include("../../utils/html_utils.php");
 	include("../../utils/topic_selection.php");
+	include("../setting/fetch_settings_from_db.php");
 	include("fetch_room_log_data_from_db.php");
 
 	$begin_time = get_post_or_get($conn, "begin_time");

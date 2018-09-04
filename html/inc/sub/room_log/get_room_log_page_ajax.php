@@ -2,6 +2,7 @@
 	include("../../utils/request_param_utils.php");
 	include("../../utils/date_utils.php");
 	include("../../utils/html_utils.php");
+	include("../setting/fetch_settings_from_db.php");
 	include("fetch_room_log_data_from_db.php");
 	include("../../db_connect_inc.php");
 
@@ -30,7 +31,7 @@
 	
 	$room_logs = get_room_log($conn,
 		$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic,
-		$seek_course_name, $page, "");
+		$seek_course_name, $page, "", true);
 
 	$room_logs["page_list"] = generate_js_page_list("get_js_room_log_page", 
 		array(),

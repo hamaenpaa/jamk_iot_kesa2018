@@ -124,6 +124,27 @@
 					echo "<br>";
 				}
 			}
+		} else {
+			foreach($room_logs['NFC_ID_monthly_counts']['year_counts'] as $year_counts) {
+				echo "<h2>Kävijät vuonna " . $year_counts['year'] . "</h2>";
+				echo "Koko vuonna oli valitulla ajalla yhteensä " . 
+					$year_counts['count'] . " kävijää.<br><br>";
+				echo "Vuonna oli kuukausittain valitulla ajalla kävijöitä seuraavasti: <br><br>";
+
+				$arr_months = array();
+				foreach($room_logs['NFC_ID_monthly_counts']['month_counts'] as $months_of_years) {
+					if ($months_of_years['year'] == $year_counts['year']) {
+						$arr_months = $months_of_years['months'];
+					}
+				}
+				
+				if (count($arr_months) > 0) {
+					foreach($arr_months as $month_key => $month_counts) {
+						echo $arr_month_names[$month_key] . ": " . $month_counts . " kävijää.";
+					}
+				}
+				echo "<br>";
+			}
 		}
 	}
 ?>

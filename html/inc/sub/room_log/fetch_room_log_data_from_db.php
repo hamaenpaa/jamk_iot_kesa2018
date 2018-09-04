@@ -179,6 +179,11 @@
 					$begin_time, $end_time, $room_seek, $nfc_id_seek,
 					$lesson_courses,
 					$use_nbsp);
+		} else {
+			$ret_arr["NFC_ID_monthly_counts"] = 
+				getSummaryForUsageType2(
+					$conn, $usual_tables_and_conditions, 
+					$begin_time, $end_time);			
 		}
 		return $ret_arr;
 	}
@@ -271,5 +276,96 @@
 			$arr_NFC_ID_topics_and_lessons[$update_nfc_id_item_key] = $update_nfc_id_item;
 		}		
 		return $arr_NFC_ID_topics_and_lessons;
+	}
+	
+	function getSummaryForUsageType2($conn, 
+		$usual_tables_and_conditions,
+		$begin_time, $end_time) {
+			
+		$sql_roomlog_summary = "SELECT NFC_ID, dt " . $usual_tables_and_conditions;
+		$q_room_logs_summary = $conn->prepare($sql_roomlog_summary);
+		$q_room_logs_summary->bind_param("ss", $begin_time, $end_time);
+		$q_room_logs_summary->execute();		
+		$q_room_logs_summary->store_result();		
+		$q_room_logs_summary->bind_result($nfc_id, $dt);	
+		$room_log_summary_arr = array();
+		while($room_logs_summary = $q_room_logs_summary->fetch()) {
+			$room_log_summary_arr[] = array("nfc_id" => $nfc_id, "dt" => $dt);	
+		}
+		$begin_time_parts = get_date_parts_from_db_datetime($begin_time);
+		$end_time_parts = get_date_parts_from_db_datetime($end_time);
+		
+		$i_begin_year = intval($begin_time_parts['year']);
+		$i_end_year = intval($end_time_parts['year']);
+		$i_begin_month = intval($begin_time_parts['month']);
+		$i_end_month = intval($end_time_parts['month']);	
+		
+		$nfc_ids_at_months = array();
+		$nfc_ids_at_years = array();
+		foreach($room_log_summary_arr as $room_log_summary) {
+			$dt_parts = get_date_parts_from_db_datetime($room_log_summary['dt']);
+			$month_key = $dt_parts['month'];
+			if (strlen($month_key) == 1) {
+				$month_key = "0" . $month_key;
+			}
+			$year_month_key = $dt_parts['year'] . " " . $month_key;
+			if (!array_key_exists($year_month_key, $nfc_ids_at_months)) {
+				$nfc_ids_at_months[$year_month_key] = array($room_log_summary['nfc_id']);
+			} else {
+				if (!in_array($room_log_summary['nfc_id'], $nfc_ids_at_months[$year_month_key])) {
+					$nfc_ids_at_months[$year_month_key][] = $room_log_summary['nfc_id'];
+				}
+			}
+			if (!array_key_exists($dt_parts['year'], $nfc_ids_at_years)) {
+				$nfc_ids_at_years[$dt_parts['year']] = array($room_log_summary['nfc_id']);
+			} else {
+				if (!in_array($room_log_summary['nfc_id'], $nfc_ids_at_years[$dt_parts['year']])) {
+					$nfc_ids_at_years[$dt_parts['year']][] = $room_log_summary['nfc_id'];
+				}			
+			}
+		}
+		
+		$monthly_nfc_id_counts = array();
+		for($i_year = $i_begin_year; $i_year <= $i_end_year; $i_year++) {
+			if ($i_year == $i_begin_year && $i_begin_year != $i_end_year) {
+				$year_stuff =
+					get_counts_for_year($nfc_ids_at_months, $i_year, $i_begin_month, 12);
+			} else if ($i_year == $i_end_year && $i_begin_year != $i_end_year) {
+				$year_stuff =
+					get_counts_for_year($nfc_ids_at_months, $i_year, 1, $i_end_month);				
+			} else if ($i_begin_year == $i_end_year) {
+				$year_stuff =
+					get_counts_for_year($nfc_ids_at_months, $i_year, $i_begin_month, $i_end_month);					
+			} else { // full year
+				$year_stuff =
+					get_counts_for_year($nfc_ids_at_months, $i_year, 1, 12);							
+			}
+			$monthly_nfc_id_counts[] = $year_stuff;		
+		}
+		$yearly_nfc_id_counts = array();
+		for($i_year = $i_begin_year; $i_year <= $i_end_year; $i_year++) {
+			$yearly_nfc_id_counts[] = 
+				array(
+					"year" => $i_year, 
+					"count" => count($nfc_ids_at_years[$i_year]));
+		}
+		
+		return array("year_counts" => $yearly_nfc_id_counts, "month_counts" => $monthly_nfc_id_counts);
+	}
+	
+	function get_counts_for_year($nfc_ids_at_months, $year, $begin_month, $end_month) {
+		$year_arr = array("year" => $year, "months" => array());
+		$year_total = 0;
+		for($i_month = $begin_month; $i_month <= $end_month; $i_month++) {
+			$c_month = $i_month;
+			if (strlen($c_month) == 1) { $c_month = "0" . $c_month; }
+			$year_month_key = $year . " " . $c_month;
+			if (array_key_exists($year_month_key, $nfc_ids_at_months)) {
+				$year_arr['months'][$i_month] = count($nfc_ids_at_months[$year_month_key]);
+			} else {
+				$year_arr['months'][$i_month] = 0;
+			}
+		}
+		return $year_arr;
 	}
 ?>

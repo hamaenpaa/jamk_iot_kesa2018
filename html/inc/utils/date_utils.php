@@ -1,4 +1,9 @@
 <?php
+	$arr_month_names = array("1" => "Tammikuu", "2" => "Helmikuu", "3" => "Maaliskuu",
+							 "4" => "Huhtikuu", "5" => "Toukokuu", "6" => "Kesäkuu",
+							 "7" => "Heinäkuu", "8" => "Elokuu", "9" => "Syyskuu",
+							 "10" => "Lokakuu", "11" => "Marraskuu", "12" => "Joulukuu");
+
 	function from_ui_to_db($dt) {
 		if (strpos($dt,".") !== false) {
 			list($date_part,$time_part) = explode(" ", $dt);
@@ -14,6 +19,23 @@
 			return $yyyy."-".$mm."-".$dd;
 		}
 		return $dt;		
+	}
+	
+	function get_date_parts_from_db_datetime($dt) {
+		list($date_part, $time_part) = explode(" ", $dt);
+		list($yyyy,$mm,$dd) = explode("-", $date_part);
+		return array("year" => $yyyy, "month" => $mm);
+	}
+	
+	function get_date_parts_from_ui_datetime($dt, $use_nbsp) {
+		if ($use_nbsp) {
+			$delim = "&nbsp;";
+		} else {
+			$delim = " ";
+		}
+		list($date_part, $time_part) = explode($delim, $dt);
+		list($dd,$mm,$yyyy) = explode(".", $date_part);
+		return array("year" => $yyyy, "month" => $mm);
 	}
 	
 	function from_db_datetimes_to_same_day_date_plus_times($begin_time, $end_time) {

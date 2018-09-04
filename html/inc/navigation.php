@@ -7,7 +7,7 @@ $inc_module = "";
 $skip_screens = array();
 if (!isset($_SESSION['user_id'])) {
 	$login_logout_text = "Sisäänkirjautuminen";
-	$skip_screens = array(1,2,3,4);
+	$skip_screens = array(1,2,3,4,5);
 } else {
 	$login_logout_text = "Uloskirjautuminen";
 }
@@ -30,6 +30,10 @@ if ($screen != "") {
 			$inc_module = "list_users";
 		}
 	} else if ($screen == "5") {
+		if (isset($_SESSION['user_id'])) {
+			$inc_module = "settings";
+		}
+	} else if ($screen == "6") {
 		if (!isset($_SESSION['user_id'])) {
 			$inc_module = "login";
 		} else {
@@ -45,8 +49,8 @@ if ($screen != "") {
 <img class="mobile-nav-img" src="../html/img/navbutton.png" alt="Navigation Button">
 <ul id="mobile_links">
 <?php
-$pages = array("index.php","index.php?screen=1","index.php?screen=2","index.php?screen=3","index.php?screen=4","index.php?screen=5");	
-$pages_title = 	array("Huoneloki","Aiheet","Koulutukset/oppitunnit","Kurssit","Käyttäjät",$login_logout_text);
+$pages = array("index.php","index.php?screen=1","index.php?screen=2","index.php?screen=3","index.php?screen=4","index.php?screen=5","index.php?screen=6");	
+$pages_title = 	array("Huoneloki","Aiheet","Koulutukset/oppitunnit","Kurssit","Käyttäjät","Asetukset", $login_logout_text);
 $pageAM = count($pages);
 for ($i=0;$i<$pageAM;$i++) {
 	if (!in_array($i,$skip_screens)) {

@@ -1,0 +1,3 @@
+function checkSetting() {
+	return true;
+}

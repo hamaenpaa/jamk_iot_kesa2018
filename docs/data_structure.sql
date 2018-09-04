@@ -66,5 +66,15 @@ CREATE TABLE ca_lesson_topic (
     PRIMARY KEY (ID)
 );
 
+DROP TABLE IF EXISTS ca_setting;
+CREATE TABLE ca_setting (
+    ID INT NOT NULL AUTO_INCREMENT,
+	default_roomidentifier VARCHAR(50),
+	usage_type INT,
+    PRIMARY KEY (ID)
+);
+
+INSERT INTO ca_setting (default_roomidentifier, usage_type) VALUES ('',1);
+
 INSERT INTO ca_user (`Permission`,Username,Password) 
 	VALUES (1,"Admin","ba672edb750d8f4a7787e75fc1adeacd587afea9671f189234cb65015d446ad9");

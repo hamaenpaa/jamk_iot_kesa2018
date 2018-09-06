@@ -3,7 +3,6 @@ $().ready(function() {
 	topic_parts_seek = $("#last_query_lesson_topics_topic_seek").html();
 	container_id = "lesson_topics_seek";
 	selectTopicHandling(container_id, seek_selection, topic_parts_seek);
-
 	time = $('#last_fetch_time').html();
 	if (time !== undefined) {
 		refreshRate = 2000;
@@ -24,45 +23,47 @@ $().ready(function() {
 			if (end_time === undefined || end_time == "") {
 				return;
 			}			
-			if (seek_room === undefined)
+			if (seek_room === undefined) {
 				seek_room = "";
-			if (seek_nfc_id === undefined)
+			}
+			if (seek_nfc_id === undefined) {
 				seek_nfc_id = "";
-			if (seek_course_name === undefined)
+			}
+			if (seek_course_name === undefined) {
 				seek_course_name = "";	
-			if (page == null)
+			}
+			if (page == null) {
 				page = 1;
-			if (page_page == null)
+			}
+			if (page_page == null) {
 				page_page = 1;
-			$.get("inc/sub/room_log/get_new_room_log.php?last_fetch_time=" + time +
-				"&seek_room="+seek_room + "&seek_nfc_id="+seek_nfc_id +
-				"&seek_course_name="+seek_course_name+
-				"&seek_topic_selection="+seek_topic_selection+
-				"&topic_parts_seek="+topic_parts_seek+
-				"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
-				"&page_page="+page_page, 
+			}
+			$.get(buildHttpGetUrl("inc/sub/room_log/get_new_room_log.php", 
+					["last_fetch_time","seek_room","seek_nfc_id",
+					 "seek_course_name","seek_topic_selection",
+					 "topic_parts_seek","begin_time","end_time",
+					 "page","page_page"],
+					[time,seek_room,seek_nfc_id,seek_course_name,
+					seek_topic_selection,topic_parts_seek,begin_time,
+					end_time,page,page_page]), 
 				function(data) {
 					if (data != "{}" && data != "") {
 						jsonData = JSON.parse(data);
 						if (jsonData.count_new > 0) {
 							$('#last_fetch_time').html(jsonData.last_fetch_time);
 							$("#room_log_listing_table .datarow").remove();
-							for(i=0; i < jsonData.room_logs.length; i++) {
-								if (jsonData.room_logs[i].topic == null) { 
-									jsonData.room_logs[i].topic = "&nbsp;"; 
+							for(iRoomLog=0; iRoomLog < jsonData.room_logs.length; iRoomLog++) {
+								if (jsonData.room_logs[iRoomLog].topic == null) { 
+									jsonData.room_logs[iRoomLog].topic = "&nbsp;"; 
 								}
-								if (jsonData.room_logs[i].course_name == null) { 
-									jsonData.room_logs[i].course_name = "&nbsp;"; 
+								if (jsonData.room_logs[iRoomLog].course_name == null) { 
+									jsonData.room_logs[iRoomLog].course_name = "&nbsp;"; 
 								}								
-								
-								elemToBeInserted = "<div class=\"row datarow\">" +
-								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].nfc_id + "</div>" +
-								"<div class=\"col-sm-4\">" + jsonData.room_logs[i].dt + "</div>" +
-								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].room_identifier + "</div>" +
-								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topics + "</div>" +
-								"<div class=\"col-sm-2\">" + jsonData.room_logs[i].course_name + "</div>" +
-								"</div>";
-								$("#room_log_listing_table").append(elemToBeInserted);
+								row_data = jsonData.room_logs[iRoomLog];
+								$("#room_log_listing_table").append(
+									data_row(undefined, [2,4,2,2,2], 
+											 [row_data.nfc_id, row_data.dt, row_data.room_identifier,
+											  row_data.topics, row_data.course_name]));
 							}
 							$("#roomlog_pages").replaceWith(jsonData.page_list);
 							$("#new_room_log_notifications").html(
@@ -84,7 +85,6 @@ $().ready(function() {
 function validateForm() {
     var begin_datetime = document.forms["seek_room_log_form"]["begin_time"].value;
 	var end_datetime = document.forms["seek_room_log_form"]["end_time"].value;
-	
 	var correct = is_datetime_order_correct(begin_datetime, end_datetime);
 	if (!correct) {
 		$("#validation_errors").html(
@@ -102,35 +102,35 @@ function get_js_room_log_page(page, page_page) {
 	seek_nfc_id = $("#last_query_nfc_id").html();
 	seek_topic = $("#last_query_topic").html();
 	seek_course_name = $("#last_query_course_name").html();
-	
-	$.get("inc/sub/room_log/get_room_log_page_ajax.php?" +
-			"seek_room="+seek_room + "&seek_nfc_id="+seek_nfc_id +
-			"&seek_course_name="+seek_course_name+"&seek_topic="+seek_topic+
-			"&begin_time="+begin_time + "&end_time="+end_time+"&page="+page+
-			"&page_page="+page_page, function (data) {
-		if (data != "") {
-			jsonData = JSON.parse(data);	
-			$("#room_log_listing_table .datarow").remove();
-			for(i=0; i < jsonData.room_logs.length; i++) {
-				if (jsonData.room_logs[i].topic == null) { 
-					jsonData.room_logs[i].topic = "&nbsp;"; 
-				}
-				if (jsonData.room_logs[i].course_name == null) { 
-					jsonData.room_logs[i].course_name = "&nbsp;"; 
-				}								
-				elemToBeInserted = 
-					"<div class=\"row datarow\">" +
-						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].nfc_id + "</div>" +
-						"<div class=\"col-sm-4\">" + jsonData.room_logs[i].dt + "</div>" +
-						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].room_identifier + "</div>" +
-						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].topic + "</div>" +
-						"<div class=\"col-sm-2\">" + jsonData.room_logs[i].course_name + "</div>" +
-					"</div>";
-				$("#room_log_listing_table").append(elemToBeInserted);
-			}		
-			$("#roomlog_pages").replaceWith(jsonData.page_list);
-			$('#page').html(page);
-			$('#page_page').html(page_page);
-		}
+	$.get(buildHttpGetUrl(
+			"inc/sub/room_log/get_room_log_page_ajax.php", 
+			["seek_room","seek_nfc_id",
+			 "seek_course_name","seek_topic",
+			 "begin_time","end_time",
+			 "page","page_page"],
+			[seek_room,seek_nfc_id,seek_course_name,
+			seek_topic,begin_time,
+			end_time,page,page_page]), 
+		function (data) {
+			if (data != "") {
+				jsonData = JSON.parse(data);	
+				$("#room_log_listing_table .datarow").remove();
+				for(iRoomLog=0; iRoomLog < jsonData.room_logs.length; iRoomLog++) {
+					if (jsonData.room_logs[iRoomLog].topic == null) { 
+						jsonData.room_logs[iRoomLog].topic = "&nbsp;"; 
+					}
+					if (jsonData.room_logs[iRoomLog].course_name == null) { 
+						jsonData.room_logs[iRoomLog].course_name = "&nbsp;"; 
+					}		
+					row_data = jsonData.room_logs[iRoomLog];
+					$("#room_log_listing_table").append(
+						data_row(undefined, [2,4,2,2,2], 
+							 [row_data.nfc_id, row_data.dt, row_data.room_identifier,
+							  row_data.topics, row_data.course_name]));
+				}		
+				$("#roomlog_pages").replaceWith(jsonData.page_list);
+				$('#page').html(page);
+				$('#page_page').html(page_page);
+			}
 	});	
 }

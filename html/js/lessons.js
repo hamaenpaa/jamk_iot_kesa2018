@@ -53,26 +53,24 @@ function get_lessons_page(page, page_page) {
 		room_seek = $("#last_query_room_seek").html();
 		topic_seek_selection_ids = $("#last_query_lesson_topics_seek_selection").html();
 		topic_seek_name_parts = $("#last_query_lesson_topics_topic_seek").html();
-		$.get("inc/sub/lesson/get_lesson_page_ajax.php?" +
-			"begin_time_seek="+begin_time_seek + "&end_time_seek="+end_time_seek +
-			"&room_seek="+room_seek+
-			"&topic_seek_selection_ids="+topic_seek_selection_ids + 
-			"&topic_seek_name_parts="+topic_seek_name_parts + 
-			"&page="+page+
-			"&page_page="+page_page, function (data) {
+		$.get(buildHttpGetUrl("inc/sub/lesson/get_lesson_page_ajax.php", 
+			["begin_time_seek","end_time_seek", "room_seek", 				 
+			 "topic_seek_selection_ids", "topic_seek_name_parts",
+			 "page","page_page"],
+			[begin_time_seek,end_time_seek, room_seek,
+			 topic_seek_selection_ids, topic_seek_name_parts,
+			 page,page_page]), function (data) {
 			if (data != "") {
 				jsonData = JSON.parse(data);
 				$("#lesson_listing_table .datarow").remove();
 				for(i=0; i < jsonData.lessons.length; i++) {
-					elemToBeInserted = 
-					"<div class=\"row datarow\">" +
-						"<div class=\"col-sm-5\">" + jsonData.lessons[i].time_interval + "</div>" +
-						"<div class=\"col-sm-6\">" + jsonData.lessons[i].room_identifier + "</div>" +
-						modify_and_remove_columns(
-							jsonData.lessons[i].modify_call,
-							jsonData.lessons[i].remove_call) +
-					"</div>";
-					$("#lesson_listing_table").append(elemToBeInserted);
+					$("#lesson_listing_table").append(
+						data_row(undefined, [5,5,"1-wrap"],
+							[jsonData.lessons[i].time_interval,
+							 jsonData.lessons[i].room_identifier,
+							 modify_and_remove_columns(
+								jsonData.lessons[i].modify_call,
+								jsonData.lessons[i].remove_call)]));
 				}		
 				checkWidth();
 				$("#lesson_pages").replaceWith(jsonData.page_list);
@@ -86,17 +84,18 @@ function get_lessons_page(page, page_page) {
 }
 
 function removeLesson(lesson_id) {
-	$.get("inc/sub/lesson/remove_lesson.php?id="+lesson_id, function (data) {	
-		page = $("#page").html();
-		page_page = $("#page_page").html();		
+	$.get(buildHttpGetUrl("inc/sub/lesson/remove_lesson.php", ["id"], [lesson_id]), 
+		function (data) {	
+			page = $("#page").html();
+			page_page = $("#page_page").html();		
 		
-		// load new lesson list with lesson removed and modified page & page_page
-		get_lessons_page(page, page_page);	
+			// load new lesson list with lesson removed and modified page & page_page
+			get_lessons_page(page, page_page);	
 	});
 }
 
 function modifyLesson(lesson_id) {
-	$.get("inc/sub/lesson/fetch_lesson_with_id.php?id=" + lesson_id,
+	$.get(buildHttpGetUrl("inc/sub/lesson/fetch_lesson_with_id.php", ["id"], [lesson_id]), 
 		function(data) {
 			jsonData = JSON.parse(data);
 			if (jsonData.date !== undefined && jsonData.date != null && jsonData.date != "" ) {
@@ -117,33 +116,26 @@ function modifyLesson(lesson_id) {
 function buildLessonTopicHandling(lesson_id) {
 	$("#lesson_topics_handling").html(
 		"<h2>Oppitunnin/koulutuksen aiheiden käsittely</h2>" +
-		"<div id=\"lesson_topics\"></div>" +
-		"<div id=\"new_avail_lesson_topics\"></div>"	
-	);
+		div_elem("lesson_topics", undefined, false, "") +
+		div_elem("new_avail_lesson_topics", undefined, false, ""));
 	fetchLessonTopics(lesson_id);
 	fetchNewAvailLessonTopics(lesson_id);
 }
 
 function fetchLessonTopics(lesson_id) {
-	$.get("inc/sub/lesson/get_lesson_topics.php?id=" + lesson_id,
+	$.get(buildHttpGetUrl("inc/sub/lesson/get_lesson_topics.php", ["id"], [lesson_id]),
 		function(data) {
 			jsonData = JSON.parse(data);
 			$("#lesson_topics").html("<b>Oppitunnin aiheet</b>");
 			if (jsonData.length > 0) {
 				$("#lesson_topics").append(
-					"<div id=\"lesson_topics_listing_table\" class=\"datatable\"></div>");
+					div_elem("lesson_topics_listing_table", "datatable", false, ""));
 				table = $("#lesson_topics_listing_table");
-				table.append(
-					"<div class=\"row heading-row\">" +
-						"<div class=\"col-sm-11\"><h5>Aihe</h5></div>" +
-						"<div class=\"col-sm-1\"></div>" +
-					"</div>");
-				for(i=0; i < jsonData.length; i++) {
-					table.append(
-						"<div class=\"row data-row\">" +	
-							"<div class=\"col-sm-11\">" +jsonData[i].name + "</div>" +
-							js_action_column(jsonData[i].remove_call, "Poista") +
-						"</div>");
+				table.append(heading_row(undefined, [11,1], ["<h5>Aihe</h5>",""]));
+				for(iTopic=0; iTopic < jsonData.length; iTopic++) {
+					table.append(data_row(undefined, [11,1], 
+						[jsonData[iTopic].name, 
+						 button_elem(jsonData[iTopic].remove_call, "Poista")]));
 				}
 				checkWidth();
 			} else {
@@ -154,8 +146,8 @@ function fetchLessonTopics(lesson_id) {
 }
 
 function removeLessonTopic(lesson_id, topic_id) {
-	$.get("inc/sub/lesson/remove_lesson_topic.php?topic_id=" + topic_id + 
-		"&lesson_id=" + lesson_id,
+	$.get(buildHttpGetUrl("inc/sub/lesson/get_lesson_topics.php", 
+		["topic_id","lesson_id"], [topic_id,lesson_id]),
 		function (data) {
 			fetchLessonTopics(lesson_id);
 			fetchNewAvailLessonTopics(lesson_id);			
@@ -164,26 +156,21 @@ function removeLessonTopic(lesson_id, topic_id) {
 }
 
 function fetchNewAvailLessonTopics(lesson_id) {
-	$.get("inc/sub/lesson/fetch_new_avail_lesson_topics.php?id=" + lesson_id,
+	$.get(buildHttpGetUrl("inc/sub/lesson/fetch_new_avail_lesson_topics.php", 
+		["id"], [lesson_id]),
 		function(data) {	
 			jsonData = JSON.parse(data);
 			$("#new_avail_lesson_topics").html(
 				"<b>Uusia aiheita saatavilla oppitunnin aiheiksi</b>");	
 			if (jsonData.length > 0) {
 				$("#new_avail_lesson_topics").append(
-					"<div id=\"lesson_new_avail_topics_listing_table\" class=\"datatable\"></div>");
+					div_elem("lesson_new_avail_topics_listing_table", "datatable", false, ""));
 				table = $("#lesson_new_avail_topics_listing_table");
-				table.append(
-					"<div class=\"row heading-row\">" +
-						"<div class=\"col-sm-11\"><h5>Aihe</h5></div>" +
-						"<div class=\"col-sm-1\"></div>" +
-					"</div>");	
-				for(i=0; i < jsonData.length; i++) {
-					table.append(
-						"<div class=\"row data-row\">" +	
-							"<div class=\"col-sm-11\">" +jsonData[i].name + "</div>" +
-							js_action_column(jsonData[i].add_call, "Lisää") +
-						"</div>");
+				table.append(heading_row(undefined, [11,1], ["<h5>Aihe</h5>",""]));	
+				for(iTopic=0; iTopic < jsonData.length; iTopic++) {
+					table.append(data_row(undefined, [11,1], 
+						[jsonData[iTopic].name, 
+						 button_elem(jsonData[iTopic].add_call, "Lisää")]));
 				}	
 				checkWidth();
 			} else {
@@ -194,10 +181,9 @@ function fetchNewAvailLessonTopics(lesson_id) {
 	);
 }
 
-
 function addTopicToLesson(topic_id, lesson_id) {
-	$.get("inc/sub/lesson/add_topic_to_lesson.php?topic_id=" + topic_id + 
-		"&lesson_id=" + lesson_id,
+	$.get(buildHttpGetUrl("inc/sub/lesson/fetch_new_avail_lesson_topics.php", 
+		["topic_id","lesson_id"], [topic_id,lesson_id]),
 		function (data) {
 			fetchLessonTopics(lesson_id);
 			fetchNewAvailLessonTopics(lesson_id);			
@@ -212,9 +198,9 @@ function saveLesson() {
 		begin_time = $("#begin_time").val();
 		end_time = $("#end_time").val();
 		room_identifier = $("#room_identifier").val();
-		$.get("inc/sub/lesson/save_lesson.php?id=" + id +
-			"&lesson_date="+lesson_date+"&begin_time="+begin_time+
-			"&end_time="+end_time+"&room_identifier="+room_identifier,
+		$.get(buildHttpGetUrl("inc/sub/lesson/save_lesson.php", 
+			["id","lesson_date","begin_time","end_time","room_identifier"], 
+			[id,lesson_date,begin_time,end_time,room_identifier]),
 			function(data) {
 				page = $("#page").html();
 				page_page = $("#page_page").html();				

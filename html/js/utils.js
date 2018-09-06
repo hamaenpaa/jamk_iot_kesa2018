@@ -2,8 +2,8 @@ topics_page_page_size = 2;
 topics_page_size = 2;
 
 function strOnlyDigits(str) {
-	for(i=0; i < str.length; i++) {
-		if (str[i] < '0' || str[i] > '9') {
+	for(iStr=0; iStr < str.length; iStr++) {
+		if (str[iStr] < '0' || str[iStr] > '9') {
 			return false;
 		}
 	}
@@ -14,38 +14,31 @@ function is_time_order_correct(begin_time, end_time) {
 	if (begin_time === undefined || end_time === undefined) {
 		return false;
 	}
-	
 	var begin_time_parts = begin_time.split(":");
 	var end_time_parts = end_time.split(":");	
-
 	if (begin_time_parts.length != 2 || end_time_parts.length != 2) {
 		return false;
 	}	
-	
 	var begin_hours_str = begin_time_parts[0];
 	if (!strOnlyDigits(begin_hours_str)) {
 		return false;
 	}
 	var begin_hours = parseInt(begin_hours_str);
-	
 	var end_time_str = end_time_parts[0];
 	if (!strOnlyDigits(end_time_str)) {
 		return false;
 	}	
 	var end_hours = parseInt(end_time_str);
-
 	var begin_minutes_str = begin_time_parts[1];
 	if (!strOnlyDigits(begin_minutes_str)) {
 		return false;
 	}		
 	var begin_minutes = parseInt(begin_minutes_str);
-	
 	var end_minutes_str = end_time_parts[1];
 	if (!strOnlyDigits(end_minutes_str)) {
 		return false;
 	}
 	var end_minutes = parseInt(end_minutes_str);	
-
 	if (begin_hours < 0 || begin_hours > 23 ||
 		end_hours < 0 || end_hours > 23) {
 		return false;
@@ -54,7 +47,6 @@ function is_time_order_correct(begin_time, end_time) {
 		end_minutes < 0 || end_minutes > 59) {
 		return false;
 	}	
-	
 	timeorder_correct = true;
 	if (begin_hours > end_hours) {
 		timeorder_correct = false;
@@ -122,33 +114,26 @@ function is_datetime_order_correct(begin_datetime, end_datetime) {
 	if (begin_datetime_parts.length != 2 || end_datetime_parts.length != 2) {
 		return false;
 	}
-	
 	var begin_date_parts = begin_datetime_parts[0].split(".");
 	var end_date_parts = end_datetime_parts[0].split(".");
 	if (begin_date_parts.length != 3 || end_date_parts.length != 3) {
 		return false;
 	}	
-	
 	var begin_time_parts = begin_datetime_parts[1].split(":");
 	var end_time_parts = end_datetime_parts[1].split(":");
 	if (begin_time_parts.length != 2 || end_time_parts.length != 2) {
 		return false;
 	}	
-
 	if (!checkDate(begin_date_parts[2], begin_date_parts[1], begin_date_parts[0]) || 
 		!checkDate(end_date_parts[2], end_date_parts[1], end_date_parts[0])) {
 		return false;	
 	}
-	
 	var begin_day_of_month = parseInt(begin_date_parts[0]);
 	var end_day_of_month = parseInt(end_date_parts[0]);
-	
 	var begin_month = parseInt(begin_date_parts[1]);
 	var end_month = parseInt(end_date_parts[1]);
-	
 	var begin_year = parseInt(begin_date_parts[1]);
 	var end_year = parseInt(end_date_parts[2]);
-	
 	var datetimeorder_correct = true;
 	if (begin_year > end_year) {
 		datetimeorder_correct = false;
@@ -168,11 +153,9 @@ function is_datetime_order_correct(begin_datetime, end_datetime) {
 	return datetimeorder_correct;
 }
 
-
 function checkWidth() {
 	var $window = $(window);
     windowsize = $window.width();
-	
 	// remove duplicates
 	$(".datatable").each(function(i, obj) {
 	   headingrows = $(obj).find(".heading-row");
@@ -180,7 +163,6 @@ function checkWidth() {
 		   $(headingrows[i]).remove();
 	   }
 	});			
-		
 	/* duplicate heading row for each datarow if narrow screen;
 	   done again for each resize */
     if (windowsize <= 767) {
@@ -193,30 +175,144 @@ function checkWidth() {
     }
 }
 
-
 $(document).ready(function(){
 	checkWidth();
 	var $window = $(window);
 	$window.resize(checkWidth).resize();
 });	
 
+function html_attr(attr_name, attr_value) {
+	if (attr_value == undefined) {
+		return "";
+	}
+	return attr_name + "=\"" + attr_value + "\" ";
+}
 
+function div_elem(div_elem_id, div_classes, div_no_display, div_content) {
+	div_no_display_part = "";
+	if (div_no_display) {
+		div_no_display_part = html_attr("style", "display:none;");
+	}
+	return "<div " + html_attr("id", div_elem_id) + html_attr("class", div_classes) +
+			div_no_display_part + ">" + div_content + "</div>";
+}
 
-function js_action_column(call, button_text) {
-	return "<div class=\"col-sm-1\">" +
-			   "<button class=\"button\" onclick=\"" + call + "\" >" +
-				button_text + 
-				"</button>" + 
-		   "</div>";
+function label_elem(label_text) {
+	return "<label>" + label_text + "</label>";
+}
+
+function table_cell(col_length, cell_content) {
+	return div_elem(undefined, "col-sm-" + col_length, false, cell_content);
+}
+
+function data_row(data_row_id, data_col_lengths, data_contents) {
+	if (data_col_lengths.length != data_contents.length) {
+		return "datarow error";
+	}
+	data_cols_contents = "";
+	for(i_data_col=0; i_data_col < data_col_lengths.length; i_data_col++) {
+		data_cols_contents += table_cell(data_col_lengths[i_data_col], 
+			data_contents[i_data_col]);
+	}
+	return div_elem(data_row_id, "row datarow", false, data_cols_contents); 
+}
+
+function heading_row(heading_id, heading_col_lengths, heading_contents) {
+	if (heading_col_lengths.length != heading_contents.length) {
+		return "headingrow error";
+	}
+	heading_cols_contents = "";
+	for(i_heading_col=0; i_heading_col < heading_col_lengths.length; i_heading_col++) {
+		heading_cols_contents += table_cell(
+			heading_col_lengths[i_heading_col], heading_contents[i_heading_col]);
+	}
+	return div_elem(heading_id, "row heading-row", false, heading_cols_contents); 
+}
+
+function button_elem(button_call, button_text) {
+	button_call_part = "";
+	if (button_call != "") {
+		button_call_part = "onclick=\"" + button_call + "\" ";
+	}
+	return "<button type=\"button\" class=\"button\" " + 
+			button_call_part + ">" + button_text + "</button>";
+}
+
+function input_elem(input_type, input_id, input_name, input_value, 
+	input_required, input_min_length, input_max_length, input_place_holder,
+	input_alt, input_autocomplete, css_classes) {
+	input_required_part = "";
+	if (input_required) {
+		input_required_part = "required ";
+	}
+	return "<input " + 
+		html_attr("type", input_type) + 
+		html_attr("id", input_id) +
+		html_attr("name", input_name) +
+		html_attr("class", css_classes) +
+		html_attr("value", input_value) + 
+		html_attr("min_length", input_min_length) +
+		html_attr("max_length", input_max_length) +
+		html_attr("placeholder", input_place_holder) +
+		html_attr("alt", input_alt) +
+		html_attr("autocomplete", input_autocomplete) +
+		input_required_part + " />";
+}
+
+function html_checkbox(checkbox_id, checkbox_name, checkbox_value, checkbox_checked, 
+	checkbox_on_click) {
+	checkbox_checked_part = "";
+	if (checkbox_checked) {
+		checkbox_checked_part = html_attr("checked", "checked");
+	}
+	return "<input " + 
+		html_attr("type", "checkbox") + 
+		html_attr("id", checkbox_id) +
+		html_attr("name", checkbox_name) +
+		html_attr("value", checkbox_value) + 
+		checkbox_checked_part + 
+		html_attr("onclick", checkbox_on_click) + " />";
+}
+
+function js_call(func_name, js_call_params) {
+	js_call_params_contents = "";
+	for(i_js_call_param=0; i_js_call_param < js_call_params.length; 
+		i_js_call_param++) {
+		if (js_call_params_contents != "") {
+			js_call_params_contents += ",";
+		}
+		js_call_params_contents += "'" + js_call_params[i_js_call_param] + "'";
+	}
+	return func_name + "(" + js_call_params_contents + ")";
+}
+
+function js_action_column(js_action_call, js_action_button_text) {
+	return table_cell(1, button_elem(js_action_call, js_action_button_text));
 }
 
 function modify_and_remove_columns(modify_call, remove_call) {
-	ret =
-		"<div class=\"col-sm-1-wrap\">" +
-			js_action_column(modify_call, "Muokkaa") +
-			js_action_column(remove_call, "Poista") +
-		"</div>";
-	return ret;
+	modify_call_action = js_action_column(modify_call, "Muokkaa");
+	remove_call_action = js_action_column(remove_call, "Poista");
+	return modify_call_action + remove_call_action;
+}
+
+function purifyHttpParamValue(value) {
+	return value;
+}
+
+function buildHttpGetUrl(root_url, param_names, param_values) {
+	if (param_names.length != param_values.length) {
+		return "";
+	}
+	url = root_url + "?";
+	for(iUrlParam=0; iUrlParam < param_names.length; iUrlParam++) {
+		if (iUrlParam > 0) {
+			url += "&";
+		}
+		url += param_names[iUrlParam] + "=" + 
+			purifyHttpParamValue(param_values[iUrlParam]);
+	}
+	return url;
 }
 
 function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
@@ -227,49 +323,21 @@ function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
 	}
 	topics_seek_input = $("#" + container_id + "_seek_topics_name");
 	topics_seek = topics_seek_input.val();
-	$.get("inc/utils/list_topics_ajax.php?topics_seek=" + topics_seek,
+	$.get(buildHttpGetUrl(
+		"inc/utils/list_topics_ajax.php", ["topics_seek"],[topics_seek]),
 		function(data) {
 			if (data != "") {
 				topics_seek_input.remove();	
-				jsonData = JSON.parse(data);	
-				$("#" + container_id).append(
-					"<div id=\"" + container_id + "_topic_seek_cont\" >" + 
-					"Valitut aiheen nimen osat pilkulla eroteltuina:<br>" + 
-					"<input type=\"text\" name=\"" + container_id + "_topic_parts_seek\"" + 
-						" id=\"topic_parts_seek\" value=\"" + topic_parts_seek + "\" />" +
-					"</div>");
-				$("#" + container_id).append(
-					"<div id=\"" + container_id + "_seek_topics_section\"></div>");
-				seek_topics_section = $("#" + container_id + "_seek_topics_section");
-				seek_topics_section.append("Etsi aiheita valittavaksi:");
-				seek_topics_section.append("<input type=\"text\" " +
-					"name=\"" + container_id + "_seek_topics_name\" " +
-					"id=\"" + container_id + "_seek_topics_name\" " +
-					"value=\"" + topics_seek + "\" />");
-				seek_topics_section.append(
-					"<button type=\"button\" class=\"button\" onclick=\"seek_topics('" + 
-						container_id + "'); return false;\">Etsi aiheita</button>");
-				seek_topics_section.append(
-					"<div id=\"" + container_id + "_table\" class=\"datatable\"></div>");
-				seek_topics_section.append("<div id=\"" + container_id + "_topic_pages\"></div>");	
-				topic_pages_section = $("#" + container_id + "_topic_pages");
-				$("#" + container_id).append(
-					"<div id=\"" + container_id + "_selections\"></div>");	
-				selections = $("#" + container_id + "_selections");
-				selections.append("<b>Lisäksi valitut aiheet</b>");
-				selections.append("<input type=\"hidden\" " +
-					"name=\"" + container_id + "_selected_topic_ids\" " + 
-					"id=\"" + container_id + "_selected_topic_ids\" value=\"" + selected_ids + "\"/>");
-				selections.append(
-					"<div id=\"" + container_id + "_selections_table\" class=\"datatable\"></div>");
-				table = $("#" + container_id + "_table");
+				jsonData = JSON.parse(data);
+				build_initial_topic_section_elems(
+					container_id, selected_ids, topic_parts_seek, topics_seek);
 				allTopics = jsonData.allTopics;
 				topics = [];
-				for(i=0; i < allTopics.length; i++) {
-					if (selected_ids_arr.indexOf(allTopics[i].id + "") >= 0) {
+				for(iTopic=0; iTopic < allTopics.length; iTopic++) {
+					if (selected_ids_arr.indexOf(allTopics[iTopic].id + "") >= 0) {
 						topics_elem = [];
-						topics_elem.push(allTopics[i].name);
-						topics_elem.push(allTopics[i].id);
+						topics_elem.push(allTopics[iTopic].name);
+						topics_elem.push(allTopics[iTopic].id);
 						topics.push(topics_elem);
 					}
 				}
@@ -280,6 +348,36 @@ function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
 			}
 		}
 	);
+}
+
+function build_initial_topic_section_elems(container_id, selected_ids, 
+	topic_parts_seek, topics_seek) {
+	id_and_name = container_id + "_topic_parts_seek";
+	$("#" + container_id).append(
+		div_elem(container_id + "_topic_seek_cont", "", false,		
+			"Valitut aiheen nimen osat pilkulla eroteltuina:<br>" + 
+			input_elem("text", id_and_name, id_and_name, topic_parts_seek, false, "")));
+	$("#" + container_id).append(
+		div_elem(container_id + "_seek_topics_section", "", false, ""));
+	seek_topics_section = $("#" + container_id + "_seek_topics_section");
+	seek_topics_section.append("Etsi aiheita valittavaksi:");	
+	id_and_name = container_id + "_seek_topics_name";
+	seek_topics_section.append(
+		input_elem("text", id_and_name, id_and_name, topics_seek, false));
+	seek_topics_section.append(
+		button_elem("seek_topics('" + container_id + "'); return false; ", "Etsi aiheita"));
+	seek_topics_section.append(
+		div_elem(container_id + "_table", "datatable", false, ""));
+	seek_topics_section.append(
+		div_elem(container_id + "_topic_pages", "", false, ""));
+	topic_pages_section = $("#" + container_id + "_topic_pages");
+	$("#" + container_id).append(
+		div_elem(container_id + "_selections", "", false, ""));
+	selections = $("#" + container_id + "_selections");
+	selections.append("<b>Lisäksi valitut aiheet</b>");
+	id_and_name = container_id + "_selected_topic_ids";
+	selections.append(input_elem("hidden", id_and_name, id_and_name, selected_ids, false));
+	selections.append(div_elem(container_id + "_selections_table", "datatable", false, ""));
 }
 
 function seek_topics(container_id) {
@@ -310,10 +408,10 @@ function buildTopicSelectionPage(
 	table = $("#" + container_id + "_table");
 	table.html("");
 	found_removed_selected_id = false;
-	for(i=0; i < selected_ids_arr.length; i++) {
+	for(iSelectedId=0; iSelectedId < selected_ids_arr.length; iSelectedId++) {
 		found_selected_id = false;
-		for(j=0; j < allTopics.length; j++) {
-			if (selected_ids_arr[j] == allTopics[j].id + "") {
+		for(jTopic=0; jTopic < allTopics.length; jTopic++) {
+			if (selected_ids_arr[iSelectedId] == allTopics[jTopic].id + "") {
 				found_selected_id = true;
 				break;
 			}
@@ -325,17 +423,17 @@ function buildTopicSelectionPage(
 	}
 	if (found_removed_selected_id) {
 		topics = [];
-		for(i=0; i < selected_ids_arr.length; i++) {
+		for(iSelectedId=0; iSelectedId < selected_ids_arr.length; iSelectedId++) {
 			name = "";
-			for(j=0; j < allTopics.length; j++) {
-				if (selected_ids_arr[j] == allTopics[j].id + "") {
-					name = allTopics[j].name;
+			for(jTopic=0; jTopic < allTopics.length; jTopic++) {
+				if (selected_ids_arr[iSelectedId] == allTopics[jTopic].id + "") {
+					name = allTopics[jTopic].name;
 					break;
 				}
 			}
 			topic_elem = [];
 			topic_elem.push(name);
-			topic_elem.push(selected_ids_arr[i]);
+			topic_elem.push(selected_ids_arr[iSelectedId]);
 			topics.push(topic_elem);			
 		}
 		refreshTopicSelections(container_id, topics);
@@ -347,42 +445,33 @@ function buildTopicSelectionPage(
 	if (page > page_count) {
 		page = page_count;
 	}
-	for(i=0; i < seekedTopics.length; i++) {
-		checkedValue = "";
-		if (selected_ids_arr.indexOf(seekedTopics[i].id + "") >= 0) {
-			checkedValue = " checked=\"checked\" ";
-		}
-		if (Math.floor(i / topics_page_size) + 1 == page) { 		
-			if ((i - (page - 1) * topics_page_size) % 4 == 0) {
-				i_row = (i - (page - 1) * topics_page_size) / 4 + 1;
+	for(iSeekedTopic=0; iSeekedTopic < seekedTopics.length; iSeekedTopic++) {
+		if (Math.floor(iSeekedTopic / topics_page_size) + 1 == page) { 		
+			if ((iSeekedTopic - (page - 1) * topics_page_size) % 4 == 0) {
+				i_row = (iSeekedTopic - (page - 1) * topics_page_size) / 4 + 1;
 				row_id = container_id + "_table_" + i_row;
-				table.append(
-					"<div id=\"" + row_id + 
-						"\" class=\"row datarow\" ></div>");
+				table.append(div_elem(row_id, "row datarow", false, ""));
 				row = $("#" + row_id);
 			}
-			row.append(
-				"<div class=\"col-sm-3\">" +
-					"<input type=\"checkbox\" " + 
-							"name=\""  + container_id + "_topics\" " +
-							"value=\"" + seekedTopics[i].id + "\" " + 
-							checkedValue + 
-							"onclick=\"setOrUnsetTopic('" + 
-							container_id + "','" + 
-							seekedTopics[i].id + "','" + 
-							seekedTopics[i].name +
-							"')\" />" + seekedTopics[i].name +
-				"</div>");
+			call = js_call("setOrUnsetTopic", 
+				[container_id, seekedTopics[iSeekedTopic].id, 
+					seekedTopics[iSeekedTopic].name]);
+			checked = selected_ids_arr.indexOf(
+				seekedTopics[iSeekedTopic].id + "") >= 0;
+			check_box = html_checkbox(
+				undefined, container_id + "_topics", 
+				seekedTopics[iSeekedTopic].id, checked, call);
+			row.append(table_cell(3, 
+				check_box + seekedTopics[iSeekedTopic].name));
 		}
 	}
 	buildTopicPages(container_id, selectedIds, page_count, page);
 }
 
-
 function get_topic_page_link(container_id, selectedIds, page, link_content, css_classes) {
 	return "<a href=\"javascript:void(0);\" class=\"" + css_classes + "\" " +
-	       "onclick=\"refreshTopicSelectionPage('" +container_id +"','" + 
-			selectedIds + "','" + page + "')\" >" + 
+	       "onclick=\"" + 
+			js_call("refreshTopicSelectionPage", [container_id,	selectedIds, page]) + "\" >" + 
 			link_content + "</a>";
 }
 
@@ -468,22 +557,21 @@ function refreshTopicSelections(container_id, topics) {
 	row_id = 0;
 	selection_vals = "";
 	var row;
-	for(i=0; i < topics.length; i++) {
+	for(iTopic=0; iTopic < topics.length; iTopic++) {
 		row_id_attr = container_id + "_topics_selection_row_" + row_id;
-		if (i % 4 == 0) {
+		if (iTopic % 4 == 0) {
 			row_id++;
 			row_id_attr = container_id + "_topics_selection_row_" + row_id;
-			selections_table.append(
-				"<div id=\"" + row_id_attr + "\" class=\"row datarow\"></div>");
+			selections_table.append(div_elem(row_id_attr, "row datarow", false, ""));
 		}
 		row = $("#" + row_id_attr);
-		row.append("<div class=\"topic_selection col-sm-3\" " + 
-			" id=\"" + container_id + "_selections_" + topics[i][1] + "\" >" +
-			topics[i][0] + "</div>");
+		row.append(
+			div_elem(container_id + "_selections_" + topics[iTopic][1], 
+				"topic_selection col-sm-3", false, topics[iTopic][0]));
 		if (selection_vals != "") {
 			selection_vals += ",";
 		}
-		selection_vals += topics[i][1];
+		selection_vals += topics[iTopic][1];
 	}		
 	$("#" + container_id + "_selected_topic_ids").val(selection_vals);
 }

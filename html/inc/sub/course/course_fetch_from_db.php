@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_SIZE", 20);
+	define("PAGE_SIZE", 2);
 
 	function get_courses($conn, $name_seek, $description_seek, $topic_ids, $page) {
 		if (!is_integerable($page) || $page == "" || $page == "0") {
@@ -105,20 +105,22 @@
 	
 	function get_lessons_without_course($conn,
 	    $begin_time_seek, $end_time_seek, $room_seek, $topic_seek, $page) {
-		$total_fields = " ca_lesson.ID, ca_lesson.topic, ca_lesson.room_identifier,
+		$total_fields = " ca_lesson.ID, ca_lesson.room_identifier,
 				ca_lesson.begin_time, ca_lesson.end_time ";
 		$sql_end_part_without_paging = " FROM ca_lesson WHERE 
 				ca_lesson.room_identifier LIKE '%".$room_seek."%' AND
-				ca_lesson.topic LIKE '%".$topic_seek."%' AND 
 			    ((? <= ca_lesson.begin_time AND ca_lesson.begin_time <= ?) OR
 				 (? <= ca_lesson.end_time AND ca_lesson.end_time <= ?))	AND		
 				ca_lesson.removed = 0 AND ca_lesson.course_id IS NULL 
-				ORDER BY ca_lesson.begin_time DESC, ca_lesson.topic ASC ";
+				ORDER BY ca_lesson.begin_time DESC";
 		$sql_lessons_without_course = 
 			"SELECT " . $total_fields . $sql_end_part_without_paging .
 			" LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
 		$sql_lessons_count = "SELECT COUNT(*) " . $sql_end_part_without_paging;			
 
+		// echo "sql_lessons_without_course ". $sql_lessons_without_course . "\n";
+		// echo "begin_time_seek ". $begin_time_seek . " end_time_seek " . $end_time_seek . "\n";
+		
 		$q = $conn->prepare($sql_lessons_without_course);
 		$q->bind_param("ssss", $begin_time_seek, $end_time_seek, 
 			$begin_time_seek, $end_time_seek);		
@@ -138,15 +140,14 @@
 		if ($q) {
 			$q->execute();
 			$q->store_result(); 		
-			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
+			$q->bind_result($lesson_id, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
 				$lesson_period = str_replace(" ", "&nbsp;", 
-						from_db_datetimes_to_same_day_date_plus_times(
-							$begin_time, $end_time));
+					from_db_datetimes_to_same_day_date_plus_times(
+						$begin_time, $end_time));
 				$lessons_without_course[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => str_replace(" ", "&nbsp;", $topic),
 						"lesson_period" => $lesson_period,
 						"room_identifier" => str_replace(
 							" ", "&nbsp;", $room_identifier)

@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_SIZE", 50);
+	define("PAGE_SIZE", 2);
 
 	function get_lessons($conn, $begin_time, $end_time, $room_seek, $topic_ids, $page) {
 		if (!isDateTime($begin_time) || !isDateTime($end_time) ||

@@ -1,5 +1,5 @@
 <?php
-	define("PAGE_SIZE", 50);
+	define("PAGE_SIZE", 2);
 
 	function get_topics($conn, $name_seek, $page) {
 		if (!is_integerable($page) || $page == "" || $page == "0") {

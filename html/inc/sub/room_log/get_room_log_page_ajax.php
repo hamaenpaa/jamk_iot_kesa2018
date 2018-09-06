@@ -38,7 +38,7 @@
 		$room_logs["page_count"], $page, $page_page,
 		"roomlog_pages", "",
 		"curr_page", "other_page");
-
+		
 	include("../../db_disconnect_inc.php");
 	echo json_encode($room_logs);
 ?>

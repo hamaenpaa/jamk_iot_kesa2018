@@ -16,7 +16,7 @@
 			<div id="lesson_listing_table" class="datatable">
 				<div class="row heading-row">
 					<div class="col-sm-5"><h5>Aikaväli</h5></div>
-					<div class="col-sm-6"><h5>Huone</h5></div>
+					<div class="col-sm-5"><h5>Huone</h5></div>
 					<div class="col-sm-1-wrap">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-1"></div>
@@ -31,7 +31,7 @@
 						<div class="col-sm-5">
 							<?php echo $time_interval; ?>
 						</div>			
-						<div class="col-sm-6">
+						<div class="col-sm-5">
 							<?php echo $room_identifier; ?>
 						</div>
 						<div class="col-sm-1-wrap">

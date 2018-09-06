@@ -96,17 +96,20 @@
 					if ($course_name == "") { $course_name = "&nbsp;"; }
 				}
 				$dt = from_db_to_ui($dt);
+				$topics_val = "";
 				if ($use_nbsp) {
 					$dt = str_replace(" ", "&nbsp;", $dt);
 					$nfc_id = str_replace(" ", "&nbsp;", $nfc_id);
+					$topics_val = "&nbsp;";
 				}	
-				$room_log_arr[] = array("room_log_id " => $room_log_id,
+				$room_log_arr[] = array(
+					"room_log_id " => $room_log_id,
 					"dt" => $dt, 
 					"nfc_id" => $nfc_id, 
 					"room_identifier" => $room_identifier,
 					"course_name" => $course_name,
 					"lesson_id" => $lesson_id,
-					"topics" => "");
+					"topics" => $topics_val);
 				$lesson_courses[$lesson_id] = $course_name;
 				if ($lesson_id != null && $lesson_id != "null" && $lesson_id != "") {
 					if (!in_array($lesson_id, $lesson_ids)) {
@@ -221,6 +224,9 @@
 			$lesson_id,	$lesson_begin_time, $lesson_end_time, $room_identifier,
 			$topic_id, $topic_name);		
 		
+//		echo "lesson_courses:\n";
+//		var_dump($lesson_courses);
+		
 		$last_nfc_id_key = 0;
 		while($NFC_ID_topics_and_lessons = $q_NFC_ID_topics_and_lessons->fetch()) {
 			$update_nfc_id_item_key = -1;
@@ -266,9 +272,18 @@
 				if ($use_nbsp) {
 					$time_interval = str_replace(" ", "&nbsp;", $time_interval);
 				}
+				if (array_key_exists($lesson_id, $lesson_courses)) {
+					$course = $lesson_courses[$lesson_id];
+				} else {
+					if ($use_nbsp) {
+						$course = "&nbsp;";
+					} else {
+						$course = "";
+					}
+				}			
 				$update_lesson_item = array(
 					"lesson_id" => $lesson_id,
-					"course" => $lesson_courses[$lesson_id],
+					"course" => $course,
 					"room_identifier" => $room_identifier,
 					"time_interval" => $time_interval);
 			}

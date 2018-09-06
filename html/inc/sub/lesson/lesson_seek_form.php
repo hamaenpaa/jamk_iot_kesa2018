@@ -70,7 +70,7 @@
 	
 	<div class="row-type-5">
 		<?php echo getTopicsHandlingContainer($conn, "lesson_topics_seek"); ?>
-	</div
+	</div>
 	<div class="row-type-5">
 		<input class="button" type="submit" value="Hae"/>
 	</div>

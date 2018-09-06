@@ -6,62 +6,44 @@
 <?php
 	if ($users_arr['count'] > 0) {
 		$user_name_cols = 10;
-		$permission_heading = "";
-		if ($_SESSION['user_permlevel'] == 1) {
-			$user_name_cols = 9;
-			$permission_heading = "<div class=\"col-sm-1\"><h5>Admin</h5></div>";
-		}
+		if ($_SESSION['user_permlevel'] == 1) {	$user_name_cols = 9; }
 ?>
 		<div id="user_listing_table" class="datatable">
-			<div class="row heading-row">
-				<div class="col-sm-<?php echo $user_name_cols; ?>">
-					<h5>Käyttäjänimi</h5>
-				</div>
-				<?php echo $permission_heading; ?>
-				<div class="col-sm-1-wrap">
-					<div class="col-sm-1"></div>
-					<div class="col-sm-1"></div>
-				</div>
-			</div>
 <?php
+			$cols = array($user_name_cols);
+			if ($_SESSION['user_permlevel'] == 1) {	$cols[] = 1; }
+			$cols[] = "1-wrap";
+			$heading_contents = array("<h5>Nimi</h5");
+			if ($_SESSION['user_permlevel'] == 1) {
+				$heading_contents[] = "<h5>Admin</h5>";
+			}	
+			$heading_contents[] = 
+				"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>";
+			echo heading_row(null, $cols, $heading_contents);
 			foreach($users_arr['users'] as $user) {
-?>				
-				<div class="row datarow">
-					<div class="col-sm-<?php echo $user_name_cols; ?>">
-						<?php echo $user['username']; ?>
-					</div>	
-<?php				if ($_SESSION['user_permlevel'] == 1) { ?>
-					<div class="col-sm-1">
-						<?php if ($user['permission'] == 1) { echo "x"; } ?>
-					</div>							
-<?php	  		    } ?>
-					<div class="col-sm-1-wrap">
-<?php 					if ($_SESSION['user_permlevel'] == 1) { ?>
-						<div class="col-sm-1">
-<?php
-							$modify_user_params = array($user['id'], "Muokkaa käyttäjää");
-							$modify_js_call = java_script_call("modifyUser", $modify_user_params);
-?>		
-							<button class="button" onclick="<?php echo $modify_js_call; ?>">Muokkaa</button>
-						</div>
-						<div class="col-sm-1">
-<?php 
-							if ($user['id'] != $_SESSION['user_id']) {
-								$remove_user_params = array($user['id']);
-								$remove_js_call = java_script_call("removeUser", 
-									$remove_user_params);
-?>	
-								<button class="button" onclick="<?php echo $remove_js_call; ?>">Poista</button>
-<?php
-							}
-?>
-						</div>
-<?php
-						}
-?>						
-					</div>
-				</div>
-<?php
+				$data_contents = array($user['username']);
+				if ($_SESSION['user_permlevel'] == 1) {
+					$is_admin_mark = "";
+					if ($user['permission'] == 1) { $is_admin_mark = "x"; }
+					$data_contents[] = $is_admin_mark;
+				}
+				if ($_SESSION['user_permlevel'] == 1) {
+					$modify_user_params = array($user['id'], "Muokkaa käyttäjää");
+					$modify_js_call = java_script_call("modifyUser", $modify_user_params);
+					$modify_btn = button_elem($modify_js_call, "Muokkaa");
+					$remove_btn = "";
+					if ($user['id'] != $_SESSION['user_id']) {
+						$remove_user_params = array($user['id']);
+						$remove_js_call = java_script_call("removeUser", $remove_user_params);
+						$remove_btn = button_elem($remove_js_call, "Poista");
+					}
+					$data_contents[] = 
+						"<div class=\"col-sm-1\">" . $modify_btn . "</div>".
+						"<div class=\"col-sm-1\">" . $remove_btn . "</div>";
+				} else {
+					$data_contents[] = "";
+				}
+				echo data_row(null, $cols, $data_contents);
 			}
 ?>
 		</div>
@@ -76,11 +58,13 @@
 		<b>Haulla ei löytynyt yhtään käyttäjää</b>
 <?php
 	}
-?>
-
-<!-- These are because seek fields etc. can be changes after
+/*
+	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions
-	 work easier -->
-<div id="page" style="display:none">1</div>
-<div id="page_page" style="display:none">1</div>
-<div id="last_query_username_seek" style="display:none"><?php echo $username_seek; ?></div>
+	 work easier
+*/
+	echo div_elem("page", null, true, 1).
+		 div_elem("page_page", null, true, 1).
+		 div_elem("last_query_username_seek", null, true, $username_seek);
+	
+?>

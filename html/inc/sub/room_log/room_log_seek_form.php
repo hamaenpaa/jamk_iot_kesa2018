@@ -5,7 +5,11 @@
 	$seek_nfc_id = get_post_or_get($conn, "seek_nfc_id");	
 	$seek_course_name = get_post_or_get($conn, "seek_course_name");
 	$seek_topic = get_post_or_get($conn, "seek_topic");	
-
+	$container_id = "lesson_topics_seek";
+	$last_query_lesson_topics_topic_seek = 
+		get_post_or_get($conn, $container_id . "_topic_parts_seek");
+	$last_query_lesson_topics_seek_selection = 
+		get_post_or_get($conn, $container_id . "_selected_topic_ids");
 	if (!isset($begin_time)) {
 		$begin_time_value_param = "";
 	} else {
@@ -16,25 +20,11 @@
 	} else {
 		$end_time_value_param = " value=\"".$end_time."\" ";
 	}
-	if (!isset($seek_room)) {
-		$seek_room = "";
-	} 
-	if (!isset($seek_nfc_id)) {
-		$seek_nfc_id = "";
-	} 	
-	if (!isset($seek_topic)) {
-		$seek_topic = "";
-	}	
-	if (!isset($seek_course_name)) {
-		$seek_course_name = "";
-	}	
-	$container_id = "lesson_topics_seek";
-	$last_query_lesson_topics_topic_seek = 
-		get_post_or_get($conn, $container_id . "_topic_parts_seek");
-	$last_query_lesson_topics_seek_selection = 
-		get_post_or_get($conn, $container_id . "_selected_topic_ids");
+	if (!isset($seek_room)) { $seek_room = ""; } 
+	if (!isset($seek_nfc_id)) {	$seek_nfc_id = ""; } 	
+	if (!isset($seek_topic)) { $seek_topic = ""; }	
+	if (!isset($seek_course_name)) { $seek_course_name = ""; }	
 ?>
-
 <div>
 	<form name="seek_room_log_form" id="seek_room_log_form" 
 		action="index.php" method="POST" onsubmit="return validateForm()" >

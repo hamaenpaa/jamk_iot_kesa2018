@@ -1,4 +1,4 @@
-<h2>Koulutus/oppitunti Haku</h2>
+<h2>Aiheet Haku</h2>
 <?php
 	$name_seek = get_post_or_get($conn, "name_seek");
 	$page = get_post_or_get($conn, "page");

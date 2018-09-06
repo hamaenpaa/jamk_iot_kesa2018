@@ -21,9 +21,6 @@
 		"SELECT ca_topic.id, ca_topic.name FROM ca_topic
 	        WHERE ca_topic.removed = 0 ORDER BY name ASC";	
 
-	// echo "sql_seeked " . $sql_seeked . "\n";
-	// echo "sql_all " . $sql_all . "\n";
-	
 	$q = $conn->prepare($sql_seeked);
 	$q->execute();	
 	$q->store_result();
@@ -38,9 +35,6 @@
 		);
 		$i++;
 	}
-	
-	// echo "seekedTopics\n";
-	// var_dump($seeked_topics);
 	
 	$q_all = $conn->prepare($sql_all);
 	$q_all->execute();	

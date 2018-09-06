@@ -1,19 +1,12 @@
 <?php
 	include("fetch_room_log_data_from_db.php");
-	if ((isset($begin_time) && isset($end_time) &&
-		$begin_time != "" && $end_time != "")) {
-
+	if ((isset($begin_time) && isset($end_time) && $begin_time != "" && $end_time != "")) {
 		$begin_time = from_ui_to_db($begin_time);
 		$end_time = from_ui_to_db($end_time);			
-			
 		$page = get_post_or_get($conn, "page");
-		if (!isset($page) || $page == "") {
-			$page = "1";
-		}
 		$page_page = get_post_or_get($conn, "page_page");
-		if (!isset($page_page) || $page_page == "") {
-			$page_page = "1";
-		}		
+		if (!isset($page) || $page == "") {	$page = "1"; }	
+		if (!isset($page_page) || $page_page == "") { $page_page = "1";	}		
 		$topic_ids = get_total_topic_ids($conn, 
 			$last_query_lesson_topics_topic_seek, 
 			$last_query_lesson_topics_seek_selection);	
@@ -28,29 +21,28 @@
 			"&end_time=" . $end_time;
 ?>
 		<div id="new_room_log_notifications"></div>
-<?php if (count($room_logs) > 0) { ?>
-		<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
-<?php } ?>		
-		<div id="last_fetch_time" style="display:none"><?php echo time(); ?></div>
-		<div id="page" style="display:none">1</div>
-		<div id="page_page" style="display:none">1</div>
-		<div id="last_query_begin_time" style="display:none"><?php echo $begin_time; ?></div>
-		<div id="last_query_end_time" style="display:none"><?php echo $end_time; ?></div>
-		<div id="last_query_room" style="display:none"><?php echo $seek_room; ?></div>	
-		<div id="last_query_topic" style="display:none"><?php echo $seek_topic; ?></div>
-		<div id="last_query_nfc_id" style="display:none"><?php echo $seek_nfc_id; ?></div>
-		<div id="last_query_course_name" style="display:none"><?php echo $seek_course_name; ?></div>
-		
+<?php 	if (count($room_logs) > 0) { ?>
+			<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
+<?php 
+		} 
+		echo 
+			div_elem("last_fetch_time", null, true, time()).
+			div_elem("page", null, true, 1).
+			div_elem("page_page", null, true, 1).
+			div_elem("last_query_begin_time", null, true, $begin_time).
+			div_elem("last_query_end_time", null, true, $end_time).
+			div_elem("last_query_room", null, true, $seek_room).
+			div_elem("last_query_topic", null, true, $seek_topic).
+			div_elem("last_query_nfc_id", null, true, $seek_nfc_id).
+			div_elem("last_query_course_name", null, true, $seek_course_name);	
+?>		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
 		<div id="room_log_listing_table" class="datatable">
-			<div class="row heading-row">
-				<div class="col-sm-2"><h5>NFC&nbsp;ID</h5></div>
-				<div class="col-sm-4"><h5>Sisääntuloaika</h5></div>
-				<div class="col-sm-2"><h5>Luokka</h5></div>
-				<div class="col-sm-2"><h5>Oppitunnin&nbsp;aiheet</h5></div>
-				<div class="col-sm-2"><h5>Kurssin nimi</h5></div>
-			</div>
 <?php
+			echo heading_row("null", array(2,4,2,2,2), 
+				array("<h5>NFC&nbsp;ID</h5>","<h5>Sisääntuloaika</h5>",
+					"<h5>Luokka</h5>","<h5>Oppitunnin&nbsp;aiheet</h5>",
+					"<h5>Kurssin nimi</h5>"));
 			foreach($room_logs['room_logs'] as $room_log) {
 				$dt = $room_log['dt'];
 				$room_identifier = $room_log['room_identifier'];
@@ -59,25 +51,9 @@
 				$course_name = $room_log['course_name'];
 				if ($topics == null || $topics == "") $topics = "&nbsp;";
 				if ($course_name == null || $course_name == "") $course_name = "&nbsp;";
-?>				
-				<div class="row datarow">
-					<div class="col-sm-2">
-						<?php echo $nfc_id; ?>
-					</div>				
-					<div class="col-sm-4">
-						<?php echo $dt; ?>
-					</div>
-					<div class="col-sm-2">
-						<?php echo $room_identifier;  ?>
-					</div>
-					<div class="col-sm-2">
-						<?php echo $topics;  ?>
-					</div>	
-					<div class="col-sm-2">
-						<?php echo $course_name; ?>
-					</div>						
-				</div>				
-<?php				
+				echo 
+					data_row(null, array(2,4,2,2,2), 
+						array($nfc_id, $dt, $room_identifier, $topics, $course_name));
 			}
 ?>
 		</div>
@@ -147,7 +123,8 @@
 			}
 		}
 	}
+	echo div_elem("last_query_lesson_topics_seek_selection", null, true, 
+			$last_query_lesson_topics_seek_selection).
+		 div_elem("last_query_lesson_topics_topic_seek", null, true, 
+			$last_query_lesson_topics_topic_seek);
 ?>
-<div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
-<div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>
-

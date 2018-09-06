@@ -1,13 +1,9 @@
 <?php
 	$username_seek = get_post_or_get($conn, "username_seek");
 	$page = get_post_or_get($conn, "page");
-	if (!isset($page) || $page == "") {
-		$page = "1";
-	}
 	$page_page = get_post_or_get($conn, "page_page");
-	if (!isset($page_page) || $page_page == "") {
-		$page_page = "1";
-	}
+	if (!isset($page) || $page == "") {	$page = "1"; }
+	if (!isset($page_page) || $page_page == "") { $page_page = "1"; }
 ?>
 <form name="users_seek" action="<?php echo $index_page; ?>" method="POST" >	
 	<div class="row-type-2">

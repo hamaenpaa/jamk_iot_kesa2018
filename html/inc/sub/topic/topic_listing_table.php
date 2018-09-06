@@ -7,40 +7,21 @@
 	if ($topics_arr['count'] > 0) {
 ?>
 		<div id="topics_listing_table" class="datatable">
-			<div class="row heading-row">
-				<div class="col-sm-10"><h5>Nimi</h5></div>
-				<div class="col-sm-1-wrap">
-					<div class="col-sm-1"></div>
-					<div class="col-sm-1"></div>
-				</div>
-			</div>
 <?php
+			echo heading_row(null, array(10,"1-wrap"), 
+				array("<h5>Nimi</h5>", 
+					"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>"));
 			foreach($topics_arr['topics'] as $topic) {
-?>				
-				<div class="row datarow">
-					<div class="col-sm-10">
-						<?php echo $topic['name']; ?>
-					</div>			
-					<div class="col-sm-1-wrap">
-						<div class="col-sm-1">
-<?php
-							$modify_topic_params = array($topic['topic_id']);
-							$modify_js_call = java_script_call("modifyTopic", 
-								$modify_topic_params);
-?>	
-							<button class="button" onclick="<?php echo $modify_js_call; ?>">Muokkaa</button>
-						</div>						
-						<div class="col-sm-1">
-<?php 
-							$remove_topic_params = array($topic['topic_id']);
-							$remove_js_call = java_script_call("removeTopic", 
-								$remove_topic_params);
-?>			
-							<button class="button" onclick="<?php echo $remove_js_call; ?>">Poista</button>
-						</div>
-					</div>
-				</div>
-<?php
+				$topic_params = array($topic['topic_id']);
+				$modify_js_call = java_script_call("modifyTopic", $topic_params);
+				$remove_js_call = java_script_call("removeTopic", $topic_params);
+				echo data_row(null, array(10,"1-wrap"),
+					array($topic['name'],
+						"<div class=\"col-sm-1\">".
+							button_elem($modify_js_call, "Muokkaa").
+						"</div><div class=\"col-sm-1\">".
+							button_elem($remove_js_call, "Poista").
+						"</div>"));
 			}
 ?>
 		</div>
@@ -58,10 +39,12 @@
 		<div id="topics_listing_table" class="datatable"></div>
 <?php
 	}
-?>
-<!-- These are because seek fields etc. can be changes after
+/*
+	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions
-	 work easier -->
-<div id="page" style="display:none"><?php echo $page; ?></div>
-<div id="page_page" style="display:none"><?php echo $page_page; ?></div>
-<div id="last_query_name_seek" style="display:none"><?php echo $name_seek; ?></div>
+	 work easier
+*/
+	echo div_elem("page", null, true, $page).
+		 div_elem("page_page", null, true, $page_page).
+		 div_elem("last_query_name_seek", null, true, $name_seek);
+?>

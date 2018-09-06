@@ -14,46 +14,24 @@
 		if ($lessons_arr['count'] > 0) {
 ?>
 			<div id="lesson_listing_table" class="datatable">
-				<div class="row heading-row">
-					<div class="col-sm-5"><h5>Aikaväli</h5></div>
-					<div class="col-sm-5"><h5>Huone</h5></div>
-					<div class="col-sm-1-wrap">
-						<div class="col-sm-1"></div>
-						<div class="col-sm-1"></div>
-					</div>
-				</div>
 <?php
+				echo heading_row(null, array(5,5,"1-wrap"),
+					array("<h5>Aikaväli<h5>","<h5>Huone</h5>",
+						"<div class=\"col-sm-1\"></div>".
+						"<div class=\"col-sm-1\"></div>"));
 				foreach($lessons_arr['lessons'] as $lesson) {
-					$time_interval = $lesson['time_interval'];
-					$room_identifier = $lesson['room_identifier'];
-?>				
-					<div class="row datarow">
-						<div class="col-sm-5">
-							<?php echo $time_interval; ?>
-						</div>			
-						<div class="col-sm-5">
-							<?php echo $room_identifier; ?>
-						</div>
-						<div class="col-sm-1-wrap">
-							<div class="col-sm-1">
-<?php
-								$modify_lesson_params = array($lesson['lesson_id']);
-								$modify_js_call = java_script_call("modifyLesson", 
-									$modify_lesson_params);
-?>	
-								<button class="button" onclick="<?php echo $modify_js_call; ?>">Muokkaa</button>
-							</div>						
-							<div class="col-sm-1">
-<?php 
-								$remove_lesson_params = array($lesson['lesson_id']);
-								$remove_js_call = java_script_call("removeLesson", 
-									$remove_lesson_params);
-?>			
-								<button class="button" onclick="<?php echo $remove_js_call; ?>">Poista</button>
-							</div>
-						</div>
-					</div>
-<?php
+					$lesson_params = array($lesson['lesson_id']);
+					$modify_js_call = java_script_call("modifyLesson", 
+						$lesson_params);
+					$remove_js_call = java_script_call("removeLesson", 
+						$lesson_params);					
+					echo data_row(null, array(5,5,"1-wrap"), 
+						array($lesson['time_interval'], $lesson['room_identifier'],
+							"<div class=\"col-sm-1\">".
+								button_elem($modify_js_call, "Muokkaa").
+							"</div><div class=\"col-sm-1\">".	
+								button_elem($remove_js_call, "Poista").
+							"</div>"));
 				}
 ?>
 			</div>
@@ -69,15 +47,19 @@
 <?php
 		}
 	}
-?>
-<!-- These are because seek fields etc. can be changes after
+/*
+	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions
-	 work easier -->
-<div id="page" style="display:none"><?php echo $page; ?></div>
-<div id="page_page" style="display:none"><?php echo $page_page; ?></div>
-<div id="last_query_begin_time_seek" style="display:none"><?php echo $begin_time_seek; ?></div>
-<div id="last_query_end_time_seek" style="display:none"><?php echo $end_time_seek; ?></div>
-<div id="last_query_topic_seek" style="display:none"><?php echo $topic_seek; ?></div>
-<div id="last_query_room_seek" style="display:none"><?php echo $room_seek; ?></div>
-<div id="last_query_lesson_topics_seek_selection" style="display:none"><?php echo $last_query_lesson_topics_seek_selection; ?></div>
-<div id="last_query_lesson_topics_topic_seek" style="display:none"><?php echo $last_query_lesson_topics_topic_seek; ?></div>
+	 work easier
+*/
+	echo div_elem("page", null, true, $page).
+		 div_elem("page_page", null, true, $page_page).
+		 div_elem("last_query_begin_time_seek", null, true, $begin_time_seek).
+		 div_elem("last_query_end_time_seek", null, true, $end_time_seek).
+		 div_elem("last_query_topic_seek", null, true, $topic_seek).
+		 div_elem("last_query_room_seek", null, true, $room_seek).
+		 div_elem("last_query_lesson_topics_seek_selection", null, true, 
+			$last_query_lesson_topics_seek_selection).
+		 div_elem("last_query_lesson_topics_topic_seek", null, true, 
+			$last_query_lesson_topics_topic_seek);	
+?>

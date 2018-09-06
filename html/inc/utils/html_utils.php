@@ -2,7 +2,10 @@
 	define("PAGE_PAGE_SIZE", 2);
 
 	function html_attr($name, $value) {
-		return $name + "=\"" + $value + "\" ";
+		if ($value == null) {
+			return "";
+		}
+		return $name . "=\"" . $value . "\" ";
 	}
 
 	function div_elem($id, $classes, $no_display, $content) {
@@ -10,47 +13,46 @@
 		if ($no_display) {
 			$no_display_part = html_attr("style", "display:none");
 		}
-	
-		return "<div " + html_attr("id", $id) + 
-			html_attr("class", $classes) +
-			$no_display_part + ">" + $content + "</div>";
+		return "<div " . html_attr("id", $id) .
+			html_attr("class", $classes) .
+			$no_display_part . ">" . $content . "</div>";
 	}
 
 	function table_cell($length, $content) {
-		return div_elem("", "col_sm_" + $length, false, $content);
+		return div_elem("", "col-sm-" . $length, false, $content);
 	}
 
 	function data_row($id, $col_lengths, $contents) {
 		if (count($col_lengths) != count($contents)) {
 			return "datarow error";
 		}
-		$cols_contents = "";
+		$col_contents = "";
 		for($i=0; $i < count($col_lengths); $i++) {
-			$col_contents += 
+			$col_contents = $col_contents.
 				table_cell($col_lengths[$i], $contents[$i]);
 		}
-		return div_elem($id, "row datarow", false, $cols_contents); 
+		return div_elem($id, "row datarow", false, $col_contents); 
 	}
 
 	function heading_row($id, $col_lengths, $contents) {
 		if (count($col_lengths) != count($contents)) {
 			return "headingrow error";
 		}
-		$cols_contents = "";
+		$col_contents = "";
 		for($i=0; $i < count($col_lengths); $i++) {
-			$col_contents += 
+			$col_contents = $col_contents.
 				table_cell($col_lengths[$i], $contents[$i]);
 		}
-		return div_elem($id, "row heading-row", false, $cols_contents); 
+		return div_elem($id, "row heading-row", false, $col_contents); 
 	}
 
 	function button_elem($call, $button_text) {
 		$call_part = "";
 		if ($call != "") {
-			$call_part = "onclick=\"" + $call + "\" ";
+			$call_part = "onclick=\"" . $call . "\" ";
 		}
-		return "<button class=\"button\" " + $call_part + ">" + 
-			$button_text + "</button>";
+		return "<button class=\"button\" " . $call_part . ">" . 
+			$button_text . "</button>";
 	}
 	
 	function hidden_input($field_name, $value) {

@@ -52,14 +52,14 @@
      last query and other user and also to make js functions
 	 work easier
 */
-	echo div_elem("page", null, true, $page).
-		 div_elem("page_page", null, true, $page_page).
-		 div_elem("last_query_begin_time_seek", null, true, $begin_time_seek).
-		 div_elem("last_query_end_time_seek", null, true, $end_time_seek).
-		 div_elem("last_query_topic_seek", null, true, $topic_seek).
-		 div_elem("last_query_room_seek", null, true, $room_seek).
-		 div_elem("last_query_lesson_topics_seek_selection", null, true, 
-			$last_query_lesson_topics_seek_selection).
-		 div_elem("last_query_lesson_topics_topic_seek", null, true, 
-			$last_query_lesson_topics_topic_seek);	
+	echo div_nodisplay_elem_group(array(
+			"page" => $page, "page_page" => $page_page, 
+			"last_query_begin_time_seek" => $begin_time_seek,
+			"last_query_end_time_seek" => $end_time_seek,
+			"last_query_topic_seek" => $topic_seek,
+			"last_query_room_seek" => $room_seek,
+			"last_query_lesson_topics_seek_selection" => 
+				$last_query_lesson_topics_seek_selection,
+			"last_query_lesson_topics_topic_seek" => 
+				$last_query_lesson_topics_topic_seek));	
 ?>

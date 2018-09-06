@@ -17,11 +17,7 @@
 				$remove_js_call = java_script_call("removeTopic", $topic_params);
 				echo data_row(null, array(10,"1-wrap"),
 					array($topic['name'],
-						"<div class=\"col-sm-1\">".
-							button_elem($modify_js_call, "Muokkaa").
-						"</div><div class=\"col-sm-1\">".
-							button_elem($remove_js_call, "Poista").
-						"</div>"));
+						modify_and_remove_btn_block($modify_js_call, $remove_js_call)));
 			}
 ?>
 		</div>
@@ -44,7 +40,6 @@
      last query and other user and also to make js functions
 	 work easier
 */
-	echo div_elem("page", null, true, $page).
-		 div_elem("page_page", null, true, $page_page).
-		 div_elem("last_query_name_seek", null, true, $name_seek);
+	echo div_nodisplay_elem_group(array("page" => $page, 
+		"page_page" => $page_page, "last_query_name_seek" => $name_seek));
 ?>

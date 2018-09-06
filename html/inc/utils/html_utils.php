@@ -17,6 +17,14 @@
 			html_attr("class", $classes) .
 			$no_display_part . ">" . $content . "</div>";
 	}
+	
+	function div_nodisplay_elem_group($ids_to_values) {
+		$html = "";
+		foreach($ids_to_values as $id => $value) {
+			$html .= div_elem($id, null, true, $value);
+		}
+		return $html;
+	}
 
 	function table_cell($length, $content) {
 		return div_elem("", "col-sm-" . $length, false, $content);
@@ -53,6 +61,14 @@
 		}
 		return "<button class=\"button\" " . $call_part . ">" . 
 			$button_text . "</button>";
+	}
+	
+	function modify_and_remove_btn_block($modify_js_call, $remove_js_call) {
+		return "<div class=\"col-sm-1\">".
+					button_elem($modify_js_call, "Muokkaa").
+				"</div><div class=\"col-sm-1\">".
+					button_elem($remove_js_call, "Poista").
+				"</div>";
 	}
 	
 	function hidden_input($field_name, $value) {

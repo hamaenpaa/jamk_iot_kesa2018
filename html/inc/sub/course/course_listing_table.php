@@ -45,12 +45,12 @@
      last query and other user and also to make js functions
 	 work easier
 */
-	echo div_elem("page", null, true, 1).
-		 div_elem("page_page", null, true, 1).
-		 div_elem("last_query_name_seek", null, true, $name_seek).
-		 div_elem("last_query_description_seek", null, true, $description_seek).
-		 div_elem("last_query_lesson_topics_seek_selection", null, true, 
-			$last_query_lesson_topics_seek_selection).
-		 div_elem("last_query_lesson_topics_topic_seek", null, true, 
-			$last_query_lesson_topics_topic_seek);
+	echo div_nodisplay_elem_group(array(
+			"page" => 1, "page_page" => 1, 
+			"last_query_name_seek" => $name_seek,
+			"last_query_description_seek" => $description_seek,
+			"last_query_lesson_topics_seek_selection" => 
+			$last_query_lesson_topics_seek_selection,
+			"last_query_lesson_topics_topic_seek" => 
+			$last_query_lesson_topics_topic_seek));	
 ?>

@@ -25,16 +25,14 @@
 			<div id="download_csv"><a href="<?php echo $download_csv_url; ?>" download>Lataa</a></div>
 <?php 
 		} 
-		echo 
-			div_elem("last_fetch_time", null, true, time()).
-			div_elem("page", null, true, 1).
-			div_elem("page_page", null, true, 1).
-			div_elem("last_query_begin_time", null, true, $begin_time).
-			div_elem("last_query_end_time", null, true, $end_time).
-			div_elem("last_query_room", null, true, $seek_room).
-			div_elem("last_query_topic", null, true, $seek_topic).
-			div_elem("last_query_nfc_id", null, true, $seek_nfc_id).
-			div_elem("last_query_course_name", null, true, $seek_course_name);	
+		echo div_nodisplay_elem_group(array(
+			"last_fetch_time" => time(), "page" => 1, "page_page" => 1, 
+			"last_query_begin_time" => $begin_time,
+			"last_query_end_time" => $end_time,
+			"last_query_room" => $seek_room,
+			"last_query_topic" => $seek_topic,
+			"last_query_nfc_id" => $seek_nfc_id,
+			"last_query_course_name" => $seek_course_name));	
 ?>		
 		<h2>Sisäänkirjautuneet ihmiset</h2>
 		<div id="room_log_listing_table" class="datatable">
@@ -123,8 +121,9 @@
 			}
 		}
 	}
-	echo div_elem("last_query_lesson_topics_seek_selection", null, true, 
-			$last_query_lesson_topics_seek_selection).
-		 div_elem("last_query_lesson_topics_topic_seek", null, true, 
-			$last_query_lesson_topics_topic_seek);
+	echo div_nodisplay_elem_group(array(
+		"last_query_lesson_topics_seek_selection" => 
+			$last_query_lesson_topics_seek_selection, 
+		"last_query_lesson_topics_topic_seek" => 
+			$last_query_lesson_topics_topic_seek));
 ?>

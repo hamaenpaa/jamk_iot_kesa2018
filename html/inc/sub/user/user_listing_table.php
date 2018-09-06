@@ -63,8 +63,7 @@
      last query and other user and also to make js functions
 	 work easier
 */
-	echo div_elem("page", null, true, 1).
-		 div_elem("page_page", null, true, 1).
-		 div_elem("last_query_username_seek", null, true, $username_seek);
-	
+	echo div_nodisplay_elem_group(array(
+			"page" => 1, "page_page" => 1, 
+			"last_query_username_seek" => $username_seek));
 ?>

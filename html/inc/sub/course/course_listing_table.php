@@ -21,11 +21,7 @@
 				$remove_js_call = java_script_call("removeCourse", $course_params);					
 				echo data_row(null, array(4,6,"1-wrap"),
 					array($course['name'], $course['description'], 
-						"<div class=\"col-sm-1\">" . 
-							button_elem($modify_js_call, "Muokkaa").
-						"</div><div class=\"col-sm-1\">" .
-							button_elem($remove_js_call, "Poista").
-						"</div>"));
+						modify_and_remove_btn_block($modify_js_call, $remove_js_call)));
 			}
 ?>
 		</div>

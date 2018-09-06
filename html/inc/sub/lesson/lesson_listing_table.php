@@ -27,11 +27,7 @@
 						$lesson_params);					
 					echo data_row(null, array(5,5,"1-wrap"), 
 						array($lesson['time_interval'], $lesson['room_identifier'],
-							"<div class=\"col-sm-1\">".
-								button_elem($modify_js_call, "Muokkaa").
-							"</div><div class=\"col-sm-1\">".	
-								button_elem($remove_js_call, "Poista").
-							"</div>"));
+							modify_and_remove_btn_block($modify_js_call, $remove_js_call)));
 				}
 ?>
 			</div>

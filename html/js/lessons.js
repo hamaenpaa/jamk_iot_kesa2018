@@ -202,6 +202,12 @@ function saveLesson() {
 			["id","lesson_date","begin_time","end_time","room_identifier"], 
 			[id,lesson_date,begin_time,end_time,room_identifier]),
 			function(data) {
+				jsonData = JSON.parse(data);
+				if (jsonData.overlapping == "1") {
+					$("#add_or_modify_lesson_form_validation_errors").html(
+						"Toinen oppitunti on jo olemassa samassa huoneessa ja samana päivänä. Vaihda jompakumpaa!");				
+					return;
+				}
 				page = $("#page").html();
 				page_page = $("#page_page").html();				
 				get_lessons_page(page, page_page);					
@@ -213,6 +219,7 @@ function saveLesson() {
 				$("#add_or_modify_lesson_header").html(
 					"Lisää koulutus tai oppitunti");
 				$("#lesson_topics_handling").html("");
+				$("#add_or_modify_lesson_form_validation_errors").html("");
 			}
 		);		
 	}

@@ -6,12 +6,11 @@
 		return;	
 	}
 
+	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/html_utils.php");
 	include("../../utils/topic_selection.php");
 	include("course_fetch_from_db.php");
-
-	include("../../db_connect_inc.php");
 
 	$description_seek = get_post_or_get($conn, "description_seek");
 	$name_seek = get_post_or_get($conn, "name_seek");
@@ -51,6 +50,7 @@
 	$courses['page_page'] = $page_page;
 	$courses["page_list"] = generate_js_page_list("get_course_page", 
 			array(),
+			$page_size, $page_page_size,
 			$courses["page_count"], $page, $page_page,
 			"course_pages", "",
 			"curr_page", "other_page");

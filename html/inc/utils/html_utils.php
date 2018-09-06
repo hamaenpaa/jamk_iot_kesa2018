@@ -1,5 +1,11 @@
 <?php
-	define("PAGE_PAGE_SIZE", 2);
+	$sql = "SELECT page_size, page_page_size FROM ca_setting WHERE id=1";
+
+	$q = $conn->prepare($sql);
+	$q->execute();	
+	$q->store_result();
+	$q->bind_result($page_size, $page_page_size);
+	$q->fetch();
 
 	function html_attr($name, $value) {
 		if ($value == null) {
@@ -132,6 +138,7 @@
 	
 	function generate_js_page_list($js_function, 
 		$seek_params,
+		$page_size, $page_page_size,
 		$page_count, $curr_page, $page_page,
 		$container_id, $container_more_classes,
 		$curr_page_class, $other_page_class) {
@@ -141,10 +148,10 @@
 		$html =  "<div " . $id_attribute . 
 					" class=\"page_list " . $container_more_classes . "\" >";
 		if ($page_count == 1) { return $html . "</div>"; } // Only container for one page
-	    $i_begin = ($page_page - 1) * PAGE_PAGE_SIZE;
-		$i_end   = $page_page * PAGE_PAGE_SIZE;
-		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
-		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+	    $i_begin = ($page_page - 1) * $page_page_size;
+		$i_end   = $page_page * $page_page_size;
+		$page_page_count = intdiv($page_count, $page_page_size);
+		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
 		if ($page_count < $i_end) {
 			$i_end = $page_count;
 		}
@@ -160,7 +167,7 @@
 						$js_function, 
 						join_arrs(
 							array( 
-								($page_page - 1) * PAGE_PAGE_SIZE,
+								($page_page - 1) * $page_page_size,
 								$page_page - 1),
 							$seek_params), 
 						"other_page", "<") . "&nbsp;";			
@@ -183,7 +190,7 @@
 						$js_function, 
 						join_arrs(
 							array(
-								$page_page * PAGE_PAGE_SIZE + 1, 
+								$page_page * $page_page_size + 1, 
 								($page_page + 1)),
 							$seek_params), 
 						"other_page", ">") . "&nbsp;";	

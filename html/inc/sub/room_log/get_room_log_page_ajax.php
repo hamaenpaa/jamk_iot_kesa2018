@@ -1,10 +1,10 @@
 <?php
+	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/date_utils.php");
 	include("../../utils/html_utils.php");
 	include("../setting/fetch_settings_from_db.php");
 	include("fetch_room_log_data_from_db.php");
-	include("../../db_connect_inc.php");
 
 	$begin_time = get_post_or_get($conn, "begin_time");
 	$end_time = get_post_or_get($conn, "end_time");
@@ -35,6 +35,7 @@
 
 	$room_logs["page_list"] = generate_js_page_list("get_js_room_log_page", 
 		array(),
+		$page_size, $page_page_size,
 		$room_logs["page_count"], $page, $page_page,
 		"roomlog_pages", "",
 		"curr_page", "other_page");

@@ -202,8 +202,6 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 			 seek_room,seek_topic,page,page_page]),
 			function(data) {
 				if (data != "") {
-					console.log("fetch_available_new_course_lessons, data");
-					console.log(data);
 					jsonData = JSON.parse(data);
 					if (jsonData.lessons.length > 0) {	
 						avail_new_course_lessons_cont_table =

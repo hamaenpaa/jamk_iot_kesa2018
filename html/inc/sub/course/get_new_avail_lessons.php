@@ -6,11 +6,12 @@
 		return;	
 	} 
 
+	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/html_utils.php");
 	include("../../utils/date_utils.php");
+	include("../../utils/sql_utils.php");
 	include("course_fetch_from_db.php");
-	include("../../db_connect_inc.php");
 
 	$course_id = get_post_or_get($conn, 'id');
 	$begin_time_seek = get_post_or_get($conn, 'begin_time_seek');
@@ -63,6 +64,7 @@
 	$lessons['page_page'] = $page_page;
 	$lessons["page_list"] = generate_js_page_list("fetch_available_new_course_lessons", 
 		array($course_id),
+		$page_size, $page_page_size,
 		$lessons["page_count"], $page, $page_page,
 		"lessons_without_course_pages", "",
 		"curr_page", "other_page");

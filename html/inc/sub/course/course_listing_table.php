@@ -28,6 +28,7 @@
 <?php
 		echo generate_js_page_list("get_course_page",
 			array(), 
+			$page_size, $page_page_size,
 			$courses_arr['page_count'], 1, 1,
 			"course_pages", "",
 			"curr_page", "other_page");

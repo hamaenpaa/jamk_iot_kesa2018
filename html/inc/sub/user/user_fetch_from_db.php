@@ -1,6 +1,4 @@
 <?php
-	define("PAGE_SIZE", 20);
-
 	function get_users($conn, $username_seek, $page) {
 		if (strlen($username_seek) > 65) {
 			return array();
@@ -9,11 +7,14 @@
 			return array();
 		}
 		
+		list($page_size, $page_page_size) =
+			get_page_and_page_page_sizes($conn);
+		
 		$fields = "id, username, permission";
 		$end_part = " FROM ca_user WHERE username LIKE '%".	$username_seek . 
 					"%' AND removed=0 ";
 		$sql = "SELECT " . $fields . $end_part .
-			" LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
+			" LIMIT " . (($page - 1) * $page_size) . "," . $page_size;
 		
 		$sql_user_count = "SELECT COUNT(*) " . $end_part;
 		
@@ -36,10 +37,10 @@
 		$q_user_count->bind_result($count);
 		$q_user_count->fetch();		
 		
-		$page_count = intdiv($count, PAGE_SIZE);
-		if ($page_count * PAGE_SIZE < $count) { $page_count++; }		
-		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
-		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+		$page_count = intdiv($count, $page_size);
+		if ($page_count * $page_size < $count) { $page_count++; }		
+		$page_page_count = intdiv($page_count, $page_page_size);
+		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
 
 		$users_arr = array(
 			"users" => $users,

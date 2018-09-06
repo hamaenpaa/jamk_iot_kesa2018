@@ -1,5 +1,12 @@
-topics_page_page_size = 2;
-topics_page_size = 2;
+var page_size = 50;
+var page_page_size = 20;
+
+$.get("inc/utils/get_page_and_page_page_sizes.php",
+	function(data) {
+		jsonData = JSON.parse(data);
+		page_size = jsonData.page_size;
+		page_page_size = jsonData.page_page_size;
+	});
 
 function strOnlyDigits(str) {
 	for(iStr=0; iStr < str.length; iStr++) {
@@ -438,7 +445,7 @@ function buildTopicSelectionPage(
 		}
 		refreshTopicSelections(container_id, topics);
 	}
-	page_count = Math.floor((seekedTopics.length - 1)/ topics_page_size) + 1;
+	page_count = Math.floor((seekedTopics.length - 1)/ page_size) + 1;
 	if (page_count == 0) {
 		page_count = 1;
 	}
@@ -446,9 +453,9 @@ function buildTopicSelectionPage(
 		page = page_count;
 	}
 	for(iSeekedTopic=0; iSeekedTopic < seekedTopics.length; iSeekedTopic++) {
-		if (Math.floor(iSeekedTopic / topics_page_size) + 1 == page) { 		
-			if ((iSeekedTopic - (page - 1) * topics_page_size) % 4 == 0) {
-				i_row = (iSeekedTopic - (page - 1) * topics_page_size) / 4 + 1;
+		if (Math.floor(iSeekedTopic / page_size) + 1 == page) { 		
+			if ((iSeekedTopic - (page - 1) * page_size) % 4 == 0) {
+				i_row = (iSeekedTopic - (page - 1) * page_size) / 4 + 1;
 				row_id = container_id + "_table_" + i_row;
 				table.append(div_elem(row_id, "row datarow", false, ""));
 				row = $("#" + row_id);
@@ -482,15 +489,15 @@ function buildTopicPages(container_id, selectedIds, page_count, page) {
 		$("#" + container_id + "_topic_pages").html("");
 		return;
 	}
-	page_page = Math.floor((page - 1) / topics_page_page_size) + 1;
-	if (page > topics_page_size) {
+	page_page = Math.floor((page - 1) / page_page_size) + 1;
+	if (page > page_size) {
 		html_cont += get_topic_page_link(container_id, selectedIds, 1, "<<", "other_page");
 		html_cont += "&nbsp;";
 		html_cont += get_topic_page_link(
-			container_id, selectedIds, (page_page - 1) * topics_page_size, "<", "other_page");
+			container_id, selectedIds, (page_page - 1) * page_size, "<", "other_page");
 	}
-	p_begin = (page_page - 1) * topics_page_page_size + 1;
-	p_end = page_page * topics_page_page_size;
+	p_begin = (page_page - 1) * page_page_size + 1;
+	p_end = page_page * page_page_size;
 	if (p_end > page_count) {
 		p_end = page_count;
 	}
@@ -504,12 +511,12 @@ function buildTopicPages(container_id, selectedIds, page_count, page) {
 		}
 		html_cont += get_topic_page_link(container_id, selectedIds, i_page, i_page, css_classes);
 	}
-	if (page_page * topics_page_size < page_count) {
+	if (page_page * page_size < page_count) {
 		if (html_cont != "") {
 			html_cont += "&nbsp;";
 		}
 		html_cont += get_topic_page_link(container_id, 
-			selectedIds, page_page * topics_page_size + 1, ">", "other_page");
+			selectedIds, page_page * page_size + 1, ">", "other_page");
 		html_cont += "&nbsp;";
 		html_cont += get_topic_page_link(container_id, 
 			selectedIds, page_count, ">>", "other_page");		

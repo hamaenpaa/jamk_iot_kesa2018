@@ -50,6 +50,7 @@
 <?php 
 		echo generate_js_page_list("get_user_page",
 			array(), 
+			$page_size, $page_page_size,
 			$users_arr['page_count'], $page, $page_page,
 				"user_pages", "",
 				"curr_page", "other_page");

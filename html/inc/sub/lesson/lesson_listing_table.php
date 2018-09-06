@@ -34,6 +34,7 @@
 <?php
 			echo generate_js_page_list("get_lessons_page",
 				array(), 
+				$page_size, $page_page_size,
 				$lessons_arr['page_count'], $page, $page_page,
 				"lesson_pages", "",
 				"curr_page", "other_page");

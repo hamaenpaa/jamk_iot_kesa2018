@@ -26,6 +26,19 @@
 	</select>
 </div>
 <div class="row-type-5">
+	<label>Sivukoko:</label>
+	<input id="page_size" name="page_size"  
+		autocomplete="off" 
+		value="<?php echo $settings['page_size']; ?>" />
+</div>
+<div class="row-type-5">
+	<label>Sivuja yhdessä sivukokoelmassa:</label>
+	<input id="page_page_size" name="page_page_size"  
+		autocomplete="off" 
+		value="<?php echo $settings['page_page_size']; ?>" />
+</div>
+
+<div class="row-type-5">
 	<input class="button" type="submit" 
 		onsubmit="return checkSetting();" value="Talleta"/>
 </div>

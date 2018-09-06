@@ -11,20 +11,31 @@
 	
 	$default_roomidentifier = get_post_or_get($conn, 'default_roomidentifier');
 	$usage_type = get_post_or_get($conn, 'usage_type');
-	
-	echo "default_roomidentifier " . $default_roomidentifier . 
-	" usage_type " . $usage_type . "<br>";
+	$page_size = get_post_or_get($conn, 'page_size');
+	$page_page_size = get_post_or_get($conn, 'page_page_size');
 	
 	if (!is_integerable($usage_type) || $usage_type == "" || $usage_type == "0") {
 		include("../../db_disconnect_inc.php");
 		header("Location: ../../../index.php?screen=5");
 		return;
 	}	
+	if (!is_integerable($page_size) || $page_size == "" || $page_size == "0") {
+		include("../../db_disconnect_inc.php");
+		header("Location: ../../../index.php?screen=5");
+		return;
+	}	
+	if (!is_integerable($page_page_size) || $page_page_size == "" || $page_page_size == "0") {
+		include("../../db_disconnect_inc.php");
+		header("Location: ../../../index.php?screen=5");
+		return;
+	}
 
 	$sql_update_setting = 
-		"UPDATE ca_setting SET default_roomidentifier=?, usage_type=? WHERE id=1";
+		"UPDATE ca_setting SET 
+			default_roomidentifier=?, usage_type=?,
+			page_size=?, page_page_size=? WHERE id=1";
 	$q_setting = $conn->prepare($sql_update_setting);
-	$q_setting->bind_param("si", $default_roomidentifier, $usage_type);
+	$q_setting->bind_param("siii", $default_roomidentifier, $usage_type, $page_size, $page_page_size);
 	$q_setting->execute();	
 	
 	include("../../db_disconnect_inc.php");

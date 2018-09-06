@@ -1,6 +1,4 @@
 <?php
-	define("PAGE_SIZE", 2);
-
 	function get_topics($conn, $name_seek, $page) {
 		if (!is_integerable($page) || $page == "" || $page == "0") {
 			return array();	
@@ -10,6 +8,9 @@
 			return array();	
 		}
 		
+		list($page_size, $page_page_size) =
+			get_page_and_page_page_sizes($conn);
+		
 		$total_fields = "ca_topic.ID, ca_topic.name ";
 		$sql_end_without_page_def = "FROM ca_topic WHERE 
 			  ca_topic.name LIKE '%" .$name_seek ."%'
@@ -17,7 +18,7 @@
 			  ORDER BY name ASC";
 		$sql_topics = 
 			"SELECT " .  $total_fields . $sql_end_without_page_def .
-			 " LIMIT " . (($page - 1) * PAGE_SIZE) . "," . PAGE_SIZE;
+			 " LIMIT " . (($page - 1) * $page_size) . "," . $page_size;
 
 		$q_topics = $conn->prepare($sql_topics);
 		$q_topics->execute();		
@@ -42,10 +43,10 @@
 			}
 		}
 		
-		$page_count = intdiv($count, PAGE_SIZE);
-		if ($page_count * PAGE_SIZE < $count) { $page_count++; }	
-		$page_page_count = intdiv($page_count, PAGE_PAGE_SIZE);
-		if ($page_page_count * PAGE_PAGE_SIZE < $page_count) { $page_page_count++; }
+		$page_count = intdiv($count, $page_size);
+		if ($page_count * $page_size < $count) { $page_count++; }	
+		$page_page_count = intdiv($page_count, $page_page_size);
+		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
 		
 		if ($page_count == 0) { $page_count = 1; }
 		if ($page_page_count == 0) { $page_page_count = 1; }

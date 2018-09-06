@@ -24,6 +24,7 @@
 <?php
 		echo generate_js_page_list("get_topics_page",
 			array(), 
+			$page_size, $page_page_size,
 			$topics_arr['page_count'], $page, $page_page,
 			"topic_pages", "",
 			"curr_page", "other_page");

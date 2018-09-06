@@ -1,6 +1,4 @@
 <?php
-	define("ROOM_LOG_PAGE_SIZE","50");
-	
 	function get_room_log($conn,
 		$begin_time, $end_time, $room_seek, $nfc_id_seek, $topic_ids,
 		$course_name_seek, $page, $last_new_fetch_time, $use_nbsp) {
@@ -21,6 +19,8 @@
 		}
 		
 		$settings = getSettings($conn);
+		$page_size = $settings["page_size"];
+		$page_page_size = $settings["page_page_size"];
 		
 		$fields = "ca_roomlog.ID, ca_roomlog.NFC_ID, 
 				ca_roomlog.dt, ca_roomlog.room_identifier, ca_course.name, ca_lesson.id ";
@@ -51,7 +51,7 @@
 		    $tables_and_conditions_end;
 		$sql_room_logs_total = "SELECT " . $fields . $usual_tables_and_conditions;
 		if ($page != -1) {
-			$sql_room_logs_total .= " LIMIT " . (($page - 1) * ROOM_LOG_PAGE_SIZE) . "," . ROOM_LOG_PAGE_SIZE;
+			$sql_room_logs_total .= " LIMIT " . (($page - 1) * $page_size) . "," . $page_size;
 		}
 		$sql_count = "SELECT COUNT(*) " . $usual_tables_and_conditions;
 		$sql_new = "SELECT COUNT(*) " . 
@@ -170,8 +170,8 @@
 			}
 		}
 		
-		$page_count = intdiv($count, ROOM_LOG_PAGE_SIZE);
-		if ($page_count * ROOM_LOG_PAGE_SIZE < $count) { $page_count++; }			
+		$page_count = intdiv($count, $page_size);
+		if ($page_count * $page_size < $count) { $page_count++; }			
 		$ret_arr = array("count" => $count, "page_count" => $page_count,
 			"count_new" => $count_new, 
 			"room_logs" => $room_log_arr);	
@@ -223,9 +223,6 @@
 			$nfc_id, 
 			$lesson_id,	$lesson_begin_time, $lesson_end_time, $room_identifier,
 			$topic_id, $topic_name);		
-		
-//		echo "lesson_courses:\n";
-//		var_dump($lesson_courses);
 		
 		$last_nfc_id_key = 0;
 		while($NFC_ID_topics_and_lessons = $q_NFC_ID_topics_and_lessons->fetch()) {

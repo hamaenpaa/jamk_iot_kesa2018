@@ -6,10 +6,11 @@
 		return;	
 	} 
 
+	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/html_utils.php");
+	include("../../utils/sql_utils.php");
 	include("user_fetch_from_db.php");
-	include("../../db_connect_inc.php");
 
 	$username_seek = get_post_or_get($conn, "username_seek");
 	$page = get_post_or_get($conn, "page");
@@ -27,7 +28,7 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}
-
+	
 	$users = get_users($conn, $username_seek, $page);
 
 	if ($page > $users["page_count"]) {
@@ -43,6 +44,7 @@
 	$users['page_page'] = $page_page;
 	$users["page_list"] = generate_js_page_list("get_user_page", 
 		array(),
+		$page_size, $page_page_size,
 		$users["page_count"], $page, $page_page,
 		"user_pages", "",
 		"curr_page", "other_page");

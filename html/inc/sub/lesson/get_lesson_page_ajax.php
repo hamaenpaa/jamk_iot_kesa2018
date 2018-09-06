@@ -6,12 +6,13 @@
 		return;	
 	}
 
+    include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/date_utils.php");
 	include("../../utils/html_utils.php");
+	include("../../utils/sql_utils.php");
 	include("../../utils/topic_selection.php");
 	include("lessons_fetch_from_db.php");
-    include("../../db_connect_inc.php");
 
 	$begin_time_seek = get_post_or_get($conn, "begin_time_seek");
 	$end_time_seek = get_post_or_get($conn, "end_time_seek");
@@ -62,6 +63,7 @@
 	$lessons['page_page'] = $page_page;
 	$lessons["page_list"] = generate_js_page_list("get_lessons_page", 
 		array(),
+		$page_size, $page_page_size,
 		$lessons["page_count"], $page, $page_page,
 		"lesson_pages", "",
 		"curr_page", "other_page");

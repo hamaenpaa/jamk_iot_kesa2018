@@ -73,9 +73,15 @@ function saveTopic() {
 
 function validateAddOrModifyForm() {
 	if ($("#name").val().length > 150) {
-		$("#add_or_modify_name_form_validation_errors").html(
+		$("#add_or_modify_topic_form_validation_errors").html(
 			"Aiheen nimi ei voi olla pidempi kuin 150 merkkiä. Korjaa se!");
 		return false;		
 	}	
+	if ($("#name").val().indexOf(",") > -1) {
+		$("#add_or_modify_topic_form_validation_errors").html(
+			"Aiheen nimessä ei saa olla pilkkua. Korjaa se!");
+		return false;		
+	}
+	$("#add_or_modify_topic_form_validation_errors").html("");
 	return true;
 }

@@ -1,32 +1,38 @@
 <?php
 	include("user_fetch_from_db.php");
 	$users_arr = get_users($conn, $username_seek, $page);
+/*	echo "users_arr";
+	var_dump($users_arr);
+	echo $_SESSION['user_permlevel'];*/
+	
 ?>
 	<h2>Käyttäjät</h2>
 <?php
 	if ($users_arr['count'] > 0) {
 		$user_name_cols = 10;
-		if ($_SESSION['user_permlevel'] == 1) {	$user_name_cols = 9; }
+		if ($_SESSION['user_permlevel'] == 1) {	$user_name_cols = 8; }
 ?>
 		<div id="user_listing_table" class="datatable">
 <?php
-			$cols = array($user_name_cols);
-			if ($_SESSION['user_permlevel'] == 1) {	$cols[] = 1; }
-			$cols[] = "1-wrap";
-			$heading_contents = array("<h5>Nimi</h5");
-			if ($_SESSION['user_permlevel'] == 1) {
-				$heading_contents[] = "<h5>Admin</h5>";
-			}	
-			$heading_contents[] = 
-				"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>";
+			$cols = array($user_name_cols, 2);
+			if ($_SESSION['user_permlevel'] == 1) {	
+				$cols[] = "1-wrap";
+			}
+			$heading_contents = array("<h5>Nimi</h5>","<h5>Admin</h5>");
+			if ($_SESSION['user_permlevel'] == 1) {				
+				$heading_contents[] = 
+					"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>";
+			}
 			echo heading_row(null, $cols, $heading_contents);
 			foreach($users_arr['users'] as $user) {
 				$data_contents = array($user['username']);
-				if ($_SESSION['user_permlevel'] == 1) {
-					$is_admin_mark = "";
-					if ($user['permission'] == 1) { $is_admin_mark = "x"; }
-					$data_contents[] = $is_admin_mark;
+				$is_admin_mark = "";
+				if ($user['permission'] == 1) { 
+					$is_admin_mark = "x"; 
+				} else {
+					$is_admin_mark = "&nbsp;"; 
 				}
+				$data_contents[] = $is_admin_mark;
 				if ($_SESSION['user_permlevel'] == 1) {
 					$modify_user_params = array($user['id'], "Muokkaa käyttäjää");
 					$modify_js_call = java_script_call("modifyUser", $modify_user_params);
@@ -40,9 +46,11 @@
 					$data_contents[] = 
 						"<div class=\"col-sm-1\">" . $modify_btn . "</div>".
 						"<div class=\"col-sm-1\">" . $remove_btn . "</div>";
-				} else {
-					$data_contents[] = "";
-				}
+				} 
+/*				echo "cols:";
+				var_dump($cols);
+				echo "data_contents";
+				var_dump($data_contents);*/
 				echo data_row(null, $cols, $data_contents);
 			}
 ?>

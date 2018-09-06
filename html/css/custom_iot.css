@@ -198,7 +198,7 @@ footer {
 }
 
 /* Style for the columns */
-.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6 {
+.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-8, .col-sm-9, .col-sm-10 {
 	text-align: left;
 	border: 1px solid dimgrey;
 	color: white;
@@ -210,7 +210,7 @@ footer {
 #lesson_listing_table, #course_listing_table, 
 #course_lesson_listing_table, #lessons_without_course_listing_table,
 #lesson_topics_seek_table, #lesson_topics_seek_selections_table,
-.datatable {
+#user_listing_table, .datatable {
 	margin: 0  15px 0 15px !important;
 }
 

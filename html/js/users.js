@@ -109,6 +109,7 @@ function get_user_page(page, page_page) {
 				for(iUser=0; iUser < jsonData.users.length; iUser++) {
 					calls = "";
 					user = jsonData.users[iUser];
+					username_cols = 10;
 					if (perm == 1) { 
 						calls = js_action_column(
 							js_call("modifyUser", [user.id, "Muokkaa käyttäjää"]),
@@ -117,15 +118,19 @@ function get_user_page(page, page_page) {
 							calls = calls + js_action_column(
 								js_call("removeUser", [user.id]), "Poista");
 						}
+						username_cols = 8;
 					}
-					arr_cols = [9,1,"1-wrap"];
+					arr_cols = [username_cols,2];
 					arr_data = [user.username];
 					if (user.permission == 1) {
 						arr_data.push("x");
 					} else {
-						arr_data.push("");
+						arr_data.push("&nbsp;");
 					}
-					arr_data.push(calls);
+					if (perm == 1) {
+						arr_data.push(calls);
+						arr_cols.push("1-wrap");
+					}
 					$("#user_listing_table").append(
 						data_row(undefined, arr_cols, arr_data));
 				}

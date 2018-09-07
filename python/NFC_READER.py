@@ -8,6 +8,8 @@ import time
 import signal
 import sys
 import datetime
+import dateutil
+from dateutil import tz
 
 import Adafruit_PN532 as PN532
 
@@ -84,23 +86,24 @@ while True:
     tagID = format(binascii.hexlify(uid))
 
     # catch current time lesson room identifier or use default
-    today = datetime.utcnow().date()
-    begin_dt = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
-    end_dt = begin_dt + timedelta(1)
+    today = datetime.datetime.utcnow().date()
+    begin_dt = datetime.datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
+    end_dt = begin_dt + datetime.timedelta(1)
     begin = begin_dt.strftime('%Y-%m-%d %H:%M:%S')
     end = end_dt.strftime('%Y-%m-%d %H:%M:%S')
-    curs.execute("SELECT room_identifier FROM ca_lesson WHERE (" + begin_time + \
-        " <=  ca_lesson.begin_time AND ca_lesson.begin_time <= " + end_time + \
-        ") OR (" + begin_time + \
-        " <=  ca_lesson.end_time AND ca_lesson.end_time <= " + end_time + ")")
+    sql_check_lesson = "SELECT room_identifier FROM ca_lesson WHERE ('" + begin + \
+        "' <= ca_lesson.begin_time AND ca_lesson.begin_time <= '" + end + \
+        "') OR ('" + begin + \
+        "' <= ca_lesson.end_time AND ca_lesson.end_time <= '" + end + "')"
+    curs.execute(sql_check_lesson)
     if curs.rowcount == 1: 
         row = curs.fetchone()
-	    roomIdentifier = row['room_identifier']
-    else 
+        roomIdentifier = row[0]
+    else:
         curs.execute("SELECT default_roomidentifier FROM ca_setting WHERE id=1")
-	    row = curs.fetchone()
-	    if not row['default_roomidentifier']:
-	        roomIdentifier = row['default_roomidentifier']
+	row = curs.fetchone()
+	if row[0]:
+            roomIdentifier = row[0]
 
     # format(int(data[2:8].decode("utf-8"), 16))
     curs.execute("Insert into ca_roomlog (room_identifier,dt,NFC_ID) values (%s,%s,%s)",(roomIdentifier,curdate,format(binascii.hexlify(uid))))

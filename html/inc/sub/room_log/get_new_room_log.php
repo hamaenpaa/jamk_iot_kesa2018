@@ -58,7 +58,7 @@
 		$seek_params = array();
 		$room_logs['page_list'] = 
 			generate_js_page_list("get_js_room_log_page",
-				$seek_params, 
+				$seek_params, $page_size, $page_page_size,
 				$room_logs['page_count'], $page, $page_page,
 				"roomlog_pages", "",
 				"curr_page", "other_page");

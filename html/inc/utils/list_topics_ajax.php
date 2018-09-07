@@ -3,6 +3,10 @@
 
     include("../db_connect_inc.php");	
 	include("../utils/request_param_utils.php");
+	include("../utils/sql_utils.php");
+
+	list($page_size, $page_page_size) =
+		get_page_and_page_page_sizes($conn);
 	
 	$topics_seek = get_post_or_get($conn, "topics_seek");
 	
@@ -24,7 +28,7 @@
 		$seeked_topics[] = array(
 			"id" => $topic_id,
 			"name" => $name,
-			"page" => intdiv($i, PAGE_SIZE)
+			"page" => intdiv($i, $page_size)
 		);
 		$i++;
 	}
@@ -45,8 +49,6 @@
 		"allTopics" => $allTopics, 
 		"seekedTopics" => $seeked_topics);
 	
-	// echo "topics_arr\n";	
-	//var_dump($topics_arr);
 	echo json_encode($topics_arr);
 	include("../db_disconnect_inc.php");
 ?>

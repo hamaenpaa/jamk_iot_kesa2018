@@ -68,6 +68,7 @@ $().ready(function() {
 							$("#roomlog_pages").replaceWith(jsonData.page_list);
 							$("#new_room_log_notifications").html(
 								"<b>Sinulla on uusia merkintöjä lokissa</b>");
+							getSummaries(jsonData);
 						}
 					}
 			});
@@ -131,6 +132,74 @@ function get_js_room_log_page(page, page_page) {
 				$("#roomlog_pages").replaceWith(jsonData.page_list);
 				$('#page').html(page);
 				$('#page_page').html(page_page);
+				getSummaries(jsonData);
 			}
 	});	
+}
+
+function getSummaries(jsonData) {
+	getDynamitSummary(jsonData);
+	getExpaSummary(jsonData);
+}
+
+function getDynamitSummary(jsonData) {
+	if (jsonData.NFC_ID_topics_and_lessons !== undefined) {
+		topics_and_lessons = jsonData.NFC_ID_topics_and_lessons;
+		dynamit_summary_html = "";
+		for(iTopicsAndLessonItem=0; iTopicsAndLessonItem < topics_and_lessons.length; 
+			iTopicsAndLessonItem++) {
+			dynamit_summary_html += "<h3><b>NFC ID: " + 
+				topics_and_lessons[iTopicsAndLessonItem].nfc_id +
+				"</b></h3><h4><b>Aiheet:</b></h4>";
+			topics_list = "";
+			topics_arr = topics_and_lessons[iTopicsAndLessonItem].topics;
+			for(iTopicsItem=0; iTopicsItem < topics_arr.length; iTopicsItem++) {
+				if (topics_list != "") { topics_list += ","; }
+				topics_list += topics_arr[iTopicsItem].topic_name;
+			}
+			dynamit_summary_html += topics_list + "<br>";
+			dynamit_summary_html += "<h4><b>Aiheet oppitunneittain</b></h4>";
+			for(iTopicsItem=0; iTopicsItem < topics_arr.length; iTopicsItem++) {
+				dynamit_summary_html += "<b>Aihe: " + topics_arr[iTopicsItem].topic_name + "</b><br>" +
+					"<b>oppitunnit</b>:<br> ";
+				for(iTopicLesson=0; iTopicLesson < topics_arr[iTopicsItem].lessons.length; iTopicLesson++) {
+					lesson = topics_arr[iTopicsItem].lessons[iTopicLesson];
+					if (lesson.course != undefined && lesson.course != "" && lesson.course != null &&
+						lesson.course != "&nbsp;") {
+						dynamit_summary_html += "<b>Kurssi: </b>" + lesson.course + " ";
+					}
+					dynamit_summary_html += "<b>Huone:</b> " + lesson.room_identifier +
+						" <b>Aika:</b> " + lesson.time_interval + "<br>";
+				}
+				dynamit_summary_html += "<br>";			
+			}
+		}
+		$("#dynamit_summary").html(dynamit_summary_html);
+	}
+}
+
+function getExpaSummary(jsonData) {
+	if (jsonData.NFC_ID_monthly_counts !== undefined) {
+		counts = jsonData.NFC_ID_monthly_counts;
+		expa_summary_html = "";
+		for(iYearItem=0; iYearItem < counts.year_counts.length; iYearItem++) {
+			expa_summary_html += "<h2>Kävijät vuonna " + counts.year_counts[iYearItem].year + "</h2>";
+			expa_summary_html += "Koko vuonna oli valitulla ajalla yhteensä " + 
+				counts.year_counts[iYearItem].count + " kävijää.<br><br>";
+			expa_summary_html += "Vuonna oli kuukausittain valitulla ajalla kävijöitä seuraavasti: <br><br>";
+			arr_months = [];
+			for(iMonthItem=0; iMonthItem < counts.month_counts.length; iMonthItem++) {
+				if (counts.month_counts[iMonthItem].year == counts.year_counts[iYearItem].year) {
+					arr_months = counts.month_counts[iMonthItem].months;
+				}
+			}
+			for(var monthKey in arr_months) {
+				expa_summary_html += 
+					arr_monthnames[monthKey - 1] + ": " + arr_months[monthKey] + " kävijää.";
+			}
+			expa_summary_html += "<br>";
+			
+		}
+		$("#expa_summary").html(expa_summary_html);
+	}
 }

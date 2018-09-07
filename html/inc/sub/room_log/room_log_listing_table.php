@@ -66,7 +66,9 @@
 ?>
 <?php
 		if ($settings['usage_type'] == 1) {
+			
 ?>
+			<div id="dynamit_summary">
 			<h2>Sisäänkirjautuneiden ihmisten aiheittainen osallistuminen</h2>
 <?php
 			foreach($room_logs['NFC_ID_topics_and_lessons']
@@ -90,7 +92,8 @@
 					echo "<b>Aihe: " . $topic['topic_name']. "</b><br>";
 					echo "<b>oppitunnit</b>:<br> ";
 					foreach($topic['lessons'] as $lesson) {
-						if ($lesson['course'] != "" && $lesson['course'] != null && $lesson['course'] != "NULL") {
+						if ($lesson['course'] != "" && $lesson['course'] != null && 
+							$lesson['course'] != "NULL" && $lesson['course'] != "&nbsp;") {
 							echo "<b>Kurssi: </b>" . $lesson['course']. " ";
 						}
 						echo "<b>Huone:</b> " . $lesson['room_identifier'] . " ". 
@@ -99,7 +102,14 @@
 					echo "<br>";
 				}
 			}
+?>
+			</div>
+<?php
 		} else {
+?>
+			<div id="expa_summary">
+<?php
+			
 			foreach($room_logs['NFC_ID_monthly_counts']['year_counts'] as $year_counts) {
 				echo "<h2>Kävijät vuonna " . $year_counts['year'] . "</h2>";
 				echo "Koko vuonna oli valitulla ajalla yhteensä " . 
@@ -121,6 +131,9 @@
 				echo "<br>";
 			}
 		}
+?>
+		</div>
+<?php
 	}
 	echo div_nodisplay_elem_group(array(
 		"last_query_lesson_topics_seek_selection" => 

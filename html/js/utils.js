@@ -1,6 +1,9 @@
 var page_size = 50;
 var page_page_size = 20;
 
+arr_monthnames = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu",
+   "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
+
 $.get("inc/utils/get_page_and_page_page_sizes.php",
 	function(data) {
 		jsonData = JSON.parse(data);
@@ -304,7 +307,7 @@ function modify_and_remove_columns(modify_call, remove_call) {
 }
 
 function purifyHttpParamValue(value) {
-	return value;
+	return encodeURIComponent(value);
 }
 
 function buildHttpGetUrl(root_url, param_names, param_values) {
@@ -581,4 +584,16 @@ function refreshTopicSelections(container_id, topics) {
 		selection_vals += topics[iTopic][1];
 	}		
 	$("#" + container_id + "_selected_topic_ids").val(selection_vals);
+}
+
+function buildTopicsHandlingContainer(container_id, curpage, seek_topics_name) {
+	id_name_1 = container_id + "_curpage";
+	id_name_2 = container_id + "_seek_topics_name";
+	return div_elem(container_id, undefined, false, 
+		input_elem("hidden", id_name_1, id_name_1, curpage, 
+			false, undefined, undefined, undefined,
+			undefined, undefined, undefined) + 
+		input_elem("hidden", id_name_2, id_name_2, seek_topics_name, 
+			false, undefined, undefined, undefined,
+			undefined, undefined, undefined));
 }

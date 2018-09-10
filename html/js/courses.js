@@ -209,12 +209,12 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 							$("#lessons_without_course_listing_table");
 						avail_new_course_lessons_cont_table.html("");
 						avail_new_course_lessons_cont_table.append(
-							heading_row(undefined, [3,3,5,1], 
+							heading_row(undefined, [3,3,4,"1-wrap"], 
 								["<h5>Aikaväli</h5>", "<h5>Huone</h5>", "<h5>Aihe</h5>",""]));
 						for(iLesson=0; iLesson < jsonData.lessons.length; iLesson++) {
 							lesson = jsonData.lessons[iLesson];
 							avail_new_course_lessons_cont_table.append(
-								data_row(undefined, [3,3,5,"1-wrap"],
+								data_row(undefined, [3,3,4,"1-wrap"],
 									[lesson.lesson_period, lesson.room_identifier,
 									 lesson.topic,
 									 js_action_column(lesson.add_call, "Lisää")]));

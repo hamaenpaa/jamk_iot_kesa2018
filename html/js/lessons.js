@@ -182,7 +182,7 @@ function fetchNewAvailLessonTopics(lesson_id) {
 }
 
 function addTopicToLesson(topic_id, lesson_id) {
-	$.get(buildHttpGetUrl("inc/sub/lesson/fetch_new_avail_lesson_topics.php", 
+	$.get(buildHttpGetUrl("inc/sub/lesson/add_topic_to_lesson.php", 
 		["topic_id","lesson_id"], [topic_id,lesson_id]),
 		function (data) {
 			fetchLessonTopics(lesson_id);

@@ -9,6 +9,7 @@
 	include("../../db_connect_inc.php");
 	include("../../utils/request_param_utils.php");
 	include("../../utils/html_utils.php");
+	include("../../utils/sql_utils.php");
 	include("../../utils/topic_selection.php");
 	include("course_fetch_from_db.php");
 

@@ -101,7 +101,8 @@ function refresh_course_lessons(course_id) {
 	course_lessons_cont = $("#course_lessons_cont");
 	course_lessons_cont.html("");
 	course_lessons_cont.append("<h2>Kurssin oppitunnit</h2>");
-	$.get("inc/sub/course/get_course_lessons_ajax.php?id=" + course_id,
+	$.get(buildHttpGetUrl("inc/sub/course/get_course_lessons_ajax.php",
+		["id"], [course_id]), 
 		function(data) {
 			jsonData = JSON.parse(data);
 			if (jsonData.length > 0) {

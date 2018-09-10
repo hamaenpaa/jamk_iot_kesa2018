@@ -36,6 +36,7 @@
 			"SELECT " .  $total_fields . $sql_end_without_page_def .
 			 " LIMIT " . (($page - 1) * $page_size) . "," . $page_size;
 		$q_lessons = $conn->prepare($sql_lessons);
+		
 		$q_lessons->bind_param("ssss", $begin_time, $end_time, $begin_time, $end_time);
 		$q_lessons->execute();		
 		$q_lessons->store_result();
@@ -103,11 +104,13 @@
 	
 	function get_new_avail_lesson_topics($conn, $id) {
 		$sql = "SELECT ca_topic.id, ca_topic.name FROM 
-					ca_topic 
-					LEFT JOIN ca_lesson_topic ON ca_topic.id = ca_lesson_topic.topic_id
-		        WHERE NOT EXISTS (SELECT ca_lesson_topic.topic_id WHERE
-					ca_lesson_topic.lesson_id = ? AND 
-					ca_lesson_topic.topic_id = ca_topic.id)";
+					ca_topic LEFT JOIN ca_lesson_topic
+					ON ca_topic.id = ca_lesson_topic.topic_id WHERE
+		            NOT EXISTS (SELECT ca_lesson_topic.topic_id FROM 
+						ca_lesson_topic WHERE
+						ca_lesson_topic.lesson_id = ? AND 
+						ca_lesson_topic.topic_id = ca_topic.id) AND
+					ca_topic.removed = 0 ORDER by ca_topic.name";
 		$q = $conn->prepare($sql);
 		$q->bind_param("i", $id);
 		$q->execute();	
@@ -115,11 +118,20 @@
 		$q->bind_result($topic_id, $name);
 		$topics = array();
 		while($q->fetch()) {
-			$topics[] = array(
-				"name" => $name, 
-				"add_call" => 
-					java_script_call("addTopicToLesson", array($topic_id, $id))						
-			);
+			$topic_already_contained = false;
+			foreach($topics as $topic) {
+				if ($topic["id"] == $topic_id) {
+					$topic_already_contained = true;
+				}
+			}
+			if (!$topic_already_contained) {
+				$topics[] = array(
+					"id" => $topic_id,
+					"name" => $name, 
+					"add_call" => 
+						java_script_call("addTopicToLesson", array($topic_id, $id))						
+				);
+			}
 		}
 		return $topics;		
 	}

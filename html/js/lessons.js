@@ -146,7 +146,7 @@ function fetchLessonTopics(lesson_id) {
 }
 
 function removeLessonTopic(lesson_id, topic_id) {
-	$.get(buildHttpGetUrl("inc/sub/lesson/get_lesson_topics.php", 
+	$.get(buildHttpGetUrl("inc/sub/lesson/remove_lesson_topic.php", 
 		["topic_id","lesson_id"], [topic_id,lesson_id]),
 		function (data) {
 			fetchLessonTopics(lesson_id);

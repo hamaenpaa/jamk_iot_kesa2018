@@ -34,6 +34,7 @@
 			"curr_page", "other_page");
 	} else {
 ?>
+		<div id="course_listing_table" class="datatable">
 		<b>Haulla ei löytynyt yhtään kurssia</b>
 <?php
 	}

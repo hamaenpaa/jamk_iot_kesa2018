@@ -74,17 +74,18 @@
 	
 	function get_course_lessons($conn, $course_id) {
 		$sql_course_lessons = 
-			"SELECT ca_lesson.ID, ca_lesson.topic, ca_lesson.room_identifier,
+			"SELECT ca_lesson.ID, ca_lesson.room_identifier,
 				ca_lesson.begin_time, ca_lesson.end_time FROM 
 				ca_lesson WHERE ca_lesson.removed = 0 AND ca_lesson.course_id = ?
-				ORDER BY ca_lesson.begin_time DESC, ca_lesson.topic ASC";
+				ORDER BY ca_lesson.begin_time ";
+		// echo "sql_course_lessons " . $sql_course_lessons . "\n";
 		$q = $conn->prepare($sql_course_lessons);
 		$course_lessons_arr = array();
 		if ($q) {
 			$q->bind_param("i", $course_id);
 			$q->execute();
 			$q->store_result(); 		
-			$q->bind_result($lesson_id, $topic, $room_identifier, $begin_time, $end_time);
+			$q->bind_result($lesson_id, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
 				$lesson_period = 
 					str_replace(" ", "&nbsp;", 
@@ -93,7 +94,7 @@
 				$course_lessons_arr[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => str_replace(" ", "&nbsp;", $topic),
+						"topic" => "&nbsp;",
 						"lesson_period" => $lesson_period,
 						"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
 						"remove_call" => 
@@ -101,6 +102,10 @@
 					);
 			}
 		}
+		// echo "get_course_lessons, course_id " . $course_id . "\n";
+		// var_dump($course_lessons_arr);
+		
+		
 		return $course_lessons_arr;
 	}
 	

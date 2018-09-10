@@ -256,8 +256,8 @@ function validate_available_new_lessons_fetch_params(
 
 function addLessonCourse(course_id, lesson_id) {
 	$.get(buildHttpGetUrl("inc/sub/course/add_lesson_to_course.php", 
-			["course_id"],[course_id]),
-		function(data) {	
+			["course_id","lesson_id"],[course_id, lesson_id]),
+		function(data) {
 			refresh_course_lessons(course_id);	
 			page = $("#lessons_without_course_page").html();
 			page_page =	$("#lessons_without_course_page_page").html();			

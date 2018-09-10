@@ -60,12 +60,18 @@ function saveTopic() {
 		$.get(buildHttpGetUrl("inc/sub/topic/save_topic.php", 
 			["id","name"], [id,name]), 
 			function(data) {
-				page = $("#page").html();
-				page_page = $("#page_page").html();				
-				get_topics_page(page, page_page);					
-				$("#id").val("");
-				$("#name").val("");
-				$("#add_or_modify_topic_header").html("Lisää aihe");
+				if (data == "{}") {
+					page = $("#page").html();
+					page_page = $("#page_page").html();				
+					get_topics_page(page, page_page);					
+					$("#id").val("");
+					$("#name").val("");
+					$("#add_or_modify_topic_header").html("Lisää aihe");
+					$("#add_or_modify_topic_form_validation_errors").html("");
+				} else {
+					$("#add_or_modify_topic_form_validation_errors").html(
+						"Toisella aiheella on jo sama nimi. Korjaa se!");
+				}
 			}
 		);		
 	}

@@ -1,6 +1,4 @@
 <?php
-	define("PAGE_SIZE", 2);
-
     include("../db_connect_inc.php");	
 	include("../utils/request_param_utils.php");
 	include("../utils/sql_utils.php");

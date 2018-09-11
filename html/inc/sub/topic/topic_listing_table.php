@@ -3,6 +3,7 @@
 	$topics_arr = get_topics($conn, $name_seek, $page);
 ?>
 	<h2>Haetut aiheet</h2>
+	<div id="topics_query_results">
 <?php
 	if ($topics_arr['count'] > 0) {
 ?>
@@ -30,12 +31,12 @@
 			"curr_page", "other_page");
 	} else {
 ?>
-		<div id="no_topic_findings">
-			<b>Haulla ei löytynyt yhtään aihetta</b>
-		</div>
-		<div id="topics_listing_table" class="datatable"></div>
+		<b>Haulla ei löytynyt yhtään aihetta</b>
 <?php
 	}
+?>
+	</div>
+<?php
 /*
 	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions

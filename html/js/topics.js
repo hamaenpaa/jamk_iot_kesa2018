@@ -5,29 +5,42 @@ function get_topics_page(page, page_page) {
 		function (data) {
 			if (data != "") {
 				jsonData = JSON.parse(data);
-				$("#topics_listing_table .datarow").remove();
-				for(i=0; i < jsonData.topics.length; i++) {
-					$("#topics_listing_table").append(
-						data_row(undefined, [10, "1-wrap"],
-							[jsonData.topics[i].name, 
-							modify_and_remove_columns(
-								jsonData.topics[i].modify_call,
-								jsonData.topics[i].remove_call)]));
-				}
-				if (jsonData.topics.length == 0) {
-					$("#no_topic_findings").html("<b>Haulla ei löytynyt yhtään aihetta</b>");
-				} else {
-					$("#no_topic_findings").html("");
-				}
+				if (jsonData.topics.length > 0) {	
+					if ($("#topics_listing_table").length == 0) {
+						buildEmptyTopicsTable();
+					} else {
+						$("#topics_listing_table .datarow").remove();
+					}				
+					for(i=0; i < jsonData.topics.length; i++) {
+						$("#topics_listing_table").append(
+							data_row(undefined, [10, "1-wrap"],
+								[jsonData.topics[i].name, 
+								modify_and_remove_columns(
+									jsonData.topics[i].modify_call,
+									jsonData.topics[i].remove_call)]));
+					}
 			
-				checkWidth();
-				$("#topic_pages").replaceWith(jsonData.page_list);
+					checkWidth();
+					$("#topic_pages").replaceWith(jsonData.page_list);
 		
-				// These can change also due to another user:
-				$("#page").html(jsonData.page); 
-				$("#page_page").html(jsonData.page_page);
+					// These can change also due to another user:
+					$("#page").html(jsonData.page); 
+					$("#page_page").html(jsonData.page_page);
+				} else {
+					$("#topics_query_results").html(
+						"<b>Haulla ei löytynyt yhtään aihetta</b>");				
+				}
 			}
 		});
+}
+
+function buildEmptyTopicsTable() {
+	$("#topics_query_results").html("");
+	$("#topics_query_results").append( 
+		div_elem("topics_listing_table", "datatable", false,
+			heading_row(undefined, [10,"1-wrap"], 
+				["<h5>Nimi</h5>",
+					"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>"])));
 }
 
 function removeTopic(topic_id) {

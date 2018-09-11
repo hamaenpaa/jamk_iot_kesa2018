@@ -37,24 +37,41 @@ function get_course_page(page, page_page) {
 			 page,page_page]), 
 		function (data) {
 			jsonData = JSON.parse(data);
-			$("#course_listing_table .datarow").remove();
-			for(i=0; i < jsonData.courses.length; i++) {
-				courseData = jsonData.courses[i];
-				$("#course_listing_table").append(
-					data_row(id, 
-						[4,6,"1-wrap"], 
-						[courseData.name, courseData.description,
-						modify_and_remove_columns(
-							jsonData.courses[i].modify_call,
-							jsonData.courses[i].remove_call)]));
-			}		
-			checkWidth();
-			$("#course_pages").replaceWith(jsonData.page_list);
+			if (jsonData.courses.length > 0) {
+				if ($("#course_listing_table" ).length == 0) {
+					buildEmptyCourseTable();
+				} else {
+					$("#course_listing_table .datarow").remove();
+				}
+				for(i=0; i < jsonData.courses.length; i++) {
+					courseData = jsonData.courses[i];
+					$("#course_listing_table").append(
+						data_row(id, 
+							[4,6,"1-wrap"], 
+							[courseData.name, courseData.description,
+								modify_and_remove_columns(
+								jsonData.courses[i].modify_call,
+								jsonData.courses[i].remove_call)]));
+				}		
+				checkWidth();
+				$("#course_pages").replaceWith(jsonData.page_list);
 		
-			// These can change also due to another user:
-			$("#page").html(jsonData.page); 
-			$("#page_page").html(jsonData.page_page);
+				// These can change also due to another user:
+				$("#page").html(jsonData.page); 
+				$("#page_page").html(jsonData.page_page);
+			} else {
+				$("#course_query_results").html("<b>Haulla ei löytynyt yhtään kurssia</b>");
+			}
 	});
+}
+
+function buildEmptyCourseTable() {
+	$("#course_query_results").html("");
+	$("#course_query_results").append( 
+		div_elem("course_listing_table", "datatable", false,
+			heading_row(undefined, [4,6,"1-wrap"], 
+				["<h5>Nimi</h5>","<h5>Kuvaus</h5>",
+					"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>"])));
 }
 
 function removeCourse(course_id) {

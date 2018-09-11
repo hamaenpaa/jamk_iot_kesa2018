@@ -5,6 +5,7 @@
 		$last_query_lesson_topics_seek_selection);
 	$courses_arr = get_courses($conn, $name_seek, $description_seek, $topic_ids, 1);
 ?>
+	<div id="course_query_results">
 	<h2>Kurssit</h2>
 <?php
 	if ($courses_arr['count'] > 0) {
@@ -34,10 +35,12 @@
 			"curr_page", "other_page");
 	} else {
 ?>
-		<div id="course_listing_table" class="datatable"></div>
 		<b>Haulla ei löytynyt yhtään kurssia</b>
 <?php
 	}
+?>
+	</div>
+<?php
 /*
 	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions

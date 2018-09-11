@@ -42,7 +42,6 @@
 	}	
 	
 	if (!$already_exists) {
-		echo "!already_exists -> add\n";
 		$sql_add_lesson_topic = 
 			"INSERT INTO ca_lesson_topic (topic_id, lesson_id) VALUES (?,?)"; 
 		$q = $conn->prepare($sql_add_lesson_topic);

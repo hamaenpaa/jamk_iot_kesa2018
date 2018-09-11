@@ -40,7 +40,7 @@
 	// check if same day contains another lesson with same room identifier
 	$sql_check_overlapping_lesson =
 	     "SELECT COUNT(*) FROM ca_lesson WHERE 
-		  DATE(ca_lesson.begin_time) = DATE(?) AND ca_lesson.room_identifier = ?";
+		  DATE(ca_lesson.begin_time) = DATE(?) AND ca_lesson.room_identifier = ? AND ca_lesson.removed = 0";
 	if ($id != "") {
 		$sql_check_overlapping_lesson .= " AND ca_lesson.id <> ?";
 	}

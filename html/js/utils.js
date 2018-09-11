@@ -352,6 +352,10 @@ function selectTopicHandling(container_id, selected_ids, topic_parts_seek) {
 					}
 				}
 				curpage = $("#" + container_id + "_curpage").val();
+				if (curpage == null || curpage == undefined || curpage == "") {
+					$("#" + container_id + "_curpage").val("1");
+					curpage = 1;
+				}
 				buildTopicSelectionPage(container_id, 
 					allTopics, jsonData.seekedTopics, selected_ids, curpage); 
 				refreshTopicSelections(container_id, topics);
@@ -378,6 +382,7 @@ function build_initial_topic_section_elems(container_id, selected_ids,
 		button_elem("seek_topics('" + container_id + "'); return false; ", "Etsi aiheita"));
 	seek_topics_section.append(
 		div_elem(container_id + "_table", "datatable", false, ""));
+	seek_topics_section.append(buildTopicsHandlingContainer(container_id, 1, ""));
 	seek_topics_section.append(
 		div_elem(container_id + "_topic_pages", "", false, ""));
 	topic_pages_section = $("#" + container_id + "_topic_pages");
@@ -398,7 +403,8 @@ function seek_topics(container_id) {
 
 function refreshTopicSelectionPage(container_id, selectedIds, page) {
 	topics_seek = $("#" + container_id + "_seek_topics_name").val();
-	$.get("inc/utils/list_topics_ajax.php?topics_seek=" + topics_seek,
+	$.get(buildHttpGetUrl(
+		"inc/utils/list_topics_ajax.php", ["topics_seek"],[topics_seek]),
 		function(data) {
 			if (data != "") {
 				jsonData = JSON.parse(data);
@@ -589,11 +595,19 @@ function refreshTopicSelections(container_id, topics) {
 function buildTopicsHandlingContainer(container_id, curpage, seek_topics_name) {
 	id_name_1 = container_id + "_curpage";
 	id_name_2 = container_id + "_seek_topics_name";
-	return div_elem(container_id, undefined, false, 
-		input_elem("hidden", id_name_1, id_name_1, curpage, 
-			false, undefined, undefined, undefined,
-			undefined, undefined, undefined) + 
-		input_elem("hidden", id_name_2, id_name_2, seek_topics_name, 
-			false, undefined, undefined, undefined,
-			undefined, undefined, undefined));
+	if (curpage == "" || curpage == undefined) { curpage = "1"; }
+	return 
+		div_elem(container_id, undefined, false, 
+			input_elem("hidden", id_name_1, id_name_1, curpage, 
+				false, undefined, undefined, undefined,
+				undefined, undefined, undefined) + 
+			input_elem("hidden", id_name_2, id_name_2, seek_topics_name, 
+				false, undefined, undefined, undefined,
+				undefined, undefined, undefined) + 
+			div_elem(
+				"last_query_seek_topics_for_new_lessons_of_course_seek_selection",
+				undefined, false, "") +
+			div_elem(
+				"last_query_seek_topics_for_new_lessons_of_course_topic_seek",
+				undefined, false, ""));
 }

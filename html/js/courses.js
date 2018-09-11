@@ -102,7 +102,7 @@ function refresh_course_lessons(course_id) {
 	course_lessons_cont.html("");
 	course_lessons_cont.append("<h2>Kurssin oppitunnit</h2>");
 	$.get(buildHttpGetUrl("inc/sub/course/get_course_lessons_ajax.php",
-		["id"], [course_id]), 
+		["id"], [course_id]),
 		function(data) {
 			jsonData = JSON.parse(data);
 			if (jsonData.length > 0) {
@@ -132,8 +132,7 @@ function build_new_avail_course_lessons_section(course_id) {
 	avail_new_course_lessons_cont.append("<h2>Lisää oppitunteja kurssille</h2>");	
 	avail_new_course_lessons_cont.append("<b>Hae oppitunteja kurssille</b>");
 	call = "seek_available_new_course_lessons(" + course_id + ")";
-	avail_new_course_lessons_cont.append(
-		div_elem(undefined, "row-type-2", false, 
+	content = div_elem(undefined, "row-type-2", false, 
 			label_elem("Aloitusaika:") + 
 			input_elem(undefined, "lesson_add_begin_time_seek", "lesson_add_begin_time_seek", 
 				undefined, true, undefined, undefined, "Aloitusaika",
@@ -150,12 +149,25 @@ function build_new_avail_course_lessons_section(course_id) {
 			input_elem("text", "lesson_add_room_seek", "lesson_add_room_seek", 
 				undefined, false, undefined, "50", "Huoneen tunnus")) +		
 		div_elem(undefined, "row-type-2", false,
-			label_elem("Etsittävä aiheen osa:") + 
-			input_elem("text", "lesson_add_topic_seek", "lesson_add_topic_seek", 
-				undefined, false, undefined, "50", "Aihe")) +	
+			label_elem("Oppituntien aiheen etsintä:")) +
+		div_elem(undefined, "row-type-2", false,
+			label_elem("(jos mitään ei valita, haetaan aiheista riippumatta)")) +
+		div_elem("seek_topics_for_new_lessons_of_course_curpage", 
+			undefined, true, 1) + 
+		div_elem("seek_topics_for_new_lessons_of_course_seek_topics_name", 
+			undefined, true, 1) + 
+		div_elem(undefined, "row-type-5", false,
+			buildTopicsHandlingContainer(
+				"seek_topics_for_new_lessons_of_course", 1, "")) +	
 		div_elem(undefined, "row-type-5", false, button_elem(call, "Hae")) +
 		div_elem("new_avail_lessons_validation_msgs", undefined, false, "") +
-		div_elem("add_avail_lesson_seek_params", undefined, true, ""));
+		div_elem("add_avail_lesson_seek_params", undefined, true, "")
+	
+	avail_new_course_lessons_cont.append(content);
+	seek_selection = $("#last_query_seek_topics_for_new_lessons_of_course_seek_selection").html();
+	topic_parts_seek = $("#last_query_seek_topics_for_new_lessons_of_course_topic_seek").html();
+	container_id = "seek_topics_for_new_lessons_of_course";
+	selectTopicHandling(container_id, seek_selection, topic_parts_seek);
 	setUpDatetimepickers();
 }
 
@@ -183,24 +195,24 @@ function seek_available_new_course_lessons(course_id) {
 		div_elem("lessons_without_course_listing_table", "datatable", false, ""));
 	avail_new_course_lessons_cont.append(
 		div_elem("lessons_without_course_pages", undefined, false, ""));
-
 	fetch_available_new_course_lessons(1,1,course_id);
 }
-
 
 function fetch_available_new_course_lessons(page,page_page,course_id) {
 	seek_begin_time = $("#last_query_add_lesson_begin_time_seek").html();
 	seek_end_time = $("#last_query_add_lesson_end_time_seek").html();
 	seek_room = $("#last_query_add_lesson_room_seek").html();
 	seek_topic = $("#last_query_add_lesson_topic_seek").html();
+	seek_topics_name_parts = $("#seek_topics_for_new_lessons_of_course_seek_topics_section").html();
+	seek_topics_ids = $("#seek_topics_for_new_lessons_of_course_selected_topic_ids").val();
 	if (validate_available_new_lessons_fetch_params(
-		seek_begin_time, seek_end_time, seek_room, seek_topic)) {
+		seek_begin_time, seek_end_time, seek_room)) {
 		$.get(buildHttpGetUrl(
 			"inc/sub/course/get_new_avail_lessons.php", 
 			["id","begin_time_seek","end_time_seek",
-			 "room_seek","topic_seek","page","page_page"],
+			 "room_seek","topic_name_parts","topic_ids","page","page_page"],
 			[course_id,seek_begin_time,seek_end_time,
-			 seek_room,seek_topic,page,page_page]),
+			 seek_room,seek_topics_name_parts,seek_topics_ids,page,page_page]),
 			function(data) {
 				if (data != "") {
 					jsonData = JSON.parse(data);
@@ -210,13 +222,13 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 						avail_new_course_lessons_cont_table.html("");
 						avail_new_course_lessons_cont_table.append(
 							heading_row(undefined, [3,3,4,"1-wrap"], 
-								["<h5>Aikaväli</h5>", "<h5>Huone</h5>", "<h5>Aihe</h5>",""]));
+								["<h5>Aikaväli</h5>", "<h5>Huone</h5>", "<h5>Aiheet</h5>",""]));
 						for(iLesson=0; iLesson < jsonData.lessons.length; iLesson++) {
 							lesson = jsonData.lessons[iLesson];
 							avail_new_course_lessons_cont_table.append(
 								data_row(undefined, [3,3,4,"1-wrap"],
 									[lesson.lesson_period, lesson.room_identifier,
-									 lesson.topic,
+									 lesson.topics,
 									 js_action_column(lesson.add_call, "Lisää")]));
 						}
 						$("#lessons_without_course_page").html(jsonData.page);
@@ -225,7 +237,9 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 							jsonData.page_list);
 					} else {
 						$("#lessons_without_course_listing_table").html(
-						"Yhtään oppituntia ei ole vapaana lisättäväksi");
+							"Yhtään oppituntia ei ole vapaana lisättäväksi");
+						$("#lessons_without_course_pages").replaceWith(
+							jsonData.page_list);
 					}
 					checkWidth();
 				}
@@ -235,7 +249,8 @@ function fetch_available_new_course_lessons(page,page_page,course_id) {
 }
 
 function validate_available_new_lessons_fetch_params(
-	seek_begin_time, seek_end_time, seek_room, seek_topic) {
+	seek_begin_time, seek_end_time, seek_room) {
+	$("#new_avail_lessons_validation_msgs").html("");
 	if (!is_datetime_order_correct(seek_begin_time, seek_begin_time)) {
 		$("#new_avail_lessons_validation_msgs").html(
 		   "Etsinnässä olevan aikavälin ajat eivät ole oikeita aikoja tai ne ovat väärässä järjestyksessä.");
@@ -245,19 +260,14 @@ function validate_available_new_lessons_fetch_params(
 			"Huoneen tunnisteen maksimipituus on 50 merkkiä. " +
 			"Ei ole mieltä etsiä pidemmällä merkkijonolla");
 		return false;
-	} else if (seek_topic.length > 150) {
-		$("#new_avail_lessons_validation_msgs").html(
-			"Aiheen maksimipituus on 150 merkkiä. " +
-			"Ei ole mieltä etsiä pidemmällä merkkijonolla");
-		return false;
-	}	
+	} 	
 	return true;
 }
 
-function addLessonCourse(course_id, lesson_id) {
+function addLessonCourse(container_id, course_id, lesson_id) {
 	$.get(buildHttpGetUrl("inc/sub/course/add_lesson_to_course.php", 
-			["course_id","lesson_id"],[course_id, lesson_id]),
-		function(data) {
+		["course_id","lesson_id"],[course_id, lesson_id]),
+		function(data) {	
 			refresh_course_lessons(course_id);	
 			page = $("#lessons_without_course_page").html();
 			page_page =	$("#lessons_without_course_page_page").html();			

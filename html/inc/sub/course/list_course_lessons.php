@@ -11,7 +11,9 @@
 				echo heading_row(null, array(3,3,5,1), 
 					array("<h5>Aikaväli</h5>","<h5>Huone</h5>","<h5>Aihe</h5>",""));
 				foreach($course_lessons as $course_lesson) {
-					$remove_course_lesson_params = array($course['course_id'], $course['lessom_id');
+					$remove_course_lesson_params = array(
+						"seek_topics_for_new_lessons_of_course", 
+						$course['course_id'], $course['lessom_id');
 					$remove_js_call = java_script_call("removeCourseLesson", 
 						$remove_course_lesson_params);
 					echo data_row(null, array(3,3,5,1), 

@@ -21,7 +21,7 @@ function buildAddOrModifForm(header, user_id, username, user_permission, curr_us
 		permission_input = 
 			div_elem(undefined, "row-type-2", false,
 				label_elem("Admin käyttäjä:") +
-				html_checkbox(undefined, "permission", undefined, user_permission == 1, 
+				html_checkbox("permission", "permission", undefined, user_permission == 1, 
 					undefined));
 	}
 	$("#add_or_modify_user_form").append(
@@ -58,14 +58,18 @@ function saveUser(curr_user_perm) {
 			["id","username","password","permission"],
 			[user_id,username,password,perm]),
 			function(data) {
-				if (data != "") {
-					$("#add_or_modify_user_form").html("");	
+				if (data != "{}") {
+					$("#validation_msgs").html(
+						"Viimeistä admin käyttäjää ei voi muuttaa tavalliseksi käyttäjäksi");
+				} else {
+					$("#add_or_modify_user_form").html("");
 					page = $("#page").html();
 					page_page = $("#page_page").html();		
 		
 					// load new user list with user removed and modified page & page_page
-					get_user_page(page, page_page);			
-			}
+					get_user_page(page, page_page);	
+					$("#validation_msgs").html("");
+				}
 		})
 	}
 }
@@ -103,55 +107,83 @@ function get_user_page(page, page_page) {
 		function (data) {
 			if (data != "{}" && data != "") {
 				jsonData = JSON.parse(data);
-				$("#user_listing_table .datarow").remove();
-				perm = jsonData['perm'];
-				curr_user_id = jsonData['curr_user_id'];
-				for(iUser=0; iUser < jsonData.users.length; iUser++) {
-					calls = "";
-					user = jsonData.users[iUser];
-					username_cols = 10;
-					if (perm == 1) { 
-						calls = js_action_column(
-							js_call("modifyUser", [user.id, "Muokkaa käyttäjää"]),
-							"Muokkaa");
-						if (curr_user_id != user.id) {
-							calls = calls + js_action_column(
-								js_call("removeUser", [user.id]), "Poista");
-						}
-						username_cols = 8;
-					}
-					arr_cols = [username_cols,2];
-					arr_data = [user.username];
-					if (user.permission == 1) {
-						arr_data.push("x");
+				if (jsonData.users.length > 0) {
+					perm = jsonData['perm'];
+					if ($("#user_listing_table").length == 0) {
+						buildEmptyUsersTable(perm);
 					} else {
-						arr_data.push("&nbsp;");
+						$("#user_listing_table .datarow").remove();
 					}
-					if (perm == 1) {
-						arr_data.push(calls);
-						arr_cols.push("1-wrap");
+					curr_user_id = jsonData['curr_user_id'];
+					for(iUser=0; iUser < jsonData.users.length; iUser++) {
+						calls = "";
+						user = jsonData.users[iUser];
+						username_cols = 10;
+						if (perm == 1) { 
+							calls = js_action_column(
+								js_call("modifyUser", [user.id, "Muokkaa käyttäjää"]),
+								"Muokkaa");
+							if (curr_user_id != user.id) {
+								calls = calls + js_action_column(
+									js_call("removeUser", [user.id]), "Poista");
+							}
+							username_cols = 8;
+						}
+						arr_cols = [username_cols,2];
+						arr_data = [user.username];
+						if (user.permission == 1) {
+							arr_data.push("x");
+						} else {
+							arr_data.push("&nbsp;");
+						}
+						if (perm == 1) {
+							arr_data.push(calls);
+							arr_cols.push("1-wrap");
+						}
+						$("#user_listing_table").append(
+							data_row(undefined, arr_cols, arr_data));
 					}
-					$("#user_listing_table").append(
-						data_row(undefined, arr_cols, arr_data));
-				}
-				checkWidth();
-				$("#user_pages").replaceWith(jsonData.page_list);
+					checkWidth();
+					$("#user_pages").replaceWith(jsonData.page_list);
 		
-				// These can change also due to another user:
-				$("#page").html(jsonData.page); 
-				$("#page_page").html(jsonData.page_page);
-			}
+					// These can change also due to another user:
+					$("#page").html(jsonData.page); 
+					$("#page_page").html(jsonData.page_page);
+				} else {
+					$("#user_query_results").html(
+					"<b>Haulla ei löytynyt yhtään käyttäjää</b>");					
+				}
+			} 
 		});	
 }
 
+function buildEmptyUsersTable(perm) {
+	$("#user_query_results").html("");
+	heading_contents = ["<h5>Nimi</h5>","<h5>Admin</h5>"];
+	if (perm == 1) {
+		cols = [8];
+	} else {
+		cols = [10];
+	}
+	cols.push(2);
+	if (perm == 1) {
+		cols.push("1-wrap");
+		heading_contents.push(
+			"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>");
+	}
+	$("#user_query_results").append( 
+		div_elem("user_listing_table", "datatable", false,
+			heading_row(undefined, cols, heading_contents)));
+}
+
+
 function removeUser(user_id) {
 	$.get(buildHttpGetUrl("inc/sub/user/remove_user.php", ["id"], [user_id]), 
-		function (data) {	
+		function (data) {
 			if (data != "") {
 				page = $("#page").html();
 				page_page = $("#page_page").html();		
-		
-				// load new user list with user removed and modified page & page_page
+					// load new user list with user removed and modified page & page_page
 				get_user_page(page, page_page);	
 			}
 	});	

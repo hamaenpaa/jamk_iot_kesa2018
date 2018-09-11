@@ -1,12 +1,9 @@
 <?php
 	include("user_fetch_from_db.php");
 	$users_arr = get_users($conn, $username_seek, $page);
-/*	echo "users_arr";
-	var_dump($users_arr);
-	echo $_SESSION['user_permlevel'];*/
-	
 ?>
 	<h2>Käyttäjät</h2>
+	<div id="user_query_results">
 <?php
 	if ($users_arr['count'] > 0) {
 		$user_name_cols = 10;
@@ -47,10 +44,6 @@
 						"<div class=\"col-sm-1\">" . $modify_btn . "</div>".
 						"<div class=\"col-sm-1\">" . $remove_btn . "</div>";
 				} 
-/*				echo "cols:";
-				var_dump($cols);
-				echo "data_contents";
-				var_dump($data_contents);*/
 				echo data_row(null, $cols, $data_contents);
 			}
 ?>
@@ -67,6 +60,9 @@
 		<b>Haulla ei löytynyt yhtään käyttäjää</b>
 <?php
 	}
+?>
+	</div>
+<?php
 /*
 	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions

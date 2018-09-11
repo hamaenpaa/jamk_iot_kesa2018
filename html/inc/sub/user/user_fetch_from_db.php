@@ -38,7 +38,8 @@
 		$q_user_count->fetch();		
 		
 		$page_count = intdiv($count, $page_size);
-		if ($page_count * $page_size < $count) { $page_count++; }		
+		if ($page_count * $page_size < $count) { $page_count++; }	
+		if ($page_count == 0) { $page_count = 1; }
 		$page_page_count = intdiv($page_count, $page_page_size);
 		if ($page_page_count * $page_page_size < $page_count) { $page_page_count++; }
 

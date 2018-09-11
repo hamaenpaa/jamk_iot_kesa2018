@@ -1,3 +1,4 @@
+<div id="lesson_query_results">
 <?php
 	if ($begin_time_seek_value_param != "" && $end_time_seek_value_param != "") {
 		include("lessons_fetch_from_db.php");
@@ -44,6 +45,9 @@
 <?php
 		}
 	}
+?>
+</div>
+<?php
 /*
 	These are because seek fields etc. can be changes after
      last query and other user and also to make js functions

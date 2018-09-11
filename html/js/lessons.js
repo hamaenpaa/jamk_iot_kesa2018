@@ -62,25 +62,42 @@ function get_lessons_page(page, page_page) {
 			 page,page_page]), function (data) {
 			if (data != "") {
 				jsonData = JSON.parse(data);
-				$("#lesson_listing_table .datarow").remove();
-				for(i=0; i < jsonData.lessons.length; i++) {
-					$("#lesson_listing_table").append(
-						data_row(undefined, [5,5,"1-wrap"],
-							[jsonData.lessons[i].time_interval,
-							 jsonData.lessons[i].room_identifier,
-							 modify_and_remove_columns(
-								jsonData.lessons[i].modify_call,
-								jsonData.lessons[i].remove_call)]));
-				}		
-				checkWidth();
-				$("#lesson_pages").replaceWith(jsonData.page_list);
+				if (jsonData.lessons.length > 0) {
+					if ($( "#lesson_listing_table" ).length == 0) {
+						buildEmptyLessonTable();
+					} else {
+						$("#lesson_listing_table .datarow").remove();
+					}
+					for(i=0; i < jsonData.lessons.length; i++) {
+						$("#lesson_listing_table").append(
+							data_row(undefined, [5,5,"1-wrap"],
+								[jsonData.lessons[i].time_interval,
+								jsonData.lessons[i].room_identifier,
+								modify_and_remove_columns(
+									jsonData.lessons[i].modify_call,
+									jsonData.lessons[i].remove_call)]));
+					}		
+					checkWidth();
+					$("#lesson_pages").replaceWith(jsonData.page_list);
 		
-				// These can change also due to another user:
-				$("#page").html(jsonData.page); 
-				$("#page_page").html(jsonData.page_page);
+					// These can change also due to another user:
+					$("#page").html(jsonData.page); 
+					$("#page_page").html(jsonData.page_page);
+				} else {
+					$("#lesson_query_results").html(
+						"<b>Haulla ei löytynyt yhtään koulutusta/oppituntia</b>");
+				}
 			}
 		});
 	}
+}
+
+function buildEmptyLessonTable() {
+	$("#lesson_query_results").append( 
+		div_elem("lesson_listing_table", "datatable", false,
+			heading_row(undefined, [5,5,"1-wrap"], 
+				["<h5>Aikaväli<h5>","<h5>Huone</h5>",
+					"<div class=\"col-sm-1\"></div><div class=\"col-sm-1\"></div>"])));
 }
 
 function removeLesson(lesson_id) {

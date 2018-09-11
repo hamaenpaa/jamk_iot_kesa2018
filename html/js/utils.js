@@ -596,7 +596,7 @@ function buildTopicsHandlingContainer(container_id, curpage, seek_topics_name) {
 	id_name_1 = container_id + "_curpage";
 	id_name_2 = container_id + "_seek_topics_name";
 	if (curpage == "" || curpage == undefined) { curpage = "1"; }
-	return 
+	elem = 
 		div_elem(container_id, undefined, false, 
 			input_elem("hidden", id_name_1, id_name_1, curpage, 
 				false, undefined, undefined, undefined,
@@ -610,4 +610,5 @@ function buildTopicsHandlingContainer(container_id, curpage, seek_topics_name) {
 			div_elem(
 				"last_query_seek_topics_for_new_lessons_of_course_topic_seek",
 				undefined, false, ""));
+	return elem;
 }

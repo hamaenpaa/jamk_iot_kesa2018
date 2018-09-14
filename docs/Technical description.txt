@@ -1,0 +1,257 @@
+This room log application contains following components:
+- Raspberry Pi + NFC Reader
+
+Operating system for Raspberry Pi is probably
+https://www.raspberrypi.org/downloads/
+
+That is debian based Linux operating system.
+PHP, MySQL, Apache, Python and PHP -> MySQL &
+Python -> MySQL libraries at least needed to be 
+installed.
+
+Probably the disk image of the installations
+from the memory card is now easiest way to continue
+with installation part but if really needed 
+it needs to be seached from Linux command history
+what has been run to get parts working together.
+
+The image of the raspberry PI & NFC Reader physical
+installation ( wires etc. ) are as an image in this
+directory at file:
+
+Technical features of the source code:
+
+docs/data_structure.sql   contains the database structure
+that needs to be run to MySQL database like
+
+mysql -u[username] -p[password] ca <data_structure.sql
+
+or copypasting to phpmyadmin sql query tab and running,
+if phpmyadmin is installed.
+
+Web source code general description
+------------------------------------
+html directory contains all the web code that needs to
+be running under apache (php must be installed to be used
+with apache).
+
+css directory contains css styling. img directory contains
+images.
+
+Most php source code is under inc -directory where source
+is organized according to sub modules. Each submodule
+contains at inc root directory files like 
+list_[module based_name].php  which works like including
+all the needed sub files when first loading stuff under
+sub directory for example module like Course (Kurssit)
+except for settings this file is formed settings.php and 
+contains more logic.
+
+db_connect.php and db_disconnect_inc.php are files resposible
+for creating and destroying database connection to MySQL
+database. Database connection parameters for Web connection
+needs to be set to db_connect_inc.php (username, password,
+host).
+
+Login and logout files and navigation are handled with 
+index.php, login.php, login_confirm.php, logout.php and
+navigation.php.
+
+For layout there is also footer.php and header.php
+For datepicker there exists datepicker.php and for some
+directory configuration config.php
+
+There is jQuery plugin for datetime picker used
+for date, time and datetime selection.
+
+There is utils -directory that contains common routines
+used in many modules and especially routines for topic
+searching under different modules.
+
+AJAX is largely used in application through jQuery get 
+calls. Only the first seeking and table data is build
+directly when opening the module page. Then clicking
+of buttons etc. executes Javascript functions under
+html/js folder. There exists js file for each module.
+AJAX calls use JSON as response. 
+Parameters are URI encoded.
+
+PHP database operations use PHP prepared statements
+for security reasons. Using prepared statements prevents
+SQL injection attacks as far as google searching results
+regarding that showed correct information. However they 
+may echo error messages. It is unimplemented still how 
+to hide/mask those error messages from getting to 
+Web browser console, etc. if there response is console
+logged. However those error messages should occur only
+if something really goes wrong and perhaps if losing
+database connection which is fatal situation anyway.
+There might be things still to do. Typically ajax routines also
+check http session existence before doing any database 
+operations if the routine is such that is only to 
+be used for logged in user. By module following files 
+are database related:
+
+course:
+-------
+add_lesson_to_course.php
+course_fetch_from_db.php
+fetch_course_with_id.php
+get_course_lessons_ajax.php
+get_course_page_ajax.php
+get_new_avail_lessons_ajax.php
+save_course.php
+remove_course.php
+remove_lesson_from_course.php
+
+Typically ..._from_db.php is container for functions
+returning result set etc. from database and others
+and AJAX routines performing database routines
+and returning responses from them.
+
+lesson
+------
+add_topic_to_lesson.php
+fetch_lesson_with_id.php
+fetch_avail_lesson_topics.php
+get_lesson_page_ajax.php
+lessons_fetch_from_db.php
+remove_lesson.php
+remove_lesson_topic.php
+save_lesson.php
+
+room_log
+--------
+download_as_csv.php  
+- this routine is used to build csv file from room log data
+fetch_room_log_data_from_db.php
+get_new_room_log.php
+get_room_log_page_ajax.php
+
+settings
+--------
+fetch_settings_from_db.php
+save_settings.php
+
+topic
+-----
+fetch_topic_with_id.php
+get_topic_page_ajax.php
+remove_topic.php
+save_topic.php
+topics_fetch_from_db.php
+
+user
+----
+get_user_page_ajax.php
+get_user_with_id.php
+remove_user.php
+save_user.php
+user_fetch_from_db.php
+
+utils
+-----
+sql_utils.php
+get_page_and_page_page_sizes.php
+list_topics_ajax.php
+topic_selections.php
+
+User interface oriented files under modules are
+------------------------------------------------
+
+course
+------
+course_and_or_modify_form.php
+course_listing_table.php
+course_seek_form.php
+list_course_lessons.php  <--- This may be not needed anymore
+
+lesson
+------
+lesson_add_or_modify_form.php
+lesson_seek_form.php
+lesson_listing_table.php
+
+room_log
+--------
+room_log_listing_table.php
+room_log_seek_form.php
+
+
+For settings all ui code is at settings.php under main level
+( not at sub level ).
+
+topic
+-----
+seek_topic_form.php
+topic_add_or_modify_form.php
+topic_listing_table.php
+
+user
+----
+user_add_or_modify_form.php
+user_listing_table.php
+user_seek_form.php
+
+utils
+-----
+html_utils.php
+
+
+There are html generating functions for especially 
+simplifying/shortening code for bootstrap oriented
+responsive grid generation for representing and
+manipulating tabular kind of application data.
+
+utils.js contains similar kind of routines to 
+be used after JSON responses are returned.
+
+Lists of data are typically paged and there exists
+routines for creating those page lists and their
+links. Page, page count, page page and page page count
+kind of informations belong to those generations.
+
+Typically also queries preserve the last query parameters
+used so that new changes at input fields won't effect
+them before Seek kind of button is pushed by user.
+Some informations like that are at nonvisible div tags
+at HTML page when pages are run and javascript routines
+get those values there before using AJAX to fetch
+different page in page list for example. Fetching page
+also always returns whole page because another user
+may have changed the situation.
+
+There exists also Javascript -validations. Texts of 
+the user interface are all at finnish language.
+
+Now there also exists problems with long texts
+at tables: they just run over the borders of table
+cell. Database routines replace spaces often with nbsp;
+to keep texts at same line. If those are left to spaces
+then there occurs funny kind of coloring at cells etc.
+There needs to be something for this...
+
+If roomlog table contains now rows, the headers of 
+columns are shown and that seems a bit funny.
+
+
+NFC Reader Python routines
+--------------------------
+Source code that uses NFC Reader to read NFC tag
+is under python directory.
+
+That uses probably source code found from
+
+https://github.com/adafruit/Adafruit_Python_PN532
+
+for communication with NFC Reader.
+
+
+test directory
+--------------
+passwordgenerator.php  creates hashed value for
+inserting to database for passwords are hashed there.
+
+test_room_log_generator.php  is used to simulate
+new student etc. getting into room.
+

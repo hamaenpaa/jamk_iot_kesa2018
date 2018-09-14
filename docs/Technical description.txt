@@ -1,7 +1,7 @@
-This room log application contains following components:
+This room log application contains following physical components:
 - Raspberry Pi + NFC Reader
 
-Operating system for Raspberry Pi is probably
+Operating system for Raspberry Pi is probably from
 https://www.raspberrypi.org/downloads/
 
 That is debian based Linux operating system.
@@ -16,8 +16,8 @@ it needs to be seached from Linux command history
 what has been run to get parts working together.
 
 The image of the raspberry PI & NFC Reader physical
-installation ( wires etc. ) are as an image in this
-directory at file:
+installation ( wires etc. ) are as images in this
+directory at files: connecting_wires.jpg and NFC reader.jpg
 
 Technical features of the source code:
 

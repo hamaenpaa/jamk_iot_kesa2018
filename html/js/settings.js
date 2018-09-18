@@ -33,5 +33,5 @@ function checkSetting() {
 		return false;		
 	}
 	$("#modify_setting_validation_info").html("");
-	return false;
+	return true;
 }

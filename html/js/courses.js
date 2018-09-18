@@ -128,14 +128,15 @@ function refresh_course_lessons(course_id) {
 				course_lessons_data_table = $("#course_lesson_listing_table");
 				course_lessons_data_table.append(
 					heading_row(undefined, [3,3,5,1], 
-						["<h5>Aikaväli</h5>","<h5>Huone</h5>","<h5>Aihe</h5>",""]));
+						["<h5>Aikaväli</h5>","<h5>Huone</h5>","<h5>Aiheet</h5>",""]));
 				for(iLesson=0; iLesson < jsonData.length; iLesson++) {
 					lesson = jsonData[iLesson];
 					course_lessons_data_table.append(
 						data_row(undefined, [3,3,5,1],
-						[lesson.lesson_period, lesson.room_identifier, lesson.topic,
+						[lesson.lesson_period, lesson.room_identifier, lesson.topics,
 						 button_elem(lesson.remove_call, "Poista")]));
 				}
+				checkWidth();
 			}
 			else {
 				course_lessons_cont.append("Kurssilla ei ole yhtään oppituntia");

@@ -49,7 +49,7 @@
 					"description" => $description);
 			}
 		}
-
+		
 		$page_count = intdiv($count, $page_size);
 		if ($page_count * $page_size < $count) { $page_count++; }		
 		$page_page_count = intdiv($page_count, $page_page_size);
@@ -76,6 +76,7 @@
 				ORDER BY ca_lesson.begin_time ";
 		$q = $conn->prepare($sql_course_lessons);
 		$course_lessons_arr = array();
+		$lesson_ids = array(); 
 		if ($q) {
 			$q->bind_param("i", $course_id);
 			$q->execute();
@@ -88,14 +89,52 @@
 				$course_lessons_arr[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => "",
+						"topics" => "",
 						"lesson_period" => $lesson_period,
 						"room_identifier" => $room_identifier,
 						"remove_call" => 
 							java_script_call("removeCourseLesson", array($course_id, $lesson_id))						
 					);
+				$lesson_ids[] = $lesson_id;
 			}
 		}
+		if (count($lesson_ids) > 0) {
+			$arr_lessons_to_topics = array();
+			$sql_lesson_topics = 
+				"SELECT ca_topic.name, ca_topic.id, ca_lesson.id FROM 
+					ca_topic, ca_lesson_topic, ca_lesson 
+				 WHERE 
+				    ca_topic.id = ca_lesson_topic.topic_id AND 
+					ca_lesson_topic.lesson_id = ca_lesson.id AND 
+					ca_lesson.id IN (". implode(",", $lesson_ids) . ")";
+			$q_lessons_to_topics = $conn->prepare($sql_lesson_topics);
+			if ($q_lessons_to_topics) {
+				$q_lessons_to_topics->execute();
+				$q_lessons_to_topics->store_result(); 		
+				$q_lessons_to_topics->bind_result($topic_name,$topic_id,$lesson_id);
+				while ($q_lessons_to_topics->fetch()) {
+					if (!array_key_exists($lesson_id, $arr_lessons_to_topics)) {
+						$arr_lessons_to_topics[$lesson_id] = 
+							array("topic_ids" => array(), "topics" => "");
+					}
+					if (!in_array($topic_id, $arr_lessons_to_topics[$lesson_id]["topic_ids"])) {
+						$arr_lessons_to_topics[$lesson_id]["topic_ids"][] = $topic_id;
+						$curr_topics = $arr_lessons_to_topics[$lesson_id]["topics"];
+						if ($curr_topics != "") {
+							$curr_topics .= ",";
+						}
+						$curr_topics .= $topic_name;
+						$arr_lessons_to_topics[$lesson_id]["topics"] = $curr_topics;
+					}
+				}
+			}
+			foreach($course_lessons_arr as $key => $course_lesson) {
+				if (array_key_exists($course_lesson["lesson_id"], $arr_lessons_to_topics)) {
+					$course_lessons_arr[$key]["topics"] = 
+						$arr_lessons_to_topics[$course_lesson["lesson_id"]]["topics"];
+				}
+			}
+		}	
 		return $course_lessons_arr;
 	}
 	

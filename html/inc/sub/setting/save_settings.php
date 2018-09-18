@@ -14,6 +14,11 @@
 	$page_size = get_post_or_get($conn, 'page_size');
 	$page_page_size = get_post_or_get($conn, 'page_page_size');
 	
+	if (mb_strlen($default_roomidentifier) > 50) {
+		include("../../db_disconnect_inc.php");
+		header("Location: ../../../index.php?screen=5");
+		return;		
+	}
 	if (!is_integerable($usage_type) || $usage_type == "" || $usage_type == "0") {
 		include("../../db_disconnect_inc.php");
 		header("Location: ../../../index.php?screen=5");
@@ -28,6 +33,13 @@
 		include("../../db_disconnect_inc.php");
 		header("Location: ../../../index.php?screen=5");
 		return;
+	}
+	$page_size_int = intval($page_size);
+	$page_page_size_int = intval($page_page_size);
+	if ($page_size_int < 0 || $page_page_size_int < 0) {
+		include("../../db_disconnect_inc.php");
+		header("Location: ../../../index.php?screen=5");
+		return;		
 	}
 
 	$sql_update_setting = 

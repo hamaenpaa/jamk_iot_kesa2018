@@ -1,14 +1,14 @@
 <?php
 	function get_room_log($conn,
 		$begin_time, $end_time, $room_seek, $nfc_id_seek, $topic_ids,
-		$course_name_seek, $page, $last_new_fetch_time, $use_nbsp) {
+		$course_name_seek, $page, $last_new_fetch_time) {
 
 		if (!isDateTime($begin_time) || !isDateTime($end_time) ||
 			!isDatetime1Before($begin_time, $end_time)) {
 			return array();			
 		}		
-		if (strlen($room_seek) > 50 || strlen($nfc_id_seek) > 50 ||
-			strlen($course_name_seek) > 50) {
+		if (mb_strlen($room_seek) > 50 || mb_strlen($nfc_id_seek) > 50 ||
+			mb_strlen($course_name_seek) > 50) {
 			return array();
 		}
 		if (!is_integerable($page) || $page == "" || $page == "0") {
@@ -87,21 +87,8 @@
 		$lesson_courses = array();
 		if ($q_room_logs->num_rows > 0) {
 			while($room_logs = $q_room_logs->fetch()) {
-				if ($use_nbsp) {
-					$room_identifier = str_replace(" ", "&nbsp;", $room_identifier);
-					if ($room_identifier == "") { $room_identifier = "&nbsp;"; }
-				}	
-				if ($use_nbsp) {
-					$course_name = str_replace(" ", "&nbsp;", $course_name);
-					if ($course_name == "") { $course_name = "&nbsp;"; }
-				}
 				$dt = from_db_to_ui($dt);
 				$topics_val = "";
-				if ($use_nbsp) {
-					$dt = str_replace(" ", "&nbsp;", $dt);
-					$nfc_id = str_replace(" ", "&nbsp;", $nfc_id);
-					$topics_val = "&nbsp;";
-				}	
 				$room_log_arr[] = array(
 					"room_log_id " => $room_log_id,
 					"dt" => $dt, 
@@ -115,11 +102,7 @@
 					if (!in_array($lesson_id, $lesson_ids)) {
 						$lesson_ids[] = $lesson_id;
 					}
-					if ($use_nbsp) {
-						$lesson_topics_arr[$lesson_id] = "&nbsp;";
-					} else {
-						$lesson_topics_arr[$lesson_id] = "";
-					}
+					$lesson_topics_arr[$lesson_id] = "";
 				}
 			}
 		}
@@ -140,11 +123,7 @@
 			}
 			while($lesson_topics = $q_lesson_topics->fetch()) {
 				if ($lesson_id != "null" && $lesson_id != null && $lesson_id != "") {
-					if ($use_nbsp) {
-						$topic_name = str_replace(" ", "&nbsp;", $topic_name);
-						if ($topic_name == "") { $topic_name = "&nbsp;"; }
-					}			
-					if ($lesson_topics_arr[$lesson_id] != "" && $lesson_topics_arr[$lesson_id] != "&nbsp;") {
+					if ($lesson_topics_arr[$lesson_id] != "") {
 						$lesson_topics_arr[$lesson_id] .= "," . $topic_name;
 					} else {
 						$lesson_topics_arr[$lesson_id] = $topic_name;
@@ -152,19 +131,11 @@
 				}
 			}
 			foreach($room_log_arr as $key => $room_log) {
-				if ($room_log['lesson_id'] != null && $room_log['lesson_id'] != "" && 
-					$room_log['lesson_id'] != "&nbsp;") {
+				if ($room_log['lesson_id'] != null && $room_log['lesson_id'] != "") {
 					$topics_val = $lesson_topics_arr[$room_log['lesson_id']];
-					if ($use_nbsp) {
-						$topics_val = str_replace(" ", "&nbsp;", $topics_val);
-						if ($topics_val == "") { $topics_val = "&nbsp;"; }
-					}
 					$room_log_arr[$key]["topics"] = $topics_val;
 				} else {
 					$topics_val = "";
-					if ($use_nbsp) {
-						$topics_val = $topics_val = "&nbsp;";
-					}					
 					$room_log_arr[$key]["topics"] = $topics_val;
 				}
 			}
@@ -180,8 +151,7 @@
 				getSummaryForUsageType1(
 					$conn, 
 					$begin_time, $end_time, $room_seek, $nfc_id_seek,
-					$lesson_courses,
-					$use_nbsp);
+					$lesson_courses);
 		} else {
 			$ret_arr["NFC_ID_monthly_counts"] = 
 				getSummaryForUsageType2(
@@ -194,7 +164,7 @@
 	
 	function getSummaryForUsageType1(
 		$conn, $begin_time, $end_time, $room_seek, $nfc_id_seek,
-		$lesson_courses, $use_nbsp) {
+		$lesson_courses) {
 		$arr_NFC_ID_topics_and_lessons = array();
 		$sql_NFC_ID_topics_and_lessons = 
 			"SELECT 
@@ -266,17 +236,10 @@
 				$time_interval = 
 					from_db_datetimes_to_same_day_date_plus_times(
 						$begin_time, $end_time);
-				if ($use_nbsp) {
-					$time_interval = str_replace(" ", "&nbsp;", $time_interval);
-				}
 				if (array_key_exists($lesson_id, $lesson_courses)) {
 					$course = $lesson_courses[$lesson_id];
 				} else {
-					if ($use_nbsp) {
-						$course = "&nbsp;";
-					} else {
-						$course = "";
-					}
+					$course = "";
 				}			
 				$update_lesson_item = array(
 					"lesson_id" => $lesson_id,

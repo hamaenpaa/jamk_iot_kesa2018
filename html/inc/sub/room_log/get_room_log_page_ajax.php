@@ -23,15 +23,15 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}	
-	if (strlen($seek_room) > 50 || strlen($seek_nfc_id) > 50 ||
-		strlen($seek_topic) > 150  || strlen($seek_course_name) > 50) {
+	if (mb_strlen($seek_room) > 50 || mb_strlen($seek_nfc_id) > 50 ||
+		mb_strlen($seek_topic) > 150  || mb_strlen($seek_course_name) > 50) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}
 	
 	$room_logs = get_room_log($conn,
 		$begin_time, $end_time, $seek_room, $seek_nfc_id, $seek_topic,
-		$seek_course_name, $page, "", true);
+		$seek_course_name, $page, "");
 
 	$room_logs["page_list"] = generate_js_page_list("get_js_room_log_page", 
 		array(),

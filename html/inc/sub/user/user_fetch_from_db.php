@@ -1,6 +1,6 @@
 <?php
 	function get_users($conn, $username_seek, $page) {
-		if (strlen($username_seek) > 65) {
+		if (mb_strlen($username_seek) > 65) {
 			return array();
 		}
 		if (!is_integerable($page) || $page == "" || $page == "0") {

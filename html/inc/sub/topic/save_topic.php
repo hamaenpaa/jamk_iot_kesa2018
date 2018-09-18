@@ -21,7 +21,7 @@
 	
 	$name = strip_tags($_GET['name']);
 
-	if (strlen($name) > 150 || strlen($name) < 1 || strpos($name, ",") !== FALSE) {
+	if (mb_strlen($name) > 150 || mb_strlen($name) < 1 || strpos($name, ",") !== FALSE) {
 		include("../../db_disconnect_inc.php");
 		return;				
 	}

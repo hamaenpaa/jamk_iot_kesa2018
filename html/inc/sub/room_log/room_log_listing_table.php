@@ -12,7 +12,7 @@
 			$last_query_lesson_topics_seek_selection);	
 		$room_logs = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id, $topic_ids, 
-			$seek_course_name, $page, "", true);
+			$seek_course_name, $page, "");
 		$download_csv_url = "inc/sub/room_log/download_as_csv.php?&seek_room=".
 			$seek_room . "&seek_nfc_id=" . $seek_nfc_id .
 			"&seek_course_name=". $seek_course_name .
@@ -38,8 +38,8 @@
 		<div id="room_log_listing_table" class="datatable">
 <?php
 			echo heading_row("null", array(2,4,2,2,2), 
-				array("<h5>NFC&nbsp;ID</h5>","<h5>Sisääntuloaika</h5>",
-					"<h5>Luokka</h5>","<h5>Oppitunnin&nbsp;aiheet</h5>",
+				array("<h5>NFC ID</h5>","<h5>Sisääntuloaika</h5>",
+					"<h5>Luokka</h5>","<h5>Oppitunnin aiheet</h5>",
 					"<h5>Kurssin nimi</h5>"));
 			foreach($room_logs['room_logs'] as $room_log) {
 				$dt = $room_log['dt'];
@@ -47,8 +47,8 @@
 				$nfc_id = $room_log['nfc_id'];
 				$topics = $room_log['topics'];
 				$course_name = $room_log['course_name'];
-				if ($topics == null || $topics == "") $topics = "&nbsp;";
-				if ($course_name == null || $course_name == "") $course_name = "&nbsp;";
+				if ($topics == null) $topics = "";
+				if ($course_name == null) $course_name = "";
 				echo 
 					data_row(null, array(2,4,2,2,2), 
 						array($nfc_id, $dt, $room_identifier, $topics, $course_name));
@@ -63,10 +63,7 @@
 			$room_logs['page_count'], $page, $page_page,
 			"roomlog_pages", "",
 		    "curr_page", "other_page");
-?>
-<?php
 		if ($settings['usage_type'] == 1) {
-			
 ?>
 			<div id="dynamit_summary">
 			<h2>Sisäänkirjautuneiden ihmisten aiheittainen osallistuminen</h2>
@@ -93,7 +90,7 @@
 					echo "<b>oppitunnit</b>:<br> ";
 					foreach($topic['lessons'] as $lesson) {
 						if ($lesson['course'] != "" && $lesson['course'] != null && 
-							$lesson['course'] != "NULL" && $lesson['course'] != "&nbsp;") {
+							$lesson['course'] != "NULL") {
 							echo "<b>Kurssi: </b>" . $lesson['course']. " ";
 						}
 						echo "<b>Huone:</b> " . $lesson['room_identifier'] . " ". 

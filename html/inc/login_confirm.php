@@ -38,7 +38,7 @@ function validate() {
 	if (isset($_POST['username']) && isset($_POST['password'])) { //Validoi onko post käyttäjänimi ja salasana syötetty
 		$postun = $_POST['username']; //Formin input nimi ->$postun variableen
 		$postpw = $_POST['password']; //Formin input salasana ->$postpw variableen
-		if (strlen($postun) >= 3 && strlen($postun <= 255) && strlen($postpw) >= 5 && strlen($postpw) <= 200) { //Käyttäjänimen ja salasanan pituuden validointi
+		if (mb_strlen($postun) >= 3 && mb_strlen($postun <= 255) && mb_strlen($postpw) >= 5 && mb_strlen($postpw) <= 200) { //Käyttäjänimen ja salasanan pituuden validointi
 			$passed = true;
 		} else {
 			//Käyttäjänimen ja salasanan pituuden

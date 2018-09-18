@@ -31,7 +31,7 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}	
-	if (strlen($name_seek) > 50 || strlen($description_seek) > 500) {
+	if (mb_strlen($name_seek) > 50 || mb_strlen($description_seek) > 500) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}

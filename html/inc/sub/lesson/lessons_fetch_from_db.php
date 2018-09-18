@@ -8,7 +8,7 @@
 			return array();	
 		}
 		$room_seek = purifyParam($conn, $room_seek);
-		if (strlen($room_seek) > 50) {
+		if (mb_strlen($room_seek) > 50) {
 			return array();	
 		}
 		
@@ -56,10 +56,10 @@
 		if ($q_lessons->num_rows > 0) {
 			while($q_lessons->fetch()) {
 				$lessons[] = array("lesson_id" => $lesson_id,
-					"time_interval" => str_replace(" ", "&nbsp;",
+					"time_interval" => 
 						from_db_datetimes_to_same_day_date_plus_times(
-							$begin_time, $end_time)),
-					"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier));
+							$begin_time, $end_time),
+					"room_identifier" => $room_identifier);
 			}
 		}
 		

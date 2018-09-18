@@ -4,7 +4,9 @@
 	$settings = getSettings($conn);
 ?>	
 <h2 id="add_or_modify_settings_header">Muokkaa asetuksia</h2>
-<form id="modify_settings" name="modify_settings" action="inc/sub/setting/save_settings.php" method="POST" >	
+<form method="post" id="modify_settings" name="modify_settings" 
+	onsubmit="return checkSetting();"
+	action="inc/sub/setting/save_settings.php" method="POST" >	
 <div class="row-type-5">
 	Oletus huoneen tunnus
 	(käytetään, kun yksikäsitteistä oppituntia ja 
@@ -39,7 +41,7 @@
 </div>
 
 <div class="row-type-5">
-	<input class="button" type="submit" 
-		onsubmit="return checkSetting();" value="Talleta"/>
+	<input class="button" type="submit" value="Talleta"/>
 </div>
-<div id="add_or_modify_lesson_form_validation_errors"></div>	
+</form>
+<div id="modify_setting_validation_info"></div>	

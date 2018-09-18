@@ -182,7 +182,44 @@ function checkWidth() {
 				$(obj).find(".datarow").before(headingrows[0]);
 		   }
 	   });
-    }
+    } else {
+		$(".datatable").each(function(i,obj) {
+			datarows = $(obj).find(".datarow");
+			for(i=0; i< datarows.length; i++) {
+				tblcells = $(datarows[i]).children();
+				biggest_height = 0;
+				for(j=0; j < tblcells.length; j++) {
+					tbl_cell_height_str = $(tblcells[j]).css("height");
+					tbl_cell_height_str = tbl_cell_height_str.substring(
+						0, tbl_cell_height_str.length - 2);
+					tbl_cell_height_int = parseInt(tbl_cell_height_str);
+					if (biggest_height < tbl_cell_height_int) {
+						biggest_height = tbl_cell_height_int;
+					}
+				}
+				for(j=0; j < tblcells.length; j++) {
+					$(tblcells[j]).css("height",biggest_height + "px");
+				}
+			}
+			headingrows = $(obj).find(".heading-row");
+			for(i=0; i< headingrows.length; i++) {
+				tblcells = $(headingrows[i]).children();
+				biggest_height = 0;
+				for(j=0; j < tblcells.length; j++) {
+					tbl_cell_height_str = $(tblcells[j]).css("height");
+					tbl_cell_height_str = tbl_cell_height_str.substring(
+						0, tbl_cell_height_str.length - 2);
+					tbl_cell_height_int = parseInt(tbl_cell_height_str);
+					if (biggest_height < tbl_cell_height_int) {
+						biggest_height = tbl_cell_height_int;
+					}
+				}
+				for(j=0; j < tblcells.length; j++) {
+					$(tblcells[j]).css("height",biggest_height + "px");
+				}
+			}
+		});
+	}
 }
 
 $(document).ready(function(){
@@ -261,8 +298,8 @@ function input_elem(input_type, input_id, input_name, input_value,
 		html_attr("name", input_name) +
 		html_attr("class", css_classes) +
 		html_attr("value", input_value) + 
-		html_attr("min_length", input_min_length) +
-		html_attr("max_length", input_max_length) +
+		html_attr("minlength", input_min_length) +
+		html_attr("maxlength", input_max_length) +
 		html_attr("placeholder", input_place_holder) +
 		html_attr("alt", input_alt) +
 		html_attr("autocomplete", input_autocomplete) +

@@ -69,6 +69,7 @@ $().ready(function() {
 							$("#new_room_log_notifications").html(
 								"<b>Sinulla on uusia merkintöjä lokissa</b>");
 							getSummaries(jsonData);
+							checkWidth();
 						}
 					}
 			});
@@ -133,6 +134,7 @@ function get_js_room_log_page(page, page_page) {
 				$('#page').html(page);
 				$('#page_page').html(page_page);
 				getSummaries(jsonData);
+				checkWidth();
 			}
 	});	
 }

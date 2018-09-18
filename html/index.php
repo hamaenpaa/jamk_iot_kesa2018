@@ -29,7 +29,7 @@
 					'<title>Käyttäjät</title>';					
 			} else if ($screen == "5") {
 				echo '<script src="' . $cfg_rootdir . 'js/settings.js" /></script>'.
-					'<title>Käyttäjät</title>';					
+					'<title>Asetukset</title>';					
 			} else if ($screen == "6") {
 				echo '<title>Sisäänkirjautuminen</title>';
 			}

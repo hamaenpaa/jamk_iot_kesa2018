@@ -32,7 +32,7 @@
 	}
 	
 	$room_identifier = strip_tags($_GET['room_identifier']);
-	if (strlen($room_identifier) > 50 || strlen($room_identifier) < 1) {
+	if (mb_strlen($room_identifier) > 50 || mb_strlen($room_identifier) < 1) {
 		include("../../db_disconnect_inc.php");
 		return;				
 	}

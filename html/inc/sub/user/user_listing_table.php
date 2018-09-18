@@ -26,9 +26,7 @@
 				$is_admin_mark = "";
 				if ($user['permission'] == 1) { 
 					$is_admin_mark = "x"; 
-				} else {
-					$is_admin_mark = "&nbsp;"; 
-				}
+				} 
 				$data_contents[] = $is_admin_mark;
 				if ($_SESSION['user_permlevel'] == 1) {
 					$modify_user_params = array($user['id'], "Muokkaa käyttäjää");

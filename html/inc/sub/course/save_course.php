@@ -48,10 +48,10 @@
 	echo "{}";
 	
 	function validateCourse($name, $description) {
-		if (strlen($name) == 0 || strlen($name) > 50) {
+		if (mb_strlen($name) == 0 || mb_strlen($name) > 50) {
 			return false;
 		}
-		if (strlen($description) > 500) {
+		if (mb_strlen($description) > 500) {
 			return false;
 		}
 		return true;

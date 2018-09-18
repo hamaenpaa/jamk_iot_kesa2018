@@ -41,8 +41,8 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}	
-	if (strlen($seek_room) > 50 || strlen($seek_nfc_id) > 50 ||
-		strlen($seek_course_name) > 50) {
+	if (mb_strlen($seek_room) > 50 || mb_strlen($seek_nfc_id) > 50 ||
+		mb_strlen($seek_course_name) > 50) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}
@@ -53,7 +53,7 @@
 		$end_time = from_ui_to_db($end_time);		
 		$room_logs = get_room_log($conn,
 			$begin_time, $end_time, $seek_room, $seek_nfc_id, $topic_ids,
-			$seek_course_name, $page, $last_fetch_time, true);
+			$seek_course_name, $page, $last_fetch_time);
 		$room_logs['last_fetch_time'] = time();
 		$seek_params = array();
 		$room_logs['page_list'] = 

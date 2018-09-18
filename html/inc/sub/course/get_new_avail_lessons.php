@@ -43,7 +43,7 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}
-	if (strlen($room_seek) > 50) {
+	if (mb_strlen($room_seek) > 50) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}

@@ -62,10 +62,10 @@
 	
 	function validateUser($username, $password) {
 		$passed = true;
-		if (strlen($username) < 3 || strlen($username) > 65) {
+		if (mb_strlen($username) < 3 || mb_strlen($username) > 65) {
 			$passed = false;
 		}
-		if (strlen($password) < 5 || strlen($password) > 50) {
+		if (mb_strlen($password) < 5 || mb_strlen($password) > 50) {
 			$passed = false;
 		}		
 		return $passed;

@@ -197,6 +197,12 @@ footer {
 	margin: 0  15px 0 15px;
 }
 
+/* 
+   https://stackoverflow.com/questions/21587813/bootstrap-responsive-table-content-wrapping 
+   to get datarow content get to multiple rows and not continue out 
+   of cells white-space, word-wrap attributes
+*/
+
 /* Style for the columns */
 .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-8, .col-sm-9, .col-sm-10 {
 	text-align: left;
@@ -204,8 +210,12 @@ footer {
 	color: white;
 	background-color: grey;
 	padding: 5px 2px 5px 2px;
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */	
 }
-
 
 #lesson_listing_table, #course_listing_table, 
 #course_lesson_listing_table, #lessons_without_course_listing_table,

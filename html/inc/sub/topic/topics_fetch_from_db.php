@@ -4,7 +4,7 @@
 			return array();	
 		}
 		$name_seek = purifyParam($conn, $name_seek);
-		if (strlen($name_seek) > 150) {
+		if (mb_strlen($name_seek) > 150) {
 			return array();	
 		}
 		
@@ -38,8 +38,7 @@
 			while($q_topics->fetch()) {
 				$topics[] = array(
 					"topic_id" => $topic_id,
-					"name" => str_replace(" ", "&nbsp;", $name)
-				);
+					"name" => $name);
 			}
 		}
 		

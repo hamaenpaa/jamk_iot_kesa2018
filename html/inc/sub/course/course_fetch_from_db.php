@@ -3,7 +3,7 @@
 		if (!is_integerable($page) || $page == "" || $page == "0") {
 			return array();
 		}
-		if (strlen($name_seek) > 50 || strlen($description_seek) > 500) {
+		if (mb_strlen($name_seek) > 50 || mb_strlen($description_seek) > 500) {
 			return array();
 		}
 		
@@ -44,10 +44,6 @@
 		$courses = array();
 		if ($q_courses->num_rows > 0) {
 			while($q_courses->fetch()) {
-				$name = str_replace(" ", "&nbsp;", $name);
-				if ($name == "") { $name = "&nbsp;"; }
-				$description = str_replace(" ", "&nbsp;", $description);
-				if ($description == "") { $description = "&nbsp;"; }			
 				$courses[] = array("course_id" => $course_id,
 					"name" => $name, 
 					"description" => $description);
@@ -87,15 +83,14 @@
 			$q->bind_result($lesson_id, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
 				$lesson_period = 
-					str_replace(" ", "&nbsp;", 
-						from_db_datetimes_to_same_day_date_plus_times(
-							$begin_time, $end_time));
+					from_db_datetimes_to_same_day_date_plus_times(
+							$begin_time, $end_time);
 				$course_lessons_arr[] = 
 					array(
 						"lesson_id" => $lesson_id,
-						"topic" => "&nbsp;",
+						"topic" => "",
 						"lesson_period" => $lesson_period,
-						"room_identifier" => str_replace(" ", "&nbsp;", $room_identifier),
+						"room_identifier" => $room_identifier,
 						"remove_call" => 
 							java_script_call("removeCourseLesson", array($course_id, $lesson_id))						
 					);
@@ -151,16 +146,15 @@
 			$q->store_result(); 		
 			$q->bind_result($lesson_id, $room_identifier, $begin_time, $end_time);
 			while ($q->fetch()) {
-				$lesson_period = str_replace(" ", "&nbsp;", 
+				$lesson_period =  
 					from_db_datetimes_to_same_day_date_plus_times(
-						$begin_time, $end_time));
+						$begin_time, $end_time);
 				$lessons_without_course[] = 
 					array(
-						"topics" => "&nbsp",
+						"topics" => "",
 						"lesson_id" => $lesson_id,
 						"lesson_period" => $lesson_period,
-						"room_identifier" => str_replace(
-							" ", "&nbsp;", $room_identifier)
+						"room_identifier" => $room_identifier
 					);
 				$lesson_ids[] = $lesson_id;
 			}

@@ -25,7 +25,7 @@
 		include("../../db_disconnect_inc.php");
 		return;
 	}
-	if (strlen($name_seek) > 150) {
+	if (mb_strlen($name_seek) > 150) {
 		include("../../db_disconnect_inc.php");
 		return;
 	}

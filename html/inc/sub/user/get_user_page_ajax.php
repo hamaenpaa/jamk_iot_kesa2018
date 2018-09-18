@@ -16,7 +16,7 @@
 	$page = get_post_or_get($conn, "page");
 	$page_page = get_post_or_get($conn, "page_page");
 
-	if (strlen($username_seek) > 65) {
+	if (mb_strlen($username_seek) > 65) {
 		include("../../db_disconnect_inc.php");
 		return "";
 	}

@@ -26,7 +26,7 @@
 		return;				
 	}
 
-	$sql_check_not_another_similar = "SELECT COUNT(*) FROM ca_topic WHERE name = ?";
+	$sql_check_not_another_similar = "SELECT COUNT(*) FROM ca_topic WHERE name = ? AND removed=0";
 	if ($id != "") {
 		$sql_check_not_another_similar .= " AND id <> ?";
 	}
